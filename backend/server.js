@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const { QueryTypes } = require("sequelize");
+const { QueryTypes, fn, col, where } = require("sequelize");
 const sequelize = require("./db");
 
 const app = express();
@@ -32,8 +32,18 @@ app.get("/api/health", async (req, res) => {
 
 app.get("/api/customers", async (req, res) => {
   try {
-    const r = await runQuery("SELECT * FROM customers ORDER BY id", [], "select");
-    res.json(r.rows);
+    const rows = await sequelize.Customers.findAll({ order: [["id", "ASC"]] });
+    const mapped = rows.map((r) => ({
+      id: r.id,
+      name: r.fullName,
+      email: r.email,
+      phone: r.phone,
+      memberType: r.memberType,
+      memberLevel: r.memberLevel,
+      memberStartDate: r.memberStartDate,
+      memberEndDate: r.memberEndDate,
+    }));
+    res.json(mapped);
   } catch (e) {
     res.status(500).json({ error: "failed" });
   }
@@ -41,37 +51,77 @@ app.get("/api/customers", async (req, res) => {
 
 app.get("/api/customers/:id", async (req, res) => {
   try {
-    const r = await runQuery("SELECT * FROM customers WHERE id = ?", [req.params.id], "select");
-    if (!r.rows[0]) return res.status(404).json({ error: "not_found" });
-    res.json(r.rows[0]);
+    const r = await sequelize.Customers.findByPk(req.params.id);
+    if (!r) return res.status(404).json({ error: "not_found" });
+    res.json({
+      id: r.id,
+      name: r.fullName,
+      email: r.email,
+      phone: r.phone,
+      memberType: r.memberType,
+      memberLevel: r.memberLevel,
+      memberStartDate: r.memberStartDate,
+      memberEndDate: r.memberEndDate,
+    });
   } catch (e) {
     res.status(500).json({ error: "failed" });
   }
 });
 
 app.post("/api/customers", async (req, res) => {
-  const { name, email, phone } = req.body;
-  if (!name || !email) return res.status(400).json({ error: "invalid" });
+  const body = req.body || {};
+  const fullName = body.fullName || body.name;
+  const email = body.email;
+  if (!fullName || !email) return res.status(400).json({ error: "invalid" });
   try {
-    const r = await runQuery(
-      "INSERT INTO customers(name,email,phone) VALUES(?,?,?) RETURNING *",
-      [name, email, phone || null]
-    );
-    res.status(201).json(r.rows[0]);
+    const created = await sequelize.Customers.create({
+      fullName,
+      email,
+      phone: body.phone || null,
+      memberType: body.memberType || "Standard",
+      memberLevel: body.memberLevel || "Basic",
+      memberStartDate: body.memberStartDate ? new Date(body.memberStartDate) : new Date(),
+      memberEndDate: body.memberEndDate ? new Date(body.memberEndDate) : null,
+    });
+    res.status(201).json({
+      id: created.id,
+      name: created.fullName,
+      email: created.email,
+      phone: created.phone,
+      memberType: created.memberType,
+      memberLevel: created.memberLevel,
+      memberStartDate: created.memberStartDate,
+      memberEndDate: created.memberEndDate,
+    });
   } catch (e) {
     res.status(500).json({ error: "failed" });
   }
 });
 
 app.put("/api/customers/:id", async (req, res) => {
-  const { name, email, phone } = req.body;
+  const body = req.body || {};
   try {
-    const r = await runQuery(
-      "UPDATE customers SET name = ?, email = ?, phone = ? WHERE id = ? RETURNING *",
-      [name, email, phone || null, req.params.id]
-    );
-    if (!r.rows[0]) return res.status(404).json({ error: "not_found" });
-    res.json(r.rows[0]);
+    const row = await sequelize.Customers.findByPk(req.params.id);
+    if (!row) return res.status(404).json({ error: "not_found" });
+    await row.update({
+      fullName: body.fullName || body.name || row.fullName,
+      email: body.email || row.email,
+      phone: body.phone !== undefined ? body.phone : row.phone,
+      memberType: body.memberType || row.memberType,
+      memberLevel: body.memberLevel || row.memberLevel,
+      memberStartDate: body.memberStartDate ? new Date(body.memberStartDate) : row.memberStartDate,
+      memberEndDate: body.memberEndDate ? new Date(body.memberEndDate) : row.memberEndDate,
+    });
+    res.json({
+      id: row.id,
+      name: row.fullName,
+      email: row.email,
+      phone: row.phone,
+      memberType: row.memberType,
+      memberLevel: row.memberLevel,
+      memberStartDate: row.memberStartDate,
+      memberEndDate: row.memberEndDate,
+    });
   } catch (e) {
     res.status(500).json({ error: "failed" });
   }
@@ -79,11 +129,10 @@ app.put("/api/customers/:id", async (req, res) => {
 
 app.delete("/api/customers/:id", async (req, res) => {
   try {
-    const r = await runQuery("DELETE FROM customers WHERE id = ? RETURNING id", [
-      req.params.id,
-    ]);
-    if (!r.rows[0]) return res.status(404).json({ error: "not_found" });
-    res.json({ id: r.rows[0].id });
+    const row = await sequelize.Customers.findByPk(req.params.id);
+    if (!row) return res.status(404).json({ error: "not_found" });
+    await row.destroy();
+    res.json({ id: parseInt(req.params.id, 10) });
   } catch (e) {
     res.status(500).json({ error: "failed" });
   }
@@ -91,36 +140,61 @@ app.delete("/api/customers/:id", async (req, res) => {
 
 app.get("/api/trainers", async (req, res) => {
   try {
-    const r = await runQuery("SELECT * FROM trainers ORDER BY id", [], "select");
-    res.json(r.rows);
+    const rows = await sequelize.Trainers.findAll({ order: [["id", "ASC"]] });
+    const mapped = rows.map((r) => ({
+      id: r.id,
+      name: r.trainerName,
+      specialty: r.specialty,
+      trainerLevel: r.trainerLevel,
+      phone: r.phone,
+    }));
+    res.json(mapped);
   } catch (e) {
     res.status(500).json({ error: "failed" });
   }
 });
 
 app.post("/api/trainers", async (req, res) => {
-  const { name, specialty } = req.body;
-  if (!name) return res.status(400).json({ error: "invalid" });
+  const body = req.body || {};
+  const trainerName = body.trainerName || body.name;
+  if (!trainerName) return res.status(400).json({ error: "invalid" });
   try {
-    const r = await runQuery(
-      "INSERT INTO trainers(name,specialty) VALUES(?,?) RETURNING *",
-      [name, specialty || null]
-    );
-    res.status(201).json(r.rows[0]);
+    const created = await sequelize.Trainers.create({
+      trainerName,
+      trainerLevel: body.trainerLevel || "Junior",
+      specialty: body.specialty || null,
+      phone: body.phone || null,
+    });
+    res.status(201).json({
+      id: created.id,
+      name: created.trainerName,
+      specialty: created.specialty,
+      trainerLevel: created.trainerLevel,
+      phone: created.phone,
+    });
   } catch (e) {
     res.status(500).json({ error: "failed" });
   }
 });
 
 app.put("/api/trainers/:id", async (req, res) => {
-  const { name, specialty } = req.body;
+  const body = req.body || {};
   try {
-    const r = await runQuery(
-      "UPDATE trainers SET name = ?, specialty = ? WHERE id = ? RETURNING *",
-      [name, specialty || null, req.params.id]
-    );
-    if (!r.rows[0]) return res.status(404).json({ error: "not_found" });
-    res.json(r.rows[0]);
+    const row = await sequelize.Trainers.findByPk(req.params.id);
+    if (!row) return res.status(404).json({ error: "not_found" });
+    await row.update({
+      trainerName: body.trainerName || body.name || row.trainerName,
+      specialty: body.specialty !== undefined ? body.specialty : row.specialty,
+      trainerLevel: body.trainerLevel || row.trainerLevel,
+      phone: body.phone !== undefined ? body.phone : row.phone,
+    });
+    res.json({
+      id: row.id,
+      name: row.trainerName,
+      specialty: row.specialty,
+      trainerLevel: row.trainerLevel,
+      phone: row.phone,
+    });
   } catch (e) {
     res.status(500).json({ error: "failed" });
   }
@@ -128,11 +202,10 @@ app.put("/api/trainers/:id", async (req, res) => {
 
 app.delete("/api/trainers/:id", async (req, res) => {
   try {
-    const r = await runQuery("DELETE FROM trainers WHERE id = ? RETURNING id", [
-      req.params.id,
-    ]);
-    if (!r.rows[0]) return res.status(404).json({ error: "not_found" });
-    res.json({ id: r.rows[0].id });
+    const row = await sequelize.Trainers.findByPk(req.params.id);
+    if (!row) return res.status(404).json({ error: "not_found" });
+    await row.destroy();
+    res.json({ id: parseInt(req.params.id, 10) });
   } catch (e) {
     res.status(500).json({ error: "failed" });
   }
@@ -140,42 +213,59 @@ app.delete("/api/trainers/:id", async (req, res) => {
 
 app.get("/api/equipments", async (req, res) => {
   try {
-    const r = await runQuery(
-      "SELECT * FROM gym_equipments ORDER BY id",
-      [],
-      "select"
-    );
-    res.json(r.rows);
+    const rows = await sequelize.GymEquipments.findAll({ order: [["id", "ASC"]] });
+    const mapped = rows.map((r) => ({
+      id: r.id,
+      name: r.equipmentName,
+      status: r.status,
+      category: r.category,
+    }));
+    res.json(mapped);
   } catch (e) {
     res.status(500).json({ error: "failed" });
   }
 });
 
 app.post("/api/equipments", async (req, res) => {
-  const { name, status } = req.body;
-  if (!name) return res.status(400).json({ error: "invalid" });
-  const st = status && ["Available", "Maintenance"].includes(status) ? status : "Available";
+  const body = req.body || {};
+  const equipmentName = body.equipmentName || body.name;
+  if (!equipmentName) return res.status(400).json({ error: "invalid" });
+  const status = body.status && ["Available", "Maintenance"].includes(body.status) ? body.status : "Available";
   try {
-    const r = await runQuery(
-      "INSERT INTO gym_equipments(name,status) VALUES(?,?) RETURNING *",
-      [name, st]
-    );
-    res.status(201).json(r.rows[0]);
+    const created = await sequelize.GymEquipments.create({
+      equipmentName,
+      category: body.category || null,
+      status,
+    });
+    res.status(201).json({
+      id: created.id,
+      name: created.equipmentName,
+      status: created.status,
+      category: created.category,
+    });
   } catch (e) {
     res.status(500).json({ error: "failed" });
   }
 });
 
 app.put("/api/equipments/:id", async (req, res) => {
-  const { name, status } = req.body;
-  const st = status && ["Available", "Maintenance"].includes(status) ? status : null;
+  const body = req.body || {};
+  const status =
+    body.status && ["Available", "Maintenance"].includes(body.status) ? body.status : undefined;
   try {
-    const r = await runQuery(
-      "UPDATE gym_equipments SET name = COALESCE(?,name), status = COALESCE(?,status) WHERE id = ? RETURNING *",
-      [name || null, st, req.params.id]
-    );
-    if (!r.rows[0]) return res.status(404).json({ error: "not_found" });
-    res.json(r.rows[0]);
+    const row = await sequelize.GymEquipments.findByPk(req.params.id);
+    if (!row) return res.status(404).json({ error: "not_found" });
+    await row.update({
+      equipmentName: body.equipmentName || body.name || row.equipmentName,
+      status: status !== undefined ? status : row.status,
+      category: body.category !== undefined ? body.category : row.category,
+    });
+    res.json({
+      id: row.id,
+      name: row.equipmentName,
+      status: row.status,
+      category: row.category,
+    });
   } catch (e) {
     res.status(500).json({ error: "failed" });
   }
@@ -183,12 +273,10 @@ app.put("/api/equipments/:id", async (req, res) => {
 
 app.delete("/api/equipments/:id", async (req, res) => {
   try {
-    const r = await runQuery(
-      "DELETE FROM gym_equipments WHERE id = ? RETURNING id",
-      [req.params.id]
-    );
-    if (!r.rows[0]) return res.status(404).json({ error: "not_found" });
-    res.json({ id: r.rows[0].id });
+    const row = await sequelize.GymEquipments.findByPk(req.params.id);
+    if (!row) return res.status(404).json({ error: "not_found" });
+    await row.destroy();
+    res.json({ id: parseInt(req.params.id, 10) });
   } catch (e) {
     res.status(500).json({ error: "failed" });
   }
@@ -196,31 +284,57 @@ app.delete("/api/equipments/:id", async (req, res) => {
 
 app.get("/api/sessions", async (req, res) => {
   const today = req.query.today === "true";
-  const base =
-    "SELECT ts.id, ts.customer_id, c.name AS customer_name, ts.trainer_id, t.name AS trainer_name, ts.equipment_id, e.name AS equipment_name, ts.scheduled_at FROM training_sessions ts JOIN customers c ON c.id=ts.customer_id JOIN trainers t ON t.id=ts.trainer_id JOIN gym_equipments e ON e.id=ts.equipment_id";
-  const where = today ? " WHERE date_trunc('day', ts.scheduled_at)=date_trunc('day', now())" : "";
   try {
-    const r = await runQuery(
-      base + where + " ORDER BY ts.scheduled_at DESC",
-      [],
-      "select"
-    );
-    res.json(r.rows);
+    const opts = {
+      include: [
+        { model: sequelize.Customers, as: "customer", attributes: ["fullName"] },
+        { model: sequelize.Trainers, as: "trainer", attributes: ["trainerName"] },
+        { model: sequelize.GymEquipments, as: "equipment", attributes: ["equipmentName"] },
+      ],
+      order: [["sessionDate", "DESC"]],
+    };
+    if (today) {
+      opts.where = where(fn("date_trunc", "day", col("sessionDate")), fn("date_trunc", "day", fn("now")));
+    }
+    const rows = await sequelize.TrainingSessions.findAll(opts);
+    const mapped = rows.map((r) => ({
+      id: r.id,
+      customer_id: r.customerId,
+      trainer_id: r.trainerId,
+      equipment_id: r.equipmentId,
+      customer_name: r.customer?.fullName || "",
+      trainer_name: r.trainer?.trainerName || "",
+      equipment_name: r.equipment?.equipmentName || "",
+      scheduled_at: r.sessionDate,
+    }));
+    res.json(mapped);
   } catch (e) {
     res.status(500).json({ error: "failed" });
   }
 });
 
 app.post("/api/sessions", async (req, res) => {
-  const { customer_id, trainer_id, equipment_id, scheduled_at } = req.body;
-  if (!customer_id || !trainer_id || !equipment_id || !scheduled_at)
+  const body = req.body || {};
+  const customerId = body.customerId || body.customer_id;
+  const trainerId = body.trainerId || body.trainer_id;
+  const equipmentId = body.equipmentId || body.equipment_id;
+  const sessionDate = body.sessionDate || body.scheduled_at;
+  if (!customerId || !trainerId || !equipmentId || !sessionDate)
     return res.status(400).json({ error: "invalid" });
   try {
-    const r = await runQuery(
-      "INSERT INTO training_sessions(customer_id,trainer_id,equipment_id,scheduled_at) VALUES(?,?,?,?) RETURNING *",
-      [customer_id, trainer_id, equipment_id, scheduled_at]
-    );
-    res.status(201).json(r.rows[0]);
+    const created = await sequelize.TrainingSessions.create({
+      customerId,
+      trainerId,
+      equipmentId,
+      sessionDate: new Date(sessionDate),
+    });
+    res.status(201).json({
+      id: created.id,
+      customer_id: created.customerId,
+      trainer_id: created.trainerId,
+      equipment_id: created.equipmentId,
+      scheduled_at: created.sessionDate,
+    });
   } catch (e) {
     res.status(500).json({ error: "failed" });
   }
@@ -228,12 +342,10 @@ app.post("/api/sessions", async (req, res) => {
 
 app.delete("/api/sessions/:id", async (req, res) => {
   try {
-    const r = await runQuery(
-      "DELETE FROM training_sessions WHERE id = ? RETURNING id",
-      [req.params.id]
-    );
-    if (!r.rows[0]) return res.status(404).json({ error: "not_found" });
-    res.json({ id: r.rows[0].id });
+    const row = await sequelize.TrainingSessions.findByPk(req.params.id);
+    if (!row) return res.status(404).json({ error: "not_found" });
+    await row.destroy();
+    res.json({ id: parseInt(req.params.id, 10) });
   } catch (e) {
     res.status(500).json({ error: "failed" });
   }
@@ -242,20 +354,18 @@ app.delete("/api/sessions/:id", async (req, res) => {
 app.get("/api/summary", async (req, res) => {
   try {
     const [c, t, e, s] = await Promise.all([
-      runQuery("SELECT COUNT(*)::int AS count FROM customers", [], "select"),
-      runQuery("SELECT COUNT(*)::int AS count FROM trainers", [], "select"),
-      runQuery("SELECT COUNT(*)::int AS count FROM gym_equipments", [], "select"),
-      runQuery(
-        "SELECT COUNT(*)::int AS count FROM training_sessions WHERE date_trunc('day', scheduled_at)=date_trunc('day', now())",
-        [],
-        "select"
-      ),
+      sequelize.Customers.count(),
+      sequelize.Trainers.count(),
+      sequelize.GymEquipments.count(),
+      sequelize.TrainingSessions.count({
+        where: where(fn("date_trunc", "day", col("sessionDate")), fn("date_trunc", "day", fn("now"))),
+      }),
     ]);
     res.json({
-      customers: c.rows[0].count,
-      trainers: t.rows[0].count,
-      equipments: e.rows[0].count,
-      sessions_today: s.rows[0].count,
+      customers: c,
+      trainers: t,
+      equipments: e,
+      sessions_today: s,
     });
   } catch (e) {
     res.status(500).json({ error: "failed" });

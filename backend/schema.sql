@@ -1,28 +1,33 @@
-CREATE TABLE IF NOT EXISTS customers (
+CREATE TABLE IF NOT EXISTS "Customers" (
   id SERIAL PRIMARY KEY,
-  name TEXT NOT NULL,
-  email TEXT UNIQUE NOT NULL,
-  phone TEXT,
-  joined_at TIMESTAMP NOT NULL DEFAULT NOW()
+  "fullName" VARCHAR(150) NOT NULL,
+  email VARCHAR(150) NOT NULL,
+  phone VARCHAR(20),
+  "memberType" VARCHAR(50) NOT NULL,
+  "memberLevel" VARCHAR(50) NOT NULL,
+  "memberStartDate" TIMESTAMP NOT NULL,
+  "memberEndDate" TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS trainers (
+CREATE TABLE IF NOT EXISTS "Trainers" (
   id SERIAL PRIMARY KEY,
-  name TEXT NOT NULL,
-  specialty TEXT,
-  hired_at TIMESTAMP NOT NULL DEFAULT NOW()
+  "trainerName" VARCHAR(150) NOT NULL,
+  "trainerLevel" VARCHAR(50) NOT NULL,
+  specialty VARCHAR(100),
+  phone VARCHAR(20)
 );
 
-CREATE TABLE IF NOT EXISTS gym_equipments (
+CREATE TABLE IF NOT EXISTS "GymEquipments" (
   id SERIAL PRIMARY KEY,
-  name TEXT NOT NULL,
-  status TEXT NOT NULL CHECK (status IN ('Available','Maintenance')) DEFAULT 'Available'
+  "equipmentName" VARCHAR(150) NOT NULL,
+  category VARCHAR(100),
+  status VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS training_sessions (
+CREATE TABLE IF NOT EXISTS "TrainingSessions" (
   id SERIAL PRIMARY KEY,
-  customer_id INTEGER NOT NULL REFERENCES customers(id) ON DELETE CASCADE,
-  trainer_id INTEGER NOT NULL REFERENCES trainers(id),
-  equipment_id INTEGER NOT NULL REFERENCES gym_equipments(id),
-  scheduled_at TIMESTAMP NOT NULL
+  "sessionDate" TIMESTAMP NOT NULL,
+  "customerId" INTEGER NOT NULL REFERENCES "Customers"(id) ON DELETE CASCADE,
+  "trainerId" INTEGER NOT NULL REFERENCES "Trainers"(id),
+  "equipmentId" INTEGER NOT NULL REFERENCES "GymEquipments"(id)
 );
