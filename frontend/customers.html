@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gymbro • Customers</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <header>
+    <div class="topbar">
+      <div class="brand">Gymbro</div>
+      <nav>
+        <a href="./index.html">Dashboard</a>
+        <a class="active" href="./customers.html">Customers</a>
+        <a href="./trainers.html">Trainers</a>
+        <a href="./equipments.html">Equipment</a>
+        <a href="./sessions.html">Sessions</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container">
+    <h3>เพิ่มสมาชิก</h3>
+    <form id="customer-form">
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <input id="name" placeholder="ชื่อ" required>
+        <input id="email" placeholder="อีเมล" required type="email">
+        <input id="phone" placeholder="โทรศัพท์">
+        <button type="submit">บันทึก</button>
+      </div>
+    </form>
+    <h3>รายชื่อสมาชิก</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>ชื่อ</th>
+          <th>อีเมล</th>
+          <th>โทรศัพท์</th>
+          <th>จัดการ</th>
+        </tr>
+      </thead>
+      <tbody id="customers-table"></tbody>
+    </table>
+  </main>
+  <footer>
+    <div class="footer-inner">© Gymbro</div>
+  </footer>
+  <script src="./js/customers.js"></script>
+</body>
+</html>

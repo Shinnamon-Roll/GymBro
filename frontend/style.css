@@ -1,0 +1,155 @@
+:root {
+  --beige: #f2e9e4;
+  --cream: #eae4e9;
+  --sage: #708d81;
+  --charcoal: #333333;
+  --white: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  background: var(--cream);
+  color: var(--charcoal);
+}
+
+header {
+  background: var(--beige);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+.topbar {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+}
+
+.brand {
+  font-weight: 700;
+  color: var(--sage);
+  letter-spacing: 0.5px;
+}
+
+nav a {
+  text-decoration: none;
+  color: var(--charcoal);
+  margin-left: 16px;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+nav a.active,
+nav a:hover {
+  background: var(--white);
+  border: 1px solid rgba(0,0,0,0.06);
+}
+
+.container {
+  max-width: 1100px;
+  margin: 24px auto;
+  padding: 0 20px;
+}
+
+footer {
+  margin-top: 40px;
+  background: var(--beige);
+  border-top: 1px solid rgba(0,0,0,0.06);
+}
+
+.footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 16px 20px;
+  text-align: center;
+  color: #666;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.card {
+  background: var(--white);
+  border: 1px solid rgba(0,0,0,0.06);
+  border-radius: 10px;
+  padding: 14px;
+}
+
+.card-title {
+  color: #666;
+  font-size: 14px;
+}
+
+.card-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--sage);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--white);
+  border: 1px solid rgba(0,0,0,0.06);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+th, td {
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  text-align: left;
+}
+
+th {
+  background: #fafafa;
+  color: #555;
+  font-weight: 600;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+form {
+  background: var(--white);
+  border: 1px solid rgba(0,0,0,0.06);
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+input, select, button {
+  padding: 8px 10px;
+  border: 1px solid rgba(0,0,0,0.12);
+  border-radius: 6px;
+  background: var(--white);
+  color: var(--charcoal);
+}
+
+button {
+  background: var(--sage);
+  color: var(--white);
+  border: none;
+  cursor: pointer;
+}
+
+button.secondary {
+  background: #ddd;
+  color: var(--charcoal);
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}

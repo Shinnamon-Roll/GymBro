@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gymbro • Sessions</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <header>
+    <div class="topbar">
+      <div class="brand">Gymbro</div>
+      <nav>
+        <a href="./index.html">Dashboard</a>
+        <a href="./customers.html">Customers</a>
+        <a href="./trainers.html">Trainers</a>
+        <a href="./equipments.html">Equipment</a>
+        <a class="active" href="./sessions.html">Sessions</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container">
+    <h3>จอง Training Session</h3>
+    <form id="session-form">
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <select id="customer" required></select>
+        <select id="trainer" required></select>
+        <select id="equipment" required></select>
+        <input id="scheduled_at" type="datetime-local" required>
+        <button type="submit">บันทึก</button>
+      </div>
+    </form>
+    <h3>ประวัติการฝึกสอน</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>ลูกค้า</th>
+          <th>เทรนเนอร์</th>
+          <th>อุปกรณ์</th>
+          <th>เวลา</th>
+          <th>จัดการ</th>
+        </tr>
+      </thead>
+      <tbody id="sessions-table"></tbody>
+    </table>
+  </main>
+  <footer>
+    <div class="footer-inner">© Gymbro</div>
+  </footer>
+  <script src="./js/sessions.js"></script>
+</body>
+</html>

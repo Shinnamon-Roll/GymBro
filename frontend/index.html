@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gymbro • Dashboard</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <header>
+    <div class="topbar">
+      <div class="brand">Gymbro</div>
+      <nav>
+        <a class="active" href="./index.html">Dashboard</a>
+        <a href="./customers.html">Customers</a>
+        <a href="./trainers.html">Trainers</a>
+        <a href="./equipments.html">Equipment</a>
+        <a href="./sessions.html">Sessions</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container">
+    <div class="cards">
+      <div class="card">
+        <div class="card-title">จำนวนสมาชิก</div>
+        <div id="count-customers" class="card-value">0</div>
+      </div>
+      <div class="card">
+        <div class="card-title">เทรนเนอร์</div>
+        <div id="count-trainers" class="card-value">0</div>
+      </div>
+      <div class="card">
+        <div class="card-title">อุปกรณ์</div>
+        <div id="count-equipments" class="card-value">0</div>
+      </div>
+      <div class="card">
+        <div class="card-title">คลาสวันนี้</div>
+        <div id="count-sessions" class="card-value">0</div>
+      </div>
+    </div>
+    <h3>Training Sessions วันนี้</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>ลูกค้า</th>
+          <th>เทรนเนอร์</th>
+          <th>อุปกรณ์</th>
+          <th>เวลา</th>
+        </tr>
+      </thead>
+      <tbody id="today-sessions"></tbody>
+    </table>
+  </main>
+  <footer>
+    <div class="footer-inner">© Gymbro</div>
+  </footer>
+  <script src="./js/index.js"></script>
+</body>
+</html>
