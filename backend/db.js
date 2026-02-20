@@ -65,8 +65,6 @@ Customers.hasMany(TrainingSessions, { as: "sessions", foreignKey: "customerId" }
 Trainers.hasMany(TrainingSessions, { as: "sessions", foreignKey: "trainerId" });
 GymEquipments.hasMany(TrainingSessions, { as: "sessions", foreignKey: "equipmentId" });
 
-sequelize.sync();
-
 module.exports = sequelize;
 module.exports.Customers = Customers;
 module.exports.Trainers = Trainers;

@@ -384,9 +384,25 @@ app.get("/api/summary", async (req, res) => {
 
 const portEnv = process.env.BACKEND_PORT || process.env.PORT;
 const port = portEnv ? parseInt(portEnv, 10) : 3000;
-app.listen(port, () => {
-  console.log(`Gymbro backend running on ${port}`);
-});
+
+// Sync database before starting server
+sequelize
+  .sync()
+  .then(() => {
+    console.log("Database synced successfully");
+    startServer();
+  })
+  .catch((err) => {
+    console.error("Database sync failed:", err);
+    // Start server anyway so /api/health can be checked
+    startServer();
+  });
+
+function startServer() {
+  app.listen(port, () => {
+    console.log(`Gymbro backend running on ${port}`);
+  });
+}
 
 // Optional HTTPS (Mixed Content fix if not using platform SSL)
 // TODO: If you want Node to serve HTTPS directly, set HTTPS_KEY and HTTPS_CERT envs to file paths
