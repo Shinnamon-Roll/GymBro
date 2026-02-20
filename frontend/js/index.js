@@ -1,4 +1,4 @@
-const API = "http://localhost:3000/api";
+const API = window.API || "http://localhost:3000/api";
 
 const setText = (id, v) => {
   const el = document.getElementById(id);

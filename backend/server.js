@@ -4,7 +4,17 @@ const { QueryTypes, fn, col, where } = require("sequelize");
 const sequelize = require("./db");
 
 const app = express();
-app.use(cors());
+// CORS for Cloudflare Frontend
+// TODO: set FRONTEND_ORIGIN to your Cloudflare Pages URL, e.g. https://your-site.pages.dev
+const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || "http://localhost:5500";
+app.use(
+  cors({
+    origin: FRONTEND_ORIGIN,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type"],
+  })
+);
+app.options("*", cors({ origin: FRONTEND_ORIGIN }));
 app.use(express.json());
 
 const runQuery = async (text, params, kind) => {
@@ -377,3 +387,21 @@ const port = portEnv ? parseInt(portEnv, 10) : 3000;
 app.listen(port, () => {
   console.log(`Gymbro backend running on ${port}`);
 });
+
+// Optional HTTPS (Mixed Content fix if not using platform SSL)
+// TODO: If you want Node to serve HTTPS directly, set HTTPS_KEY and HTTPS_CERT envs to file paths
+// and optionally HTTPS_PORT (default 3443). Otherwise, use Ruk-com/Cloudflare SSL at the platform layer.
+if (process.env.HTTPS_KEY && process.env.HTTPS_CERT) {
+  try {
+    const fs = require("fs");
+    const https = require("https");
+    const key = fs.readFileSync(process.env.HTTPS_KEY);
+    const cert = fs.readFileSync(process.env.HTTPS_CERT);
+    const httpsPort = process.env.HTTPS_PORT ? parseInt(process.env.HTTPS_PORT, 10) : 3443;
+    https.createServer({ key, cert }, app).listen(httpsPort, () => {
+      console.log(`Gymbro backend HTTPS running on ${httpsPort}`);
+    });
+  } catch (e) {
+    console.error("Failed to start HTTPS server:", e.message);
+  }
+}

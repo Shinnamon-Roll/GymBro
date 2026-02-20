@@ -1,4 +1,4 @@
-const API = "http://localhost:3000/api";
+const API = window.API || "http://localhost:3000/api";
 
 const tbody = document.getElementById("sessions-table");
 const form = document.getElementById("session-form");
