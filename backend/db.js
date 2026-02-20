@@ -1,4 +1,7 @@
-require("dotenv").config();
+const path = require("path");
+// Try loading .env from current dir or parent dir (in case run from root)
+require("dotenv").config({ path: path.resolve(__dirname, ".env") });
+
 const { Sequelize, DataTypes } = require("sequelize");
 
 // Prioritize environment variable first
