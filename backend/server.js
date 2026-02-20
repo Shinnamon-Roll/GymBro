@@ -33,10 +33,10 @@ const runQuery = async (text, params, kind) => {
 
 app.get("/api/health", async (req, res) => {
   try {
-    await runQuery("SELECT 1", [], "select");
+    await sequelize.authenticate();
     res.json({ ok: true });
   } catch (e) {
-    res.status(500).json({ ok: false });
+    res.status(500).json({ ok: false, error: e.message });
   }
 });
 
