@@ -14,7 +14,7 @@ const row = (c) => {
   const tr = document.createElement("tr");
   const start = c.memberStartDate ? new Date(c.memberStartDate).toLocaleDateString() : "-";
   const end = c.memberEndDate ? new Date(c.memberEndDate).toLocaleDateString() : "-";
-  tr.innerHTML = `<td>${c.id}</td><td>${c.name}</td><td>${c.email}</td><td>${c.phone || ""}</td>
+  tr.innerHTML = `<td>${c.id}</td><td>${c.fullName}</td><td>${c.email}</td><td>${c.phone || ""}</td>
   <td>${c.memberType}</td><td>${c.memberLevel}</td><td>${start}</td><td>${end}</td>
   <td class="actions">
     <button data-id="${c.id}" data-action="edit">แก้ไข</button>
@@ -32,7 +32,7 @@ const load = async () => {
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
   const body = {
-    name: nameEl.value.trim(),
+    fullName: nameEl.value.trim(),
     email: emailEl.value.trim(),
     phone: phoneEl.value.trim() || null,
     memberType: memberTypeEl.value,
@@ -64,7 +64,7 @@ tbody.addEventListener("click", async (e) => {
       const r = await fetch(`${API}/customers/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, phone }),
+        body: JSON.stringify({ fullName: name, email, phone }),
       });
       if (r.ok) load();
     }

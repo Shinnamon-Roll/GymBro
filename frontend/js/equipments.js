@@ -36,7 +36,7 @@ const row = (e) => {
   });
   actions.appendChild(del);
   tr.appendChild(document.createElement("td")).textContent = e.id;
-  tr.appendChild(document.createElement("td")).textContent = e.name;
+  tr.appendChild(document.createElement("td")).textContent = e.equipmentName;
   tr.appendChild(document.createElement("td")).textContent = e.category || "";
   const tdSel = document.createElement("td");
   tdSel.appendChild(sel);
@@ -54,7 +54,7 @@ const load = async () => {
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
   const body = {
-    name: nameEl.value.trim(),
+    equipmentName: nameEl.value.trim(),
     category: categoryEl.value.trim() || null,
     status: statusEl.value,
   };

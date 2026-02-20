@@ -26,7 +26,7 @@ const row = (s) => {
     if (r.ok) loadSessions();
   });
   actions.appendChild(del);
-  tr.innerHTML = `<td>${s.customer_name}</td><td>${s.trainer_name}</td><td>${s.equipment_name}</td><td>${new Date(s.scheduled_at).toLocaleString()}</td>`;
+  tr.innerHTML = `<td>${s.customer?.fullName || ""}</td><td>${s.trainer?.trainerName || ""}</td><td>${s.equipment?.equipmentName || ""}</td><td>${new Date(s.sessionDate).toLocaleString()}</td>`;
   tr.appendChild(actions);
   return tr;
 };
@@ -40,9 +40,9 @@ const loadLists = async () => {
   customerEl.innerHTML = "";
   trainerEl.innerHTML = "";
   equipmentEl.innerHTML = "";
-  customers.forEach((c) => customerEl.appendChild(opt(c.id, c.name)));
-  trainers.forEach((t) => trainerEl.appendChild(opt(t.id, t.name)));
-  equipments.forEach((e) => equipmentEl.appendChild(opt(e.id, e.name)));
+  customers.forEach((c) => customerEl.appendChild(opt(c.id, c.fullName)));
+  trainers.forEach((t) => trainerEl.appendChild(opt(t.id, t.trainerName)));
+  equipments.forEach((e) => equipmentEl.appendChild(opt(e.id, e.equipmentName)));
 };
 
 const loadSessions = async () => {
@@ -54,10 +54,10 @@ const loadSessions = async () => {
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
   const body = {
-    customer_id: parseInt(customerEl.value, 10),
-    trainer_id: parseInt(trainerEl.value, 10),
-    equipment_id: parseInt(equipmentEl.value, 10),
-    scheduled_at: new Date(scheduledEl.value).toISOString(),
+    customerId: parseInt(customerEl.value, 10),
+    trainerId: parseInt(trainerEl.value, 10),
+    equipmentId: parseInt(equipmentEl.value, 10),
+    sessionDate: new Date(scheduledEl.value).toISOString(),
   };
   const r = await fetch(`${API}/sessions`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
   if (r.ok) {

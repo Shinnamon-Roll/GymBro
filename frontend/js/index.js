@@ -10,7 +10,7 @@ const renderSessions = (rows) => {
   tbody.innerHTML = "";
   rows.forEach((r) => {
     const tr = document.createElement("tr");
-    tr.innerHTML = `<td>${r.customer_name}</td><td>${r.trainer_name}</td><td>${r.equipment_name}</td><td>${new Date(r.scheduled_at).toLocaleString()}</td>`;
+    tr.innerHTML = `<td>${r.customer?.fullName || ""}</td><td>${r.trainer?.trainerName || ""}</td><td>${r.equipment?.equipmentName || ""}</td><td>${new Date(r.sessionDate).toLocaleString()}</td>`;
     tbody.appendChild(tr);
   });
 };

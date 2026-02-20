@@ -9,7 +9,7 @@ const phoneEl = document.getElementById("phone");
 
 const row = (t) => {
   const tr = document.createElement("tr");
-  tr.innerHTML = `<td>${t.id}</td><td>${t.name}</td><td>${t.specialty || ""}</td>
+  tr.innerHTML = `<td>${t.id}</td><td>${t.trainerName}</td><td>${t.specialty || ""}</td>
   <td>${t.trainerLevel}</td><td>${t.phone || ""}</td>
   <td class="actions">
     <button data-id="${t.id}" data-action="edit">แก้ไข</button>
@@ -27,7 +27,7 @@ const load = async () => {
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
   const body = {
-    name: nameEl.value.trim(),
+    trainerName: nameEl.value.trim(),
     specialty: specEl.value.trim() || null,
     trainerLevel: levelEl.value,
     phone: phoneEl.value.trim() || null,
@@ -55,7 +55,7 @@ tbody.addEventListener("click", async (e) => {
       const r = await fetch(`${API}/trainers/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, specialty }),
+        body: JSON.stringify({ trainerName: name, specialty }),
       });
       if (r.ok) load();
     }
