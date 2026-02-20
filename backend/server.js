@@ -5,8 +5,7 @@ const sequelize = require("./db");
 
 const app = express();
 // CORS for Cloudflare Frontend
-// TODO: set FRONTEND_ORIGIN to your Cloudflare Pages URL, e.g. https://your-site.pages.dev
-const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || "http://localhost:5500";
+const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || "https://gymbro-co9.pages.dev";
 app.use(
   cors({
     origin: FRONTEND_ORIGIN,
