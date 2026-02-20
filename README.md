@@ -95,6 +95,14 @@ Staff-only web application for managing a gym backend system. Clean, minimalist,
 - Dashboard summary
   - `GET /api/summary`
 
+## Deployment on Ruk-com Cloud
+- **Important**: When running the backend on the same Ruk-com network as the database, use the **internal port (5432)** instead of the external port (11857).
+- Set the environment variable `DATABASE_URL` in your Ruk-com dashboard:
+  ```
+  DATABASE_URL=postgres://webadmin:OFQzlb19621@node86180-env-2210254.proen.app.ruk-com.cloud:5432/gymbro_db
+  ```
+- This ensures the backend connects via the internal network, avoiding `EHOSTUNREACH` errors.
+
 ## Notes
 - CORS is enabled on the backend.
 - If port 3000 is busy, set `BACKEND_PORT` to a different value.
