@@ -26,6 +26,18 @@
         <input id="name" placeholder="ชื่อ" required>
         <input id="email" placeholder="อีเมล" required type="email">
         <input id="phone" placeholder="โทรศัพท์">
+        <select id="memberType" required>
+          <option value="Standard">Standard</option>
+          <option value="Premium">Premium</option>
+          <option value="VIP">VIP</option>
+        </select>
+        <select id="memberLevel" required>
+          <option value="Basic">Basic</option>
+          <option value="Silver">Silver</option>
+          <option value="Gold">Gold</option>
+        </select>
+        <input id="memberStartDate" placeholder="วันเริ่ม" type="date" required>
+        <input id="memberEndDate" placeholder="วันสิ้นสุด" type="date">
         <button type="submit">บันทึก</button>
       </div>
     </form>
@@ -37,6 +49,10 @@
           <th>ชื่อ</th>
           <th>อีเมล</th>
           <th>โทรศัพท์</th>
+          <th>ประเภท</th>
+          <th>ระดับ</th>
+          <th>วันเริ่ม</th>
+          <th>วันสิ้นสุด</th>
           <th>จัดการ</th>
         </tr>
       </thead>

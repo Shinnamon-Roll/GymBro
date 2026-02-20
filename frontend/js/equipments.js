@@ -3,6 +3,7 @@ const API = window.API || "http://localhost:3000/api";
 const tbody = document.getElementById("equipments-table");
 const form = document.getElementById("equipment-form");
 const nameEl = document.getElementById("name");
+const categoryEl = document.getElementById("category");
 const statusEl = document.getElementById("status");
 
 const statusOptions = ["Available", "Maintenance"];
@@ -36,6 +37,7 @@ const row = (e) => {
   actions.appendChild(del);
   tr.appendChild(document.createElement("td")).textContent = e.id;
   tr.appendChild(document.createElement("td")).textContent = e.name;
+  tr.appendChild(document.createElement("td")).textContent = e.category || "";
   const tdSel = document.createElement("td");
   tdSel.appendChild(sel);
   tr.appendChild(tdSel);
@@ -51,7 +53,11 @@ const load = async () => {
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
-  const body = { name: nameEl.value.trim(), status: statusEl.value };
+  const body = {
+    name: nameEl.value.trim(),
+    category: categoryEl.value.trim() || null,
+    status: statusEl.value,
+  };
   const r = await fetch(`${API}/equipments`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
   if (r.ok) {
     form.reset();

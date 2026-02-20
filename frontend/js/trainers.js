@@ -4,10 +4,13 @@ const tbody = document.getElementById("trainers-table");
 const form = document.getElementById("trainer-form");
 const nameEl = document.getElementById("name");
 const specEl = document.getElementById("specialty");
+const levelEl = document.getElementById("trainerLevel");
+const phoneEl = document.getElementById("phone");
 
 const row = (t) => {
   const tr = document.createElement("tr");
   tr.innerHTML = `<td>${t.id}</td><td>${t.name}</td><td>${t.specialty || ""}</td>
+  <td>${t.trainerLevel}</td><td>${t.phone || ""}</td>
   <td class="actions">
     <button data-id="${t.id}" data-action="edit">แก้ไข</button>
     <button class="secondary" data-id="${t.id}" data-action="delete">ลบ</button>
@@ -23,7 +26,12 @@ const load = async () => {
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
-  const body = { name: nameEl.value.trim(), specialty: specEl.value.trim() || null };
+  const body = {
+    name: nameEl.value.trim(),
+    specialty: specEl.value.trim() || null,
+    trainerLevel: levelEl.value,
+    phone: phoneEl.value.trim() || null,
+  };
   const r = await fetch(`${API}/trainers`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
   if (r.ok) {
     form.reset();

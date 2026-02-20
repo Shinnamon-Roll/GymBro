@@ -5,10 +5,17 @@ const form = document.getElementById("customer-form");
 const nameEl = document.getElementById("name");
 const emailEl = document.getElementById("email");
 const phoneEl = document.getElementById("phone");
+const memberTypeEl = document.getElementById("memberType");
+const memberLevelEl = document.getElementById("memberLevel");
+const memberStartDateEl = document.getElementById("memberStartDate");
+const memberEndDateEl = document.getElementById("memberEndDate");
 
 const row = (c) => {
   const tr = document.createElement("tr");
+  const start = c.memberStartDate ? new Date(c.memberStartDate).toLocaleDateString() : "-";
+  const end = c.memberEndDate ? new Date(c.memberEndDate).toLocaleDateString() : "-";
   tr.innerHTML = `<td>${c.id}</td><td>${c.name}</td><td>${c.email}</td><td>${c.phone || ""}</td>
+  <td>${c.memberType}</td><td>${c.memberLevel}</td><td>${start}</td><td>${end}</td>
   <td class="actions">
     <button data-id="${c.id}" data-action="edit">แก้ไข</button>
     <button class="secondary" data-id="${c.id}" data-action="delete">ลบ</button>
@@ -24,7 +31,15 @@ const load = async () => {
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
-  const body = { name: nameEl.value.trim(), email: emailEl.value.trim(), phone: phoneEl.value.trim() || null };
+  const body = {
+    name: nameEl.value.trim(),
+    email: emailEl.value.trim(),
+    phone: phoneEl.value.trim() || null,
+    memberType: memberTypeEl.value,
+    memberLevel: memberLevelEl.value,
+    memberStartDate: memberStartDateEl.value,
+    memberEndDate: memberEndDateEl.value || null,
+  };
   const r = await fetch(`${API}/customers`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
   if (r.ok) {
     form.reset();
