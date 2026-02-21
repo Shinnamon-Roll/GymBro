@@ -6,7 +6,7 @@ const { Sequelize, DataTypes } = require("sequelize");
 
 // Prioritize environment variable first
 const dbUrl =
-  process.env.DATABASE_URL || "postgres://webadmin:OFQzlb19621@node86180-env-2210254.proen.app.ruk-com.cloud:11857/gymbro_db";
+  process.env.DATABASE_URL || "postgres://webadmin:OFQzlb19621@node86180-env-2210254.proen.app.ruk-com.cloud:5432/gymbro_db";
 
 console.log("Connecting to database:", dbUrl.replace(/:[^:]*@/, ":****@")); // Log (masked) URL for debugging
 
