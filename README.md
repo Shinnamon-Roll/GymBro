@@ -45,21 +45,10 @@ Staff-only web application for managing a gym backend system. Clean, minimalist,
 3. Health check:
    - Open `http://localhost:3000/api/health` (should return `{"ok":true}`)
 
-### Frontend (Static)
-1. Configure API URL:
-   - Edit `frontend/js/config.js`
-   - Set `window.API` to `http://localhost:3000/api` (for local backend) or your production URL.
-2. Run the frontend:
-   - Option A: Node static server
-     ```bash
-     cd frontend
-     node index.js
-     # or
-     PORT=5500 npm run start
-     ```
-     Open `http://localhost:5500/index.html`
-   - Option B: VS Code Live Server
-     - Right-click `frontend/index.html` → “Open with Live Server”
+### Frontend (Cloudflare Pages)
+The frontend is hosted on Cloudflare Pages: [https://gymbro-co9.pages.dev](https://gymbro-co9.pages.dev)
+
+Ensure `frontend/js/config.js` points to the production backend URL (`https://env-2210254.proen.app.ruk-com.cloud/api`).
 
 ## Pages
 - Dashboard (`index.html`)

@@ -1,4 +1,4 @@
-const API = window.API || "http://localhost:3000/api";
+const API = window.API;
 
 const tbody = document.getElementById("equipments-table");
 const form = document.getElementById("equipment-form");
