@@ -46,16 +46,20 @@ Staff-only web application for managing a gym backend system. Clean, minimalist,
    - Open `http://localhost:3000/api/health` (should return `{"ok":true}`)
 
 ### Frontend (Static)
-- Option A: Node static server
-  ```bash
-  cd frontend
-  node index.js
-  # or
-  PORT=5500 npm run start
-  ```
-  Open `http://localhost:5500/index.html`
-- Option B: VS Code Live Server
-  - Right-click `frontend/index.html` → “Open with Live Server”
+1. Configure API URL:
+   - Edit `frontend/js/config.js`
+   - Set `window.API` to `http://localhost:3000/api` (for local backend) or your production URL.
+2. Run the frontend:
+   - Option A: Node static server
+     ```bash
+     cd frontend
+     node index.js
+     # or
+     PORT=5500 npm run start
+     ```
+     Open `http://localhost:5500/index.html`
+   - Option B: VS Code Live Server
+     - Right-click `frontend/index.html` → “Open with Live Server”
 
 ## Pages
 - Dashboard (`index.html`)
@@ -95,13 +99,20 @@ Staff-only web application for managing a gym backend system. Clean, minimalist,
 - Dashboard summary
   - `GET /api/summary`
 
-## Deployment on Ruk-com Cloud
+## Deployment
+
+### Backend (Ruk-com Cloud)
 - **Important**: When running the backend on the same Ruk-com network as the database, use the **internal port (5432)** instead of the external port (11857).
 - Set the environment variable `DATABASE_URL` in your Ruk-com dashboard:
   ```
   DATABASE_URL=postgres://webadmin:OFQzlb19621@node86180-env-2210254.proen.app.ruk-com.cloud:5432/gymbro_db
   ```
 - This ensures the backend connects via the internal network, avoiding `EHOSTUNREACH` errors.
+- Set `FRONTEND_ORIGIN` to your frontend URL (e.g., `https://gymbro-co9.pages.dev`) to allow CORS requests.
+
+### Frontend (Cloudflare Pages)
+- The frontend is deployed on Cloudflare Pages.
+- Ensure `frontend/js/config.js` points to the production backend URL (`https://env-2210254.proen.app.ruk-com.cloud/api`).
 
 ## Notes
 - CORS is enabled on the backend.
