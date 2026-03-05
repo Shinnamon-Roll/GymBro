@@ -6,6 +6,59 @@
   <title>GymBro • User Dashboard</title>
   
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Booking Modal -->
+  <div id="booking-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white border-4 border-primary shadow-[8px_8px_0px_0px_#296374] w-full max-w-md max-h-[90vh] overflow-y-auto">
+        <div class="bg-primary text-contrast p-4 flex justify-between items-center border-b-4 border-accent">
+            <h3 class="text-xl font-extrabold uppercase tracking-tighter">Book New Session</h3>
+            <button id="close-booking-modal" class="hover:text-accent"><i data-lucide="x" class="w-6 h-6"></i></button>
+        </div>
+        <div class="p-6">
+            <form id="booking-form" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-bold uppercase mb-1">Date</label>
+                    <input type="date" id="book-date" required class="w-full p-3 border-2 border-primary bg-contrast focus:outline-none focus:border-accent font-bold">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-bold uppercase mb-1">Start Time</label>
+                        <input type="time" id="book-time" required class="w-full p-3 border-2 border-primary bg-contrast focus:outline-none focus:border-accent font-bold">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold uppercase mb-1">Duration</label>
+                        <select id="book-duration" class="w-full p-3 border-2 border-primary bg-contrast focus:outline-none focus:border-accent font-bold">
+                            <option value="60">1 Hour</option>
+                            <option value="90">1.5 Hours</option>
+                            <option value="120">2 Hours</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-bold uppercase mb-1">Select Trainer</label>
+                    <select id="book-trainer" required class="w-full p-3 border-2 border-primary bg-contrast focus:outline-none focus:border-accent font-bold">
+                        <option value="">Loading...</option>
+                    </select>
+                    <p id="trainer-status" class="text-xs text-red-500 font-bold mt-1 hidden">Trainer not available</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-bold uppercase mb-1">Select Equipment</label>
+                    <select id="book-equipment" required class="w-full p-3 border-2 border-primary bg-contrast focus:outline-none focus:border-accent font-bold">
+                        <option value="">Loading...</option>
+                    </select>
+                    <p id="equipment-status" class="text-xs text-red-500 font-bold mt-1 hidden">Equipment not available</p>
+                </div>
+                
+                <div class="pt-4 flex justify-end gap-4">
+                    <button type="button" id="cancel-booking" class="px-6 py-3 font-bold uppercase text-primary hover:bg-gray-100 transition-colors">Cancel</button>
+                    <button type="submit" class="bg-primary text-contrast px-6 py-3 font-bold uppercase hover:bg-secondary hover:shadow-[4px_4px_0px_0px_#629FAD] transition-all active:translate-y-1 active:shadow-none border-2 border-transparent">
+                        Confirm Booking
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+  </div>
+
   <script>
     tailwind.config = {
       theme: {
@@ -135,6 +188,10 @@
             Check availability and your upcoming sessions.
           </p>
         </div>
+        <button id="btn-book-session" class="bg-primary text-contrast px-6 py-3 font-bold uppercase hover:bg-secondary hover:shadow-[4px_4px_0px_0px_#629FAD] transition-all active:translate-y-1 active:shadow-none border-2 border-transparent flex items-center gap-2">
+            <i data-lucide="plus-circle" class="w-5 h-5"></i>
+            Book Session
+        </button>
       </div>
 
       <!-- Schedule Table -->

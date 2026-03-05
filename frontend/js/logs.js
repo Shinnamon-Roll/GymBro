@@ -1,8 +1,40 @@
+
 const API = window.API;
 
-const tbody = document.getElementById("logs-table");
+const logsTbody = document.getElementById("logs-table");
+const customerTbody = document.getElementById("customer-report-table");
+const trainerTbody = document.getElementById("trainer-report-table");
 
-const row = (log) => {
+// Helper to format date/time
+const formatDate = (dateStr) => {
+    if (!dateStr) return "-";
+    const date = new Date(dateStr);
+    return date.toLocaleDateString('th-TH', { day: '2-digit', month: '2-digit', year: 'numeric' });
+};
+
+const formatTime = (dateStr) => {
+    if (!dateStr) return "-";
+    const date = new Date(dateStr);
+    return date.toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' });
+};
+
+const calcDuration = (startStr, endStr) => {
+    if (!startStr || !endStr) return "-";
+    const start = new Date(startStr);
+    const end = new Date(endStr);
+    const diffMs = end - start;
+    if (diffMs < 0) return "-";
+    
+    const diffMins = Math.floor(diffMs / 60000);
+    const hours = Math.floor(diffMins / 60);
+    const mins = diffMins % 60;
+    
+    if (hours > 0) return `${hours} hr ${mins} min`;
+    return `${mins} min`;
+};
+
+// System Logs Logic
+const logRow = (log) => {
   const tr = document.createElement("tr");
   tr.className = "hover:bg-contrast transition-colors border-b border-gray-100";
   
@@ -10,7 +42,6 @@ const row = (log) => {
   const dateStr = date.toLocaleDateString('th-TH', { day: '2-digit', month: '2-digit', year: 'numeric' });
   const timeStr = date.toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 
-  // Action Badge Color
   let badgeClass = "bg-gray-500";
   if (log.action.includes("Create")) badgeClass = "bg-green-600";
   else if (log.action.includes("Update")) badgeClass = "bg-yellow-600";
@@ -33,23 +64,113 @@ const row = (log) => {
 
 const loadLogs = async () => {
   try {
-    tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center">Loading logs...</td></tr>';
+    logsTbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center">Loading logs...</td></tr>';
     const logs = await fetch(`${API}/logs`).then((r) => r.json());
-    tbody.innerHTML = "";
+    logsTbody.innerHTML = "";
     
     if (logs.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="3" class="p-4 text-center text-gray-400 italic">No logs found.</td></tr>`;
+      logsTbody.innerHTML = `<tr><td colspan="3" class="p-4 text-center text-gray-400 italic">No logs found.</td></tr>`;
       return;
     }
-
-    logs.forEach((log) => tbody.appendChild(row(log)));
+    logs.forEach((log) => logsTbody.appendChild(logRow(log)));
   } catch (error) {
     console.error("Error loading logs:", error);
-    tbody.innerHTML = `<tr><td colspan="3" class="p-4 text-center text-red-500 font-bold">Error loading logs.</td></tr>`;
+    logsTbody.innerHTML = `<tr><td colspan="3" class="p-4 text-center text-red-500 font-bold">Error loading logs.</td></tr>`;
   }
 };
 
-// Expose to global scope for refresh button
-window.loadLogs = loadLogs;
+// Customer Report Logic
+const customerRow = (session) => {
+    const tr = document.createElement("tr");
+    tr.className = "hover:bg-contrast transition-colors border-b border-gray-100";
+    
+    const customerName = session.customer ? session.customer.fullName : "Unknown";
+    const equipmentName = session.equipment ? session.equipment.equipmentName : "None";
+    const trainerName = session.trainer ? session.trainer.trainerName : "None";
+    const dateStr = formatDate(session.sessionDate);
+    const timeRange = `${formatTime(session.sessionDate)} - ${formatTime(session.endDate)}`;
+    const duration = calcDuration(session.sessionDate, session.endDate);
 
-document.addEventListener('DOMContentLoaded', loadLogs);
+    tr.innerHTML = `
+      <td class="p-4 font-bold text-primary">${customerName}</td>
+      <td class="p-4 text-secondary">${equipmentName}</td>
+      <td class="p-4 text-secondary">${trainerName}</td>
+      <td class="p-4 text-secondary font-mono text-xs">
+        <div class="font-bold">${dateStr}</div>
+        <div>${timeRange}</div>
+      </td>
+      <td class="p-4 text-accent font-bold">${duration}</td>
+    `;
+    return tr;
+};
+
+const loadCustomerReport = async () => {
+    try {
+        customerTbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center">Loading data...</td></tr>';
+        const sessions = await fetch(`${API}/sessions?all=true`).then(r => r.json());
+        customerTbody.innerHTML = "";
+
+        if (sessions.length === 0) {
+            customerTbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-gray-400 italic">No history found.</td></tr>`;
+            return;
+        }
+
+        sessions.forEach(s => customerTbody.appendChild(customerRow(s)));
+    } catch (error) {
+        console.error("Error loading customer report:", error);
+        customerTbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-red-500 font-bold">Error loading data.</td></tr>`;
+    }
+};
+
+// Trainer Report Logic
+const trainerRow = (session) => {
+    const tr = document.createElement("tr");
+    tr.className = "hover:bg-contrast transition-colors border-b border-gray-100";
+    
+    const trainerName = session.trainer ? session.trainer.trainerName : "Unknown";
+    const customerName = session.customer ? session.customer.fullName : "Unknown";
+    const equipmentName = session.equipment ? session.equipment.equipmentName : "None";
+    const dateStr = formatDate(session.sessionDate);
+    const timeRange = `${formatTime(session.sessionDate)} - ${formatTime(session.endDate)}`;
+    const duration = calcDuration(session.sessionDate, session.endDate);
+
+    tr.innerHTML = `
+      <td class="p-4 font-bold text-primary">${trainerName}</td>
+      <td class="p-4 text-secondary">${customerName}</td>
+      <td class="p-4 text-secondary">${equipmentName}</td>
+      <td class="p-4 text-secondary font-mono text-xs">
+        <div class="font-bold">${dateStr}</div>
+        <div>${timeRange}</div>
+      </td>
+      <td class="p-4 text-accent font-bold">${duration}</td>
+    `;
+    return tr;
+};
+
+const loadTrainerReport = async () => {
+    try {
+        trainerTbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center">Loading data...</td></tr>';
+        const sessions = await fetch(`${API}/sessions?all=true`).then(r => r.json());
+        trainerTbody.innerHTML = "";
+
+        if (sessions.length === 0) {
+            trainerTbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-gray-400 italic">No history found.</td></tr>`;
+            return;
+        }
+
+        sessions.forEach(s => trainerTbody.appendChild(trainerRow(s)));
+    } catch (error) {
+        console.error("Error loading trainer report:", error);
+        trainerTbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-red-500 font-bold">Error loading data.</td></tr>`;
+    }
+};
+
+// Expose to global scope
+window.loadLogs = loadLogs;
+window.loadCustomerReport = loadCustomerReport;
+window.loadTrainerReport = loadTrainerReport;
+
+document.addEventListener('DOMContentLoaded', () => {
+    loadLogs();
+    // Preload others or wait for tab click? Wait for tab click is fine.
+});

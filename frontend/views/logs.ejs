@@ -1,9 +1,10 @@
+
 <!doctype html>
 <html lang="th">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>GymBro • System Logs</title>
+  <title>GymBro • Reports & Logs</title>
   
   <!-- Tailwind CSS via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -22,14 +23,6 @@
           },
           borderRadius: {
             DEFAULT: '0px',
-            'none': '0px',
-            'sm': '0px',
-            'md': '0px',
-            'lg': '0px',
-            'xl': '0px',
-            '2xl': '0px',
-            '3xl': '0px',
-            'full': '0px',
           }
         }
       }
@@ -48,6 +41,19 @@
     ::-webkit-scrollbar-track { background: #EDEDCE; }
     ::-webkit-scrollbar-thumb { background: #296374; }
     ::-webkit-scrollbar-thumb:hover { background: #0C2C55; }
+    .tab-active {
+        background-color: #296374;
+        color: white;
+        border-bottom: 4px solid #629FAD;
+    }
+    .tab-inactive {
+        background-color: #EDEDCE;
+        color: #0C2C55;
+        border-bottom: 4px solid transparent;
+    }
+    .tab-inactive:hover {
+        background-color: #e0e0c0;
+    }
   </style>
 </head>
 <body class="bg-contrast text-primary min-h-screen flex overflow-hidden">
@@ -59,57 +65,19 @@
     </div>
     <nav class="flex-1 overflow-y-auto py-6">
       <ul class="space-y-1">
-        <li>
-          <a href="/admin/dashboard" class="flex items-center gap-4 px-6 py-4 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group">
-            <i data-lucide="layout-dashboard" class="w-5 h-5 group-hover:text-accent transition-colors"></i>
-            <span>Dashboard</span>
-          </a>
-        </li>
-        <li>
-          <a href="/admin/customers" class="flex items-center gap-4 px-6 py-4 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group">
-            <i data-lucide="users" class="w-5 h-5 group-hover:text-accent transition-colors"></i>
-            <span>Customers</span>
-          </a>
-        </li>
-        <li>
-          <a href="/admin/trainers" class="flex items-center gap-4 px-6 py-4 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group">
-            <i data-lucide="dumbbell" class="w-5 h-5 group-hover:text-accent transition-colors"></i>
-            <span>Trainers</span>
-          </a>
-        </li>
-        <li>
-          <a href="/admin/equipments" class="flex items-center gap-4 px-6 py-4 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group">
-            <i data-lucide="monitor-smartphone" class="w-5 h-5 group-hover:text-accent transition-colors"></i>
-            <span>Equipment</span>
-          </a>
-        </li>
-        <li>
-          <a href="/admin/sessions" class="flex items-center gap-4 px-6 py-4 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group">
-            <i data-lucide="calendar-check" class="w-5 h-5 group-hover:text-accent transition-colors"></i>
-            <span>Sessions</span>
-          </a>
-        </li>
-        <li>
-          <a href="/admin/logs" class="flex items-center gap-4 px-6 py-4 bg-secondary border-l-4 border-accent text-white font-bold uppercase tracking-wide transition-all">
-            <i data-lucide="file-text" class="w-5 h-5"></i>
-            <span>System Logs</span>
-          </a>
-        </li>
-        <li class="mt-8 border-t border-secondary pt-4">
-          <button onclick="logout()" class="w-full text-left flex items-center gap-4 px-6 py-4 text-red-300 hover:bg-red-900/50 hover:text-red-100 font-semibold uppercase tracking-wide transition-all group">
-            <i data-lucide="log-out" class="w-5 h-5 group-hover:text-red-400 transition-colors"></i>
-            <span>Logout</span>
-          </button>
-        </li>
+        <li><a href="/admin/dashboard" class="flex items-center gap-4 px-6 py-4 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group"><i data-lucide="layout-dashboard" class="w-5 h-5 group-hover:text-accent transition-colors"></i><span>Dashboard</span></a></li>
+        <li><a href="/admin/customers" class="flex items-center gap-4 px-6 py-4 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group"><i data-lucide="users" class="w-5 h-5 group-hover:text-accent transition-colors"></i><span>Customers</span></a></li>
+        <li><a href="/admin/trainers" class="flex items-center gap-4 px-6 py-4 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group"><i data-lucide="dumbbell" class="w-5 h-5 group-hover:text-accent transition-colors"></i><span>Trainers</span></a></li>
+        <li><a href="/admin/equipments" class="flex items-center gap-4 px-6 py-4 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group"><i data-lucide="monitor-smartphone" class="w-5 h-5 group-hover:text-accent transition-colors"></i><span>Equipment</span></a></li>
+        <li><a href="/admin/sessions" class="flex items-center gap-4 px-6 py-4 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group"><i data-lucide="calendar-check" class="w-5 h-5 group-hover:text-accent transition-colors"></i><span>Sessions</span></a></li>
+        <li><a href="/admin/logs" class="flex items-center gap-4 px-6 py-4 bg-secondary border-l-4 border-accent text-white font-bold uppercase tracking-wide transition-all"><i data-lucide="file-text" class="w-5 h-5"></i><span>Reports & Logs</span></a></li>
+        <li class="mt-8 border-t border-secondary pt-4"><button onclick="logout()" class="w-full text-left flex items-center gap-4 px-6 py-4 text-red-300 hover:bg-red-900/50 hover:text-red-100 font-semibold uppercase tracking-wide transition-all group"><i data-lucide="log-out" class="w-5 h-5 group-hover:text-red-400 transition-colors"></i><span>Logout</span></button></li>
       </ul>
     </nav>
     <div class="p-4 bg-secondary border-t border-primary">
       <div class="flex items-center gap-3">
         <div class="w-10 h-10 bg-accent flex items-center justify-center text-primary font-bold text-lg">AD</div>
-        <div>
-          <p class="text-sm font-bold text-white">Admin User</p>
-          <p class="text-xs text-accent">Manager</p>
-        </div>
+        <div><p class="text-sm font-bold text-white">Admin User</p><p class="text-xs text-accent">Manager</p></div>
       </div>
     </div>
   </aside>
@@ -119,10 +87,8 @@
     
     <!-- Mobile Header -->
     <header class="h-16 bg-primary text-contrast flex items-center justify-between px-4 md:hidden shadow-lg z-10">
-      <button id="mobile-menu-btn" class="p-2 hover:bg-secondary text-white">
-        <i data-lucide="menu" class="w-6 h-6"></i>
-      </button>
-      <span class="font-bold uppercase tracking-wider">System Logs</span>
+      <button id="mobile-menu-btn" class="p-2 hover:bg-secondary text-white"><i data-lucide="menu" class="w-6 h-6"></i></button>
+      <span class="font-bold uppercase tracking-wider">Reports</span>
       <div class="w-8"></div>
     </header>
 
@@ -140,7 +106,7 @@
             <li><a href="/admin/trainers" class="block px-6 py-3 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase">Trainers</a></li>
             <li><a href="/admin/equipments" class="block px-6 py-3 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase">Equipment</a></li>
             <li><a href="/admin/sessions" class="block px-6 py-3 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase">Sessions</a></li>
-            <li><a href="/admin/logs" class="block px-6 py-3 bg-secondary text-white font-bold uppercase border-l-4 border-accent">System Logs</a></li>
+            <li><a href="/admin/logs" class="block px-6 py-3 bg-secondary text-white font-bold uppercase border-l-4 border-accent">Reports & Logs</a></li>
             <li><button onclick="logout()" class="block w-full text-left px-6 py-3 text-red-300 hover:bg-red-900/50 hover:text-red-100 font-semibold uppercase">Logout</button></li>
           </ul>
         </nav>
@@ -150,20 +116,31 @@
     <!-- Content Area -->
     <div class="flex-1 overflow-y-auto p-4 md:p-8 bg-contrast relative">
       
-      <div class="mb-8 border-b-4 border-primary pb-4">
-        <h2 class="text-4xl font-extrabold text-primary uppercase tracking-tighter">System Activity Logs</h2>
-        <p class="text-secondary font-medium mt-1">Track changes and actions within the system.</p>
+      <div class="mb-6 border-b-4 border-primary pb-4">
+        <h2 class="text-4xl font-extrabold text-primary uppercase tracking-tighter">Reports & System Logs</h2>
+        <p class="text-secondary font-medium mt-1">View usage reports and system activity.</p>
       </div>
 
-      <!-- Logs Table -->
-      <div class="bg-white border-2 border-primary shadow-[8px_8px_0px_0px_#296374]">
+      <!-- Tabs -->
+      <div class="flex mb-6 border-b-2 border-secondary/20">
+        <button id="tab-logs" onclick="switchTab('logs')" class="px-6 py-3 font-bold uppercase tracking-wide transition-all tab-active">
+            System Logs
+        </button>
+        <button id="tab-customer" onclick="switchTab('customer')" class="px-6 py-3 font-bold uppercase tracking-wide transition-all tab-inactive">
+            Customer Report
+        </button>
+        <button id="tab-trainer" onclick="switchTab('trainer')" class="px-6 py-3 font-bold uppercase tracking-wide transition-all tab-inactive">
+            Trainer Report
+        </button>
+      </div>
+
+      <!-- System Logs Section -->
+      <div id="section-logs" class="bg-white border-2 border-primary shadow-[8px_8px_0px_0px_#296374]">
         <div class="bg-secondary p-4 border-b-2 border-primary flex justify-between items-center">
           <h3 class="text-xl font-bold text-white uppercase tracking-wider flex items-center gap-2">
             <i data-lucide="file-clock" class="w-5 h-5 text-accent"></i> Recent Activity
           </h3>
-          <button onclick="loadLogs()" class="text-xs bg-accent text-primary px-3 py-1 font-bold uppercase hover:bg-white transition-colors">
-            Refresh
-          </button>
+          <button onclick="loadLogs()" class="text-xs bg-accent text-primary px-3 py-1 font-bold uppercase hover:bg-white transition-colors">Refresh</button>
         </div>
         <div class="overflow-x-auto">
           <table class="w-full text-left border-collapse">
@@ -175,11 +152,61 @@
               </tr>
             </thead>
             <tbody id="logs-table" class="divide-y-2 divide-gray-100 text-sm font-semibold text-secondary">
-              <tr>
-                <td colspan="3" class="p-4 text-center">Loading logs...</td>
-              </tr>
+              <tr><td colspan="3" class="p-4 text-center">Loading logs...</td></tr>
             </tbody>
           </table>
+        </div>
+      </div>
+
+      <!-- Customer Report Section -->
+      <div id="section-customer" class="hidden bg-white border-2 border-primary shadow-[8px_8px_0px_0px_#296374]">
+        <div class="bg-secondary p-4 border-b-2 border-primary flex justify-between items-center">
+            <h3 class="text-xl font-bold text-white uppercase tracking-wider flex items-center gap-2">
+              <i data-lucide="user" class="w-5 h-5 text-accent"></i> Customer Usage History
+            </h3>
+            <button onclick="loadCustomerReport()" class="text-xs bg-accent text-primary px-3 py-1 font-bold uppercase hover:bg-white transition-colors">Refresh</button>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="bg-gray-100 border-b-2 border-primary text-primary text-sm uppercase tracking-wider">
+                  <th class="p-4 font-extrabold">Customer Name</th>
+                  <th class="p-4 font-extrabold">Equipment Used</th>
+                  <th class="p-4 font-extrabold">Trainer</th>
+                  <th class="p-4 font-extrabold">Time Range</th>
+                  <th class="p-4 font-extrabold">Duration</th>
+                </tr>
+              </thead>
+              <tbody id="customer-report-table" class="divide-y-2 divide-gray-100 text-sm font-semibold text-secondary">
+                <tr><td colspan="5" class="p-4 text-center">Loading data...</td></tr>
+              </tbody>
+            </table>
+        </div>
+      </div>
+
+      <!-- Trainer Report Section -->
+      <div id="section-trainer" class="hidden bg-white border-2 border-primary shadow-[8px_8px_0px_0px_#296374]">
+        <div class="bg-secondary p-4 border-b-2 border-primary flex justify-between items-center">
+            <h3 class="text-xl font-bold text-white uppercase tracking-wider flex items-center gap-2">
+              <i data-lucide="dumbbell" class="w-5 h-5 text-accent"></i> Trainer Session History
+            </h3>
+            <button onclick="loadTrainerReport()" class="text-xs bg-accent text-primary px-3 py-1 font-bold uppercase hover:bg-white transition-colors">Refresh</button>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="bg-gray-100 border-b-2 border-primary text-primary text-sm uppercase tracking-wider">
+                  <th class="p-4 font-extrabold">Trainer Name</th>
+                  <th class="p-4 font-extrabold">Customer</th>
+                  <th class="p-4 font-extrabold">Equipment Used</th>
+                  <th class="p-4 font-extrabold">Time Range</th>
+                  <th class="p-4 font-extrabold">Duration</th>
+                </tr>
+              </thead>
+              <tbody id="trainer-report-table" class="divide-y-2 divide-gray-100 text-sm font-semibold text-secondary">
+                <tr><td colspan="5" class="p-4 text-center">Loading data...</td></tr>
+              </tbody>
+            </table>
         </div>
       </div>
 
@@ -200,6 +227,34 @@
     if(mobileMenuBtn) mobileMenuBtn.addEventListener('click', openSidebar);
     if(closeSidebarBtn) closeSidebarBtn.addEventListener('click', closeSidebar);
     if(mobileSidebar) mobileSidebar.addEventListener('click', (e) => { if(e.target === mobileSidebar) closeSidebar(); });
+
+    // Tab Switching Logic
+    function switchTab(tabName) {
+        // Hide all sections
+        document.getElementById('section-logs').classList.add('hidden');
+        document.getElementById('section-customer').classList.add('hidden');
+        document.getElementById('section-trainer').classList.add('hidden');
+        
+        // Reset tab styles
+        ['logs', 'customer', 'trainer'].forEach(t => {
+            const btn = document.getElementById(`tab-${t}`);
+            btn.classList.remove('tab-active');
+            btn.classList.add('tab-inactive');
+        });
+
+        // Show selected section
+        document.getElementById(`section-${tabName}`).classList.remove('hidden');
+        
+        // Activate selected tab
+        const activeBtn = document.getElementById(`tab-${tabName}`);
+        activeBtn.classList.remove('tab-inactive');
+        activeBtn.classList.add('tab-active');
+
+        // Load data if needed
+        if(tabName === 'logs') loadLogs();
+        if(tabName === 'customer') loadCustomerReport();
+        if(tabName === 'trainer') loadTrainerReport();
+    }
   </script>
   <script src="/js/config.js"></script>
   <script src="/js/auth.js"></script>

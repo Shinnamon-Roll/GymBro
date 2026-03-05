@@ -58,6 +58,7 @@ const TrainingSessions = sequelize.define(
   {
     id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
     sessionDate: { type: DataTypes.DATE, allowNull: false },
+    endDate: { type: DataTypes.DATE },
     customerId: { type: DataTypes.INTEGER, allowNull: false },
     trainerId: { type: DataTypes.INTEGER, allowNull: false },
     equipmentId: { type: DataTypes.INTEGER, allowNull: false },

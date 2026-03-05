@@ -40,6 +40,10 @@ app.get('/admin/sessions', (req, res) => {
     res.render('sessions');
 });
 
+app.get('/admin/logs', (req, res) => {
+    res.render('logs');
+});
+
 // User Routes
 app.get('/user/dashboard', (req, res) => {
     res.render('user/dashboard');

@@ -68,11 +68,27 @@ form.addEventListener("submit", async (e) => {
     trainerId: parseInt(trainerEl.value, 10),
     equipmentId: parseInt(equipmentEl.value, 10),
     sessionDate: new Date(scheduledEl.value).toISOString(),
+    duration: 60 // Default 1 hour for admin created sessions
   };
-  const r = await fetch(`${API}/sessions`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
-  if (r.ok) {
-    form.reset();
-    loadSessions();
+  
+  try {
+    const r = await fetch(`${API}/sessions`, { 
+        method: "POST", 
+        headers: { "Content-Type": "application/json" }, 
+        body: JSON.stringify(body) 
+    });
+    
+    if (r.ok) {
+        alert("Session created successfully!");
+        form.reset();
+        loadSessions();
+    } else {
+        const err = await r.json();
+        alert("Failed to create session: " + (err.error || "Unknown error"));
+    }
+  } catch (error) {
+    console.error("Error creating session:", error);
+    alert("Network error occurred.");
   }
 });
 

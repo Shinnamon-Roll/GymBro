@@ -258,6 +258,9 @@ app.delete("/api/equipments/:id", async (req, res) => {
 // Sessions API
 app.get("/api/sessions", async (req, res) => {
   const today = req.query.today === "true";
+  const all = req.query.all === "true";
+  const dateStr = req.query.date;
+
   try {
     const opts = {
       include: [
@@ -267,7 +270,20 @@ app.get("/api/sessions", async (req, res) => {
       ],
       order: [["sessionDate", "DESC"]],
     };
-    if (today) {
+
+    if (all) {
+      // No filter
+    } else if (dateStr) {
+      const start = new Date(dateStr);
+      start.setHours(0, 0, 0, 0);
+      const end = new Date(dateStr);
+      end.setHours(23, 59, 59, 999);
+      opts.where = {
+        sessionDate: {
+          [Sequelize.Op.between]: [start, end],
+        },
+      };
+    } else if (today) {
       const start = new Date();
       start.setHours(0, 0, 0, 0);
       const end = new Date();
@@ -287,7 +303,65 @@ app.get("/api/sessions", async (req, res) => {
 
 app.post("/api/sessions", async (req, res) => {
   try {
-    const created = await TrainingSessions.create(req.body);
+    const { sessionDate, duration, trainerId, equipmentId, customerId } = req.body;
+    
+    // Calculate endDate
+    const start = new Date(sessionDate);
+    let end;
+    if (req.body.endDate) {
+        end = new Date(req.body.endDate);
+    } else {
+        // Default 1 hour if not specified, or use duration (minutes)
+        const dur = duration ? parseInt(duration) : 60;
+        end = new Date(start.getTime() + dur * 60000);
+    }
+
+    // Check equipment status
+    if (equipmentId) {
+      const equipment = await GymEquipments.findByPk(equipmentId);
+      if (equipment && equipment.status === 'Maintenance') {
+        return res.status(400).json({ error: "This equipment is currently in maintenance and cannot be booked." });
+      }
+    }
+
+    // Check availability (Trainer)
+    // Overlap: (StartA < EndB) and (EndA > StartB)
+    const trainerConflict = await TrainingSessions.findOne({
+        where: {
+            trainerId,
+            [Sequelize.Op.and]: [
+                { sessionDate: { [Sequelize.Op.lt]: end } },
+                { endDate: { [Sequelize.Op.gt]: start } }
+            ]
+        }
+    });
+    
+    if (trainerConflict) {
+        return res.status(400).json({ error: "Trainer is not available at this time." });
+    }
+
+    // Check availability (Equipment)
+    const equipmentConflict = await TrainingSessions.findOne({
+        where: {
+            equipmentId,
+            [Sequelize.Op.and]: [
+                { sessionDate: { [Sequelize.Op.lt]: end } },
+                { endDate: { [Sequelize.Op.gt]: start } }
+            ]
+        }
+    });
+
+    if (equipmentConflict) {
+        return res.status(400).json({ error: "Equipment is already booked at this time." });
+    }
+
+    const created = await TrainingSessions.create({
+        sessionDate: start,
+        endDate: end,
+        customerId,
+        trainerId,
+        equipmentId
+    });
     logAction("Create Session", `Created session ID: ${created.id} (Customer: ${created.customerId}, Trainer: ${created.trainerId})`);
     res.status(201).json(created);
   } catch (e) {
