@@ -31,11 +31,16 @@ const row = (s) => {
   });
   actions.appendChild(del);
 
+  const date = new Date(s.sessionDate);
+  const dateStr = date.toLocaleDateString('th-TH', { timeZone: 'UTC', day: '2-digit', month: '2-digit', year: 'numeric' });
+  const timeStr = date.toLocaleTimeString('th-TH', { timeZone: 'UTC', hour: '2-digit', minute: '2-digit' });
+  const dateTimeStr = `${dateStr} ${timeStr}`;
+
   tr.innerHTML = `
     <td class="p-4 font-bold text-primary">${s.customer?.fullName || "Unknown"}</td>
     <td class="p-4 font-semibold">${s.trainer?.trainerName || "-"}</td>
     <td class="p-4">${s.equipment?.equipmentName || "Personal Training"}</td>
-    <td class="p-4 text-sm font-mono text-secondary">${new Date(s.sessionDate).toLocaleString()}</td>
+    <td class="p-4 text-sm font-mono text-secondary">${dateTimeStr}</td>
   `;
   tr.appendChild(actions);
   return tr;
@@ -63,11 +68,23 @@ const loadSessions = async () => {
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
+  
+  const scheduledDate = new Date(scheduledEl.value);
+  // Convert to fake UTC (preserve local time values)
+  const utcScheduled = new Date(Date.UTC(
+    scheduledDate.getFullYear(),
+    scheduledDate.getMonth(),
+    scheduledDate.getDate(),
+    scheduledDate.getHours(),
+    scheduledDate.getMinutes(),
+    0
+  ));
+
   const body = {
     customerId: parseInt(customerEl.value, 10),
     trainerId: parseInt(trainerEl.value, 10),
     equipmentId: parseInt(equipmentEl.value, 10),
-    sessionDate: new Date(scheduledEl.value).toISOString(),
+    sessionDate: utcScheduled.toISOString(),
     duration: 60 // Default 1 hour for admin created sessions
   };
   

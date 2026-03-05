@@ -35,6 +35,46 @@ async function logAction(action, details) {
   }
 }
 
+// Helper function to reorder IDs
+async function reorderIds(model) {
+  try {
+    const items = await model.findAll({ order: [['id', 'ASC']] });
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i];
+      const newId = i + 1;
+      if (item.id !== newId) {
+        const oldId = item.id;
+        
+        // Manual Cascade Update for TrainingSessions references
+        if (model === Customers) {
+          await TrainingSessions.update({ customerId: newId }, { where: { customerId: oldId } });
+        } else if (model === Trainers) {
+          await TrainingSessions.update({ trainerId: newId }, { where: { trainerId: oldId } });
+        } else if (model === GymEquipments) {
+          await TrainingSessions.update({ equipmentId: newId }, { where: { equipmentId: oldId } });
+        }
+        
+        // Update the item's ID using raw query
+        const tableName = model.tableName;
+        await sequelize.query(`UPDATE "${tableName}" SET id = ${newId} WHERE id = ${oldId}`);
+      }
+    }
+    
+    // Reset sequence
+    const tableName = model.tableName;
+    const seqName = `"${tableName}_id_seq"`;
+    
+    if (items.length > 0) {
+       await sequelize.query(`SELECT setval('${seqName}', ${items.length})`);
+    } else {
+       await sequelize.query(`SELECT setval('${seqName}', 1, false)`);
+    }
+    
+  } catch (err) {
+    console.error('Failed to reorder IDs:', err);
+  }
+}
+
 const app = express();
 // Allow CORS for local frontend
 app.use(
@@ -191,6 +231,7 @@ app.delete("/api/customers/:id", async (req, res) => {
     if (!row) return res.status(404).json({ error: "not_found" });
     const name = row.fullName;
     await row.destroy();
+    await reorderIds(Customers);
     logAction("Delete Customer", `Deleted customer: ${name} (ID: ${req.params.id})`);
     res.json({ id: parseInt(req.params.id, 10) });
   } catch (e) {
@@ -237,6 +278,7 @@ app.delete("/api/trainers/:id", async (req, res) => {
     if (!row) return res.status(404).json({ error: "not_found" });
     const name = row.trainerName;
     await row.destroy();
+    await reorderIds(Trainers);
     logAction("Delete Trainer", `Deleted trainer: ${name} (ID: ${req.params.id})`);
     res.json({ id: parseInt(req.params.id, 10) });
   } catch (e) {
@@ -283,6 +325,7 @@ app.delete("/api/equipments/:id", async (req, res) => {
     if (!row) return res.status(404).json({ error: "not_found" });
     const name = row.equipmentName;
     await row.destroy();
+    await reorderIds(GymEquipments);
     logAction("Delete Equipment", `Deleted equipment: ${name} (ID: ${req.params.id})`);
     res.json({ id: parseInt(req.params.id, 10) });
   } catch (e) {
@@ -310,9 +353,9 @@ app.get("/api/sessions", async (req, res) => {
       // No filter
     } else if (dateStr) {
       const start = new Date(dateStr);
-      start.setHours(0, 0, 0, 0);
+      start.setUTCHours(0, 0, 0, 0);
       const end = new Date(dateStr);
-      end.setHours(23, 59, 59, 999);
+      end.setUTCHours(23, 59, 59, 999);
       opts.where = {
         sessionDate: {
           [Sequelize.Op.between]: [start, end],
@@ -320,9 +363,9 @@ app.get("/api/sessions", async (req, res) => {
       };
     } else if (today) {
       const start = new Date();
-      start.setHours(0, 0, 0, 0);
+      start.setUTCHours(0, 0, 0, 0);
       const end = new Date();
-      end.setHours(23, 59, 59, 999);
+      end.setUTCHours(23, 59, 59, 999);
       opts.where = {
         sessionDate: {
           [Sequelize.Op.between]: [start, end],
@@ -352,12 +395,6 @@ app.post("/api/sessions", async (req, res) => {
         end = new Date(start.getTime() + dur * 60000);
     }
     
-    // Debugging Timezone Issue
-    console.log(`[Booking Debug] Input sessionDate: ${sessionDate}`);
-    console.log(`[Booking Debug] Calculated Start (UTC): ${start.toISOString()}`);
-    console.log(`[Booking Debug] Calculated End (UTC): ${end.toISOString()}`);
-    console.log(`[Booking Debug] Duration (ms): ${end.getTime() - start.getTime()}`);
-
     // Check equipment status
     if (equipmentId) {
       const equipment = await GymEquipments.findByPk(equipmentId);
@@ -368,18 +405,20 @@ app.post("/api/sessions", async (req, res) => {
 
     // Check availability (Trainer)
     // Overlap: (StartA < EndB) and (EndA > StartB)
-    const trainerConflict = await TrainingSessions.findOne({
-        where: {
-            trainerId,
-            [Sequelize.Op.and]: [
-                { sessionDate: { [Sequelize.Op.lt]: end } },
-                { endDate: { [Sequelize.Op.gt]: start } }
-            ]
+    if (trainerId) {
+        const trainerConflict = await TrainingSessions.findOne({
+            where: {
+                trainerId,
+                [Sequelize.Op.and]: [
+                    { sessionDate: { [Sequelize.Op.lt]: end } },
+                    { endDate: { [Sequelize.Op.gt]: start } }
+                ]
+            }
+        });
+        
+        if (trainerConflict) {
+            return res.status(400).json({ error: "Trainer is not available at this time." });
         }
-    });
-    
-    if (trainerConflict) {
-        return res.status(400).json({ error: "Trainer is not available at this time." });
     }
 
     // Check availability (Equipment)
@@ -416,6 +455,7 @@ app.delete("/api/sessions/:id", async (req, res) => {
     const row = await TrainingSessions.findByPk(req.params.id);
     if (!row) return res.status(404).json({ error: "not_found" });
     await row.destroy();
+    await reorderIds(TrainingSessions);
     logAction("Delete Session", `Deleted session ID: ${req.params.id}`);
     res.json({ id: parseInt(req.params.id, 10) });
   } catch (e) {
@@ -458,6 +498,72 @@ app.get("/api/summary", async (req, res) => {
 
 const portEnv = process.env.BACKEND_PORT || process.env.PORT;
 const port = portEnv ? parseInt(portEnv, 10) : 3000;
+
+// Auto Delete Expired Users
+async function checkExpiredMembers() {
+    try {
+        const now = new Date();
+        const expired = await Customers.findAll({
+            where: {
+                memberEndDate: {
+                    [Sequelize.Op.lt]: now
+                }
+            }
+        });
+        
+        if (expired.length > 0) {
+            console.log(`Checking Expired: Found ${expired.length} users. Deleting...`);
+            for (const user of expired) {
+                // Delete sessions first (manual cascade)
+                await TrainingSessions.destroy({ where: { customerId: user.id } });
+                // Delete user
+                await user.destroy();
+                logAction("Auto Delete Expired", `Deleted user ID: ${user.id} (${user.fullName})`);
+            }
+            // Reorder
+            await reorderIds(Customers);
+            console.log("Expired users cleanup complete.");
+        } else {
+            console.log("Checking Expired: No expired users found.");
+        }
+    } catch (err) {
+        console.error("Error in checkExpiredMembers:", err);
+    }
+}
+
+// Run on start
+checkExpiredMembers();
+// And every 24 hours
+setInterval(checkExpiredMembers, 24 * 60 * 60 * 1000);
+
+// Reports API
+app.get("/api/reports/customers", async (req, res) => {
+    try {
+        const data = await Customers.findAll();
+        const report = {
+            timestamp: new Date(),
+            count: data.length,
+            data
+        };
+        res.json(report);
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+app.get("/api/reports/trainers", async (req, res) => {
+    try {
+        const data = await Trainers.findAll();
+        const report = {
+            timestamp: new Date(),
+            count: data.length,
+            data
+        };
+        res.json(report);
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
 
 app.listen(port, () => {
   console.log(`Gymbro backend running on ${port}`);

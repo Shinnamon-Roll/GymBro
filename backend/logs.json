@@ -1,5 +1,165 @@
 [
   {
+    "timestamp": "2026-03-05T17:40:41.146Z",
+    "action": "Delete Session",
+    "details": "Deleted session ID: 2"
+  },
+  {
+    "timestamp": "2026-03-05T17:40:37.986Z",
+    "action": "Delete Session",
+    "details": "Deleted session ID: 4"
+  },
+  {
+    "timestamp": "2026-03-05T17:40:27.300Z",
+    "action": "Create Session",
+    "details": "Created session ID: 4 (Customer: 6, Trainer: 1)"
+  },
+  {
+    "timestamp": "2026-03-05T17:40:14.393Z",
+    "action": "Create Session",
+    "details": "Created session ID: 3 (Customer: 6, Trainer: 1)"
+  },
+  {
+    "timestamp": "2026-03-05T17:39:59.315Z",
+    "action": "Create Session",
+    "details": "Created session ID: 2 (Customer: 6, Trainer: 1)"
+  },
+  {
+    "timestamp": "2026-03-05T17:39:44.984Z",
+    "action": "Create Session",
+    "details": "Created session ID: 1 (Customer: 6, Trainer: 1)"
+  },
+  {
+    "timestamp": "2026-03-05T17:37:01.435Z",
+    "action": "Update Customer",
+    "details": "Updated customer ID: 3 (Old Name: mafia, New Name: mafia)"
+  },
+  {
+    "timestamp": "2026-03-05T17:30:13.776Z",
+    "action": "Create Trainer",
+    "details": "Created trainer: Korn (ID: 3)"
+  },
+  {
+    "timestamp": "2026-03-05T17:08:27.826Z",
+    "action": "Create Trainer",
+    "details": "Created trainer: Nop (ID: 2)"
+  },
+  {
+    "timestamp": "2026-03-05T17:07:45.309Z",
+    "action": "Create Trainer",
+    "details": "Created trainer: Shinnamon (ID: 1)"
+  },
+  {
+    "timestamp": "2026-03-05T17:07:28.170Z",
+    "action": "Delete Trainer",
+    "details": "Deleted trainer: Nop (ID: 1)"
+  },
+  {
+    "timestamp": "2026-03-05T17:07:27.296Z",
+    "action": "Delete Trainer",
+    "details": "Deleted trainer: Shinnamon (ID: 2)"
+  },
+  {
+    "timestamp": "2026-03-05T17:07:11.211Z",
+    "action": "Create Equipment",
+    "details": "Created equipment: Dumbel 25 lb (ID: 4)"
+  },
+  {
+    "timestamp": "2026-03-05T17:06:50.644Z",
+    "action": "Create Equipment",
+    "details": "Created equipment: Dumbel 40 lb (ID: 3)"
+  },
+  {
+    "timestamp": "2026-03-05T17:05:36.247Z",
+    "action": "Delete Equipment",
+    "details": "Deleted equipment: Walking (ID: 1)"
+  },
+  {
+    "timestamp": "2026-03-05T17:05:35.375Z",
+    "action": "Delete Equipment",
+    "details": "Deleted equipment: Bench (ID: 1)"
+  },
+  {
+    "timestamp": "2026-03-05T17:05:34.608Z",
+    "action": "Delete Equipment",
+    "details": "Deleted equipment: Dumbell (ID: 1)"
+  },
+  {
+    "timestamp": "2026-03-05T17:05:31.164Z",
+    "action": "Delete Session",
+    "details": "Deleted session ID: 1"
+  },
+  {
+    "timestamp": "2026-03-05T17:05:30.327Z",
+    "action": "Delete Session",
+    "details": "Deleted session ID: 1"
+  },
+  {
+    "timestamp": "2026-03-05T17:05:28.077Z",
+    "action": "Delete Session",
+    "details": "Deleted session ID: 3"
+  },
+  {
+    "timestamp": "2026-03-05T17:05:26.722Z",
+    "action": "Delete Session",
+    "details": "Deleted session ID: 4"
+  },
+  {
+    "timestamp": "2026-03-05T17:05:25.105Z",
+    "action": "Delete Session",
+    "details": "Deleted session ID: 1"
+  },
+  {
+    "timestamp": "2026-03-05T15:23:16.732Z",
+    "action": "Delete Session",
+    "details": "Deleted session ID: 6"
+  },
+  {
+    "timestamp": "2026-03-05T15:23:16.670Z",
+    "action": "Create Session",
+    "details": "Created session ID: 6 (Customer: 3, Trainer: 2)"
+  },
+  {
+    "timestamp": "2026-03-05T15:21:34.717Z",
+    "action": "Delete Session",
+    "details": "Deleted session ID: 20"
+  },
+  {
+    "timestamp": "2026-03-05T15:21:34.570Z",
+    "action": "Create Session",
+    "details": "Created session ID: 20 (Customer: 3, Trainer: 2)"
+  },
+  {
+    "timestamp": "2026-03-05T15:11:20.182Z",
+    "action": "Create Session",
+    "details": "Created session ID: 19 (Customer: 8, Trainer: 4)"
+  },
+  {
+    "timestamp": "2026-03-05T15:10:32.089Z",
+    "action": "Create Session",
+    "details": "Created session ID: 18 (Customer: 8, Trainer: 2)"
+  },
+  {
+    "timestamp": "2026-03-05T14:25:37.873Z",
+    "action": "Create Session",
+    "details": "Created session ID: 17 (Customer: 9, Trainer: 4)"
+  },
+  {
+    "timestamp": "2026-03-05T14:25:04.861Z",
+    "action": "Create Session",
+    "details": "Created session ID: 16 (Customer: 9, Trainer: 2)"
+  },
+  {
+    "timestamp": "2026-03-05T14:24:47.253Z",
+    "action": "Create Session",
+    "details": "Created session ID: 15 (Customer: 9, Trainer: 2)"
+  },
+  {
+    "timestamp": "2026-03-05T14:24:27.253Z",
+    "action": "Register User",
+    "details": "New user registered: doo hee (do@email.com)"
+  },
+  {
     "timestamp": "2026-03-05T13:18:21.364Z",
     "action": "Create Session",
     "details": "Created session ID: 14 (Customer: 6, Trainer: 4)"

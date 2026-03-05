@@ -60,7 +60,7 @@ const TrainingSessions = sequelize.define(
     sessionDate: { type: DataTypes.DATE, allowNull: false },
     endDate: { type: DataTypes.DATE },
     customerId: { type: DataTypes.INTEGER, allowNull: false },
-    trainerId: { type: DataTypes.INTEGER, allowNull: false },
+    trainerId: { type: DataTypes.INTEGER, allowNull: true },
     equipmentId: { type: DataTypes.INTEGER, allowNull: false },
   },
   { tableName: "TrainingSessions", timestamps: false, freezeTableName: true }

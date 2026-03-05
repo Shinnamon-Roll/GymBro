@@ -69,11 +69,15 @@ function renderSchedule(sessions) {
 
     sessions.forEach(s => {
         const date = new Date(s.sessionDate);
-        const endDate = s.endDate ? new Date(s.endDate) : new Date(date.getTime() + 60*60000);
+        // Interpret as UTC to match the "fake UTC" storage strategy
+        // This effectively ignores the browser's timezone
+        const dateStr = date.toLocaleDateString('th-TH', { timeZone: 'UTC', day: '2-digit', month: '2-digit', year: 'numeric' });
+        const timeStr = date.toLocaleTimeString('th-TH', { timeZone: 'UTC', hour: '2-digit', minute: '2-digit' });
         
-        const dateStr = date.toLocaleDateString('th-TH', { day: '2-digit', month: '2-digit', year: 'numeric' });
-        const timeStr = date.toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' });
-        const endTimeStr = endDate.toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' });
+        // Calculate End Time from endDate if exists, or assume 1 hour
+        const endDate = s.endDate ? new Date(s.endDate) : new Date(date.getTime() + 60*60000);
+        const endTimeStr = endDate.toLocaleTimeString('th-TH', { timeZone: 'UTC', hour: '2-digit', minute: '2-digit' });
+        
         const dateTimeStr = `${dateStr} <br/> ${timeStr} - ${endTimeStr}`;
 
         // Check if this session belongs to the current user
@@ -90,14 +94,24 @@ function renderSchedule(sessions) {
         const equipName = s.equipment ? s.equipment.equipmentName : '<span class="text-gray-400">General Workout</span>';
         const trainerName = s.trainer ? s.trainer.trainerName : '<span class="text-gray-400">-</span>';
 
+        let actionCell = '';
+        if (isMySession) {
+            actionCell = `
+                <div class="flex flex-col items-center gap-1">
+                    <span class="bg-accent text-primary px-3 py-1 text-xs font-black uppercase tracking-wider shadow-sm">My Booking</span>
+                    <button onclick="window.cancelSession(${s.id})" class="text-xs text-red-500 hover:text-red-700 font-bold underline cursor-pointer">Cancel</button>
+                </div>
+            `;
+        } else {
+            actionCell = '<span class="bg-secondary text-white px-3 py-1 text-xs font-bold uppercase tracking-wider opacity-80">Occupied</span>';
+        }
+
         tr.innerHTML = `
             <td class="p-4 font-bold text-primary font-mono text-sm">${dateTimeStr}</td>
             <td class="p-4 font-semibold text-secondary">${equipName}</td>
             <td class="p-4 font-semibold">${trainerName}</td>
             <td class="p-4 text-center">
-                ${isMySession 
-                    ? '<span class="bg-accent text-primary px-3 py-1 text-xs font-black uppercase tracking-wider shadow-sm">My Booking</span>' 
-                    : '<span class="bg-secondary text-white px-3 py-1 text-xs font-bold uppercase tracking-wider opacity-80">Occupied</span>'}
+                ${actionCell}
             </td>
         `;
         tbody.appendChild(tr);
@@ -125,7 +139,7 @@ function populateSelects() {
     const trainerSelect = document.getElementById('book-trainer');
     const equipmentSelect = document.getElementById('book-equipment');
     
-    trainerSelect.innerHTML = '<option value="">-- Select Trainer --</option>';
+    trainerSelect.innerHTML = '<option value="">-- No Trainer --</option>';
     allTrainers.forEach(t => {
         trainerSelect.innerHTML += `<option value="${t.id}">${t.trainerName} (${t.specialty || 'General'})</option>`;
     });
@@ -239,15 +253,22 @@ async function handleBookingSubmit(e) {
     }
 
     const start = new Date(`${dateVal}T${timeVal}`);
-    // Explicitly handle timezone to avoid double conversion issues
-    // Just send the ISO string which includes the timezone offset (e.g., 2023-01-01T10:00:00.000+07:00)
-    // or convert to UTC correctly. 
-    // Browser's toISOString() converts to UTC (e.g. 03:00Z).
-    // If backend treats 03:00Z as 03:00 Local, then we have a problem.
-    // But backend parses ISO string.
     
+    // Convert to fake UTC (preserve local time values)
+    // Example: Input 09:00 Local -> Create Date 09:00 UTC
+    // This ensures backend receives "09:00" in the ISO string (e.g., ...T09:00:00.000Z)
+    // And backend stores 09:00. Frontend reads 09:00.
+    const utcStart = new Date(Date.UTC(
+        start.getFullYear(),
+        start.getMonth(),
+        start.getDate(),
+        start.getHours(),
+        start.getMinutes(),
+        0
+    ));
+
     const payload = {
-        sessionDate: start.toISOString(),
+        sessionDate: utcStart.toISOString(),
         duration: parseInt(durationVal),
         trainerId: parseInt(trainerId),
         equipmentId: parseInt(equipmentId),
@@ -274,3 +295,25 @@ async function handleBookingSubmit(e) {
         alert("Network error occurred.");
     }
 }
+
+// Global Cancel Function
+window.cancelSession = async function(id) {
+    if (!confirm("Are you sure you want to cancel this booking?")) return;
+    
+    try {
+        const res = await fetch(`${API}/sessions/${id}`, {
+            method: 'DELETE'
+        });
+        
+        if (res.ok) {
+            alert("Booking cancelled successfully.");
+            fetchSchedule(); // Refresh list
+        } else {
+            const data = await res.json();
+            alert("Failed to cancel: " + (data.error || "Unknown error"));
+        }
+    } catch (err) {
+        console.error("Error cancelling session:", err);
+        alert("Error cancelling session.");
+    }
+};

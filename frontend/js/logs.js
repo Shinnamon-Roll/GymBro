@@ -11,20 +11,22 @@ let filterDate = null;
 const formatDate = (dateStr) => {
     if (!dateStr) return "-";
     const date = new Date(dateStr);
-    return date.toLocaleDateString('th-TH', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    // Use UTC to match storage strategy
+    return date.toLocaleDateString('th-TH', { timeZone: 'UTC', day: '2-digit', month: '2-digit', year: 'numeric' });
 };
 
 const formatTime = (dateStr) => {
     if (!dateStr) return "-";
     const date = new Date(dateStr);
-    return date.toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' });
+    // Use UTC to match storage strategy
+    return date.toLocaleTimeString('th-TH', { timeZone: 'UTC', hour: '2-digit', minute: '2-digit' });
 };
 
 const calcDuration = (startStr, endStr) => {
     if (!startStr || !endStr) return "-";
     const start = new Date(startStr);
     const end = new Date(endStr);
-    const diffMs = end - start;
+    const diffMs = end.getTime() - start.getTime(); // Use .getTime() to be safe
     if (diffMs < 0) return "-";
     
     const diffMins = Math.floor(diffMs / 60000);
@@ -59,11 +61,21 @@ function refreshCurrentTab() {
 }
 
 // System Logs Logic
+// Note: System Logs are from JSON file which might use local server time (with Z or without).
+// If they are ISO strings from Date().toISOString(), they are UTC.
+// Let's assume standard ISO UTC for logs too.
 const logRow = (log) => {
   const tr = document.createElement("tr");
   tr.className = "hover:bg-contrast transition-colors border-b border-gray-100";
   
   const date = new Date(log.timestamp);
+  // Logs might be different, but let's try UTC first. If logs look wrong, we can revert.
+  // Actually, logAction uses new Date().toISOString() in backend. So it IS UTC.
+  // So we should display it in Local Time (because it's a timestamp of an action, not a "Booking Slot").
+  // Booking Slot = "I want 9:00". Action Log = "I did this at X time".
+  // Action Log should reflect User's Local Time.
+  // So KEEP Logs as is (Browser Local).
+  
   const dateStr = date.toLocaleDateString('th-TH', { day: '2-digit', month: '2-digit', year: 'numeric' });
   const timeStr = date.toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 

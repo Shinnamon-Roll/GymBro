@@ -26,8 +26,8 @@ async function loadProfile() {
         setText('profile-type', user.memberType || 'Standard');
         setText('profile-level', user.memberLevel || 'Beginner');
         
-        if (user.createdAt) {
-            const since = new Date(user.createdAt).toLocaleDateString('th-TH', { dateStyle: 'long' });
+        if (user.memberStartDate) {
+            const since = new Date(user.memberStartDate).toLocaleDateString('th-TH', { dateStyle: 'long' });
             setText('profile-since', since);
         }
         
