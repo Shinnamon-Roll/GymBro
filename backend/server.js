@@ -6,16 +6,15 @@ const sequelize = require("./db");
 const { Customers, Trainers, GymEquipments, TrainingSessions } = sequelize;
 
 const app = express();
-// CORS for Cloudflare Frontend
-const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || "https://gymbro-co9.pages.dev";
+// Allow CORS for local frontend
 app.use(
   cors({
-    origin: FRONTEND_ORIGIN,
+    origin: "http://localhost:5500",
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type"],
   })
 );
-app.options("*", cors({ origin: FRONTEND_ORIGIN }));
+app.options("*", cors({ origin: "http://localhost:5500" }));
 app.use(express.json());
 
 // Sync database

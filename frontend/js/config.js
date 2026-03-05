@@ -1,2 +1,2 @@
-// Backend API base URL on Ruk-com
-window.API = "https://env-2210254.proen.app.ruk-com.cloud/api";
+// Backend API base URL (Local)
+window.API = "http://localhost:3000/api";
