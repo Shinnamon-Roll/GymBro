@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function fetchSchedule() {
     try {
-        const res = await fetch(`${window.API}/sessions`); // Get all sessions
+        const res = await fetch(`${window.API}/sessions?today=true`); // Get today's sessions only
         if (!res.ok) throw new Error('Failed to fetch schedule');
         const sessions = await res.json();
         renderSchedule(sessions);

@@ -38,4 +38,11 @@ const load = async () => {
   renderSessions(sessions);
 };
 
+const newBookingBtn = document.getElementById('btn-new-booking');
+if (newBookingBtn) {
+  newBookingBtn.addEventListener('click', () => {
+    window.location.href = '/admin/sessions';
+  });
+}
+
 load();

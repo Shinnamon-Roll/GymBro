@@ -75,16 +75,34 @@ tbody.addEventListener("click", async (e) => {
     if (r.ok) load();
   }
   if (action === "edit") {
-    const name = prompt("ชื่อ", "");
-    const email = prompt("อีเมล", "");
-    const phone = prompt("โทรศัพท์", "");
-    if (name && email) {
-      const r = await fetch(`${API}/customers/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ fullName: name, email, phone }),
+    try {
+      // 1. Fetch current data
+      const currentData = await fetch(`${API}/customers/${id}`).then(r => {
+        if (!r.ok) throw new Error("Failed to fetch customer");
+        return r.json();
       });
-      if (r.ok) load();
+
+      // 2. Prompt with pre-filled values
+      const name = prompt("ชื่อ", currentData.fullName || "");
+      if (name === null) return; // User cancelled
+
+      const email = prompt("อีเมล", currentData.email || "");
+      if (email === null) return;
+
+      const phone = prompt("โทรศัพท์", currentData.phone || "");
+      if (phone === null) return;
+
+      if (name && email) {
+        const r = await fetch(`${API}/customers/${id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ fullName: name, email, phone }),
+        });
+        if (r.ok) load();
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error fetching customer data");
     }
   }
 });

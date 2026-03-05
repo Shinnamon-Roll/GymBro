@@ -1,4 +1,13 @@
 // Auth Logic
+console.log("Auth script loaded");
+
+// Make logout globally available immediately
+window.logout = function() {
+    if (confirm('Are you sure you want to log out?')) {
+        localStorage.removeItem('gymbro_user');
+        window.location.href = '/login';
+    }
+};
 
 // Check if we are on the login page
 const isLoginPage = window.location.pathname === '/login' || window.location.pathname === '/';
@@ -77,13 +86,8 @@ if (loginForm) {
     });
 }
 
-// Logout Function (Global)
-window.logout = function() {
-    if (confirm('Are you sure you want to log out?')) {
-        localStorage.removeItem('gymbro_user');
-        window.location.href = '/login';
-    }
-};
+// Logout Function (Global) - Moved to top
+// window.logout = function() { ... }
 
 // UI Helper: Display User Info
 function displayUserInfo() {

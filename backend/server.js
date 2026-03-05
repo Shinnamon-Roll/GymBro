@@ -4,6 +4,32 @@ const cors = require("cors");
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("./db");
 const { Customers, Trainers, GymEquipments, TrainingSessions } = sequelize;
+const fs = require('fs');
+const path = require('path');
+
+const LOGS_FILE = path.join(__dirname, 'logs.json');
+
+// Helper function to log actions
+function logAction(action, details) {
+  try {
+    const timestamp = new Date().toISOString();
+    const logEntry = { timestamp, action, details };
+    
+    let logs = [];
+    if (fs.existsSync(LOGS_FILE)) {
+      const data = fs.readFileSync(LOGS_FILE, 'utf8');
+      logs = JSON.parse(data || '[]');
+    }
+    
+    logs.unshift(logEntry); // Add new log to the beginning
+    // Optional: Limit logs to prevent file from growing indefinitely (e.g., last 1000 logs)
+    if (logs.length > 1000) logs = logs.slice(0, 1000);
+    
+    fs.writeFileSync(LOGS_FILE, JSON.stringify(logs, null, 2));
+  } catch (err) {
+    console.error('Failed to write log:', err);
+  }
+}
 
 const app = express();
 // Allow CORS for local frontend
@@ -22,7 +48,7 @@ app.post("/api/login", async (req, res) => {
   const { email, phone } = req.body;
   
   // Hardcoded Admin Check
-  if ((email === "admin@gymbro.com" && phone === "123456") || (email === "chimonkung0@gmail.com" && phone === "0810154373")) {
+  if ((email === "admin@gymbro.com" && phone === "123456")) {
     return res.json({
       role: "admin",
       user: {
@@ -61,6 +87,21 @@ app.get("/api/health", async (req, res) => {
   }
 });
 
+// Logs API
+app.get("/api/logs", (req, res) => {
+  try {
+    if (fs.existsSync(LOGS_FILE)) {
+      const data = fs.readFileSync(LOGS_FILE, 'utf8');
+      const logs = JSON.parse(data || '[]');
+      res.json(logs);
+    } else {
+      res.json([]);
+    }
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
 // Customers API
 app.get("/api/customers", async (req, res) => {
   try {
@@ -84,6 +125,7 @@ app.get("/api/customers/:id", async (req, res) => {
 app.post("/api/customers", async (req, res) => {
   try {
     const created = await Customers.create(req.body);
+    logAction("Create Customer", `Created customer: ${created.fullName} (ID: ${created.id})`);
     res.status(201).json(created);
   } catch (e) {
     res.status(500).json({ error: e.message });
@@ -94,7 +136,9 @@ app.put("/api/customers/:id", async (req, res) => {
   try {
     const row = await Customers.findByPk(req.params.id);
     if (!row) return res.status(404).json({ error: "not_found" });
+    const oldName = row.fullName;
     await row.update(req.body);
+    logAction("Update Customer", `Updated customer ID: ${row.id} (Old Name: ${oldName}, New Name: ${row.fullName})`);
     res.json(row);
   } catch (e) {
     res.status(500).json({ error: e.message });
@@ -105,7 +149,9 @@ app.delete("/api/customers/:id", async (req, res) => {
   try {
     const row = await Customers.findByPk(req.params.id);
     if (!row) return res.status(404).json({ error: "not_found" });
+    const name = row.fullName;
     await row.destroy();
+    logAction("Delete Customer", `Deleted customer: ${name} (ID: ${req.params.id})`);
     res.json({ id: parseInt(req.params.id, 10) });
   } catch (e) {
     res.status(500).json({ error: e.message });
@@ -125,6 +171,7 @@ app.get("/api/trainers", async (req, res) => {
 app.post("/api/trainers", async (req, res) => {
   try {
     const created = await Trainers.create(req.body);
+    logAction("Create Trainer", `Created trainer: ${created.trainerName} (ID: ${created.id})`);
     res.status(201).json(created);
   } catch (e) {
     res.status(500).json({ error: e.message });
@@ -135,7 +182,9 @@ app.put("/api/trainers/:id", async (req, res) => {
   try {
     const row = await Trainers.findByPk(req.params.id);
     if (!row) return res.status(404).json({ error: "not_found" });
+    const oldName = row.trainerName;
     await row.update(req.body);
+    logAction("Update Trainer", `Updated trainer ID: ${row.id} (Old Name: ${oldName}, New Name: ${row.trainerName})`);
     res.json(row);
   } catch (e) {
     res.status(500).json({ error: e.message });
@@ -146,7 +195,9 @@ app.delete("/api/trainers/:id", async (req, res) => {
   try {
     const row = await Trainers.findByPk(req.params.id);
     if (!row) return res.status(404).json({ error: "not_found" });
+    const name = row.trainerName;
     await row.destroy();
+    logAction("Delete Trainer", `Deleted trainer: ${name} (ID: ${req.params.id})`);
     res.json({ id: parseInt(req.params.id, 10) });
   } catch (e) {
     res.status(500).json({ error: e.message });
@@ -166,6 +217,7 @@ app.get("/api/equipments", async (req, res) => {
 app.post("/api/equipments", async (req, res) => {
   try {
     const created = await GymEquipments.create(req.body);
+    logAction("Create Equipment", `Created equipment: ${created.equipmentName} (ID: ${created.id})`);
     res.status(201).json(created);
   } catch (e) {
     res.status(500).json({ error: e.message });
@@ -176,7 +228,9 @@ app.put("/api/equipments/:id", async (req, res) => {
   try {
     const row = await GymEquipments.findByPk(req.params.id);
     if (!row) return res.status(404).json({ error: "not_found" });
+    const oldName = row.equipmentName;
     await row.update(req.body);
+    logAction("Update Equipment", `Updated equipment ID: ${row.id} (Old Name: ${oldName}, New Name: ${row.equipmentName})`);
     res.json(row);
   } catch (e) {
     res.status(500).json({ error: e.message });
@@ -187,7 +241,9 @@ app.delete("/api/equipments/:id", async (req, res) => {
   try {
     const row = await GymEquipments.findByPk(req.params.id);
     if (!row) return res.status(404).json({ error: "not_found" });
+    const name = row.equipmentName;
     await row.destroy();
+    logAction("Delete Equipment", `Deleted equipment: ${name} (ID: ${req.params.id})`);
     res.json({ id: parseInt(req.params.id, 10) });
   } catch (e) {
     res.status(500).json({ error: e.message });
@@ -227,6 +283,7 @@ app.get("/api/sessions", async (req, res) => {
 app.post("/api/sessions", async (req, res) => {
   try {
     const created = await TrainingSessions.create(req.body);
+    logAction("Create Session", `Created session ID: ${created.id} (Customer: ${created.customerId}, Trainer: ${created.trainerId})`);
     res.status(201).json(created);
   } catch (e) {
     res.status(500).json({ error: e.message });
@@ -238,6 +295,7 @@ app.delete("/api/sessions/:id", async (req, res) => {
     const row = await TrainingSessions.findByPk(req.params.id);
     if (!row) return res.status(404).json({ error: "not_found" });
     await row.destroy();
+    logAction("Delete Session", `Deleted session ID: ${req.params.id}`);
     res.json({ id: parseInt(req.params.id, 10) });
   } catch (e) {
     res.status(500).json({ error: e.message });
@@ -273,6 +331,10 @@ app.get("/api/summary", async (req, res) => {
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
+});
+
+app.get("/admin/logs", (req, res) => {
+  res.render("logs");
 });
 
 const portEnv = process.env.BACKEND_PORT || process.env.PORT;

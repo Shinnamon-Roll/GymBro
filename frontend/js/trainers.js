@@ -58,15 +58,31 @@ tbody.addEventListener("click", async (e) => {
     if (r.ok) load();
   }
   if (action === "edit") {
-    const name = prompt("ชื่อ", "");
-    const specialty = prompt("ความเชี่ยวชาญ", "");
-    if (name) {
-      const r = await fetch(`${API}/trainers/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ trainerName: name, specialty }),
+    try {
+      // 1. Fetch current data
+      const currentData = await fetch(`${API}/trainers/${id}`).then(r => {
+        if (!r.ok) throw new Error("Failed to fetch trainer");
+        return r.json();
       });
-      if (r.ok) load();
+
+      // 2. Prompt with pre-filled values
+      const name = prompt("ชื่อ", currentData.trainerName || "");
+      if (name === null) return;
+
+      const specialty = prompt("ความเชี่ยวชาญ", currentData.specialty || "");
+      if (specialty === null) return;
+
+      if (name) {
+        const r = await fetch(`${API}/trainers/${id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ trainerName: name, specialty }),
+        });
+        if (r.ok) load();
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error fetching trainer data");
     }
   }
 });
