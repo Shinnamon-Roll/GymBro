@@ -21,7 +21,7 @@ function renderSchedule(sessions) {
     tbody.innerHTML = '';
 
     if (sessions.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center font-bold text-secondary">No bookings found.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center font-bold text-secondary">No bookings found today.</td></tr>`;
         return;
     }
 
@@ -35,8 +35,6 @@ function renderSchedule(sessions) {
         const dateTimeStr = `${dateStr} ${timeStr}`;
 
         // Check if this session belongs to the current user
-        // Note: Backend response structure depends on Sequelize. 
-        // Usually customerId is present if defined in model, or accessed via customer.id
         const customerId = s.customerId || (s.customer ? s.customer.id : null);
         const isMySession = customerId === myId;
         

@@ -1,1 +1,7 @@
-[]
+[
+  {
+    "timestamp": "2026-03-05T07:13:22.607Z",
+    "action": "Create Customer",
+    "details": "Created customer: Tianhom Mayu (ID: 7)"
+  }
+]
