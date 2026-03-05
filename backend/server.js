@@ -107,6 +107,41 @@ app.get("/api/logs", async (req, res) => {
   }
 });
 
+app.post("/api/register", async (req, res) => {
+  try {
+    const { fullName, email, phone } = req.body;
+    
+    // Check if email already exists
+    const existing = await Customers.findOne({ where: { email } });
+    if (existing) {
+        return res.status(400).json({ error: "Email already registered" });
+    }
+
+    // Fixed default values as per requirement
+    const memberType = "Member";
+    const memberLevel = "Beginner"; // Fixed value
+    const memberStartDate = new Date();
+    // Default 1 year membership
+    const memberEndDate = new Date();
+    memberEndDate.setFullYear(memberEndDate.getFullYear() + 1);
+
+    const created = await Customers.create({
+        fullName,
+        email,
+        phone,
+        memberType,
+        memberLevel,
+        memberStartDate,
+        memberEndDate
+    });
+
+    logAction("Register User", `New user registered: ${created.fullName} (${created.email})`);
+    res.status(201).json(created);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
 // Customers API
 app.get("/api/customers", async (req, res) => {
   try {
@@ -313,8 +348,15 @@ app.post("/api/sessions", async (req, res) => {
     } else {
         // Default 1 hour if not specified, or use duration (minutes)
         const dur = duration ? parseInt(duration) : 60;
+        // Fix: Ensure we are using the timestamp value for calculation to avoid timezone shifts during setHours/etc
         end = new Date(start.getTime() + dur * 60000);
     }
+    
+    // Debugging Timezone Issue
+    console.log(`[Booking Debug] Input sessionDate: ${sessionDate}`);
+    console.log(`[Booking Debug] Calculated Start (UTC): ${start.toISOString()}`);
+    console.log(`[Booking Debug] Calculated End (UTC): ${end.toISOString()}`);
+    console.log(`[Booking Debug] Duration (ms): ${end.getTime() - start.getTime()}`);
 
     // Check equipment status
     if (equipmentId) {

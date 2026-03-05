@@ -4,6 +4,8 @@ const API = window.API;
 const logsTbody = document.getElementById("logs-table");
 const customerTbody = document.getElementById("customer-report-table");
 const trainerTbody = document.getElementById("trainer-report-table");
+let currentTab = 'logs';
+let filterDate = null;
 
 // Helper to format date/time
 const formatDate = (dateStr) => {
@@ -32,6 +34,29 @@ const calcDuration = (startStr, endStr) => {
     if (hours > 0) return `${hours} hr ${mins} min`;
     return `${mins} min`;
 };
+
+// Filter Functions
+function applyDateFilter() {
+    const dateVal = document.getElementById('filter-date').value;
+    if (dateVal) {
+        filterDate = dateVal;
+    } else {
+        filterDate = null;
+    }
+    refreshCurrentTab();
+}
+
+function clearDateFilter() {
+    document.getElementById('filter-date').value = '';
+    filterDate = null;
+    refreshCurrentTab();
+}
+
+function refreshCurrentTab() {
+    if (currentTab === 'logs') loadLogs();
+    else if (currentTab === 'customer') loadCustomerReport();
+    else if (currentTab === 'trainer') loadTrainerReport();
+}
 
 // System Logs Logic
 const logRow = (log) => {
@@ -65,14 +90,29 @@ const logRow = (log) => {
 const loadLogs = async () => {
   try {
     logsTbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center">Loading logs...</td></tr>';
+    
+    // Logs API doesn't support date filter yet in backend, but let's implement if needed.
+    // Assuming backend /api/logs returns all, we might filter client side for JSON file logs
+    // Or just fetch all for now. The prompt asked for Date Filter in "Report" (Customer/Trainer).
+    // But let's support it if possible.
+    // Since logs are JSON file, we can't easily query param filter without backend change.
+    // I'll skip date filter for System Logs unless user insisted on "Report (Customer and Trainer)".
+    // User said: "ต้องการให้หน้า Report (ทั้งส่วนของ Customer และ Trainer) สามารถกรองดูข้อมูลตามวันที่ระบุได้"
+    // So System Logs is optional? I will filter client side if date is set.
+    
     const logs = await fetch(`${API}/logs`).then((r) => r.json());
     logsTbody.innerHTML = "";
     
-    if (logs.length === 0) {
+    let filteredLogs = logs;
+    if (filterDate) {
+        filteredLogs = logs.filter(l => l.timestamp.startsWith(filterDate));
+    }
+
+    if (filteredLogs.length === 0) {
       logsTbody.innerHTML = `<tr><td colspan="3" class="p-4 text-center text-gray-400 italic">No logs found.</td></tr>`;
       return;
     }
-    logs.forEach((log) => logsTbody.appendChild(logRow(log)));
+    filteredLogs.forEach((log) => logsTbody.appendChild(logRow(log)));
   } catch (error) {
     console.error("Error loading logs:", error);
     logsTbody.innerHTML = `<tr><td colspan="3" class="p-4 text-center text-red-500 font-bold">Error loading logs.</td></tr>`;
@@ -107,7 +147,13 @@ const customerRow = (session) => {
 const loadCustomerReport = async () => {
     try {
         customerTbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center">Loading data...</td></tr>';
-        const sessions = await fetch(`${API}/sessions?all=true`).then(r => r.json());
+        
+        let url = `${API}/sessions?all=true`;
+        if (filterDate) {
+            url = `${API}/sessions?date=${filterDate}`;
+        }
+        
+        const sessions = await fetch(url).then(r => r.json());
         customerTbody.innerHTML = "";
 
         if (sessions.length === 0) {
@@ -150,7 +196,13 @@ const trainerRow = (session) => {
 const loadTrainerReport = async () => {
     try {
         trainerTbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center">Loading data...</td></tr>';
-        const sessions = await fetch(`${API}/sessions?all=true`).then(r => r.json());
+        
+        let url = `${API}/sessions?all=true`;
+        if (filterDate) {
+            url = `${API}/sessions?date=${filterDate}`;
+        }
+
+        const sessions = await fetch(url).then(r => r.json());
         trainerTbody.innerHTML = "";
 
         if (sessions.length === 0) {
@@ -169,8 +221,33 @@ const loadTrainerReport = async () => {
 window.loadLogs = loadLogs;
 window.loadCustomerReport = loadCustomerReport;
 window.loadTrainerReport = loadTrainerReport;
+window.applyDateFilter = applyDateFilter;
+window.clearDateFilter = clearDateFilter;
+window.switchTab = (tabName) => {
+    // Hide all sections
+    document.getElementById('section-logs').classList.add('hidden');
+    document.getElementById('section-customer').classList.add('hidden');
+    document.getElementById('section-trainer').classList.add('hidden');
+    
+    // Reset tab styles
+    ['logs', 'customer', 'trainer'].forEach(t => {
+        const btn = document.getElementById(`tab-${t}`);
+        btn.classList.remove('tab-active');
+        btn.classList.add('tab-inactive');
+    });
+
+    // Show selected section
+    document.getElementById(`section-${tabName}`).classList.remove('hidden');
+    
+    // Activate selected tab
+    const activeBtn = document.getElementById(`tab-${tabName}`);
+    activeBtn.classList.remove('tab-inactive');
+    activeBtn.classList.add('tab-active');
+
+    currentTab = tabName;
+    refreshCurrentTab();
+};
 
 document.addEventListener('DOMContentLoaded', () => {
     loadLogs();
-    // Preload others or wait for tab click? Wait for tab click is fine.
 });

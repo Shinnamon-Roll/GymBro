@@ -1,0 +1,134 @@
+
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GymBro • Register</title>
+  
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#0C2C55',
+            secondary: '#296374',
+            accent: '#629FAD',
+            contrast: '#EDEDCE',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          borderRadius: {
+            DEFAULT: '0px',
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+  </style>
+</head>
+<body class="bg-primary flex items-center justify-center min-h-screen p-4">
+
+  <div class="w-full max-w-md bg-contrast shadow-[8px_8px_0px_0px_#629FAD] border-4 border-secondary p-8 relative">
+    
+    <div class="absolute -top-6 -left-6 bg-accent text-primary px-4 py-2 font-black text-xl border-2 border-primary shadow-[4px_4px_0px_0px_#0C2C55]">
+      REGISTER
+    </div>
+
+    <div class="text-center mb-6">
+      <h1 class="text-3xl font-extrabold text-primary uppercase italic tracking-tighter mb-2">Gym<span class="text-secondary">Bro</span></h1>
+      <p class="text-secondary font-bold text-xs uppercase tracking-widest">Join Our Community</p>
+    </div>
+
+    <form id="register-form" class="space-y-4">
+      <div>
+        <label for="fullName" class="block text-primary font-bold uppercase text-xs mb-1">Full Name</label>
+        <input type="text" id="fullName" required 
+          class="w-full bg-white border-2 border-primary p-2 font-bold focus:outline-none focus:border-accent text-primary"
+          placeholder="John Doe">
+      </div>
+
+      <div>
+        <label for="email" class="block text-primary font-bold uppercase text-xs mb-1">Email Address</label>
+        <input type="email" id="email" required 
+          class="w-full bg-white border-2 border-primary p-2 font-bold focus:outline-none focus:border-accent text-primary"
+          placeholder="member@example.com">
+      </div>
+
+      <div>
+        <label for="phone" class="block text-primary font-bold uppercase text-xs mb-1">Phone Number (Password)</label>
+        <input type="tel" id="phone" required 
+          class="w-full bg-white border-2 border-primary p-2 font-bold focus:outline-none focus:border-accent text-primary"
+          placeholder="0812345678">
+      </div>
+
+      <!-- Hidden Fields managed by Backend -->
+      <!-- Member Level is fixed to 'Beginner' by backend -->
+      
+      <div id="error-message" class="hidden text-red-600 font-bold text-xs text-center bg-red-100 p-2 border-l-4 border-red-600">
+        Registration failed.
+      </div>
+
+      <button type="submit" 
+        class="w-full bg-primary text-contrast font-black uppercase py-3 hover:bg-secondary hover:shadow-[4px_4px_0px_0px_#629FAD] transition-all active:translate-y-1 active:shadow-none border-2 border-transparent flex items-center justify-center gap-2 text-md tracking-wider mt-4">
+        <i data-lucide="user-plus" class="w-5 h-5"></i> Create Account
+      </button>
+    </form>
+    
+    <div class="mt-4 text-center">
+      <a href="/login" class="text-xs text-secondary font-bold uppercase hover:text-primary hover:underline">
+        Already have an account? Login here.
+      </a>
+    </div>
+  </div>
+
+  <script src="/js/config.js"></script>
+  <script>
+    lucide.createIcons();
+    
+    const form = document.getElementById('register-form');
+    const errorMsg = document.getElementById('error-message');
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        errorMsg.classList.add('hidden');
+        
+        const fullName = document.getElementById('fullName').value;
+        const email = document.getElementById('email').value;
+        const phone = document.getElementById('phone').value;
+
+        try {
+            const res = await fetch(`${window.API}/register`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ fullName, email, phone })
+            });
+
+            if (res.ok) {
+                alert('Registration successful! Please login.');
+                window.location.href = '/login';
+            } else {
+                const data = await res.json();
+                errorMsg.textContent = data.error || 'Registration failed.';
+                errorMsg.classList.remove('hidden');
+            }
+        } catch (error) {
+            console.error(error);
+            errorMsg.textContent = 'Network error. Please try again.';
+            errorMsg.classList.remove('hidden');
+        }
+    });
+  </script>
+</body>
+</html>

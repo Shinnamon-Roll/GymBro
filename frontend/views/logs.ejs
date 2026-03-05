@@ -122,16 +122,30 @@
       </div>
 
       <!-- Tabs -->
-      <div class="flex mb-6 border-b-2 border-secondary/20">
-        <button id="tab-logs" onclick="switchTab('logs')" class="px-6 py-3 font-bold uppercase tracking-wide transition-all tab-active">
-            System Logs
-        </button>
-        <button id="tab-customer" onclick="switchTab('customer')" class="px-6 py-3 font-bold uppercase tracking-wide transition-all tab-inactive">
-            Customer Report
-        </button>
-        <button id="tab-trainer" onclick="switchTab('trainer')" class="px-6 py-3 font-bold uppercase tracking-wide transition-all tab-inactive">
-            Trainer Report
-        </button>
+      <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4 border-b-2 border-secondary/20 pb-2">
+        <div class="flex">
+            <button id="tab-logs" onclick="switchTab('logs')" class="px-6 py-3 font-bold uppercase tracking-wide transition-all tab-active">
+                System Logs
+            </button>
+            <button id="tab-customer" onclick="switchTab('customer')" class="px-6 py-3 font-bold uppercase tracking-wide transition-all tab-inactive">
+                Customer Report
+            </button>
+            <button id="tab-trainer" onclick="switchTab('trainer')" class="px-6 py-3 font-bold uppercase tracking-wide transition-all tab-inactive">
+                Trainer Report
+            </button>
+        </div>
+        
+        <!-- Date Filter -->
+        <div class="flex items-center gap-2">
+            <label for="filter-date" class="font-bold text-sm uppercase text-primary">Filter Date:</label>
+            <input type="date" id="filter-date" class="border-2 border-primary p-2 font-bold text-sm bg-white focus:outline-none focus:border-accent">
+            <button onclick="applyDateFilter()" class="bg-primary text-contrast px-4 py-2 font-bold uppercase text-xs hover:bg-secondary transition-colors">
+                Apply
+            </button>
+            <button onclick="clearDateFilter()" class="text-xs text-red-500 font-bold uppercase hover:underline">
+                Clear
+            </button>
+        </div>
       </div>
 
       <!-- System Logs Section -->

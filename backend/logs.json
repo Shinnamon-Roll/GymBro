@@ -1,5 +1,15 @@
 [
   {
+    "timestamp": "2026-03-05T13:18:21.364Z",
+    "action": "Create Session",
+    "details": "Created session ID: 14 (Customer: 6, Trainer: 4)"
+  },
+  {
+    "timestamp": "2026-03-05T13:18:00.516Z",
+    "action": "Create Session",
+    "details": "Created session ID: 13 (Customer: 6, Trainer: 2)"
+  },
+  {
     "timestamp": "2026-03-05T12:20:27.520Z",
     "action": "Create Session",
     "details": "Created session ID: 10 (Customer: 6, Trainer: 4)"

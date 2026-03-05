@@ -239,6 +239,12 @@ async function handleBookingSubmit(e) {
     }
 
     const start = new Date(`${dateVal}T${timeVal}`);
+    // Explicitly handle timezone to avoid double conversion issues
+    // Just send the ISO string which includes the timezone offset (e.g., 2023-01-01T10:00:00.000+07:00)
+    // or convert to UTC correctly. 
+    // Browser's toISOString() converts to UTC (e.g. 03:00Z).
+    // If backend treats 03:00Z as 03:00 Local, then we have a problem.
+    // But backend parses ISO string.
     
     const payload = {
         sessionDate: start.toISOString(),
