@@ -12,28 +12,50 @@ app.use(express.static(path.join(__dirname)));
 
 // Routes
 app.get('/', (req, res) => {
+    res.redirect('/login');
+});
+
+app.get('/login', (req, res) => {
+    res.render('login');
+});
+
+// Admin Routes
+app.get('/admin/dashboard', (req, res) => {
     res.render('index');
 });
 
-app.get('/index.html', (req, res) => {
-    res.render('index');
-});
-
-app.get('/customers.html', (req, res) => {
+app.get('/admin/customers', (req, res) => {
     res.render('customers');
 });
 
-app.get('/trainers.html', (req, res) => {
+app.get('/admin/trainers', (req, res) => {
     res.render('trainers');
 });
 
-app.get('/equipments.html', (req, res) => {
+app.get('/admin/equipments', (req, res) => {
     res.render('equipments');
 });
 
-app.get('/sessions.html', (req, res) => {
+app.get('/admin/sessions', (req, res) => {
     res.render('sessions');
 });
+
+// User Routes
+app.get('/user/dashboard', (req, res) => {
+    res.render('user/dashboard');
+});
+
+app.get('/user/profile', (req, res) => {
+    res.render('user/profile');
+});
+
+// Fallback for old links (redirect to new structure)
+app.get('/index.html', (req, res) => res.redirect('/admin/dashboard'));
+app.get('/customers.html', (req, res) => res.redirect('/admin/customers'));
+app.get('/trainers.html', (req, res) => res.redirect('/admin/trainers'));
+app.get('/equipments.html', (req, res) => res.redirect('/admin/equipments'));
+app.get('/sessions.html', (req, res) => res.redirect('/admin/sessions'));
+
 
 app.listen(port, () => {
     console.log(`Frontend server running on http://localhost:${port}`);

@@ -3,63 +3,235 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Gymbro • Customers</title>
-  <link rel="stylesheet" href="./style.css">
+  <title>GymBro • Customers</title>
+  
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#0C2C55',
+            secondary: '#296374',
+            accent: '#629FAD',
+            contrast: '#EDEDCE',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          borderRadius: {
+            DEFAULT: '0px',
+            'none': '0px',
+            'sm': '0px',
+            'md': '0px',
+            'lg': '0px',
+            'xl': '0px',
+            '2xl': '0px',
+            '3xl': '0px',
+            'full': '0px',
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #EDEDCE; }
+    ::-webkit-scrollbar-thumb { background: #296374; }
+    ::-webkit-scrollbar-thumb:hover { background: #0C2C55; }
+  </style>
 </head>
-<body>
-  <header>
-    <div class="topbar">
-      <div class="brand">Gymbro</div>
-      <nav>
-        <a href="./index.html">Dashboard</a>
-        <a class="active" href="./customers.html">Customers</a>
-        <a href="./trainers.html">Trainers</a>
-        <a href="./equipments.html">Equipment</a>
-        <a href="./sessions.html">Sessions</a>
-      </nav>
+<body class="bg-contrast text-primary min-h-screen flex overflow-hidden">
+
+  <!-- Sidebar (Same as Index) -->
+  <aside class="w-64 bg-primary text-contrast flex-shrink-0 flex flex-col border-r-4 border-accent hidden md:flex">
+    <div class="h-20 flex items-center justify-center border-b border-secondary">
+      <h1 class="text-3xl font-extrabold tracking-tighter uppercase italic">Gym<span class="text-accent">Bro</span></h1>
     </div>
-  </header>
-  <main class="container">
-    <h3>เพิ่มสมาชิก</h3>
-    <form id="customer-form">
-      <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <input id="name" placeholder="ชื่อ" required>
-        <input id="email" placeholder="อีเมล" required type="email">
-        <input id="phone" placeholder="โทรศัพท์">
-        <select id="memberType" required>
-          <option value="Standard">Standard</option>
-          <option value="Premium">Premium</option>
-          <option value="VIP">VIP</option>
-        </select>
-        <select id="memberLevel" required>
-          <option value="Basic">Basic</option>
-          <option value="Silver">Silver</option>
-          <option value="Gold">Gold</option>
-        </select>
-        <input id="memberStartDate" placeholder="วันเริ่ม" type="date" required>
-        <input id="memberEndDate" placeholder="วันสิ้นสุด" type="date">
-        <button type="submit">บันทึก</button>
+    <nav class="flex-1 overflow-y-auto py-6">
+      <ul class="space-y-1">
+        <li>
+          <a href="/admin/dashboard" class="flex items-center gap-4 px-6 py-4 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group">
+            <i data-lucide="layout-dashboard" class="w-5 h-5 group-hover:text-accent transition-colors"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="/admin/customers" class="flex items-center gap-4 px-6 py-4 bg-secondary border-l-4 border-accent text-white font-bold uppercase tracking-wide transition-all">
+            <i data-lucide="users" class="w-5 h-5"></i>
+            <span>Customers</span>
+          </a>
+        </li>
+        <li>
+          <a href="/admin/trainers" class="flex items-center gap-4 px-6 py-4 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group">
+            <i data-lucide="dumbbell" class="w-5 h-5 group-hover:text-accent transition-colors"></i>
+            <span>Trainers</span>
+          </a>
+        </li>
+        <li>
+          <a href="/admin/equipments" class="flex items-center gap-4 px-6 py-4 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group">
+            <i data-lucide="monitor-smartphone" class="w-5 h-5 group-hover:text-accent transition-colors"></i>
+            <span>Equipment</span>
+          </a>
+        </li>
+        <li>
+          <a href="/admin/sessions" class="flex items-center gap-4 px-6 py-4 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group">
+            <i data-lucide="calendar-check" class="w-5 h-5 group-hover:text-accent transition-colors"></i>
+            <span>Sessions</span>
+          </a>
+        </li>
+        <li class="mt-8 border-t border-secondary pt-4">
+          <button onclick="logout()" class="w-full text-left flex items-center gap-4 px-6 py-4 text-red-300 hover:bg-red-900/50 hover:text-red-100 font-semibold uppercase tracking-wide transition-all group">
+            <i data-lucide="log-out" class="w-5 h-5 group-hover:text-red-400 transition-colors"></i>
+            <span>Logout</span>
+          </button>
+        </li>
+      </ul>
+    </nav>
+    <div class="p-4 bg-secondary border-t border-primary">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-accent flex items-center justify-center text-primary font-bold text-lg">AD</div>
+        <div>
+          <p class="text-sm font-bold text-white">Admin User</p>
+          <p class="text-xs text-accent">Manager</p>
+        </div>
       </div>
-    </form>
-    <h3>รายชื่อสมาชิก</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>ชื่อ</th>
-          <th>อีเมล</th>
-          <th>โทรศัพท์</th>
-          <th>ประเภท</th>
-          <th>ระดับ</th>
-          <th>วันเริ่ม</th>
-          <th>วันสิ้นสุด</th>
-          <th>จัดการ</th>
-        </tr>
-      </thead>
-      <tbody id="customers-table"></tbody>
-    </table>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="flex-1 flex flex-col h-screen overflow-hidden relative">
+    
+    <!-- Mobile Header -->
+    <header class="h-16 bg-primary text-contrast flex items-center justify-between px-4 md:hidden shadow-lg z-10">
+      <button id="mobile-menu-btn" class="p-2 hover:bg-secondary text-white">
+        <i data-lucide="menu" class="w-6 h-6"></i>
+      </button>
+      <span class="font-bold uppercase tracking-wider">Customers</span>
+      <div class="w-8"></div>
+    </header>
+
+    <!-- Mobile Sidebar Overlay -->
+    <div id="mobile-sidebar" class="fixed inset-0 bg-black bg-opacity-50 z-20 hidden md:hidden">
+      <aside class="w-64 h-full bg-primary text-contrast flex flex-col border-r-4 border-accent shadow-2xl transform -translate-x-full transition-transform duration-300" id="mobile-sidebar-content">
+        <div class="h-16 flex items-center justify-between px-6 border-b border-secondary">
+          <h1 class="text-2xl font-extrabold uppercase italic">Gym<span class="text-accent">Bro</span></h1>
+          <button id="close-sidebar-btn" class="text-white hover:text-accent"><i data-lucide="x" class="w-6 h-6"></i></button>
+        </div>
+        <nav class="flex-1 overflow-y-auto py-4">
+          <ul class="space-y-1">
+            <li><a href="/admin/dashboard" class="block px-6 py-3 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase">Dashboard</a></li>
+            <li><a href="/admin/customers" class="block px-6 py-3 bg-secondary text-white font-bold uppercase border-l-4 border-accent">Customers</a></li>
+            <li><a href="/admin/trainers" class="block px-6 py-3 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase">Trainers</a></li>
+            <li><a href="/admin/equipments" class="block px-6 py-3 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase">Equipment</a></li>
+            <li><a href="/admin/sessions" class="block px-6 py-3 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase">Sessions</a></li>
+            <li><button onclick="logout()" class="block w-full text-left px-6 py-3 text-red-300 hover:bg-red-900/50 hover:text-red-100 font-semibold uppercase">Logout</button></li>
+          </ul>
+        </nav>
+      </aside>
+    </div>
+
+    <!-- Content Area -->
+    <div class="flex-1 overflow-y-auto p-4 md:p-8 bg-contrast relative">
+      
+      <div class="mb-8 border-b-4 border-primary pb-4">
+        <h2 class="text-4xl font-extrabold text-primary uppercase tracking-tighter">Member Management</h2>
+        <p class="text-secondary font-medium mt-1">Add new members and manage existing ones.</p>
+      </div>
+
+      <!-- Add Customer Form -->
+      <div class="bg-white border-2 border-primary p-6 mb-8 shadow-[4px_4px_0px_0px_#0C2C55]">
+        <h3 class="text-xl font-bold uppercase mb-4 flex items-center gap-2">
+          <i data-lucide="user-plus" class="w-5 h-5 text-accent"></i> Add New Member
+        </h3>
+        <form id="customer-form" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <input id="name" placeholder="Full Name" required class="border-2 border-primary p-3 font-bold focus:outline-none focus:border-accent placeholder-gray-400">
+          <input id="email" placeholder="Email" required type="email" class="border-2 border-primary p-3 font-bold focus:outline-none focus:border-accent placeholder-gray-400">
+          <input id="phone" placeholder="Phone" class="border-2 border-primary p-3 font-bold focus:outline-none focus:border-accent placeholder-gray-400">
+          
+          <select id="memberType" required class="border-2 border-primary p-3 font-bold focus:outline-none focus:border-accent bg-white">
+            <option value="Standard">Standard</option>
+            <option value="Premium">Premium</option>
+            <option value="VIP">VIP</option>
+          </select>
+          
+          <select id="memberLevel" required class="border-2 border-primary p-3 font-bold focus:outline-none focus:border-accent bg-white">
+            <option value="Basic">Basic</option>
+            <option value="Silver">Silver</option>
+            <option value="Gold">Gold</option>
+          </select>
+          
+          <div class="flex flex-col">
+            <label class="text-xs font-bold uppercase text-secondary mb-1">Start Date</label>
+            <input id="memberStartDate" type="date" required class="border-2 border-primary p-2 font-bold focus:outline-none focus:border-accent">
+          </div>
+          
+          <div class="flex flex-col">
+            <label class="text-xs font-bold uppercase text-secondary mb-1">End Date</label>
+            <input id="memberEndDate" type="date" class="border-2 border-primary p-2 font-bold focus:outline-none focus:border-accent">
+          </div>
+          
+          <button type="submit" class="bg-primary text-contrast font-bold uppercase hover:bg-secondary hover:shadow-[2px_2px_0px_0px_#629FAD] transition-all active:translate-y-1 active:shadow-none border-2 border-transparent h-full flex items-center justify-center gap-2">
+            <i data-lucide="save" class="w-4 h-4"></i> Save Member
+          </button>
+        </form>
+      </div>
+
+      <!-- Customer List -->
+      <div class="bg-white border-2 border-primary shadow-[8px_8px_0px_0px_#296374]">
+        <div class="bg-secondary p-4 border-b-2 border-primary">
+          <h3 class="text-xl font-bold text-white uppercase tracking-wider flex items-center gap-2">
+            <i data-lucide="users" class="w-5 h-5 text-accent"></i> Member List
+          </h3>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-gray-100 border-b-2 border-primary text-primary text-sm uppercase tracking-wider">
+                <th class="p-4 font-extrabold">ID</th>
+                <th class="p-4 font-extrabold">Name</th>
+                <th class="p-4 font-extrabold">Contact</th>
+                <th class="p-4 font-extrabold">Type/Level</th>
+                <th class="p-4 font-extrabold">Dates</th>
+                <th class="p-4 font-extrabold text-center">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="customers-table" class="divide-y-2 divide-gray-100 text-sm font-semibold text-secondary">
+              <!-- JS Populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
   </main>
-  <script src="./js/config.js"></script>
-  <script src="./js/customers.js"></script>
+
+  <script>
+    lucide.createIcons();
+    // Mobile Sidebar Logic (Same as Index)
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const closeSidebarBtn = document.getElementById('close-sidebar-btn');
+    const mobileSidebar = document.getElementById('mobile-sidebar');
+    const mobileSidebarContent = document.getElementById('mobile-sidebar-content');
+
+    function openSidebar() { mobileSidebar.classList.remove('hidden'); setTimeout(() => mobileSidebarContent.classList.remove('-translate-x-full'), 10); }
+    function closeSidebar() { mobileSidebarContent.classList.add('-translate-x-full'); setTimeout(() => mobileSidebar.classList.add('hidden'), 300); }
+
+    if(mobileMenuBtn) mobileMenuBtn.addEventListener('click', openSidebar);
+    if(closeSidebarBtn) closeSidebarBtn.addEventListener('click', closeSidebar);
+    if(mobileSidebar) mobileSidebar.addEventListener('click', (e) => { if(e.target === mobileSidebar) closeSidebar(); });
+  </script>
+  <script src="/js/config.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/customers.js"></script>
 </body>
 </html>

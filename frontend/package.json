@@ -6,11 +6,15 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "node server.js"
+    "dev": "node server.js",
+    "build:css": "npx tailwindcss -i ./src/input.css -o ./style.css --watch"
   },
   "license": "MIT",
   "dependencies": {
     "ejs": "^4.0.1",
     "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "tailwindcss": "^4.2.1"
   }
 }

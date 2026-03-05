@@ -3,55 +3,303 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Gymbro • Dashboard</title>
-  <link rel="stylesheet" href="./style.css">
+  <title>GymBro • Dashboard</title>
+  
+  <!-- Tailwind CSS via CDN for rapid prototyping/draft -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#0C2C55',
+            secondary: '#296374',
+            accent: '#629FAD',
+            contrast: '#EDEDCE',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          borderRadius: {
+            DEFAULT: '0px',
+            'none': '0px',
+            'sm': '0px',
+            'md': '0px',
+            'lg': '0px',
+            'xl': '0px',
+            '2xl': '0px',
+            '3xl': '0px',
+            'full': '0px',
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #EDEDCE;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #296374; 
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #0C2C55; 
+    }
+  </style>
 </head>
-<body>
-  <header>
-    <div class="topbar">
-      <div class="brand">Gymbro</div>
-      <nav>
-        <a class="active" href="./index.html">Dashboard</a>
-        <a href="./customers.html">Customers</a>
-        <a href="./trainers.html">Trainers</a>
-        <a href="./equipments.html">Equipment</a>
-        <a href="./sessions.html">Sessions</a>
-      </nav>
+<body class="bg-contrast text-primary min-h-screen flex overflow-hidden">
+
+  <!-- Sidebar -->
+  <aside class="w-64 bg-primary text-contrast flex-shrink-0 flex flex-col border-r-4 border-accent hidden md:flex">
+    <!-- Brand -->
+    <div class="h-20 flex items-center justify-center border-b border-secondary">
+      <h1 class="text-3xl font-extrabold tracking-tighter uppercase italic">Gym<span class="text-accent">Bro</span></h1>
     </div>
-  </header>
-  <main class="container">
-    <div class="cards">
-      <div class="card">
-        <div class="card-title">จำนวนสมาชิก</div>
-        <div id="count-customers" class="card-value">0</div>
-      </div>
-      <div class="card">
-        <div class="card-title">เทรนเนอร์</div>
-        <div id="count-trainers" class="card-value">0</div>
-      </div>
-      <div class="card">
-        <div class="card-title">อุปกรณ์</div>
-        <div id="count-equipments" class="card-value">0</div>
-      </div>
-      <div class="card">
-        <div class="card-title">คลาสวันนี้</div>
-        <div id="count-sessions" class="card-value">0</div>
+
+    <!-- Navigation -->
+    <nav class="flex-1 overflow-y-auto py-6">
+      <ul class="space-y-1">
+        <li>
+          <a href="/admin/dashboard" class="flex items-center gap-4 px-6 py-4 bg-secondary border-l-4 border-accent text-white font-bold uppercase tracking-wide transition-all">
+            <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="/admin/customers" class="flex items-center gap-4 px-6 py-4 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group">
+            <i data-lucide="users" class="w-5 h-5 group-hover:text-accent transition-colors"></i>
+            <span>Customers</span>
+          </a>
+        </li>
+        <li>
+          <a href="/admin/trainers" class="flex items-center gap-4 px-6 py-4 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group">
+            <i data-lucide="dumbbell" class="w-5 h-5 group-hover:text-accent transition-colors"></i>
+            <span>Trainers</span>
+          </a>
+        </li>
+        <li>
+          <a href="/admin/equipments" class="flex items-center gap-4 px-6 py-4 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group">
+            <i data-lucide="monitor-smartphone" class="w-5 h-5 group-hover:text-accent transition-colors"></i>
+            <span>Equipment</span>
+          </a>
+        </li>
+        <li>
+          <a href="/admin/sessions" class="flex items-center gap-4 px-6 py-4 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group">
+            <i data-lucide="calendar-check" class="w-5 h-5 group-hover:text-accent transition-colors"></i>
+            <span>Sessions</span>
+          </a>
+        </li>
+        <li class="mt-8 border-t border-secondary pt-4">
+          <button onclick="logout()" class="w-full text-left flex items-center gap-4 px-6 py-4 text-red-300 hover:bg-red-900/50 hover:text-red-100 font-semibold uppercase tracking-wide transition-all group">
+            <i data-lucide="log-out" class="w-5 h-5 group-hover:text-red-400 transition-colors"></i>
+            <span>Logout</span>
+          </button>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- User Profile -->
+    <div class="p-4 bg-secondary border-t border-primary">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-accent flex items-center justify-center text-primary font-bold text-lg">
+          AD
+        </div>
+        <div>
+          <p class="text-sm font-bold text-white">Admin User</p>
+          <p class="text-xs text-accent">Manager</p>
+        </div>
       </div>
     </div>
-    <h3>Training Sessions วันนี้</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>ลูกค้า</th>
-          <th>เทรนเนอร์</th>
-          <th>อุปกรณ์</th>
-          <th>เวลา</th>
-        </tr>
-      </thead>
-      <tbody id="today-sessions"></tbody>
-    </table>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="flex-1 flex flex-col h-screen overflow-hidden relative">
+    
+    <!-- Mobile Header -->
+    <header class="h-16 bg-primary text-contrast flex items-center justify-between px-4 md:hidden shadow-lg z-10">
+      <button id="mobile-menu-btn" class="p-2 hover:bg-secondary text-white">
+        <i data-lucide="menu" class="w-6 h-6"></i>
+      </button>
+      <span class="font-bold uppercase tracking-wider">GymBro Dashboard</span>
+      <div class="w-8"></div> <!-- Spacer -->
+    </header>
+
+    <!-- Mobile Sidebar Overlay (Hidden by default) -->
+    <div id="mobile-sidebar" class="fixed inset-0 bg-black bg-opacity-50 z-20 hidden md:hidden">
+      <aside class="w-64 h-full bg-primary text-contrast flex flex-col border-r-4 border-accent shadow-2xl transform -translate-x-full transition-transform duration-300" id="mobile-sidebar-content">
+        <div class="h-16 flex items-center justify-between px-6 border-b border-secondary">
+          <h1 class="text-2xl font-extrabold uppercase italic">Gym<span class="text-accent">Bro</span></h1>
+          <button id="close-sidebar-btn" class="text-white hover:text-accent">
+            <i data-lucide="x" class="w-6 h-6"></i>
+          </button>
+        </div>
+        <nav class="flex-1 overflow-y-auto py-4">
+          <ul class="space-y-1">
+            <li><a href="/admin/dashboard" class="block px-6 py-3 bg-secondary text-white font-bold uppercase border-l-4 border-accent">Dashboard</a></li>
+            <li><a href="/admin/customers" class="block px-6 py-3 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase">Customers</a></li>
+            <li><a href="/admin/trainers" class="block px-6 py-3 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase">Trainers</a></li>
+            <li><a href="/admin/equipments" class="block px-6 py-3 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase">Equipment</a></li>
+            <li><a href="/admin/sessions" class="block px-6 py-3 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase">Sessions</a></li>
+            <li><button onclick="logout()" class="block w-full text-left px-6 py-3 text-red-300 hover:bg-red-900/50 hover:text-red-100 font-semibold uppercase">Logout</button></li>
+          </ul>
+        </nav>
+      </aside>
+    </div>
+
+    <!-- Content Area -->
+    <div class="flex-1 overflow-y-auto p-4 md:p-8 bg-contrast relative">
+      
+      <!-- Page Header -->
+      <div class="mb-8 border-b-4 border-primary pb-4 flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <h2 class="text-4xl font-extrabold text-primary uppercase tracking-tighter">
+            Overview
+          </h2>
+          <p class="text-secondary font-medium mt-1">
+            Welcome back! Here's what's happening at the gym today.
+          </p>
+        </div>
+        <button class="bg-primary text-contrast px-6 py-3 font-bold uppercase hover:bg-secondary hover:shadow-[4px_4px_0px_0px_#629FAD] transition-all active:translate-y-1 active:shadow-none border-2 border-transparent">
+          + New Booking
+        </button>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <!-- Stat Card 1 -->
+        <div class="bg-white border-2 border-primary p-6 shadow-[4px_4px_0px_0px_#0C2C55] hover:shadow-[6px_6px_0px_0px_#0C2C55] transition-all group">
+          <div class="flex justify-between items-start mb-4">
+            <div class="p-3 bg-secondary text-white">
+              <i data-lucide="users" class="w-6 h-6"></i>
+            </div>
+            <span class="text-xs font-bold uppercase text-secondary bg-contrast px-2 py-1">Total</span>
+          </div>
+          <h3 class="text-3xl font-black text-primary" id="count-customers">0</h3>
+          <p class="text-sm font-bold text-gray-500 uppercase tracking-wide mt-1">Members</p>
+        </div>
+
+        <!-- Stat Card 2 -->
+        <div class="bg-white border-2 border-primary p-6 shadow-[4px_4px_0px_0px_#0C2C55] hover:shadow-[6px_6px_0px_0px_#0C2C55] transition-all group">
+          <div class="flex justify-between items-start mb-4">
+            <div class="p-3 bg-secondary text-white">
+              <i data-lucide="dumbbell" class="w-6 h-6"></i>
+            </div>
+            <span class="text-xs font-bold uppercase text-secondary bg-contrast px-2 py-1">Active</span>
+          </div>
+          <h3 class="text-3xl font-black text-primary" id="count-trainers">0</h3>
+          <p class="text-sm font-bold text-gray-500 uppercase tracking-wide mt-1">Trainers</p>
+        </div>
+
+        <!-- Stat Card 3 -->
+        <div class="bg-white border-2 border-primary p-6 shadow-[4px_4px_0px_0px_#0C2C55] hover:shadow-[6px_6px_0px_0px_#0C2C55] transition-all group">
+          <div class="flex justify-between items-start mb-4">
+            <div class="p-3 bg-secondary text-white">
+              <i data-lucide="monitor-smartphone" class="w-6 h-6"></i>
+            </div>
+            <span class="text-xs font-bold uppercase text-secondary bg-contrast px-2 py-1">Status</span>
+          </div>
+          <h3 class="text-3xl font-black text-primary" id="count-equipments">0</h3>
+          <p class="text-sm font-bold text-gray-500 uppercase tracking-wide mt-1">Equipment</p>
+        </div>
+
+        <!-- Stat Card 4 -->
+        <div class="bg-white border-2 border-primary p-6 shadow-[4px_4px_0px_0px_#0C2C55] hover:shadow-[6px_6px_0px_0px_#0C2C55] transition-all group">
+          <div class="flex justify-between items-start mb-4">
+            <div class="p-3 bg-accent text-primary">
+              <i data-lucide="clock" class="w-6 h-6"></i>
+            </div>
+            <span class="text-xs font-bold uppercase text-white bg-primary px-2 py-1">Today</span>
+          </div>
+          <h3 class="text-3xl font-black text-primary" id="count-sessions">0</h3>
+          <p class="text-sm font-bold text-gray-500 uppercase tracking-wide mt-1">Sessions</p>
+        </div>
+      </div>
+
+      <!-- Schedule Section -->
+      <div class="bg-white border-2 border-primary shadow-[8px_8px_0px_0px_#296374]">
+        <div class="bg-secondary p-4 flex justify-between items-center border-b-2 border-primary">
+          <h3 class="text-xl font-bold text-white uppercase tracking-wider flex items-center gap-2">
+            <i data-lucide="calendar" class="w-5 h-5 text-accent"></i>
+            Today's Schedule
+          </h3>
+          <button class="text-sm font-bold text-contrast hover:text-accent underline uppercase">View All</button>
+        </div>
+        
+        <div class="p-0 overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-gray-100 border-b-2 border-primary text-primary text-sm uppercase tracking-wider">
+                <th class="p-4 font-extrabold">Customer</th>
+                <th class="p-4 font-extrabold">Trainer</th>
+                <th class="p-4 font-extrabold">Activity/Equipment</th>
+                <th class="p-4 font-extrabold">Time</th>
+                <th class="p-4 font-extrabold text-center">Status</th>
+              </tr>
+            </thead>
+            <tbody id="today-sessions" class="divide-y-2 divide-gray-100 text-sm font-semibold text-secondary">
+              <!-- JS will populate this, but here's a placeholder structure -->
+              <tr class="hover:bg-contrast transition-colors">
+                <td class="p-4">Loading...</td>
+                <td class="p-4">Loading...</td>
+                <td class="p-4">Loading...</td>
+                <td class="p-4">Loading...</td>
+                <td class="p-4 text-center"><span class="bg-gray-200 px-2 py-1 text-xs font-bold uppercase">Pending</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
   </main>
-  <script src="./js/config.js"></script>
-  <script src="./js/index.js"></script>
+
+  <!-- Scripts -->
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    // Mobile Sidebar Toggle Logic
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const closeSidebarBtn = document.getElementById('close-sidebar-btn');
+    const mobileSidebar = document.getElementById('mobile-sidebar');
+    const mobileSidebarContent = document.getElementById('mobile-sidebar-content');
+
+    function openSidebar() {
+      mobileSidebar.classList.remove('hidden');
+      setTimeout(() => {
+        mobileSidebarContent.classList.remove('-translate-x-full');
+      }, 10);
+    }
+
+    function closeSidebar() {
+      mobileSidebarContent.classList.add('-translate-x-full');
+      setTimeout(() => {
+        mobileSidebar.classList.add('hidden');
+      }, 300);
+    }
+
+    mobileMenuBtn.addEventListener('click', openSidebar);
+    closeSidebarBtn.addEventListener('click', closeSidebar);
+    mobileSidebar.addEventListener('click', (e) => {
+      if (e.target === mobileSidebar) closeSidebar();
+    });
+  </script>
+  <script src="/js/config.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/index.js"></script>
 </body>
 </html>

@@ -16,17 +16,27 @@ const opt = (v, t) => {
 
 const row = (s) => {
   const tr = document.createElement("tr");
+  tr.className = "hover:bg-contrast transition-colors border-b border-gray-100";
+  
   const actions = document.createElement("td");
-  actions.className = "actions";
+  actions.className = "p-4 text-center";
   const del = document.createElement("button");
-  del.className = "secondary";
-  del.textContent = "ลบ";
+  del.className = "text-red-500 hover:text-red-700 transition-colors font-bold uppercase text-xs border-b-2 border-transparent hover:border-red-700";
+  del.textContent = "Cancel";
   del.addEventListener("click", async () => {
-    const r = await fetch(`${API}/sessions/${s.id}`, { method: "DELETE" });
-    if (r.ok) loadSessions();
+    if(confirm('Are you sure you want to cancel this session?')) {
+      const r = await fetch(`${API}/sessions/${s.id}`, { method: "DELETE" });
+      if (r.ok) loadSessions();
+    }
   });
   actions.appendChild(del);
-  tr.innerHTML = `<td>${s.customer?.fullName || ""}</td><td>${s.trainer?.trainerName || ""}</td><td>${s.equipment?.equipmentName || ""}</td><td>${new Date(s.sessionDate).toLocaleString()}</td>`;
+
+  tr.innerHTML = `
+    <td class="p-4 font-bold text-primary">${s.customer?.fullName || "Unknown"}</td>
+    <td class="p-4 font-semibold">${s.trainer?.trainerName || "-"}</td>
+    <td class="p-4">${s.equipment?.equipmentName || "Personal Training"}</td>
+    <td class="p-4 text-sm font-mono text-secondary">${new Date(s.sessionDate).toLocaleString()}</td>
+  `;
   tr.appendChild(actions);
   return tr;
 };

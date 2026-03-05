@@ -17,6 +17,38 @@ app.use(
 app.options("*", cors({ origin: "http://localhost:5500" }));
 app.use(express.json());
 
+// Login API
+app.post("/api/login", async (req, res) => {
+  const { email, phone } = req.body;
+  
+  // Hardcoded Admin Check
+  if ((email === "admin@gymbro.com" && phone === "123456") || (email === "chimonkung0@gmail.com" && phone === "0810154373")) {
+    return res.json({
+      role: "admin",
+      user: {
+        id: 0,
+        fullName: "Admin User",
+        email: email,
+        memberType: "Admin",
+        memberLevel: "Master"
+      }
+    });
+  }
+
+  try {
+    const user = await Customers.findOne({ where: { email, phone } });
+    if (!user) {
+      return res.status(401).json({ error: "Invalid credentials" });
+    }
+    res.json({
+      role: "user",
+      user: user
+    });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
 // Sync database
 sequelize.sync();
 

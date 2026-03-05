@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GymBro • User Dashboard</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#0C2C55',
+            secondary: '#296374',
+            accent: '#629FAD',
+            contrast: '#EDEDCE',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          borderRadius: {
+            DEFAULT: '0px',
+            'none': '0px',
+            'sm': '0px',
+            'md': '0px',
+            'lg': '0px',
+            'xl': '0px',
+            '2xl': '0px',
+            '3xl': '0px',
+            'full': '0px',
+          }
+        }
+      }
+    }
+  </script>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #EDEDCE; }
+    ::-webkit-scrollbar-thumb { background: #296374; }
+    ::-webkit-scrollbar-thumb:hover { background: #0C2C55; }
+  </style>
+</head>
+<body class="bg-contrast text-primary min-h-screen flex overflow-hidden">
+
+  <!-- Sidebar -->
+  <aside class="w-64 bg-primary text-contrast flex-shrink-0 flex flex-col border-r-4 border-accent hidden md:flex">
+    <div class="h-20 flex items-center justify-center border-b border-secondary">
+      <h1 class="text-3xl font-extrabold tracking-tighter uppercase italic">Gym<span class="text-accent">Bro</span></h1>
+    </div>
+
+    <nav class="flex-1 overflow-y-auto py-6">
+      <ul class="space-y-1">
+        <li>
+          <a href="/user/dashboard" class="flex items-center gap-4 px-6 py-4 bg-secondary border-l-4 border-accent text-white font-bold uppercase tracking-wide transition-all">
+            <i data-lucide="calendar" class="w-5 h-5"></i>
+            <span>Schedule</span>
+          </a>
+        </li>
+        <li>
+          <a href="/user/profile" class="flex items-center gap-4 px-6 py-4 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group">
+            <i data-lucide="user" class="w-5 h-5 group-hover:text-accent transition-colors"></i>
+            <span>My Profile</span>
+          </a>
+        </li>
+        <li class="mt-8 border-t border-secondary pt-4">
+          <button onclick="logout()" class="w-full text-left flex items-center gap-4 px-6 py-4 text-red-300 hover:bg-red-900/50 hover:text-red-100 font-semibold uppercase tracking-wide transition-all group">
+            <i data-lucide="log-out" class="w-5 h-5 group-hover:text-red-400 transition-colors"></i>
+            <span>Logout</span>
+          </button>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- User Profile Footer -->
+    <div class="p-4 bg-secondary border-t border-primary">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-accent flex items-center justify-center text-primary font-bold text-lg rounded-none">
+          ME
+        </div>
+        <div>
+          <p class="text-sm font-bold text-white user-name-display">Loading...</p>
+          <p class="text-xs text-accent user-role-display">Member</p>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="flex-1 flex flex-col h-screen overflow-hidden relative">
+    
+    <!-- Mobile Header -->
+    <header class="h-16 bg-primary text-contrast flex items-center justify-between px-4 md:hidden shadow-lg z-10">
+      <button id="mobile-menu-btn" class="p-2 hover:bg-secondary text-white">
+        <i data-lucide="menu" class="w-6 h-6"></i>
+      </button>
+      <span class="font-bold uppercase tracking-wider">My Dashboard</span>
+      <div class="w-8"></div>
+    </header>
+
+    <!-- Mobile Sidebar -->
+    <div id="mobile-sidebar" class="fixed inset-0 bg-black bg-opacity-50 z-20 hidden md:hidden">
+      <aside class="w-64 h-full bg-primary text-contrast flex flex-col border-r-4 border-accent shadow-2xl transform -translate-x-full transition-transform duration-300" id="mobile-sidebar-content">
+        <div class="h-16 flex items-center justify-between px-6 border-b border-secondary">
+          <h1 class="text-2xl font-extrabold uppercase italic">Gym<span class="text-accent">Bro</span></h1>
+          <button id="close-sidebar-btn" class="text-white hover:text-accent">
+            <i data-lucide="x" class="w-6 h-6"></i>
+          </button>
+        </div>
+        <nav class="flex-1 overflow-y-auto py-4">
+          <ul class="space-y-1">
+            <li><a href="/user/dashboard" class="block px-6 py-3 bg-secondary text-white font-bold uppercase border-l-4 border-accent">Schedule</a></li>
+            <li><a href="/user/profile" class="block px-6 py-3 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase">My Profile</a></li>
+            <li><button onclick="logout()" class="block w-full text-left px-6 py-3 text-red-300 hover:bg-red-900/50 hover:text-red-100 font-semibold uppercase">Logout</button></li>
+          </ul>
+        </nav>
+      </aside>
+    </div>
+
+    <!-- Content Area -->
+    <div class="flex-1 overflow-y-auto p-4 md:p-8 bg-contrast relative">
+      
+      <!-- Page Header -->
+      <div class="mb-8 border-b-4 border-primary pb-4 flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <h2 class="text-4xl font-extrabold text-primary uppercase tracking-tighter">
+            Gym Schedule
+          </h2>
+          <p class="text-secondary font-medium mt-1">
+            Check availability and your upcoming sessions.
+          </p>
+        </div>
+      </div>
+
+      <!-- Schedule Table -->
+      <div class="bg-white border-2 border-primary shadow-[8px_8px_0px_0px_#296374]">
+        <div class="bg-secondary p-4 flex justify-between items-center border-b-2 border-primary">
+          <h3 class="text-xl font-bold text-white uppercase tracking-wider flex items-center gap-2">
+            <i data-lucide="calendar-days" class="w-5 h-5 text-accent"></i>
+            All Bookings
+          </h3>
+          <span class="text-xs font-bold text-accent bg-primary px-2 py-1 uppercase">Read Only</span>
+        </div>
+        
+        <div class="p-0 overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-gray-100 border-b-2 border-primary text-primary text-sm uppercase tracking-wider">
+                <th class="p-4 font-extrabold">Time</th>
+                <th class="p-4 font-extrabold">Activity/Equipment</th>
+                <th class="p-4 font-extrabold">Trainer</th>
+                <th class="p-4 font-extrabold text-center">Status</th>
+              </tr>
+            </thead>
+            <tbody id="schedule-table-body" class="divide-y-2 divide-gray-100 text-sm font-semibold text-secondary">
+              <tr>
+                <td colspan="4" class="p-4 text-center">Loading schedule...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    lucide.createIcons();
+    
+    // Sidebar Logic
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const closeSidebarBtn = document.getElementById('close-sidebar-btn');
+    const mobileSidebar = document.getElementById('mobile-sidebar');
+    const mobileSidebarContent = document.getElementById('mobile-sidebar-content');
+
+    function openSidebar() {
+      mobileSidebar.classList.remove('hidden');
+      setTimeout(() => mobileSidebarContent.classList.remove('-translate-x-full'), 10);
+    }
+
+    function closeSidebar() {
+      mobileSidebarContent.classList.add('-translate-x-full');
+      setTimeout(() => mobileSidebar.classList.add('hidden'), 300);
+    }
+
+    if(mobileMenuBtn) mobileMenuBtn.addEventListener('click', openSidebar);
+    if(closeSidebarBtn) closeSidebarBtn.addEventListener('click', closeSidebar);
+    if(mobileSidebar) mobileSidebar.addEventListener('click', (e) => {
+      if (e.target === mobileSidebar) closeSidebar();
+    });
+  </script>
+  
+  <script src="/js/config.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/user/dashboard.js"></script>
+</body>
+</html>
