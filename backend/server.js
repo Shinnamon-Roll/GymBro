@@ -5,27 +5,31 @@ const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("./db");
 const { Customers, Trainers, GymEquipments, TrainingSessions } = sequelize;
 const fs = require('fs');
+const fsPromises = require('fs').promises;
 const path = require('path');
 
 const LOGS_FILE = path.join(__dirname, 'logs.json');
 
 // Helper function to log actions
-function logAction(action, details) {
+async function logAction(action, details) {
   try {
     const timestamp = new Date().toISOString();
     const logEntry = { timestamp, action, details };
     
     let logs = [];
-    if (fs.existsSync(LOGS_FILE)) {
-      const data = fs.readFileSync(LOGS_FILE, 'utf8');
+    try {
+      const data = await fsPromises.readFile(LOGS_FILE, 'utf8');
       logs = JSON.parse(data || '[]');
+    } catch (readErr) {
+      // If file doesn't exist or is empty, start with empty array
+      logs = [];
     }
     
     logs.unshift(logEntry); // Add new log to the beginning
     // Optional: Limit logs to prevent file from growing indefinitely (e.g., last 1000 logs)
     if (logs.length > 1000) logs = logs.slice(0, 1000);
     
-    fs.writeFileSync(LOGS_FILE, JSON.stringify(logs, null, 2));
+    await fsPromises.writeFile(LOGS_FILE, JSON.stringify(logs, null, 2));
   } catch (err) {
     console.error('Failed to write log:', err);
   }
@@ -88,13 +92,14 @@ app.get("/api/health", async (req, res) => {
 });
 
 // Logs API
-app.get("/api/logs", (req, res) => {
+app.get("/api/logs", async (req, res) => {
   try {
-    if (fs.existsSync(LOGS_FILE)) {
-      const data = fs.readFileSync(LOGS_FILE, 'utf8');
+    try {
+      const data = await fsPromises.readFile(LOGS_FILE, 'utf8');
       const logs = JSON.parse(data || '[]');
       res.json(logs);
-    } else {
+    } catch (readErr) {
+      // If file doesn't exist, return empty array
       res.json([]);
     }
   } catch (e) {
@@ -333,9 +338,7 @@ app.get("/api/summary", async (req, res) => {
   }
 });
 
-app.get("/admin/logs", (req, res) => {
-  res.render("logs");
-});
+
 
 const portEnv = process.env.BACKEND_PORT || process.env.PORT;
 const port = portEnv ? parseInt(portEnv, 10) : 3000;
