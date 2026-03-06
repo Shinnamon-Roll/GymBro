@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.3.6)  7 MAR 2026 02:08
+This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.3.6)  7 MAR 2026 02:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -758,7 +758,7 @@ ext;"
 text;"
 
 
-(./Term_Project_Document.aux)
+No file Term_Project_Document.aux.
 \openout1 = `Term_Project_Document.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 88.
@@ -781,7 +781,6 @@ LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 88.
 LaTeX Font Info:    ... okay on input line 88.
 LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 88.
 LaTeX Font Info:    ... okay on input line 88.
-
 *geometry* driver: auto-detecting
 *geometry* detected driver: xetex
 *geometry* verbose mode - [ preamble ] result:
@@ -885,21 +884,22 @@ Package: ltcaption 2021/01/08 v1.4c longtable captions (AR)
 )
 Package caption Info: End \AtBeginDocument code.
 Package hyperref Info: Link coloring OFF on input line 88.
-
-(./Term_Project_Document.out) (./Term_Project_Document.out)
 \@outlinefile=\write4
 \openout4 = `Term_Project_Document.out'.
 
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 91.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 91.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 91.
- [1
 
-]
-(./Term_Project_Document.toc
+
+Package hyperref Warning: Rerun to get /PageLabels entry.
+
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 92.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 92.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 92.
+[1
+
+] (./Term_Project_Document.toc
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <7> on input line 2.
 LaTeX Font Info:    External font `cmex10' loaded for size
@@ -913,52 +913,63 @@ LaTeX Font Info:    External font `cmex10' loaded for size
  [2]
 บทที่ 1.
 (./components/introduction.tex
-Overfull \hbox (6.30498pt too wide) in paragraph at lines 2--3
+Underfull \hbox (badness 10000) in paragraph at lines 2--3
 \TU/Sarabun(0)/m/n/10 ในปัจจุบัน กระแสการดูแลสุขภาพและการออกกำลังกายได้รับความน
-ิยมเพิ่มขึ้นอย่างต่อเนื่อง ส่งผลให้ธุรกิจฟิตเนสหรือยิม
+ิยมเพิ่มขึ้นอย่างต่อเนื่อง
  []
 
 
-Overfull \hbox (153.85498pt too wide) in paragraph at lines 2--3
-\TU/Sarabun(0)/m/n/10 (Gym) มีการเติบโตและขยายตัวอย่างรวดเร็ว อย่างไรก็ตาม การบ
-ริหารจัดการยิมแบบดั้งเดิมที่อาศัยการจดบันทึกด้วยกระดาษหรือการใช้โปรแกรมตารางคำน
-วณ
+Underfull \hbox (badness 10000) in paragraph at lines 2--3
+\TU/Sarabun(0)/m/n/10 ส่งผลให้ธุรกิจฟิตเนสหรือยิม (Gym) มีการเติบโตและขยายตัวอย
+่างรวดเร็ว อย่างไรก็ตาม
  []
 
 
-Overfull \hbox (104.00496pt too wide) in paragraph at lines 2--3
+Underfull \hbox (badness 10000) in paragraph at lines 2--3
+\TU/Sarabun(0)/m/n/10 การบริหารจัดการยิมแบบดั้งเดิมที่อาศัยการจดบันทึกด้วยกระดา
+ษหรือการใช้โปรแกรมตารางคำนวณ
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2--3
 \TU/Sarabun(0)/m/n/10 (Spreadsheet) ทั่วไป มักประสบปัญหาความยุ่งยาก ซับซ้อน และ
-ขาดประสิทธิภาพ โดยเฉพาะอย่างยิ่งในการบริหารจัดการตารางการใช้งานอุปกรณ์
+ขาดประสิทธิภาพ
  []
 
 
-Overfull \hbox (19.78496pt too wide) in paragraph at lines 4--5
+Underfull \hbox (badness 10000) in paragraph at lines 2--3
+\TU/Sarabun(0)/m/n/10 โดยเฉพาะอย่างยิ่งในการบริหารจัดการตารางการใช้งานอุปกรณ์ ก
+ารนัดหมายเทรนเนอร์ และการจัดเก็บข้อมูลสมาชิก
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2--3
+\TU/Sarabun(0)/m/n/10 ซึ่งอาจนำไปสู่ข้อผิดพลาดต่างๆ เช่น การจองเวลาซ้อนทับกัน (
+Double Booking), ข้อมูลสมาชิกสูญหาย
+ []
+
+
+Underfull \hbox (badness 1629) in paragraph at lines 4--5
 []\TU/Sarabun(0)/m/n/10 เพื่อแก้ไขปัญหาดังกล่าวและยกระดับการให้บริการ คณะผู้จัด
-ทำจึงได้แนวคิดในการพัฒนา “ระบบบริหารจัดการยิม (Gym-
+ทำจึงได้แนวคิดในการพัฒนา “ระบบบริหารจัดการยิม
  []
 
 
-Overfull \hbox (72.16498pt too wide) in paragraph at lines 4--5
-\TU/Sarabun(0)/m/n/10 Bro Management System)” ซึ่งเป็นเว็บแอปพลิเคชันที่ถูกออกแ
-บบมาเพื่อช่วยอำนวยความสะดวกในการดำเนินงานของยิมอย่างครบวงจร
+Overfull \hbox (94.71498pt too wide) in paragraph at lines 4--5
+\TU/Sarabun(0)/m/n/10 (GymBro Management System)” ซึ่งเป็นเว็บแอปพลิเคชันที่ถูก
+ออกแบบมาเพื่อช่วยอำนวยความสะดวกในการดำเนินงานของยิมอย่างครบวงจร
  []
 
 
-Overfull \hbox (19.64897pt too wide) in paragraph at lines 4--5
-\TU/Sarabun(0)/m/n/10 ระบบนี้จะทำหน้าที่เป็นศูนย์กลางในการเชื่อมโยงข้อมูลระหว่า
-งสมาชิก (Members), ผู้ดูแลระบบ (Admins), เทรนเนอร์ (Train-
+Overfull \hbox (39.16496pt too wide) in paragraph at lines 4--5
+\TU/Sarabun(0)/m/n/10 และตรวจสอบได้ ซึ่งไม่เพียงแต่จะช่วยลดภาระงานของผู้ดูแลระบ
+บ แต่ยังช่วยสร้างประสบการณ์ที่ดีให้กับสมาชิกผู้ใช้บริการอีกด้วย 
  []
 
 
-Overfull \hbox (33.34697pt too wide) in paragraph at lines 4--5
-\TU/Sarabun(0)/m/n/10 ers), และทรัพยากรภายในยิม (Equipments) เข้าด้วยกัน ช่วยให
-้การบริหารจัดการเป็นไปอย่างเป็นระบบ รวดเร็ว และตรวจสอบได้
- []
-
-
-Overfull \hbox (1.67899pt too wide) in paragraph at lines 20--21
+Underfull \hbox (badness 10000) in paragraph at lines 20--21
 []\TU/Sarabun(0)/m/n/10 สามารถดูภาพรวมสถิติของระบบ (Dashboard) เช่น จำนวนสมาชิก
-, เทรนเนอร์, อุปกรณ์ และรายการจองในปัจจุบัน 
+, เทรนเนอร์, อุปกรณ์
  []
 
 [3
@@ -969,24 +980,23 @@ l.41 ...วจสอบสิทธิ์การเข้าใช้งาน
                                                    Authorization)
 ? 
 
-Overfull \hbox (23.14497pt too wide) in paragraph at lines 42--43
+Underfull \hbox (badness 10000) in paragraph at lines 42--43
 []\TU/Sarabun(0)/m/n/10 ส่วนติดต่อผู้ใช้งาน (User Interface) มีความทันสมัย ใช้ง
-านง่าย (User-friendly) และรองรับการแสดงผลบนอุปกรณ์ต่างๆ
+านง่าย (User-friendly)
  []
 
 ) [4]
 บทที่ 2.
 (./components/system_requirements.tex
-Overfull \hbox (55.1183pt too wide) in paragraph at lines 4--5
+Underfull \hbox (badness 10000) in paragraph at lines 4--5
 \TU/Sarabun(0)/m/n/10 ระบบ GymBro ถูกออกแบบด้วยสถาปัตยกรรมแบบ \TU/Sarabun(0)/b/
-n/10 Client-Server Architecture \TU/Sarabun(0)/m/n/10 โดยมีการแยกส่วนการทำงานระ
-หว่างส่วนติดต่อผู้ใช้
+n/10 Client-Server Architecture
  []
 
 
-Overfull \hbox (62.05498pt too wide) in paragraph at lines 4--5
-\TU/Sarabun(0)/m/n/10 (Frontend) และส่วนประมวลผลหลัก (Backend) อย่างชัดเจน เพื่
-อความยืดหยุ่นในการพัฒนาและดูแลรักษา โดยมีการเชื่อมต่อข้อมูลผ่าน
+Underfull \hbox (badness 10000) in paragraph at lines 4--5
+\TU/Sarabun(0)/m/n/10 โดยมีการแยกส่วนการทำงานระหว่างส่วนติดต่อผู้ใช้ (Frontend)
+ และส่วนประมวลผลหลัก (Backend) อย่างชัดเจน
  []
 
 
@@ -997,28 +1007,27 @@ Overfull \hbox (28.03748pt too wide) in paragraph at lines 11--12
  []
 
 
-Overfull \hbox (1.4733pt too wide) in paragraph at lines 25--26
+Underfull \hbox (badness 10000) in paragraph at lines 25--26
 []\TU/Sarabun(0)/m/n/10 ใช้ฐานข้อมูล \TU/Sarabun(0)/b/n/10 PostgreSQL \TU/Sarab
-un(0)/m/n/10 ซึ่งเป็น Relational Database Management System (RDBMS) ที่มีความเส
-ถียรสูง 
+un(0)/m/n/10 ซึ่งเป็น Relational Database Management System (RDBMS)
  []
 
 
-Overfull \hbox (43.42496pt too wide) in paragraph at lines 39--40
+Underfull \hbox (badness 10000) in paragraph at lines 39--40
 []\TU/Sarabun(0)/m/n/10 มีระบบตรวจสอบสิทธิ์ (Role-based Authentication) เพื่อแย
-กการเข้าถึงระหว่างผู้ดูแลระบบ (Admin) และสมาชิกทั่วไป
- []
-
-
-Overfull \hbox (22.75827pt too wide) in paragraph at lines 45--46
-[]\TU/Sarabun(0)/m/n/10 มีระบบ \TU/Sarabun(0)/b/n/10 Auth Guard \TU/Sarabun(0)/
-m/n/10 ตรวจสอบสิทธิ์ก่อนการเข้าถึงหน้าต่างๆ หากไม่มีสิทธิ์จะถูกส่งกลับไปหน้า Lo
-gin โดยอัตโนมัติ 
+กการเข้าถึงระหว่างผู้ดูแลระบบ (Admin)
  []
 
 [5
 
 ]
+Underfull \hbox (badness 6775) in paragraph at lines 45--46
+[]\TU/Sarabun(0)/m/n/10 มีระบบ \TU/Sarabun(0)/b/n/10 Auth Guard \TU/Sarabun(0)/
+m/n/10 ตรวจสอบสิทธิ์ก่อนการเข้าถึงหน้าต่างๆ หากไม่มีสิทธิ์จะถูกส่งกลับไปหน้า Lo
+gin
+ []
+
+
 Overfull \hbox (154.66998pt too wide) in paragraph at lines 66--67
 []\TU/Sarabun(0)/b/n/10 การตรวจสอบความพร้อม (Real-time Availability Check): \TU
 /Sarabun(0)/m/n/10 ระบบจะตรวจสอบตารางเวลาของเทรนเนอร์และอุปกรณ์ทันทีที่ผู้ใช้เล
@@ -1026,47 +1035,53 @@ Overfull \hbox (154.66998pt too wide) in paragraph at lines 66--67
  []
 
 
-Overfull \hbox (33.01662pt too wide) in paragraph at lines 67--68
+Underfull \hbox (badness 10000) in paragraph at lines 67--68
 []\TU/Sarabun(0)/b/n/10 ตัวเลือกอัจฉริยะ (Smart Dropdowns): \TU/Sarabun(0)/m/n/
-10 รายชื่อเทรนเนอร์และอุปกรณ์จะแสดงสถานะ ”(Busy)” หรือถูกปิดการเลือก
+10 รายชื่อเทรนเนอร์และอุปกรณ์จะแสดงสถานะ ”(Busy)”
  []
 
 
-Overfull \hbox (5.80663pt too wide) in paragraph at lines 68--69
+Underfull \hbox (badness 10000) in paragraph at lines 68--69
 []\TU/Sarabun(0)/b/n/10 สถานะซ่อมบำรุง (Maintenance Check): \TU/Sarabun(0)/m/n/
-10 อุปกรณ์ที่อยู่ในสถานะ ”Maintenance” จะไม่สามารถเลือกจองได้ 
+10 อุปกรณ์ที่อยู่ในสถานะ ”Maintenance”
  []
 
 
-Overfull \hbox (23.54594pt too wide) in paragraph at lines 81--82
+Underfull \hbox (badness 10000) in paragraph at lines 81--82
 []\TU/Sarabun(0)/m/n/10 แสดงสถิติภาพรวม: จำนวนลูกค้าทั้งหมด, จำนวนเทรนเนอร์, จำ
-นวนอุปกรณ์, และจำนวนเซสชันที่มีการจองในวันนี้ 
+นวนอุปกรณ์,
  []
 
 
-Overfull \hbox (32.42265pt too wide) in paragraph at lines 87--88
+Underfull \hbox (badness 4995) in paragraph at lines 87--88
 []\TU/Sarabun(0)/b/n/10 จัดการอุปกรณ์ (Equipment Management): \TU/Sarabun(0)/m/
-n/10 ดูรายการ, เพิ่ม, ลบ, และแก้ไขสถานะอุปกรณ์ (Active/Maintenance) 
+n/10 ดูรายการ, เพิ่ม, ลบ, และแก้ไขสถานะอุปกรณ์ (Ac-
  []
 
 [6]
-Overfull \hbox (0.55493pt too wide) in paragraph at lines 111--112
+Underfull \hbox (badness 10000) in paragraph at lines 111--112
 []\TU/Sarabun(0)/m/n/10 หากพบสมาชิกหมดอายุ ระบบจะลบข้อมูลสมาชิกคนนั้น พร้อมทั้ง
-ลบประวัติการจองทั้งหมดที่เกี่ยวข้อง (Cas-
+ลบประวัติการจองทั้งหมดที่เกี่ยวข้อง
  []
 
 
-Overfull \hbox (14.73494pt too wide) in paragraph at lines 123--124
+Underfull \hbox (badness 10000) in paragraph at lines 123--124
 []\TU/Sarabun(0)/m/n/10 รองรับการทำงานแบบ Asynchronous (Async/Await) เพื่อไม่ให
-้ Server หยุดชะงักระหว่างรอฐานข้อมูลตอบกลับ 
+้ Server
  []
 
 ) [7] (./components/er_diagram.tex
 บทที่ 3.
 
-Overfull \hbox (41.52495pt too wide) in paragraph at lines 3--4
-\TU/Sarabun(0)/m/n/10 ment System) แสดงถึงโครงสร้างการจัดเก็บข้อมูลและความเชื่อ
-มโยงระหว่างตารางต่างๆ ในฐานข้อมูล ดังปรากฏในรูปภาพต่อไปนี้ 
+Underfull \hbox (badness 10000) in paragraph at lines 3--4
+\TU/Sarabun(0)/m/n/10 แผนภาพความสัมพันธ์ระหว่างข้อมูล (Entity Relationship Diag
+ram) ของระบบบริหารจัดการยิม (GymBro
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3--4
+\TU/Sarabun(0)/m/n/10 Management System) แสดงถึงโครงสร้างการจัดเก็บข้อมูลและควา
+มเชื่อมโยงระหว่างตารางต่างๆ ในฐานข้อมูล
  []
 
 LaTeX Font Info:    External font `cmex10' loaded for size
@@ -1077,24 +1092,24 @@ Overfull \hbox (23.49286pt too wide) in paragraph at lines 96--97
  []
 
 
-Overfull \hbox (118.56837pt too wide) in paragraph at lines 105--107
+Underfull \hbox (badness 10000) in paragraph at lines 105--107
 []\TU/Sarabun(0)/b/n/10 Customers (1) $\OMS/cmsy/m/n/10 !$ \TU/Sarabun(0)/b/n/1
 0 TrainingSessions (N)\TU/Sarabun(0)/m/n/10 : ลูกค้าหนึ่งคนสามารถจองเซสชันการฝึ
-กซ้อมได้หลายครั้ง แต่ละเซสชันจะเป็นของลูกค้าเพียงคนเดียว 
+กซ้อมได้หลายครั้ง
  []
 
 
-Overfull \hbox (28.70839pt too wide) in paragraph at lines 108--110
+Underfull \hbox (badness 10000) in paragraph at lines 108--110
 []\TU/Sarabun(0)/b/n/10 Trainers (1) $\OMS/cmsy/m/n/10 !$ \TU/Sarabun(0)/b/n/10
  TrainingSessions (N)\TU/Sarabun(0)/m/n/10 : เทรนเนอร์หนึ่งคนสามารถดูแลการฝึกซ้
-อมได้หลายเซสชัน (ในช่วงเวลาที่ต่างกัน)
+อมได้หลายเซสชัน
  []
 
 
-Overfull \hbox (39.40839pt too wide) in paragraph at lines 111--113
+Underfull \hbox (badness 10000) in paragraph at lines 111--113
 []\TU/Sarabun(0)/b/n/10 GymEquipments (1) $\OMS/cmsy/m/n/10 !$ \TU/Sarabun(0)/b
 /n/10 TrainingSessions (N)\TU/Sarabun(0)/m/n/10 : อุปกรณ์หนึ่งชิ้นสามารถถูกใช้ง
-านได้ในหลายเซสชัน (ในช่วงเวลาที่ต่างกัน)
+านได้ในหลายเซสชัน
  []
 
 [8
@@ -1102,23 +1117,41 @@ Overfull \hbox (39.40839pt too wide) in paragraph at lines 111--113
 ]) [9]
 บทที่ 4.
 (./components/database.tex
-Overfull \hbox (3.62335pt too wide) in paragraph at lines 4--5
-\TU/Sarabun(0)/m/n/10 System - RDBMS) ที่มีความเสถียร ประสิทธิภาพสูง และรองรับม
-าตรฐาน SQL อย่างครบถ้วน โดยฐานข้อมูลถูกโฮสต์อยู่บน
+Underfull \hbox (badness 10000) in paragraph at lines 4--5
+\TU/Sarabun(0)/m/n/10 ระบบ GymBro เลือกใช้ \TU/Sarabun(0)/b/n/10 PostgreSQL \TU
+/Sarabun(0)/m/n/10 ซึ่งเป็นระบบจัดการฐานข้อมูลเชิงสัมพันธ์ (Relational Database
+
  []
 
 
-Overfull \hbox (144.12416pt too wide) in paragraph at lines 6--7
+Underfull \hbox (badness 10000) in paragraph at lines 4--5
+\TU/Sarabun(0)/m/n/10 Management System - RDBMS) ที่มีความเสถียร ประสิทธิภาพสูง
+ และรองรับมาตรฐาน SQL
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 4--5
+\TU/Sarabun(0)/m/n/10 อย่างครบถ้วน โดยฐานข้อมูลถูกโฮสต์อยู่บน \TU/Sarabun(0)/b/
+n/10 Ruk-Com Cloud \TU/Sarabun(0)/m/n/10 ซึ่งเป็นผู้ให้บริการ Cloud Hosting
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 6--7
 []\TU/Sarabun(0)/m/n/10 การเลือกใช้ PostgreSQL บน Ruk-Com Cloud ช่วยให้ระบบมีคว
-ามยืดหยุ่นในการขยายตัว (Scalability) รองรับการเข้าถึงจากผู้ใช้งานจำนวนมากพร้อมก
-ัน
+ามยืดหยุ่นในการขยายตัว (Scalabil-
  []
 
 
-Overfull \hbox (1.45334pt too wide) in paragraph at lines 13--14
+Underfull \hbox (badness 10000) in paragraph at lines 6--7
+\TU/Sarabun(0)/m/n/10 ity) รองรับการเข้าถึงจากผู้ใช้งานจำนวนมากพร้อมกัน และมีกา
+รสำรองข้อมูลอัตโนมัติ (Automated Backup)
+ []
+
+
+Underfull \hbox (badness 1622) in paragraph at lines 13--14
 \TU/Sarabun(0)/m/n/10 ไฟล์ \TU/lmtt/m/n/10 db.js \TU/Sarabun(0)/m/n/10 รับผิดชอ
 บการจัดการการเชื่อมต่อกับฐานข้อมูล PostgreSQL โดยใช้ Sequelize ORM รวมถึงการนิย
-าม Model
+าม
  []
 
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
@@ -1126,74 +1159,64 @@ nput line 16.
 LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <8> not available
 (Font)              Font shape `TU/lmtt/b/n' tried instead on input line 17.
 
-Overfull \hbox (57.37494pt too wide) in paragraph at lines 31--32
+Underfull \hbox (badness 10000) in paragraph at lines 31--32
 []\TU/Sarabun(0)/m/n/10 สร้าง Instance ของ \TU/lmtt/m/n/10 Sequelize \TU/Sarabu
 n(0)/m/n/10 โดยระบุ Dialect เป็น \TU/lmtt/m/n/10 postgres \TU/Sarabun(0)/m/n/10
- และปิดการแสดงผล Logging เพื่อลดความซับซ้อนของข้อมูลใน
+ และปิดการแสดงผล Logging
  []
 
 [10
 
 ]
-Overfull \hbox (93.84695pt too wide) in paragraph at lines 58--59
+Underfull \hbox (badness 10000) in paragraph at lines 58--59
 []\TU/Sarabun(0)/m/n/10 ปิดการใช้งาน \TU/lmtt/m/n/10 timestamps \TU/Sarabun(0)/
-m/n/10 (created_at, updated_at) และใช้ \TU/lmtt/m/n/10 freezeTableName \TU/Sara
-bun(0)/m/n/10 เพื่อบังคับให้ใช้ชื่อตารางตามที่กำหนดไว้อย่างเคร่งครัด 
+m/n/10 (created_at, updated_at) และใช้ \TU/lmtt/m/n/10 freezeTableName
  []
 
 
-Overfull \hbox (18.19896pt too wide) in paragraph at lines 84--85
+Underfull \hbox (badness 3884) in paragraph at lines 84--85
 []\TU/Sarabun(0)/m/n/10 นิยามตาราง \TU/lmtt/m/n/10 TrainingSessions \TU/Sarabun
 (0)/m/n/10 ซึ่งประกอบด้วย Foreign Keys ได้แก่ \TU/lmtt/m/n/10 customerId\TU/Sar
-abun(0)/m/n/10 , \TU/lmtt/m/n/10 trainerId\TU/Sarabun(0)/m/n/10 , และ \TU/lmtt/
-m/n/10 equipmentId 
+abun(0)/m/n/10 , \TU/lmtt/m/n/10 trainerId\TU/Sarabun(0)/m/n/10 , และ
  []
 
 
-Overfull \hbox (32.08395pt too wide) in paragraph at lines 87--88
+Underfull \hbox (badness 3219) in paragraph at lines 87--88
 []\TU/lmtt/m/n/10 belongsTo\TU/Sarabun(0)/m/n/10 : กำหนดความสัมพันธ์แบบ Many-to
--One ระบุว่าเซสชันหนึ่งๆ เป็นของลูกค้า, เทรนเนอร์, และอุปกรณ์ใด 
+-One ระบุว่าเซสชันหนึ่งๆ เป็นของลูกค้า, เทรนเนอร์,
  []
 
 
-Overfull \hbox (82.50995pt too wide) in paragraph at lines 88--89
+Underfull \hbox (badness 1424) in paragraph at lines 88--89
 []\TU/lmtt/m/n/10 hasMany\TU/Sarabun(0)/m/n/10 : กำหนดความสัมพันธ์แบบ One-to-Ma
-ny ระบุว่าลูกค้าหนึ่งคน (รวมถึงเทรนเนอร์และอุปกรณ์) สามารถมีได้หลายเซสชัน 
+ny ระบุว่าลูกค้าหนึ่งคน (รวมถึงเทรนเนอร์และอุปกรณ์)
  []
 
 
-Overfull \hbox (9.26416pt too wide) in paragraph at lines 100--101
+Underfull \hbox (badness 10000) in paragraph at lines 100--101
 \TU/Sarabun(0)/m/n/10 ไฟล์ \TU/lmtt/m/n/10 schema.sql \TU/Sarabun(0)/m/n/10 คือ
-ชุดคำสั่ง SQL (Structured Query Language) สำหรับสร้างโครงสร้างตารางในฐานข้อมูล 
-PostgreSQL
+ชุดคำสั่ง SQL (Structured Query Language) สำหรับสร้างโครงสร้างตารางในฐานข้อมูล
  []
 
 
-Overfull \hbox (92.32498pt too wide) in paragraph at lines 100--101
-\TU/Sarabun(0)/m/n/10 ไฟล์นี้เปรียบเสมือนพิมพ์เขียว (Blueprint) หลักของฐานข้อมู
-ล ใช้สำหรับการอ้างอิงโครงสร้างที่แท้จริง หรือใช้สำหรับการเริ่มระบบฐานข้อมูลใหม่
-
+Underfull \hbox (badness 5504) in paragraph at lines 100--101
+\TU/Sarabun(0)/m/n/10 PostgreSQL ไฟล์นี้เปรียบเสมือนพิมพ์เขียว (Blueprint) หลัก
+ของฐานข้อมูล ใช้สำหรับการอ้างอิงโครงสร้างที่แท้จริง
  []
 
-(/usr/local/texlive/2026/texmf-dist/tex/latex/listings/lstlang1.sty
+[11] (/usr/local/texlive/2026/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2025/11/14 1.11b listings language file
-) [11]
-Overfull \hbox (32.21996pt too wide) in paragraph at lines 167--168
-[]\TU/lmtt/m/n/10 REFERENCES "Customers"(id)\TU/Sarabun(0)/m/n/10 : สร้าง Forei
-gn Key เชื่อมโยงไปยังตาราง Customers เพื่อรักษาความสัมพันธ์ของข้อมูล 
- []
-
-
-Overfull \hbox (28.78496pt too wide) in paragraph at lines 168--169
-[]\TU/lmtt/m/n/10 ON DELETE CASCADE\TU/Sarabun(0)/m/n/10 : กำหนดกฎว่าหากข้อมูล 
-Customer ถูกลบ ให้ทำการลบ Session ที่เกี่ยวข้องทั้งหมดทิ้งโดยอัตโนมัติ
- []
-
+)
 [12]
-Overfull \hbox (9.99496pt too wide) in paragraph at lines 169--170
-[]\TU/Sarabun(0)/m/n/10 มีการเชื่อมโยงกับตาราง \TU/lmtt/m/n/10 Trainers \TU/Sar
-abun(0)/m/n/10 และ \TU/lmtt/m/n/10 GymEquipments \TU/Sarabun(0)/m/n/10 ในลักษณะ
-เดียวกัน เพื่อรักษาความถูกต้องของข้อมูล (Ref-
+Underfull \hbox (badness 10000) in paragraph at lines 167--168
+[]\TU/lmtt/m/n/10 REFERENCES "Customers"(id)\TU/Sarabun(0)/m/n/10 : สร้าง Forei
+gn Key เชื่อมโยงไปยังตาราง Customers
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 168--169
+[]\TU/lmtt/m/n/10 ON DELETE CASCADE\TU/Sarabun(0)/m/n/10 : กำหนดกฎว่าหากข้อมูล 
+Customer ถูกลบ ให้ทำการลบ Session
  []
 
 
@@ -1221,7 +1244,7 @@ Underfull \hbox (badness 1596) in paragraph at lines 244--245
 []|\TU/Sarabun(0)/m/n/10 ความถนัดหรือประเภทกีฬาที่สอน (เช่น
  []
 
-
+[13]
 Underfull \hbox (badness 10000) in paragraph at lines 276--277
 []|\TU/Sarabun(0)/m/n/10 หมวดหมู่ของอุปกรณ์ (เช่น Cardio,
  []
@@ -1231,7 +1254,7 @@ Underfull \hbox (badness 5091) in paragraph at lines 277--278
 []|\TU/Sarabun(0)/m/n/10 สถานะความพร้อมใช้งาน (เช่น Avail-
  []
 
-[13]
+
 Underfull \hbox (badness 10000) in paragraph at lines 306--307
 []|\TU/Sarabun(0)/m/n/10 รหัสระบุตัวตนเซสชัน (Session ID)
  []
@@ -1254,163 +1277,134 @@ Underfull \hbox (badness 4429) in paragraph at lines 311--312
 ) [14]
 บทที่ 5.
 (./components/usage.tex
-Overfull \hbox (5.70494pt too wide) in paragraph at lines 5--6
+Underfull \hbox (badness 4886) in paragraph at lines 5--6
 \TU/Sarabun(0)/m/n/10 บทนี้อธิบายวิธีการใช้งานระบบ GymBro Management System อย่
-างละเอียด แบ่งตามสิทธิ์การใช้งานของผู้ใช้ 3 กลุ่มหลัก
+างละเอียด แบ่งตามสิทธิ์การใช้งานของผู้ใช้ 3
  []
 
 [15
 
 ] [16]
-Overfull \hbox (41.49496pt too wide) in paragraph at lines 70--71
+Underfull \hbox (badness 10000) in paragraph at lines 70--71
 []\TU/Sarabun(0)/m/n/10 ระบบจะตรวจสอบความว่าง (Availability) ของเทรนเนอร์และอุป
-กรณ์โดยอัตโนมัติ หากไม่ว่างตัวเลือกนั้นจะถูกปิดการใช้งาน
+กรณ์โดยอัตโนมัติ
  []
 
-[17] [18]
-Overfull \hbox (2.02097pt too wide) in paragraph at lines 116--117
-[]\TU/Sarabun(0)/m/n/10 แสดงจำนวนรวมของลูกค้า (Customers), เทรนเนอร์ (Trainers)
-, อุปกรณ์ (Equipments), และเซสชันวันนี้ (Today’s
- []
-
-
-Overfull \hbox (12.64314pt too wide) in paragraph at lines 140--141
-[]\TU/Sarabun(0)/b/n/10 แก้ไข: \TU/Sarabun(0)/m/n/10 กดปุ่ม \TU/Sarabun(0)/b/n/
-10 EDIT \TU/Sarabun(0)/m/n/10 ในแถวที่ต้องการ ระบบจะแสดง Popup (Prompt) ให้กรอก
-ข้อมูลใหม่ทีละค่า (ชื่อ, อีเมล, เบอร์โทร) 
- []
-
-[19] [20] [21]
-Overfull \hbox (50.10086pt too wide) in paragraph at lines 233--234
-\TU/Sarabun(0)/m/n/10 ในหน้า \TU/Sarabun(0)/b/n/10 Reports & Logs \TU/Sarabun(0
-)/m/n/10 ผู้ดูแลระบบสามารถพิมพ์รายงานสรุปการใช้งานออกมาในรูปแบบเอกสารกระดาษหรือ
- PDF ได้อย่างสวยงาม 
- []
-
-
-Overfull \hbox (7.45496pt too wide) in paragraph at lines 240--241
+[17] [18] [19] [20] [21]
+Underfull \hbox (badness 10000) in paragraph at lines 240--241
 []\TU/Sarabun(0)/m/n/10 สังเกตว่าส่วนที่ไม่จำเป็น เช่น แถบเมนู (Sidebar) และปุ่
-มกดต่างๆ จะถูกซ่อนไป เหลือเพียงเนื้อหารายงานที่สะอาดตา 
+มกดต่างๆ จะถูกซ่อนไป
  []
 
 
-Overfull \hbox (155.38316pt too wide) in paragraph at lines 249--250
-[]\TU/Sarabun(0)/b/n/10 การค้นหา: \TU/Sarabun(0)/m/n/10 พิมพ์ชื่อ, อีเมล, หรือเ
-บอร์โทรศัพท์ ในช่องค้นหาด้านบนตาราง แล้วกดปุ่ม \TU/Sarabun(0)/b/n/10 SEARCH \TU
-/Sarabun(0)/m/n/10 หรือกด Enter ระบบจะแสดงเฉพาะข้อมูลที่ตรงกับคำค้นหา 
- []
-
-
-Overfull \hbox (94.19995pt too wide) in paragraph at lines 250--251
+Underfull \hbox (badness 2050) in paragraph at lines 250--251
 []\TU/Sarabun(0)/b/n/10 การแบ่งหน้า: \TU/Sarabun(0)/m/n/10 หากมีข้อมูลจำนวนมาก 
 ระบบจะแบ่งแสดงทีละ 10 รายการ สามารถกดปุ่ม \TU/Sarabun(0)/b/n/10 Prev \TU/Sarabu
-n(0)/m/n/10 หรือ \TU/Sarabun(0)/b/n/10 Next \TU/Sarabun(0)/m/n/10 ด้านล่างตาราง
-เพื่อเปลี่ยนหน้าได้ 
+n(0)/m/n/10 หรือ \TU/Sarabun(0)/b/n/10 Next
  []
 
 ) [22]
 บทที่ 6.
 (./components/backend.tex
-Overfull \hbox (29.04416pt too wide) in paragraph at lines 6--7
+Underfull \hbox (badness 10000) in paragraph at lines 6--7
 \TU/Sarabun(0)/m/n/10 Web Server ผ่านการใช้งาน Express.js Framework ไฟล์นี้มีคว
-ามรับผิดชอบหลักในการจัดการ API Requests ทั้งหมดที่ส่งมาจาก
+ามรับผิดชอบหลักในการจัดการ API Requests
  []
 
 
-Overfull \hbox (54.85896pt too wide) in paragraph at lines 6--7
-\TU/Sarabun(0)/m/n/10 Frontend, การเชื่อมต่อกับฐานข้อมูลผ่าน Sequelize ORM, การ
-จัดการตรรกะทางธุรกิจ (Business Logic), การบันทึกประวัติการทำงาน
+Underfull \hbox (badness 3439) in paragraph at lines 6--7
+\TU/Sarabun(0)/m/n/10 ทั้งหมดที่ส่งมาจาก Frontend, การเชื่อมต่อกับฐานข้อมูลผ่าน
+ Sequelize ORM, การจัดการตรรกะทางธุรกิจ (Busi-
  []
 
 
-Overfull \hbox (64.75996pt too wide) in paragraph at lines 27--28
+Underfull \hbox (badness 10000) in paragraph at lines 6--7
+\TU/Sarabun(0)/m/n/10 ness Logic), การบันทึกประวัติการทำงาน (Logging), และการตั
+้งค่าภารกิจตามกำหนดเวลา (Scheduled Task)
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 27--28
 []\TU/lmtt/m/n/10 require("dotenv").config()\TU/Sarabun(0)/m/n/10 : โหลดค่าตัวแ
-ปรสภาพแวดล้อมจากไฟล์ \TU/lmtt/m/n/10 .env \TU/Sarabun(0)/m/n/10 เพื่อความปลอดภั
-ยและความยืดหยุ่นในการตั้งค่า 
+ปรสภาพแวดล้อมจากไฟล์ \TU/lmtt/m/n/10 .env
  []
 
 
-Overfull \hbox (25.00995pt too wide) in paragraph at lines 29--30
+Underfull \hbox (badness 10000) in paragraph at lines 29--30
 []\TU/lmtt/m/n/10 cors\TU/Sarabun(0)/m/n/10 : ใช้งาน Middleware สำหรับจัดการ Cr
-oss-Origin Resource Sharing เพื่ออนุญาตให้ Frontend สามารถเรียกใช้งาน
+oss-Origin Resource Sharing เพื่ออนุญาตให้ Frontend
  []
 
 [23
 
 ]
-Overfull \hbox (108.52333pt too wide) in paragraph at lines 73--74
+Underfull \hbox (badness 10000) in paragraph at lines 73--74
 \TU/Sarabun(0)/m/n/10 ฟังก์ชันนี้ใช้สำหรับเรียงลำดับ ID ในฐานข้อมูลใหม่ (Reset 
-Auto Increment) เพื่อให้ ID เรียงต่อกันอย่างสวยงามหลังจากมีการลบข้อมูลออกจากระบ
-บ 
+Auto Increment) เพื่อให้ ID
  []
 
 [24]
-Overfull \hbox (123.00833pt too wide) in paragraph at lines 118--119
+Underfull \hbox (badness 10000) in paragraph at lines 118--119
 []\TU/Sarabun(0)/b/n/10 หลักการทำงาน\TU/Sarabun(0)/m/n/10 : ดึงข้อมูลทั้งหมดจาก
-ตารางมาเรียงตาม ID จากน้อยไปมาก แล้ววนลูปตรวจสอบว่า ID ของแต่ละรายการตรงกับลำดั
-บที่ควรจะเป็น
+ตารางมาเรียงตาม ID จากน้อยไปมาก แล้ววนลูปตรวจสอบว่า ID
  []
 
 
-Overfull \hbox (57.09613pt too wide) in paragraph at lines 119--120
-\TU/Sarabun(0)/m/n/10 Customer, Trainer หรือ Equipment จำเป็นต้องอัปเดต ID ในตา
-ราง Sessions ด้วยเพื่อรักษาความถูกต้องของความสัมพันธ์ข้อมูล 
+Underfull \hbox (badness 5771) in paragraph at lines 119--120
+[]\TU/Sarabun(0)/b/n/10 Cascade Update\TU/Sarabun(0)/m/n/10 : เนื่องจากมีการอ้า
+งอิง Foreign Key ในตาราง \TU/lmtt/m/n/10 TrainingSessions \TU/Sarabun(0)/m/n/10
+ หากมีการเปลี่ยน
  []
 
 
-Overfull \hbox (27.69249pt too wide) in paragraph at lines 121--122
+Underfull \hbox (badness 10000) in paragraph at lines 119--120
+\TU/Sarabun(0)/m/n/10 ID ของ Customer, Trainer หรือ Equipment จำเป็นต้องอัปเดต 
+ID ในตาราง Sessions
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 121--122
 []\TU/Sarabun(0)/b/n/10 Reset Sequence\TU/Sarabun(0)/m/n/10 : ปรับค่า Auto Incr
-ement Sequence ของ PostgreSQL (\TU/lmtt/m/n/10 setval\TU/Sarabun(0)/m/n/10 ) ให
-้สอดคล้องกับจำนวนข้อมูลปัจจุบัน
+ement Sequence ของ PostgreSQL (\TU/lmtt/m/n/10 setval\TU/Sarabun(0)/m/n/10 )
  []
 
 [25]
-Overfull \hbox (38.05994pt too wide) in paragraph at lines 171--172
+Underfull \hbox (badness 1521) in paragraph at lines 171--172
 []\TU/Sarabun(0)/m/n/10 ตรวจสอบเงื่อนไข Admin แบบ Hardcoded: หากใช้อีเมล \TU/lm
 tt/m/n/10 admin@gymbro.com \TU/Sarabun(0)/m/n/10 และเบอร์โทร \TU/lmtt/m/n/10 12
-3456 \TU/Sarabun(0)/m/n/10 จะได้รับสิทธิ์เป็น
+3456
  []
 
 [26]
-Overfull \hbox (13.84993pt too wide) in paragraph at lines 259--260
+Underfull \hbox (badness 6859) in paragraph at lines 259--260
 []\TU/Sarabun(0)/b/n/10 การคำนวณเวลาสิ้นสุด\TU/Sarabun(0)/m/n/10 : คำนวณค่า \TU
 /lmtt/m/n/10 endDate \TU/Sarabun(0)/m/n/10 โดยใช้เวลาเริ่มต้น (\TU/lmtt/m/n/10 
 start\TU/Sarabun(0)/m/n/10 ) บวกกับระยะเวลา (\TU/lmtt/m/n/10 duration\TU/Sarabu
-n(0)/m/n/10 ) ในหน่วยนาที 
+n(0)/m/n/10 )
  []
 
 
-Overfull \hbox (111.30997pt too wide) in paragraph at lines 260--261
+Underfull \hbox (badness 3386) in paragraph at lines 260--261
 []\TU/Sarabun(0)/b/n/10 การตรวจสอบสถานะอุปกรณ์\TU/Sarabun(0)/m/n/10 : ตรวจสอบว่
-าอุปกรณ์ที่เลือกมีสถานะเป็น ’Maintenance’ (ซ่อมบำรุง) หรือไม่ หากใช่จะไม่อนุญาต
-ให้ทำการจอง 
+าอุปกรณ์ที่เลือกมีสถานะเป็น ’Maintenance’ (ซ่อมบำรุง) หรือไม่
  []
 
-
-Overfull \hbox (28.72667pt too wide) in paragraph at lines 261--262
-[]\TU/Sarabun(0)/b/n/10 การตรวจสอบเวลาทับซ้อน (Overlap Check)\TU/Sarabun(0)/m/n
-/10 : ใช้ตรรกะทางคณิตศาสตร์ \TU/lmtt/m/n/10 (StartA < EndB) AND (EndA > StartB)
-
- []
-
-[27]
-Overfull \hbox (22.26497pt too wide) in paragraph at lines 365--366
+[27] [28]
+Underfull \hbox (badness 10000) in paragraph at lines 365--366
 \TU/Sarabun(0)/m/n/10 ระบบมีการตรวจสอบความถูกต้องของข้อมูล (Data Validation) ก่
-อนบันทึกลงฐานข้อมูล โดยใช้ไลบรารี \TU/lmtt/m/n/10 express-validator 
+อนบันทึกลงฐานข้อมูล โดยใช้ไลบรารี
  []
 
-[28]
-Overfull \hbox (92.82497pt too wide) in paragraph at lines 368--369
+
+Underfull \hbox (badness 1590) in paragraph at lines 368--369
 \TU/Sarabun(0)/m/n/10 สร้าง Middleware ชื่อ \TU/lmtt/m/n/10 validate \TU/Sarabu
-n(0)/m/n/10 และกำหนดกฎการตรวจสอบ (Validation Rules) แยกตามแต่ละ Route ในไฟล์ \T
-U/lmtt/m/n/10 middleware/validation.js 
+n(0)/m/n/10 และกำหนดกฎการตรวจสอบ (Validation Rules) แยกตามแต่ละ Route ในไฟล์
  []
 
 
-Overfull \hbox (27.51332pt too wide) in paragraph at lines 397--398
+Underfull \hbox (badness 3179) in paragraph at lines 397--398
 \TU/Sarabun(0)/m/n/10 ไฟล์ \TU/lmtt/m/n/10 db.js \TU/Sarabun(0)/m/n/10 ทำหน้าที
-่กำหนดการเชื่อมต่อกับฐานข้อมูล PostgreSQL ผ่าน Sequelize ORM และกำหนด Schema ขอ
-งตารางต่างๆ 
+่กำหนดการเชื่อมต่อกับฐานข้อมูล PostgreSQL ผ่าน Sequelize ORM และกำหนด Schema
  []
 
 Missing character: There is no ร (U+0E23) in font [lmmono8-regular]:!
@@ -1463,12 +1457,12 @@ Missing character: There is no ้ (U+0E49) in font [lmmono8-regular]:!
 Missing character: There is no อ (U+0E2D) in font [lmmono8-regular]:!
 Missing character: There is no ม (U+0E21) in font [lmmono8-regular]:!
 
-Overfull \hbox (142.32416pt too wide) in paragraph at lines 479--480
+Underfull \hbox (badness 10000) in paragraph at lines 479--480
 \TU/Sarabun(0)/m/n/10 API พิเศษสำหรับรวบรวมสถิติเพื่อแสดงผลบน Dashboard ของผู้ด
-ูแลระบบ โดยใช้ \TU/lmtt/m/n/10 Promise.all \TU/Sarabun(0)/m/n/10 เพื่อดึงข้อมูล
-จากหลายตารางพร้อมกันอย่างมีประสิทธิภาพ 
+ูแลระบบ โดยใช้ \TU/lmtt/m/n/10 Promise.all
  []
 
+[30]
 Missing character: There is no เ (U+0E40) in font [lmmono8-regular]:!
 Missing character: There is no ร (U+0E23) in font [lmmono8-regular]:!
 Missing character: There is no ิ (U+0E34) in font [lmmono8-regular]:!
@@ -1490,17 +1484,10 @@ Missing character: There is no ด (U+0E14) in font [lmmono8-regular]:!
 Missing character: There is no ว (U+0E27) in font [lmmono8-regular]:!
 Missing character: There is no ั (U+0E31) in font [lmmono8-regular]:!
 Missing character: There is no น (U+0E19) in font [lmmono8-regular]:!
-[30]) (./components/frontend.tex
-Overfull \hbox (55.81494pt too wide) in paragraph at lines 6--7
+) (./components/frontend.tex
+Underfull \hbox (badness 5133) in paragraph at lines 6--7
 \TU/Sarabun(0)/m/n/10 ไฟล์ \TU/lmtt/m/n/10 frontend/server.js \TU/Sarabun(0)/m/
-n/10 ทำหน้าที่เป็น Web Server สำหรับฝั่ง Frontend ของระบบ GymBro โดยใช้ Express
-.js ในการให้บริการไฟล์
- []
-
-
-Overfull \hbox (40.84416pt too wide) in paragraph at lines 6--7
-\TU/Sarabun(0)/m/n/10 Static และจัดการเส้นทาง (Routing) ไปยังหน้าเว็บต่างๆ ที่เ
-ขียนด้วย EJS Template Engine ไฟล์นี้ทำหน้าที่แยกส่วนการทำงานของ
+n/10 ทำหน้าที่เป็น Web Server สำหรับฝั่ง Frontend ของระบบ GymBro โดยใช้ Ex-
  []
 
 [31] [32]
@@ -1510,24 +1497,30 @@ Overfull \hbox (6.84496pt too wide) in paragraph at lines 137--138
 ้าถึงไฟล์นอกเหนือจาก
  []
 
-
-Overfull \hbox (4.45494pt too wide) in paragraph at lines 150--151
-[]\TU/Sarabun(0)/m/n/10 ตรวจสอบว่าเส้นทางปลายทาง (\TU/lmtt/m/n/10 targetPath\TU
-/Sarabun(0)/m/n/10 ) ยังคงอยู่ภายใต้โฟลเดอร์ราก (\TU/lmtt/m/n/10 base\TU/Sarabu
-n(0)/m/n/10 ) หรือไม่ หากไม่อยู่ จะคืนค่า \TU/lmtt/m/n/10 null 
- []
-
 [33]
-Overfull \hbox (61.78416pt too wide) in paragraph at lines 211--212
-\TU/Sarabun(0)/m/n/10 Base URL) เพื่อให้ไฟล์ JavaScript อื่นๆ สามารถเรียกใช้งาน
-และเชื่อมต่อกับ Backend ได้อย่างถูกต้องและเป็นมาตรฐานเดียวกันทั้งระบบ 
+Underfull \hbox (badness 2913) in paragraph at lines 211--212
+\TU/Sarabun(0)/m/n/10 ไฟล์ \TU/lmtt/m/n/10 frontend/js/config.js \TU/Sarabun(0)
+/m/n/10 เป็นไฟล์กำหนดค่าเริ่มต้น (Configuration File) สำหรับฝั่ง Frontend ของระ
+บบ
  []
 
 
-Overfull \hbox (53.11496pt too wide) in paragraph at lines 223--224
+Underfull \hbox (badness 10000) in paragraph at lines 211--212
+\TU/Sarabun(0)/m/n/10 GymBro โดยทำหน้าที่ประกาศตัวแปรส่วนกลาง (Global Variable)
+ ที่ใช้สำหรับอ้างอิง URL พื้นฐานของ
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 211--212
+\TU/Sarabun(0)/m/n/10 Backend API (API Base URL) เพื่อให้ไฟล์ JavaScript อื่นๆ 
+สามารถเรียกใช้งานและเชื่อมต่อกับ Backend
+ []
+
+[34]
+Underfull \hbox (badness 10000) in paragraph at lines 223--224
 []\TU/lmtt/m/n/10 window.API\TU/Sarabun(0)/m/n/10 : การประกาศตัวแปรในระดับ \TU/
 lmtt/m/n/10 window \TU/Sarabun(0)/m/n/10 ทำให้ตัวแปรนี้มีสถานะเป็น Global Varia
-ble ซึ่งสามารถเข้าถึงได้จากทุกไฟล์
+ble
  []
 
 
@@ -1554,10 +1547,10 @@ Overfull \hbox (39.64497pt too wide) in paragraph at lines 236--237
 าผู้ใช้จะสามารถเข้าถึงข้อมูลได้เฉพาะในส่วนที่ได้รับอนุญาตเท่านั้น 
  []
 
-[34]
-Overfull \hbox (12.10497pt too wide) in paragraph at lines 240--241
+
+Underfull \hbox (badness 2401) in paragraph at lines 240--241
 \TU/Sarabun(0)/m/n/10 ส่วนนี้เป็นการกำหนดตัวแปรเริ่มต้นและตรวจสอบว่าหน้าปัจจุบั
-นคือหน้า Login หรือไม่ เพื่อใช้ในการตัดสินใจว่าจะรัน Logic
+นคือหน้า Login หรือไม่ เพื่อใช้ในการตัดสินใจว่าจะรัน
  []
 
 
@@ -1567,22 +1560,21 @@ unction (\TU/lmtt/m/n/10 window.logout\TU/Sarabun(0)/m/n/10 )
  []
 
 [35]
-Overfull \hbox (11.04999pt too wide) in paragraph at lines 319--320
+Underfull \hbox (badness 10000) in paragraph at lines 319--320
 []\TU/Sarabun(0)/b/n/10 จุดประสงค์: \TU/Sarabun(0)/m/n/10 ป้องกันการเข้าถึงหน้า
-เว็บโดยไม่ได้รับอนุญาต และ Redirect ผู้ใช้ไปยังหน้า Dashboard หากล็อกอินแล้ว 
+เว็บโดยไม่ได้รับอนุญาต และ Redirect ผู้ใช้ไปยังหน้า Dashboard
  []
 
 
-Overfull \hbox (21.63327pt too wide) in paragraph at lines 326--327
+Underfull \hbox (badness 10000) in paragraph at lines 326--327
 []\TU/Sarabun(0)/b/n/10 กรณีมี Session: \TU/Sarabun(0)/m/n/10 ตรวจสอบ Role ของผ
-ู้ใช้ หากเป็น User ธรรมดาแต่พยายามเข้าหน้า \TU/lmtt/m/n/10 /admin \TU/Sarabun(0
-)/m/n/10 จะถูกดีดกลับไปหน้า
+ู้ใช้ หากเป็น User ธรรมดาแต่พยายามเข้าหน้า \TU/lmtt/m/n/10 /admin
  []
 
 
-Overfull \hbox (8.7633pt too wide) in paragraph at lines 327--328
+Underfull \hbox (badness 10000) in paragraph at lines 327--328
 []\TU/Sarabun(0)/b/n/10 กรณีอยู่หน้า Login แต่มี Session แล้ว: \TU/Sarabun(0)/m
-/n/10 Redirect ไปยัง Dashboard ตาม Role ของผู้ใช้ทันที (ไม่ต้องล็อกอินซ้ำ) 
+/n/10 Redirect ไปยัง Dashboard ตาม Role ของผู้ใช้ทันที
  []
 
 [36] [37]
@@ -1603,14 +1595,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 435--436
 วามพร้อมของทรัพยากร (Availability Check)
  []
 
-
-Overfull \hbox (30.5749pt too wide) in paragraph at lines 471--472
+[38]
+Underfull \hbox (badness 10000) in paragraph at lines 471--472
 []\TU/Sarabun(0)/m/n/10 ผูก Event Change สำหรับ Input Fields ในฟอร์มจอง เพื่อเร
-ียก \TU/lmtt/m/n/10 checkAvailability() \TU/Sarabun(0)/m/n/10 ทุกครั้งที่มีการเ
-ปลี่ยนข้อมูล 
+ียก \TU/lmtt/m/n/10 checkAvailability()
  []
 
-[38] [39] [40]
+[39] [40] [41]
 Underfull \hbox (badness 10000) in paragraph at lines 684--685
 \TU/Sarabun(0)/m/n/10 ไฟล์ \TU/lmtt/m/n/10 frontend/views/index.ejs \TU/Sarabun
 (0)/m/n/10 คือหน้า Dashboard หลักสำหรับผู้ดูแลระบบ (Admin)
@@ -1628,7 +1619,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 684--685
 บบให้รองรับการแสดงผลบนมือถือ (Responsive
  []
 
-[41] (/usr/local/texlive/2026/texmf-dist/tex/latex/listings/lstlang1.sty
+(/usr/local/texlive/2026/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2025/11/14 1.11b listings language file
 )
 (/usr/local/texlive/2026/texmf-dist/tex/latex/listings/lstmisc.sty
@@ -1641,38 +1632,29 @@ Underfull \hbox (badness 10000) in paragraph at lines 862--863
  []
 
 [44]
-Overfull \hbox (73.00333pt too wide) in paragraph at lines 919--920
+Underfull \hbox (badness 10000) in paragraph at lines 919--920
 []\TU/Sarabun(0)/b/n/10 Custom Shadow\TU/Sarabun(0)/m/n/10 : การใช้ \TU/lmtt/m/
-n/10 shadow-[8px_8px_0px_0px_...] \TU/Sarabun(0)/m/n/10 สร้างเงาแบบทึบและหนา ซึ
-่งเป็นเอกลักษณ์ของการออกแบบสไตล์นี้ 
+n/10 shadow-[8px_8px_0px_0px_...] \TU/Sarabun(0)/m/n/10 สร้างเงาแบบทึบและหนา
  []
 
 
-Overfull \hbox (29.3233pt too wide) in paragraph at lines 920--921
+Underfull \hbox (badness 10000) in paragraph at lines 920--921
 []\TU/Sarabun(0)/b/n/10 Absolute Positioning\TU/Sarabun(0)/m/n/10 : ป้าย ”LOGIN
 ” ถูกจัดวางด้วย \TU/lmtt/m/n/10 absolute \TU/Sarabun(0)/m/n/10 เพื่อให้ลอยออกมา
-จากกรอบหลัก สร้างมิติให้กับหน้าเว็บ 
- []
-
-
-Overfull \hbox (114.76495pt too wide) in paragraph at lines 924--925
-\TU/Sarabun(0)/m/n/10 ส่วนฟอร์มรับข้อมูลประกอบด้วยช่องกรอก Email และ Phone Numb
-er (ซึ่งใช้แทนรหัสผ่านในระบบนี้) รวมถึงส่วนแสดงข้อความแจ้งเตือนข้อผิดพลาด 
+จากกรอบหลัก
  []
 
 [45]
-Overfull \hbox (14.07329pt too wide) in paragraph at lines 970--971
-[]\TU/Sarabun(0)/b/n/10 Error Handling\TU/Sarabun(0)/m/n/10 : \TU/lmtt/m/n/10 d
-iv id="error-message" \TU/Sarabun(0)/m/n/10 มีคลาส \TU/lmtt/m/n/10 hidden \TU/S
-arabun(0)/m/n/10 อยู่เริ่มต้น และจะถูกแสดงผลด้วย JavaScript (ในไฟล์
+Underfull \hbox (badness 10000) in paragraph at lines 924--925
+\TU/Sarabun(0)/m/n/10 ส่วนฟอร์มรับข้อมูลประกอบด้วยช่องกรอก Email และ Phone Numb
+er (ซึ่งใช้แทนรหัสผ่านในระบบนี้)
  []
 
 
-Overfull \hbox (45.09326pt too wide) in paragraph at lines 971--972
+Underfull \hbox (badness 10000) in paragraph at lines 971--972
 []\TU/Sarabun(0)/b/n/10 Interactive Button\TU/Sarabun(0)/m/n/10 : ปุ่ม Submit ม
 ี Effect เมื่อเอาเมาส์ไปวาง (\TU/lmtt/m/n/10 hover\TU/Sarabun(0)/m/n/10 ) และเม
-ื่อกด (\TU/lmtt/m/n/10 active\TU/Sarabun(0)/m/n/10 ) เพื่อให้ผู้ใช้รู้สึกถึงการ
-ตอบสนอง 
+ื่อกด (\TU/lmtt/m/n/10 active\TU/Sarabun(0)/m/n/10 )
  []
 
 
@@ -1688,19 +1670,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 983--984
  []
 
 [46]
-Overfull \hbox (33.76495pt too wide) in paragraph at lines 1035--1036
+Underfull \hbox (badness 10000) in paragraph at lines 1035--1036
 \TU/Sarabun(0)/m/n/10 เนื่องจากหน้านี้มีการทำงานที่ไม่ซับซ้อนมาก จึงมีการฝัง Sc
-ript ไว้ภายในไฟล์โดยตรง (Inline Script) เพื่อจัดการการส่งข้อมูลไปยัง
+ript ไว้ภายในไฟล์โดยตรง (Inline Script)
  []
 
 [47]
-Overfull \hbox (20.64249pt too wide) in paragraph at lines 1080--1081
-[]\TU/Sarabun(0)/b/n/10 Form Submission\TU/Sarabun(0)/m/n/10 : ดักจับ Event \TU
-/lmtt/m/n/10 submit \TU/Sarabun(0)/m/n/10 ป้องกันการ Refresh หน้าจอ และส่งข้อมู
-ล JSON ไปยัง Endpoint \TU/lmtt/m/n/10 /register 
- []
-
-
 Overfull \hbox (8.65497pt too wide) in paragraph at lines 1092--1093
 \TU/Sarabun(0)/m/n/10 ไฟล์ \TU/lmtt/m/n/10 frontend/views/customers.ejs \TU/Sar
 abun(0)/m/n/10 คือหน้าจอสำหรับผู้ดูแลระบบ (Admin) เพื่อใช้ในการบริหารจัดการข้อม
@@ -1713,58 +1688,53 @@ Overfull \hbox (17.75497pt too wide) in paragraph at lines 1092--1093
 าชิกใหม่ และตารางแสดงรายชื่อสมาชิกทั้งหมดในระบบ
  []
 
-
+[48]
 Overfull \hbox (5.31496pt too wide) in paragraph at lines 1113--1114
 \TU/Sarabun(0)/m/n/10 ส่วนนี้เป็นฟอร์มสำหรับลงทะเบียนสมาชิกใหม่ ถูกออกแบบโดยใช้
  Grid Layout เพื่อให้แสดงผลได้สวยงามและเป็นระเบียบ 
  []
 
-[48]
-Overfull \hbox (84.1673pt too wide) in paragraph at lines 1167--1168
-[]\TU/Sarabun(0)/b/n/10 Grid System\TU/Sarabun(0)/m/n/10 : ใช้ \TU/lmtt/m/n/10 
-grid-cols-1 \TU/Sarabun(0)/m/n/10 สำหรับมือถือ, \TU/lmtt/m/n/10 md:grid-cols-2 
-\TU/Sarabun(0)/m/n/10 สำหรับแท็บเล็ต, และ \TU/lmtt/m/n/10 lg:grid-cols-4 \TU/Sa
-rabun(0)/m/n/10 สำหรับหน้าจอคอมพิวเตอร์
- []
-
 [49]
-Overfull \hbox (1.2333pt too wide) in paragraph at lines 1205--1206
+Underfull \hbox (badness 10000) in paragraph at lines 1205--1206
 []\TU/Sarabun(0)/b/n/10 JavaScript Integration\TU/Sarabun(0)/m/n/10 : \TU/lmtt/
 m/n/10 tbody id="customers-table" \TU/Sarabun(0)/m/n/10 ถูกเตรียมไว้สำหรับให้ J
-avaScript (\TU/lmtt/m/n/10 customers.js\TU/Sarabun(0)/m/n/10 )
+avaScript
  []
 
 
-Overfull \hbox (17.89198pt too wide) in paragraph at lines 1221--1222
+Underfull \hbox (badness 10000) in paragraph at lines 1221--1222
 []\TU/lmtt/m/n/10 customers.js\TU/Sarabun(0)/m/n/10 : สคริปต์หลักสำหรับจัดการ L
-ogic ของหน้า Customers (เช่น การดึงข้อมูลสมาชิก, การเพิ่มสมาชิกใหม่,
- []
-
-
-Overfull \hbox (110.14496pt too wide) in paragraph at lines 1231--1232
-\TU/Sarabun(0)/m/n/10 ไฟล์ \TU/lmtt/m/n/10 frontend/views/equipments.ejs \TU/Sa
-rabun(0)/m/n/10 คือหน้าจอสำหรับผู้ดูแลระบบ (Admin) เพื่อใช้ในการบริหารจัดการข้อ
-มูลอุปกรณ์ออกกำลังกายภายในยิม
- []
-
-
-Overfull \hbox (27.57498pt too wide) in paragraph at lines 1231--1232
-\TU/Sarabun(0)/m/n/10 (Equipment Management) ผู้ดูแลระบบสามารถเพิ่มอุปกรณ์ใหม่ 
-แก้ไขสถานะของอุปกรณ์ (เช่น พร้อมใช้งาน หรือ ปิดปรับปรุง)
+ogic ของหน้า Customers (เช่น การดึงข้อมูลสมาชิก,
  []
 
 [50]
-Overfull \hbox (69.95331pt too wide) in paragraph at lines 1278--1279
-[]\TU/Sarabun(0)/b/n/10 Status Selection\TU/Sarabun(0)/m/n/10 : มี Dropdown สำห
-รับเลือกสถานะของอุปกรณ์ ซึ่งสำคัญต่อการจองคลาส (Session) เพราะอุปกรณ์ที่อยู่ในส
-ถานะ
+Underfull \hbox (badness 10000) in paragraph at lines 1231--1232
+\TU/Sarabun(0)/m/n/10 ไฟล์ \TU/lmtt/m/n/10 frontend/views/equipments.ejs \TU/Sa
+rabun(0)/m/n/10 คือหน้าจอสำหรับผู้ดูแลระบบ (Admin)
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1231--1232
+\TU/Sarabun(0)/m/n/10 เพื่อใช้ในการบริหารจัดการข้อมูลอุปกรณ์ออกกำลังกายภายในยิม
+ (Equipment Management)
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1231--1232
+\TU/Sarabun(0)/m/n/10 ผู้ดูแลระบบสามารถเพิ่มอุปกรณ์ใหม่ แก้ไขสถานะของอุปกรณ์ (เ
+ช่น พร้อมใช้งาน หรือ ปิดปรับปรุง)
  []
 
 [51]
-Overfull \hbox (86.08914pt too wide) in paragraph at lines 1320--1321
+Underfull \hbox (badness 10000) in paragraph at lines 1278--1279
+[]\TU/Sarabun(0)/b/n/10 Status Selection\TU/Sarabun(0)/m/n/10 : มี Dropdown สำห
+รับเลือกสถานะของอุปกรณ์ ซึ่งสำคัญต่อการจองคลาส (Session)
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1320--1321
 []\TU/lmtt/m/n/10 equipments.js\TU/Sarabun(0)/m/n/10 : ไฟล์ JavaScript หลักที่ร
-ับผิดชอบการดึงข้อมูลอุปกรณ์จาก API มาแสดงในตาราง และจัดการการส่งฟอร์มเพิ่มอุปกร
-ณ์ 
+ับผิดชอบการดึงข้อมูลอุปกรณ์จาก API มาแสดงในตาราง
  []
 
 
@@ -1775,57 +1745,47 @@ bun(0)/m/n/10 คือหน้าจอสำหรับผู้ดูแล
  []
 
 
-Overfull \hbox (76.42499pt too wide) in paragraph at lines 1330--1331
+Underfull \hbox (badness 3471) in paragraph at lines 1330--1331
 \TU/Sarabun(0)/m/n/10 (Trainer Management) หน้าจอนี้ช่วยให้แอดมินสามารถเพิ่มราย
-ชื่อเทรนเนอร์ใหม่ ระบุความเชี่ยวชาญ (Specialty) และระดับความสามารถ
+ชื่อเทรนเนอร์ใหม่ ระบุความเชี่ยวชาญ (Specialty)
  []
 
 [52]
-Overfull \hbox (26.06328pt too wide) in paragraph at lines 1381--1382
+Underfull \hbox (badness 10000) in paragraph at lines 1381--1382
 []\TU/Sarabun(0)/b/n/10 Grid Layout\TU/Sarabun(0)/m/n/10 : ใช้ \TU/lmtt/m/n/10 
-lg:grid-cols-5 \TU/Sarabun(0)/m/n/10 เพื่อจัดเรียง Input Fields และปุ่ม Submit 
-ให้อยู่ในแถวเดียวกันบนหน้าจอขนาดใหญ่ 
+lg:grid-cols-5 \TU/Sarabun(0)/m/n/10 เพื่อจัดเรียง Input Fields และปุ่ม Submit
  []
 
 
-Overfull \hbox (51.73729pt too wide) in paragraph at lines 1382--1383
+Underfull \hbox (badness 10000) in paragraph at lines 1382--1383
 []\TU/Sarabun(0)/b/n/10 Trainer Level\TU/Sarabun(0)/m/n/10 : มี Dropdown ให้เลื
-อกตําแหน่งของเทรนเนอร์ (Junior, Senior, Master) ซึ่งอาจมีผลต่อราคาหรือสิทธิ์ในก
-ารสอน 
+อกตําแหน่งของเทรนเนอร์ (Junior, Senior, Master)
  []
 
 [53] [54]
-Overfull \hbox (0.26897pt too wide) in paragraph at lines 1520--1521
+Underfull \hbox (badness 10000) in paragraph at lines 1520--1521
 \TU/Sarabun(0)/m/n/10 ส่วนแสดงหัวข้อหน้าและฟอร์มสำหรับสร้างการจองเซสชันใหม่ โดย
-มีการเลือก Customer, Trainer, Equipment และเวลา 
+มีการเลือก Customer, Trainer, Equipment
  []
 
-
+[55]
 Overfull \hbox (65.42331pt too wide) in paragraph at lines 1558--1559
 []\TU/Sarabun(0)/b/n/10 Date Selection\TU/Sarabun(0)/m/n/10 : ใช้ \TU/lmtt/m/n/
 10 input type="datetime-local" \TU/Sarabun(0)/m/n/10 เพื่อให้ผู้ดูแลระบบสามารถร
 ะบุวันและเวลาที่ต้องการจองได้ในคราวเดียว 
  []
 
-[55]
-Overfull \hbox (18.53496pt too wide) in paragraph at lines 1611--1612
+[56]
+Underfull \hbox (badness 10000) in paragraph at lines 1611--1612
 \TU/Sarabun(0)/m/n/10 หน้าเว็บสำหรับผู้ดูแลระบบ (Admin) เพื่อดูรายงานและบันทึกก
-ารใช้งานระบบ (Reports & Logs) โดยมีการแบ่งข้อมูลออกเป็น
+ารใช้งานระบบ (Reports & Logs)
  []
 
-[56] [57]
-Overfull \hbox (26.72328pt too wide) in paragraph at lines 1740--1741
-[]\TU/Sarabun(0)/b/n/10 Tab Controls\TU/Sarabun(0)/m/n/10 : ใช้ \TU/lmtt/m/n/10
- button \TU/Sarabun(0)/m/n/10 พร้อม Event Listener \TU/lmtt/m/n/10 onclick \TU/
-Sarabun(0)/m/n/10 เพื่อสลับการแสดงผลระหว่าง Log และ Report ประเภทต่างๆ 
- []
-
-[58] [59] [60]
-Overfull \hbox (68.2433pt too wide) in paragraph at lines 1886--1887
+[57] [58] [59] [60]
+Underfull \hbox (badness 6708) in paragraph at lines 1886--1887
 []\TU/Sarabun(0)/b/n/10 Modal Dialog\TU/Sarabun(0)/m/n/10 : ใช้ \TU/lmtt/m/n/10
  div id="booking-modal" \TU/Sarabun(0)/m/n/10 ที่มีคลาส \TU/lmtt/m/n/10 hidden 
-\TU/Sarabun(0)/m/n/10 เพื่อซ่อนฟอร์มการจองไว้ในตอนแรก และจะแสดงเมื่อผู้ใช้กดปุ่
-ม
+\TU/Sarabun(0)/m/n/10 เพื่อซ่อนฟอร์มการจองไว้ในตอนแรก
  []
 
 
@@ -1835,17 +1795,10 @@ tt/m/n/10 bg-black/50\TU/Sarabun(0)/m/n/10 ) ช่วยเน้นให้ M
 องกันการคลิกพื้นหลังโดยไม่ตั้งใจ 
  []
 
-[61]
-Overfull \hbox (23.86897pt too wide) in paragraph at lines 2008--2009
-\TU/Sarabun(0)/m/n/10 หน้าแสดงข้อมูลส่วนตัวของสมาชิก (User Profile) แสดงรายละเอ
-ียดเกี่ยวกับสมาชิก เช่น ชื่อ, อีเมล, ประเภทสมาชิก และสถานะ 
- []
-
-[62] [63] [64]
-Overfull \hbox (63.2333pt too wide) in paragraph at lines 2168--2169
+[61] [62] [63] [64] [65]
+Underfull \hbox (badness 10000) in paragraph at lines 2168--2169
 []\TU/Sarabun(0)/b/n/10 Profile Card\TU/Sarabun(0)/m/n/10 : ใช้การจัดวางแบบ Fle
-xbox เพื่อแสดงรูป Avatar และข้อมูลส่วนตัวควบคู่กัน รองรับการปรับเปลี่ยนตามขนาดห
-น้าจอ
+xbox เพื่อแสดงรูป Avatar และข้อมูลส่วนตัวควบคู่กัน
  []
 
 
@@ -1855,30 +1808,21 @@ Overfull \hbox (21.78333pt too wide) in paragraph at lines 2170--2171
  []
 
 
-Overfull \hbox (19.89415pt too wide) in paragraph at lines 2193--2194
+Underfull \hbox (badness 10000) in paragraph at lines 2193--2194
 \TU/Sarabun(0)/m/n/10 ระบบรองรับการสลับโหมดมืด/สว่าง (Dark/Light Mode) โดยใช้ T
-ailwind CSS และ LocalStorage เพื่อจำค่าการตั้งค่าของผู้ใช้ 
- []
-
-[65]
-Overfull \hbox (0.48996pt too wide) in paragraph at lines 2199--2200
-[]\TU/Sarabun(0)/b/n/10 theme.js\TU/Sarabun(0)/m/n/10 : ไฟล์ JavaScript ที่ทำหน
-้าที่ตรวจสอบค่าจาก LocalStorage เมื่อโหลดหน้าเว็บ และเพิ่ม/ลบ Class \TU/lmtt/m/
-n/10 dark
- []
-
-
-Overfull \hbox (36.29897pt too wide) in paragraph at lines 2231--2232
-\TU/Sarabun(0)/m/n/10 ใช้ \TU/lmtt/m/n/10 @media print \TU/Sarabun(0)/m/n/10 ใน
-การซ่อนส่วนประกอบที่ไม่จำเป็นเมื่อสั่งพิมพ์ เช่น Sidebar, Navbar, และปุ่มต่างๆ 
-เหลือไว้เพียงเนื้อหาสำคัญ 
+ailwind CSS และ LocalStorage
  []
 
 [66]
-Overfull \hbox (28.38414pt too wide) in paragraph at lines 2268--2269
+Underfull \hbox (badness 10000) in paragraph at lines 2231--2232
+\TU/Sarabun(0)/m/n/10 ใช้ \TU/lmtt/m/n/10 @media print \TU/Sarabun(0)/m/n/10 ใน
+การซ่อนส่วนประกอบที่ไม่จำเป็นเมื่อสั่งพิมพ์ เช่น Sidebar, Navbar, และปุ่มต่างๆ
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2268--2269
 \TU/Sarabun(0)/m/n/10 ไฟล์ \TU/lmtt/m/n/10 frontend/js/customers.js \TU/Sarabun
-(0)/m/n/10 รับผิดชอบการดึงข้อมูลสมาชิกจาก API โดยรองรับทั้งการค้นหา (Search) แล
-ะการแบ่งหน้า
+(0)/m/n/10 รับผิดชอบการดึงข้อมูลสมาชิกจาก API โดยรองรับทั้งการค้นหา (Search)
  []
 
 Missing character: There is no ส (U+0E2A) in font [lmmono8-regular]:!
@@ -1890,14 +1834,13 @@ Overfull \hbox (30.09435pt too wide) in paragraph at lines 2274--2276
 ][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
-
-Overfull \hbox (79.37508pt too wide) in paragraph at lines 2298--2299
+[67]
+Underfull \hbox (badness 3690) in paragraph at lines 2298--2299
 []\TU/Sarabun(0)/b/n/10 API Response Handling\TU/Sarabun(0)/m/n/10 : ตรวจสอบรูป
-แบบข้อมูลที่ได้จาก API (Array หรือ Object พร้อม Metadata) เพื่อรองรับการเปลี่ยน
-แปลงของ
+แบบข้อมูลที่ได้จาก API (Array หรือ Object พร้อม Metadata)
  []
 
-) [67]
+) [68]
 บทที่ 7.
 (./components/conclusion.tex
 Underfull \hbox (badness 10000) in paragraph at lines 4--5
@@ -1978,7 +1921,7 @@ Underfull \hbox (badness 1946) in paragraph at lines 30--31
 amic และมีการจัดการ Form Validation
  []
 
-[68
+[69
 
 ]
 Underfull \hbox (badness 10000) in paragraph at lines 32--33
@@ -2055,7 +1998,7 @@ Overfull \hbox (14.17497pt too wide) in paragraph at lines 68--69
 รถจองคลาสและตรวจสอบตารางเรียนได้สะดวกยิ่งขึ้น
  []
 
-[69]
+[70]
 Underfull \hbox (badness 10000) in paragraph at lines 70--71
 \TU/Sarabun(0)/m/n/10 เพิ่มการแสดงผลข้อมูลเชิงลึก (Data Analytics) เช่น กราฟแสด
 งจำนวนผู้เข้าใช้บริการในแต่ละช่วงเวลา
@@ -2067,21 +2010,31 @@ Underfull \hbox (badness 10000) in paragraph at lines 72--73
 ือนสมาชิกเมื่อใกล้ถึงเวลาจองคลาส
  []
 
-) [70] (./Term_Project_Document.aux)
+) [71] (./Term_Project_Document.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
  ***********
-Package rerunfilecheck Info: File `Term_Project_Document.out' has not changed.
-(rerunfilecheck)             Checksum: C1BDDA6D432984BFA77F4ABB5DDC02F2;22190.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+
+Package rerunfilecheck Warning: File `Term_Project_Document.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `Term_Project_Document.out':
+(rerunfilecheck)             Before: <no file>
+(rerunfilecheck)             After:  C1BDDA6D432984BFA77F4ABB5DDC02F2;22190.
  ) 
 Here is how much of TeX's memory you used:
- 28438 strings out of 468168
- 595685 string characters out of 5432816
- 1772332 words of memory out of 5000000
- 56704 multiletter control sequences out of 15000+600000
+ 28407 strings out of 468168
+ 595179 string characters out of 5432816
+ 1870069 words of memory out of 5000000
+ 56679 multiletter control sequences out of 15000+600000
  631937 words of font info for 79 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 84i,9n,94p,650b,1978s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 84i,9n,94p,650b,1972s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on Term_Project_Document.pdf (71 pages).
+Output written on Term_Project_Document.pdf (72 pages).
