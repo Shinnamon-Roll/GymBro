@@ -61,6 +61,7 @@
 
   <script>
     tailwind.config = {
+      darkMode: 'class',
       theme: {
         extend: {
           colors: {
@@ -68,6 +69,13 @@
             secondary: '#296374',
             accent: '#629FAD',
             contrast: '#EDEDCE',
+            dark: {
+                bg: '#0F0F0F',
+                card: '#232D3F',
+                primary: '#005B41',
+                accent: '#008170',
+                text: '#EDEDCE'
+            }
           },
           fontFamily: {
             sans: ['Inter', 'sans-serif'],
@@ -98,8 +106,9 @@
     ::-webkit-scrollbar-thumb { background: #296374; }
     ::-webkit-scrollbar-thumb:hover { background: #0C2C55; }
   </style>
+  <script src="/js/theme.js"></script>
 </head>
-<body class="bg-contrast text-primary min-h-screen flex overflow-hidden">
+<body class="bg-contrast text-primary min-h-screen flex overflow-hidden dark:bg-dark-bg dark:text-dark-text transition-colors duration-300">
 
   <!-- Sidebar -->
   <aside class="w-64 bg-primary text-contrast flex-shrink-0 flex flex-col border-r-4 border-accent hidden md:flex">
@@ -125,6 +134,10 @@
           <button onclick="logout()" class="w-full text-left flex items-center gap-4 px-6 py-4 text-red-300 hover:bg-red-900/50 hover:text-red-100 font-semibold uppercase tracking-wide transition-all group">
             <i data-lucide="log-out" class="w-5 h-5 group-hover:text-red-400 transition-colors"></i>
             <span>Logout</span>
+          </button>
+          <button onclick="toggleTheme()" class="w-full text-left flex items-center gap-4 px-6 py-4 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group">
+            <i id="theme-icon" data-lucide="moon" class="w-5 h-5 group-hover:text-accent transition-colors"></i>
+            <span>Theme</span>
           </button>
         </li>
       </ul>
@@ -176,45 +189,45 @@
     </div>
 
     <!-- Content Area -->
-    <div class="flex-1 overflow-y-auto p-4 md:p-8 bg-contrast relative">
+    <div class="flex-1 overflow-y-auto p-4 md:p-8 bg-contrast relative dark:bg-dark-bg">
       
       <!-- Page Header -->
-      <div class="mb-8 border-b-4 border-primary pb-4 flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <div class="mb-8 border-b-4 border-primary pb-4 flex flex-col md:flex-row md:items-end justify-between gap-4 dark:border-dark-primary">
         <div>
-          <h2 class="text-4xl font-extrabold text-primary uppercase tracking-tighter">
+          <h2 class="text-4xl font-extrabold text-primary uppercase tracking-tighter dark:text-dark-text">
             Gym Schedule
           </h2>
-          <p class="text-secondary font-medium mt-1">
+          <p class="text-secondary font-medium mt-1 dark:text-dark-accent">
             Check availability and your upcoming sessions.
           </p>
         </div>
-        <button id="btn-book-session" class="bg-primary text-contrast px-6 py-3 font-bold uppercase hover:bg-secondary hover:shadow-[4px_4px_0px_0px_#629FAD] transition-all active:translate-y-1 active:shadow-none border-2 border-transparent flex items-center gap-2">
+        <button id="btn-book-session" class="bg-primary text-contrast px-6 py-3 font-bold uppercase hover:bg-secondary hover:shadow-[4px_4px_0px_0px_#629FAD] transition-all active:translate-y-1 active:shadow-none border-2 border-transparent flex items-center gap-2 dark:bg-dark-primary dark:text-white dark:hover:bg-dark-accent">
             <i data-lucide="plus-circle" class="w-5 h-5"></i>
             Book Session
         </button>
       </div>
 
       <!-- Schedule Table -->
-      <div class="bg-white border-2 border-primary shadow-[8px_8px_0px_0px_#296374]">
-        <div class="bg-secondary p-4 flex justify-between items-center border-b-2 border-primary">
+      <div class="bg-white border-2 border-primary shadow-[8px_8px_0px_0px_#296374] dark:bg-dark-card dark:border-dark-primary">
+        <div class="bg-secondary p-4 flex justify-between items-center border-b-2 border-primary dark:bg-dark-primary dark:border-dark-accent">
           <h3 class="text-xl font-bold text-white uppercase tracking-wider flex items-center gap-2">
-            <i data-lucide="calendar-days" class="w-5 h-5 text-accent"></i>
+            <i data-lucide="calendar-days" class="w-5 h-5 text-accent dark:text-dark-text"></i>
             All Bookings
           </h3>
-          <span class="text-xs font-bold text-accent bg-primary px-2 py-1 uppercase">Read Only</span>
+          <span class="text-xs font-bold text-accent bg-primary px-2 py-1 uppercase dark:bg-dark-bg dark:text-dark-accent">Read Only</span>
         </div>
         
         <div class="p-0 overflow-x-auto">
           <table class="w-full text-left border-collapse">
             <thead>
-              <tr class="bg-gray-100 border-b-2 border-primary text-primary text-sm uppercase tracking-wider">
+              <tr class="bg-gray-100 border-b-2 border-primary text-primary text-sm uppercase tracking-wider dark:bg-dark-bg dark:text-dark-text dark:border-dark-primary">
                 <th class="p-4 font-extrabold">Time</th>
                 <th class="p-4 font-extrabold">Activity/Equipment</th>
                 <th class="p-4 font-extrabold">Trainer</th>
                 <th class="p-4 font-extrabold text-center">Status</th>
               </tr>
             </thead>
-            <tbody id="schedule-table-body" class="divide-y-2 divide-gray-100 text-sm font-semibold text-secondary">
+            <tbody id="schedule-table-body" class="divide-y-2 divide-gray-100 text-sm font-semibold text-secondary dark:text-gray-300 dark:divide-dark-primary">
               <tr>
                 <td colspan="4" class="p-4 text-center">Loading schedule...</td>
               </tr>

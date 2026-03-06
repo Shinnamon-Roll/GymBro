@@ -8,6 +8,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
+      darkMode: 'class',
       theme: {
         extend: {
           colors: {
@@ -15,6 +16,13 @@
             secondary: '#296374',
             accent: '#629FAD',
             contrast: '#EDEDCE',
+            dark: {
+                bg: '#0F0F0F',
+                card: '#232D3F',
+                primary: '#005B41',
+                accent: '#008170',
+                text: '#EDEDCE'
+            }
           },
           fontFamily: {
             sans: ['Inter', 'sans-serif'],
@@ -45,8 +53,9 @@
     ::-webkit-scrollbar-thumb { background: #296374; }
     ::-webkit-scrollbar-thumb:hover { background: #0C2C55; }
   </style>
+  <script src="/js/theme.js"></script>
 </head>
-<body class="bg-contrast text-primary min-h-screen flex overflow-hidden">
+<body class="bg-contrast text-primary min-h-screen flex overflow-hidden dark:bg-dark-bg dark:text-dark-text transition-colors duration-300">
 
   <!-- Sidebar -->
   <aside class="w-64 bg-primary text-contrast flex-shrink-0 flex flex-col border-r-4 border-accent hidden md:flex">
@@ -72,6 +81,10 @@
           <button onclick="logout()" class="w-full text-left flex items-center gap-4 px-6 py-4 text-red-300 hover:bg-red-900/50 hover:text-red-100 font-semibold uppercase tracking-wide transition-all group">
             <i data-lucide="log-out" class="w-5 h-5 group-hover:text-red-400 transition-colors"></i>
             <span>Logout</span>
+          </button>
+          <button onclick="toggleTheme()" class="w-full text-left flex items-center gap-4 px-6 py-4 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group">
+            <i id="theme-icon" data-lucide="moon" class="w-5 h-5 group-hover:text-accent transition-colors"></i>
+            <span>Theme</span>
           </button>
         </li>
       </ul>
@@ -123,15 +136,15 @@
     </div>
 
     <!-- Content Area -->
-    <div class="flex-1 overflow-y-auto p-4 md:p-8 bg-contrast relative">
+    <div class="flex-1 overflow-y-auto p-4 md:p-8 bg-contrast relative dark:bg-dark-bg">
       
       <!-- Page Header -->
-      <div class="mb-8 border-b-4 border-primary pb-4 flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <div class="mb-8 border-b-4 border-primary pb-4 flex flex-col md:flex-row md:items-end justify-between gap-4 dark:border-dark-primary">
         <div>
-          <h2 class="text-4xl font-extrabold text-primary uppercase tracking-tighter">
+          <h2 class="text-4xl font-extrabold text-primary uppercase tracking-tighter dark:text-dark-text">
             My Profile
           </h2>
-          <p class="text-secondary font-medium mt-1">
+          <p class="text-secondary font-medium mt-1 dark:text-dark-accent">
             Your membership details and information.
           </p>
         </div>
@@ -139,72 +152,58 @@
 
       <!-- Profile Card -->
       <div class="max-w-3xl mx-auto">
-        <div class="bg-white border-4 border-secondary shadow-[8px_8px_0px_0px_#0C2C55] p-8 relative overflow-hidden">
+        <div class="bg-white border-4 border-secondary shadow-[8px_8px_0px_0px_#0C2C55] p-8 relative overflow-hidden dark:bg-dark-card dark:border-dark-primary dark:shadow-[8px_8px_0px_0px_#005B41]">
           
           <!-- Decoration -->
-          <div class="absolute -right-12 -top-12 w-40 h-40 bg-contrast rotate-45 border-4 border-primary"></div>
+          <div class="absolute -right-12 -top-12 w-40 h-40 bg-contrast rotate-45 border-4 border-primary dark:bg-dark-bg dark:border-dark-accent"></div>
           
           <div class="relative z-10 flex flex-col md:flex-row gap-8 items-start">
             
             <!-- Avatar Section -->
             <div class="flex-shrink-0 flex flex-col items-center gap-4">
-              <div class="w-32 h-32 bg-secondary border-4 border-primary flex items-center justify-center text-white text-4xl font-black shadow-[4px_4px_0px_0px_#629FAD]">
-                <i data-lucide="user" class="w-16 h-16"></i>
+              <div class="w-32 h-32 bg-secondary border-4 border-primary shadow-[4px_4px_0px_0px_#629FAD] flex items-center justify-center text-white text-4xl font-black rounded-none dark:bg-dark-primary dark:border-dark-accent dark:text-white">
+                ME
               </div>
-              <span class="bg-primary text-accent px-3 py-1 text-xs font-black uppercase tracking-widest border border-accent w-full text-center">
-                Active Member
+              <span class="bg-accent text-primary px-3 py-1 text-sm font-bold uppercase border-2 border-primary dark:bg-dark-accent dark:text-white dark:border-dark-primary">
+                Member
               </span>
             </div>
 
             <!-- Details Section -->
-            <div class="flex-1 space-y-6 w-full">
-              
-              <div class="border-b-2 border-dashed border-gray-300 pb-4">
-                <label class="block text-xs font-bold uppercase text-secondary mb-1">Full Name</label>
-                <h3 class="text-2xl font-black text-primary" id="profile-name">Loading...</h3>
-              </div>
+            <div class="flex-1 w-full">
+              <h3 class="text-3xl font-black text-primary uppercase mb-1 user-name-display dark:text-dark-text">Loading...</h3>
+              <p class="text-secondary font-bold mb-6 flex items-center gap-2 dark:text-dark-accent">
+                <i data-lucide="mail" class="w-4 h-4"></i> <span class="user-email-display">...</span>
+              </p>
 
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t-2 border-dashed border-gray-300 pt-6 dark:border-gray-600">
                 <div>
-                  <label class="block text-xs font-bold uppercase text-secondary mb-1">Email Address</label>
-                  <p class="text-lg font-bold text-gray-800" id="profile-email">-</p>
+                  <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1 dark:text-gray-500">Member ID</label>
+                  <p class="text-lg font-bold text-primary dark:text-dark-text user-id-display">#000</p>
                 </div>
                 <div>
-                  <label class="block text-xs font-bold uppercase text-secondary mb-1">Phone Number</label>
-                  <p class="text-lg font-bold font-mono text-gray-800" id="profile-phone">-</p>
+                  <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1 dark:text-gray-500">Phone</label>
+                  <p class="text-lg font-bold text-primary dark:text-dark-text user-phone-display">-</p>
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1 dark:text-gray-500">Membership Type</label>
+                  <p class="text-lg font-bold text-primary dark:text-dark-text user-type-display">-</p>
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1 dark:text-gray-500">Member Level</label>
+                  <p class="text-lg font-bold text-primary dark:text-dark-text user-level-display">-</p>
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1 dark:text-gray-500">Join Date</label>
+                  <p class="text-lg font-bold text-primary dark:text-dark-text user-start-display">-</p>
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1 dark:text-gray-500">Expiry Date</label>
+                  <p class="text-lg font-bold text-primary dark:text-dark-text user-end-display">-</p>
                 </div>
               </div>
-
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t-2 border-dashed border-gray-300">
-                <div>
-                  <label class="block text-xs font-bold uppercase text-secondary mb-1">Membership Type</label>
-                  <div class="inline-block bg-contrast border-2 border-primary px-4 py-2 text-primary font-bold uppercase shadow-[2px_2px_0px_0px_#296374]">
-                    <span id="profile-type">Standard</span>
-                  </div>
-                </div>
-                <div>
-                  <label class="block text-xs font-bold uppercase text-secondary mb-1">Current Level</label>
-                  <div class="inline-block bg-accent border-2 border-primary px-4 py-2 text-white font-bold uppercase shadow-[2px_2px_0px_0px_#0C2C55]">
-                    <span id="profile-level">Beginner</span>
-                  </div>
-                </div>
-              </div>
-
             </div>
           </div>
-
-          <!-- Footer/Dates -->
-          <div class="mt-8 pt-6 border-t-4 border-primary bg-gray-50 -mx-8 -mb-8 p-6 flex justify-between items-center text-sm font-semibold text-gray-500">
-            <div>
-              <span>Member Since:</span>
-              <span class="text-primary font-bold" id="profile-since">-</span>
-            </div>
-            <div>
-              <span>Valid Until:</span>
-              <span class="text-secondary font-bold" id="profile-until">-</span>
-            </div>
-          </div>
-
         </div>
       </div>
 

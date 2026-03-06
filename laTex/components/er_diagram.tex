@@ -5,24 +5,31 @@
 \begin{figure}[h]
 \centering
 \begin{tikzpicture}[
-    node distance=2.5cm and 4cm,
+    node distance=1.5cm,
     entity/.style={
         rectangle, 
         draw=black, 
         thick, 
-        minimum width=3cm, 
-        minimum height=1.5cm, 
-        align=center, 
-        fill=blue!10,
-        drop shadow
+        fill=white, 
+        text centered, 
+        minimum height=3em, 
+        minimum width=10em,
+        font=\bfseries
     },
     attribute/.style={
         ellipse, 
         draw=black, 
-        thin, 
-        minimum width=1.5cm, 
-        align=center, 
-        fill=white,
+        fill=gray!10, 
+        text centered, 
+        font=\small
+    },
+    relationship/.style={
+        diamond, 
+        draw=black, 
+        thick, 
+        aspect=2, 
+        fill=white, 
+        text centered, 
         font=\footnotesize
     },
     line/.style={
@@ -32,72 +39,120 @@
     }
 ]
 
-% Entities
-\node[entity] (session) {TrainingSessions};
-\node[entity] (customer) [left=of session] {Customers};
-\node[entity] (trainer) [right=of session] {Trainers};
-\node[entity] (equipment) [below=of session] {GymEquipments};
+% Nodes
+\node[entity] (customer) {Customers};
+\node[entity, below=3cm of customer] (session) {TrainingSessions};
+\node[entity, below=3cm of session] (trainer) {Trainers};
+\node[entity, right=3cm of session] (equipment) {GymEquipments};
 
-% Attributes for TrainingSessions
-\node[attribute] (sess_id) [above=1cm of session] {id (PK)};
-\node[attribute] (sess_cust) [above left=0.5cm of session] {customerId (FK)};
-\node[attribute] (sess_date) [above right=0.5cm of session] {sessionDate};
-\draw (session) -- (sess_id);
-\draw (session) -- (sess_date);
-\draw (session) -- (sess_cust);
+% Relationships
+\draw[line] (customer) -- node[midway, right] {1:N} (session);
+\draw[line] (trainer) -- node[midway, right] {1:N} (session);
+\draw[line] (equipment) -- node[midway, above] {1:N} (session);
 
-% Attributes for Customers
-\node[attribute] (cust_id) [above=0.5cm of customer] {id (PK)};
-\node[attribute] (cust_name) [below=0.5cm of customer] {fullName};
-\node[attribute] (cust_email) [left=0.5cm of customer] {email};
-\draw (customer) -- (cust_id);
-\draw (customer) -- (cust_name);
-\draw (customer) -- (cust_email);
+% Attributes Customers
+\node[attribute, above left=0.5cm and -1cm of customer] (c_id) {\underline{id}};
+\node[attribute, above=0.5cm of customer] (c_name) {fullName};
+\node[attribute, above right=0.5cm and -1cm of customer] (c_email) {email};
+\node[attribute, left=0.5cm of customer] (c_phone) {phone};
+\node[attribute, right=0.5cm of customer] (c_type) {memberType};
 
-% Attributes for Trainers
-\node[attribute] (train_id) [above=0.5cm of trainer] {id (PK)};
-\node[attribute] (train_name) [below=0.5cm of trainer] {trainerName};
-\node[attribute] (train_level) [right=0.5cm of trainer] {trainerLevel};
-\draw (trainer) -- (train_id);
-\draw (trainer) -- (train_name);
-\draw (trainer) -- (train_level);
+% Attributes Sessions
+\node[attribute, left=0.5cm of session] (s_id) {\underline{id}};
+\node[attribute, above left=0.5cm and -1cm of session] (s_date) {sessionDate};
+\node[attribute, above right=0.5cm and -1cm of session] (s_end) {endDate};
 
-% Attributes for GymEquipments
-\node[attribute] (equip_id) [left=0.5cm of equipment] {id (PK)};
-\node[attribute] (equip_name) [right=0.5cm of equipment] {equipmentName};
-\node[attribute] (equip_status) [below=0.5cm of equipment] {status};
-\draw (equipment) -- (equip_id);
-\draw (equipment) -- (equip_name);
-\draw (equipment) -- (equip_status);
+% Attributes Trainers
+\node[attribute, below left=0.5cm and -1cm of trainer] (t_id) {\underline{id}};
+\node[attribute, below=0.5cm of trainer] (t_name) {trainerName};
+\node[attribute, below right=0.5cm and -1cm of trainer] (t_spec) {specialty};
+\node[attribute, left=0.5cm of trainer] (t_level) {trainerLevel};
 
-% Relationships (Edges)
-% Customer 1 -- N TrainingSessions
-\draw[line] (customer) -- node[near start, above] {1} node[near end, above] {N} node[midway, below] {books} (session);
+% Attributes Equipments
+\node[attribute, above=0.5cm of equipment] (e_id) {\underline{id}};
+\node[attribute, right=0.5cm of equipment] (e_name) {equipmentName};
+\node[attribute, below=0.5cm of equipment] (e_status) {status};
 
-% Trainer 1 -- N TrainingSessions
-\draw[line] (trainer) -- node[near start, above] {1} node[near end, above] {N} node[midway, below] {trains in} (session);
+% Lines from entities to attributes
+\draw (customer) -- (c_id);
+\draw (customer) -- (c_name);
+\draw (customer) -- (c_email);
+\draw (customer) -- (c_phone);
+\draw (customer) -- (c_type);
 
-% GymEquipment 1 -- N TrainingSessions
-\draw[line] (equipment) -- node[near start, right] {1} node[near end, right] {N} node[midway, left] {used in} (session);
+\draw (session) -- (s_id);
+\draw (session) -- (s_date);
+\draw (session) -- (s_end);
+
+\draw (trainer) -- (t_id);
+\draw (trainer) -- (t_name);
+\draw (trainer) -- (t_spec);
+\draw (trainer) -- (t_level);
+
+\draw (equipment) -- (e_id);
+\draw (equipment) -- (e_name);
+\draw (equipment) -- (e_status);
 
 \end{tikzpicture}
-\caption{แผนภาพแสดงความสัมพันธ์ของข้อมูล (Entity Relationship Diagram)}
-\label{fig:er-diagram}
+\caption{ER Diagram แสดงความสัมพันธ์ระหว่างตารางในฐานข้อมูล}
+\label{fig:er_diagram}
 \end{figure}
 
-\section{คำอธิบายความสัมพันธ์ของข้อมูล (Data Relationship Description)}
-
-จากการวิเคราะห์โครงสร้างฐานข้อมูลของระบบ GymBro Management System สามารถสรุปความสัมพันธ์ระหว่างเอนทิตี (Entity) หลักได้ดังนี้
+\section{คำอธิบาย ER Diagram}
+แผนภาพ ER Diagram ข้างต้นแสดงความสัมพันธ์แบบ One-to-Many (1:N) ระหว่างตารางหลักต่างๆ ดังนี้:
 
 \begin{enumerate}
-    \item \textbf{ความสัมพันธ์ระหว่าง Customers และ TrainingSessions (1:N)}: 
-    สมาชิก (Customers) เป็นผู้ดำเนินการจองเซสชันการฝึกซ้อม โดยสมาชิกหนึ่งท่านสามารถทำการจองเซสชันการฝึกซ้อมได้หลายครั้ง (Many) ในขณะที่แต่ละเซสชันการฝึกซ้อม (TrainingSessions) จะต้องถูกจองโดยสมาชิกเพียงท่านเดียว (One) ความสัมพันธ์นี้ถูกเชื่อมโยงผ่านคีย์นอก (Foreign Key) ชื่อ \texttt{customerId} ในตาราง TrainingSessions
-
-    \item \textbf{ความสัมพันธ์ระหว่าง Trainers และ TrainingSessions (1:N)}: 
-    เทรนเนอร์ (Trainers) ทำหน้าที่ให้คำแนะนำและดูแลสมาชิกในระหว่างการฝึกซ้อม โดยเทรนเนอร์หนึ่งท่านสามารถดูแลได้หลายเซสชัน (Many) แต่ในหนึ่งเซสชันการฝึกซ้อมจะมีเทรนเนอร์ผู้รับผิดชอบเพียงท่านเดียว (One) หรืออาจไม่มีเลยในกรณีที่เป็นการฝึกซ้อมอิสระ ความสัมพันธ์นี้เชื่อมโยงผ่าน \texttt{trainerId}
-
-    \item \textbf{ความสัมพันธ์ระหว่าง GymEquipments และ TrainingSessions (1:N)}: 
-    อุปกรณ์ออกกำลังกาย (GymEquipments) ถูกใช้งานในเซสชันการฝึกซ้อม โดยอุปกรณ์หนึ่งชิ้นสามารถถูกจองใช้งานในหลายช่วงเวลาหรือหลายเซสชัน (Many) (แต่ต้องไม่ซ้อนทับกันในช่วงเวลาเดียวกัน) และในหนึ่งเซสชันจะมีการระบุการใช้อุปกรณ์หลักหนึ่งชิ้น (One) เพื่อตรวจสอบสถานะความพร้อมใช้งาน ความสัมพันธ์นี้เชื่อมโยงผ่าน \texttt{equipmentId}
+    \item \textbf{Customers (1) $\rightarrow$ TrainingSessions (N)}: 
+    ลูกค้าหนึ่งคนสามารถจองเซสชันการฝึกซ้อมได้หลายครั้ง แต่ละเซสชันจะเป็นของลูกค้าเพียงคนเดียว
+    
+    \item \textbf{Trainers (1) $\rightarrow$ TrainingSessions (N)}: 
+    เทรนเนอร์หนึ่งคนสามารถดูแลการฝึกซ้อมได้หลายเซสชัน (ในช่วงเวลาที่ต่างกัน) แต่ละเซสชันจะมีเทรนเนอร์ผู้ดูแลเพียงคนเดียว
+    
+    \item \textbf{GymEquipments (1) $\rightarrow$ TrainingSessions (N)}: 
+    อุปกรณ์หนึ่งชิ้นสามารถถูกใช้งานได้ในหลายเซสชัน (ในช่วงเวลาที่ต่างกัน) แต่ละเซสชันจะมีการจองใช้อุปกรณ์หลักหนึ่งชิ้น
 \end{enumerate}
 
-โครงสร้างความสัมพันธ์ดังกล่าวสะท้อนให้เห็นว่าตาราง \textbf{TrainingSessions} ทำหน้าที่เป็นตารางศูนย์กลาง (Fact Table) หรือตารางเชื่อมโยง (Associative Entity) ที่รวบรวมข้อมูลการทำธุรกรรม (Transaction) หลักของระบบ โดยมีการอ้างอิงไปยังข้อมูลหลัก (Master Data) ได้แก่ ข้อมูลสมาชิก ข้อมูลเทรนเนอร์ และข้อมูลอุปกรณ์ เพื่อให้สามารถตรวจสอบย้อนกลับและจัดทำรายงานสรุปผลการใช้งานได้อย่างมีประสิทธิภาพ
+\section{รายละเอียดตาราง (Table Schema)}
+
+\subsection{ตาราง Customers (ข้อมูลสมาชิก)}
+เก็บข้อมูลส่วนตัวของสมาชิกที่มาใช้บริการยิม
+\begin{itemize}
+    \item \textbf{id} (PK): รหัสสมาชิก (Integer, Auto Increment)
+    \item \textbf{fullName}: ชื่อ-นามสกุล (String 150)
+    \item \textbf{email}: อีเมล (String 150, Unique) ใช้สำหรับเข้าสู่ระบบ
+    \item \textbf{phone}: เบอร์โทรศัพท์ (String 20)
+    \item \textbf{memberType}: ประเภทสมาชิก (Standard, Premium, VIP)
+    \item \textbf{memberLevel}: ระดับสมาชิก (Basic, Silver, Gold)
+    \item \textbf{memberStartDate}: วันที่เริ่มเป็นสมาชิก
+    \item \textbf{memberEndDate}: วันที่สิ้นสุดสมาชิก
+\end{itemize}
+
+\subsection{ตาราง Trainers (ข้อมูลเทรนเนอร์)}
+เก็บข้อมูลรายชื่อและรายละเอียดของเทรนเนอร์
+\begin{itemize}
+    \item \textbf{id} (PK): รหัสเทรนเนอร์ (Integer, Auto Increment)
+    \item \textbf{trainerName}: ชื่อเทรนเนอร์ (String 150)
+    \item \textbf{trainerLevel}: ระดับของเทรนเนอร์ (Junior, Senior, Master)
+    \item \textbf{specialty}: ความเชี่ยวชาญพิเศษ (String 100)
+    \item \textbf{phone}: เบอร์โทรศัพท์ติดต่อ (String 20)
+\end{itemize}
+
+\subsection{ตาราง GymEquipments (ข้อมูลอุปกรณ์)}
+เก็บข้อมูลอุปกรณ์ออกกำลังกายที่มีให้บริการ
+\begin{itemize}
+    \item \textbf{id} (PK): รหัสอุปกรณ์ (Integer, Auto Increment)
+    \item \textbf{equipmentName}: ชื่ออุปกรณ์ (String 150)
+    \item \textbf{category}: หมวดหมู่อุปกรณ์ (Cardio, Strength, etc.)
+    \item \textbf{status}: สถานะปัจจุบัน (Available, In Use, Maintenance)
+\end{itemize}
+
+\subsection{ตาราง TrainingSessions (ตารางการฝึกซ้อม)}
+เก็บข้อมูลการจองคลาสหรือเซสชันการฝึกซ้อม เชื่อมโยงลูกค้า เทรนเนอร์ และอุปกรณ์เข้าด้วยกัน
+\begin{itemize}
+    \item \textbf{id} (PK): รหัสการจอง (Integer, Auto Increment)
+    \item \textbf{sessionDate}: วันและเวลาเริ่มต้นการฝึกซ้อม (DateTime)
+    \item \textbf{endDate}: วันและเวลาสิ้นสุดการฝึกซ้อม (DateTime)
+    \item \textbf{customerId} (FK): อ้างอิงไปยังตาราง Customers
+    \item \textbf{trainerId} (FK): อ้างอิงไปยังตาราง Trainers
+    \item \textbf{equipmentId} (FK): อ้างอิงไปยังตาราง GymEquipments
+\end{itemize}

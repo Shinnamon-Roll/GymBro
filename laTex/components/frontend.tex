@@ -2186,3 +2186,116 @@ async function handleBookingSubmit(e) {
 </html>
 \end{lstlisting}
 
+
+\section{ฟีเจอร์เพิ่มเติม (Additional Features)}
+
+\subsection{Dark Mode (โหมดมืด)}
+ระบบรองรับการสลับโหมดมืด/สว่าง (Dark/Light Mode) โดยใช้ Tailwind CSS และ LocalStorage เพื่อจำค่าการตั้งค่าของผู้ใช้
+
+\subsubsection{การทำงาน (Implementation)}
+\begin{enumerate}
+    \item \textbf{Tailwind Configuration}: กำหนด \texttt{darkMode: 'class'} ในการตั้งค่า Tailwind เพื่อให้สามารถควบคุมโหมดผ่าน HTML Class ได้
+    \item \textbf{LocalStorage}: ใช้ \texttt{localStorage.theme} เพื่อบันทึกสถานะโหมดที่ผู้ใช้เลือก (dark หรือ light)
+    \item \textbf{theme.js}: ไฟล์ JavaScript ที่ทำหน้าที่ตรวจสอบค่าจาก LocalStorage เมื่อโหลดหน้าเว็บ และเพิ่ม/ลบ Class \texttt{dark} ที่ \texttt{<html>} tag รวมถึงฟังก์ชัน \texttt{toggleTheme()} สำหรับสลับโหมด
+\end{enumerate}
+
+\begin{lstlisting}[language=JavaScript, caption={ไฟล์ frontend/js/theme.js}, label={code:theme-js}]
+function initTheme() {
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+        updateIcon(true);
+    } else {
+        document.documentElement.classList.remove('dark');
+        updateIcon(false);
+    }
+}
+
+function toggleTheme() {
+    if (document.documentElement.classList.contains('dark')) {
+        document.documentElement.classList.remove('dark');
+        localStorage.theme = 'light';
+        updateIcon(false);
+    } else {
+        document.documentElement.classList.add('dark');
+        localStorage.theme = 'dark';
+        updateIcon(true);
+    }
+}
+// ...
+\end{lstlisting}
+
+\subsection{รายงานพร้อมพิมพ์ (Printable Report)}
+หน้า \textbf{Reports \& Logs} รองรับการพิมพ์รายงานผ่านเครื่องพิมพ์หรือบันทึกเป็น PDF ได้อย่างสวยงาม โดยใช้ CSS Media Query
+
+\subsubsection{การทำงาน (Implementation)}
+ใช้ \texttt{@media print} ในการซ่อนส่วนประกอบที่ไม่จำเป็นเมื่อสั่งพิมพ์ เช่น Sidebar, Navbar, และปุ่มต่างๆ เหลือไว้เพียงเนื้อหาสำคัญ
+
+\begin{lstlisting}[caption={CSS @media print ใน logs.ejs}, label={code:media-print}]
+@media print {
+  aside, header, #mobile-sidebar, #btn-print, .no-print, button {
+    display: none !important;
+  }
+  main {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+  body {
+    background: white !important;
+    color: black !important;
+    overflow: visible !important;
+  }
+  .overflow-y-auto {
+    overflow: visible !important;
+    height: auto !important;
+  }
+}
+\end{lstlisting}
+
+\subsection{การค้นหาและแบ่งหน้า (Search \& Pagination) - ส่วน Frontend}
+ในหน้าจัดการสมาชิก (Customers) มีระบบค้นหาและแบ่งหน้าเพื่อรองรับข้อมูลจำนวนมาก
+
+\subsubsection{การทำงาน (Implementation)}
+\begin{enumerate}
+    \item \textbf{Search Input}: รับค่าคำค้นหาจากผู้ใช้
+    \item \textbf{Pagination Controls}: ปุ่ม Next/Previous สำหรับเปลี่ยนหน้า
+    \item \textbf{Fetch API}: ส่ง Request ไปยัง Backend พร้อม Query Parameters \texttt{?q=...\&page=...\&limit=...}
+\end{enumerate}
+
+\subsubsection{Logic การค้นหาและแบ่งหน้า (customers.js)}
+ไฟล์ \texttt{frontend/js/customers.js} รับผิดชอบการดึงข้อมูลสมาชิกจาก API โดยรองรับทั้งการค้นหา (Search) และการแบ่งหน้า (Pagination)
+
+\begin{lstlisting}[language=JavaScript, caption={ฟังก์ชัน load ใน customers.js}, label={code:frontend-customers-load}]
+const load = async () => {
+  const q = document.getElementById("search-input").value;
+  // ส่ง Query Params: page, limit, q (search query)
+  const res = await fetch(`${API}/customers?page=${currentPage}&limit=${limit}&q=${encodeURIComponent(q)}`).then((r) => r.json());
+  
+  let data = [];
+  if (Array.isArray(res)) {
+      data = res; // Fallback for old API
+  } else {
+      data = res.data;
+      totalPages = res.totalPages;
+      currentPage = res.page;
+  }
+
+  tbody.innerHTML = "";
+  if (data.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center">No customers found</td></tr>`;
+  } else {
+      data.forEach((c) => tbody.appendChild(row(c)));
+  }
+  updatePaginationControls();
+};
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item \textbf{Query Parameters}: ดึงค่าจาก Input และตัวแปร Global (\texttt{currentPage}, \texttt{limit}) เพื่อสร้าง URL Query String
+    \item \textbf{API Response Handling}: ตรวจสอบรูปแบบข้อมูลที่ได้จาก API (Array หรือ Object พร้อม Metadata) เพื่อรองรับการเปลี่ยนแปลงของ Backend
+    \item \textbf{Dynamic Rendering}: วนลูปสร้างตาราง HTML จากข้อมูลที่ได้
+    \item \textbf{Pagination UI}: อัปเดตสถานะปุ่ม Previous/Next และแสดงเลขหน้าปัจจุบัน
+\end{enumerate}

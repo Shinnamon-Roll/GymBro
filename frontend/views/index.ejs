@@ -9,6 +9,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
+      darkMode: 'class',
       theme: {
         extend: {
           colors: {
@@ -16,6 +17,13 @@
             secondary: '#296374',
             accent: '#629FAD',
             contrast: '#EDEDCE',
+            dark: {
+                bg: '#0F0F0F',
+                card: '#232D3F',
+                primary: '#005B41',
+                accent: '#008170',
+                text: '#EDEDCE'
+            }
           },
           fontFamily: {
             sans: ['Inter', 'sans-serif'],
@@ -60,8 +68,9 @@
       background: #0C2C55; 
     }
   </style>
+  <script src="/js/theme.js"></script>
 </head>
-<body class="bg-contrast text-primary min-h-screen flex overflow-hidden">
+<body class="bg-contrast text-primary min-h-screen flex overflow-hidden dark:bg-dark-bg dark:text-dark-text transition-colors duration-300">
 
   <!-- Sidebar -->
   <aside class="w-64 bg-primary text-contrast flex-shrink-0 flex flex-col border-r-4 border-accent hidden md:flex">
@@ -113,6 +122,10 @@
           <button onclick="logout()" class="w-full text-left flex items-center gap-4 px-6 py-4 text-red-300 hover:bg-red-900/50 hover:text-red-100 font-semibold uppercase tracking-wide transition-all group">
             <i data-lucide="log-out" class="w-5 h-5 group-hover:text-red-400 transition-colors"></i>
             <span>Logout</span>
+          </button>
+          <button onclick="toggleTheme()" class="w-full text-left flex items-center gap-4 px-6 py-4 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group">
+            <i id="theme-icon" data-lucide="moon" class="w-5 h-5 group-hover:text-accent transition-colors"></i>
+            <span>Theme</span>
           </button>
         </li>
       </ul>
@@ -168,15 +181,15 @@
     </div>
 
     <!-- Content Area -->
-    <div class="flex-1 overflow-y-auto p-4 md:p-8 bg-contrast relative">
+    <div class="flex-1 overflow-y-auto p-4 md:p-8 bg-contrast relative dark:bg-dark-bg">
       
       <!-- Page Header -->
-      <div class="mb-8 border-b-4 border-primary pb-4 flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <div class="mb-8 border-b-4 border-primary pb-4 flex flex-col md:flex-row md:items-end justify-between gap-4 dark:border-dark-primary">
         <div>
-          <h2 class="text-4xl font-extrabold text-primary uppercase tracking-tighter">
+          <h2 class="text-4xl font-extrabold text-primary uppercase tracking-tighter dark:text-dark-text">
             Overview
           </h2>
-          <p class="text-secondary font-medium mt-1">
+          <p class="text-secondary font-medium mt-1 dark:text-dark-accent">
             Welcome back! Here's what's happening at the gym today.
           </p>
         </div>
@@ -188,15 +201,15 @@
       <!-- Stats Grid -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <!-- Stat Card 1 -->
-        <div class="bg-white border-2 border-primary p-6 shadow-[4px_4px_0px_0px_#0C2C55] hover:shadow-[6px_6px_0px_0px_#0C2C55] transition-all group">
+        <div class="bg-white border-2 border-primary p-6 shadow-[4px_4px_0px_0px_#0C2C55] hover:shadow-[6px_6px_0px_0px_#0C2C55] transition-all group dark:bg-dark-card dark:border-dark-primary dark:shadow-[4px_4px_0px_0px_#005B41]">
           <div class="flex justify-between items-start mb-4">
-            <div class="p-3 bg-secondary text-white">
+            <div class="p-3 bg-secondary text-white dark:bg-dark-accent">
               <i data-lucide="users" class="w-6 h-6"></i>
             </div>
-            <span class="text-xs font-bold uppercase text-secondary bg-contrast px-2 py-1">Total</span>
+            <span class="text-xs font-bold uppercase text-secondary bg-contrast px-2 py-1 dark:bg-dark-bg dark:text-dark-accent">Total</span>
           </div>
-          <h3 class="text-3xl font-black text-primary" id="count-customers">0</h3>
-          <p class="text-sm font-bold text-gray-500 uppercase tracking-wide mt-1">Members</p>
+          <h3 class="text-3xl font-black text-primary dark:text-dark-text" id="count-customers">0</h3>
+          <p class="text-sm font-bold text-gray-500 uppercase tracking-wide mt-1 dark:text-gray-400">Members</p>
         </div>
 
         <!-- Stat Card 2 -->
@@ -237,19 +250,19 @@
       </div>
 
       <!-- Schedule Section -->
-      <div class="bg-white border-2 border-primary shadow-[8px_8px_0px_0px_#296374]">
-        <div class="bg-secondary p-4 flex justify-between items-center border-b-2 border-primary">
+      <div class="bg-white border-2 border-primary shadow-[8px_8px_0px_0px_#296374] dark:bg-dark-card dark:border-dark-primary">
+        <div class="bg-secondary p-4 flex justify-between items-center border-b-2 border-primary dark:bg-dark-primary dark:border-dark-accent">
           <h3 class="text-xl font-bold text-white uppercase tracking-wider flex items-center gap-2">
-            <i data-lucide="calendar" class="w-5 h-5 text-accent"></i>
+            <i data-lucide="calendar" class="w-5 h-5 text-accent dark:text-dark-text"></i>
             Today's Schedule
           </h3>
-          <button class="text-sm font-bold text-contrast hover:text-accent underline uppercase">View All</button>
+          <button class="text-sm font-bold text-contrast hover:text-accent underline uppercase dark:text-dark-accent">View All</button>
         </div>
         
         <div class="p-0 overflow-x-auto">
           <table class="w-full text-left border-collapse">
-            <thead>
-              <tr class="bg-gray-100 border-b-2 border-primary text-primary text-sm uppercase tracking-wider">
+            <thead class="dark:bg-dark-bg dark:text-dark-text dark:border-dark-primary">
+              <tr class="bg-gray-100 border-b-2 border-primary text-primary text-sm uppercase tracking-wider dark:border-dark-primary">
                 <th class="p-4 font-extrabold">Customer</th>
                 <th class="p-4 font-extrabold">Trainer</th>
                 <th class="p-4 font-extrabold">Activity/Equipment</th>
@@ -257,14 +270,14 @@
                 <th class="p-4 font-extrabold text-center">Status</th>
               </tr>
             </thead>
-            <tbody id="today-sessions" class="divide-y-2 divide-gray-100 text-sm font-semibold text-secondary">
+            <tbody id="today-sessions" class="divide-y-2 divide-gray-100 text-sm font-semibold text-secondary dark:text-gray-300 dark:divide-dark-primary">
               <!-- JS will populate this, but here's a placeholder structure -->
-              <tr class="hover:bg-contrast transition-colors">
+              <tr class="hover:bg-contrast transition-colors dark:hover:bg-dark-accent/10">
                 <td class="p-4">Loading...</td>
                 <td class="p-4">Loading...</td>
                 <td class="p-4">Loading...</td>
                 <td class="p-4">Loading...</td>
-                <td class="p-4 text-center"><span class="bg-gray-200 px-2 py-1 text-xs font-bold uppercase">Pending</span></td>
+                <td class="p-4 text-center"><span class="bg-gray-200 px-2 py-1 text-xs font-bold uppercase dark:bg-gray-700 dark:text-gray-300">Pending</span></td>
               </tr>
             </tbody>
           </table>
@@ -308,5 +321,8 @@
   <script src="/js/config.js"></script>
   <script src="/js/auth.js"></script>
   <script src="/js/index.js"></script>
+  <script>
+    lucide.createIcons();
+  </script>
 </body>
 </html>

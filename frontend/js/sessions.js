@@ -47,14 +47,18 @@ const row = (s) => {
 };
 
 const loadLists = async () => {
-  const [customers, trainers, equipments] = await Promise.all([
-    fetch(`${API}/customers`).then((r) => r.json()),
+  const [customersRes, trainers, equipments] = await Promise.all([
+    fetch(`${API}/customers?limit=1000`).then((r) => r.json()), // Fetch all for dropdown
     fetch(`${API}/trainers`).then((r) => r.json()),
     fetch(`${API}/equipments`).then((r) => r.json()),
   ]);
-  customerEl.innerHTML = "";
-  trainerEl.innerHTML = "";
-  equipmentEl.innerHTML = "";
+
+  const customers = Array.isArray(customersRes) ? customersRes : (customersRes.data || []);
+
+  customerEl.innerHTML = '<option value="" disabled selected>Select Customer</option>';
+  trainerEl.innerHTML = '<option value="" disabled selected>Select Trainer</option>';
+  equipmentEl.innerHTML = '<option value="" disabled selected>Select Equipment</option>';
+  
   customers.forEach((c) => customerEl.appendChild(opt(c.id, c.fullName)));
   trainers.forEach((t) => trainerEl.appendChild(opt(t.id, t.trainerName)));
   equipments.forEach((e) => equipmentEl.appendChild(opt(e.id, e.equipmentName)));

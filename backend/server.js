@@ -1,7 +1,8 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const { Sequelize, DataTypes } = require("sequelize");
+const { Sequelize, DataTypes, Op } = require("sequelize");
+const { validate, customerValidationRules, registerValidationRules, trainerValidationRules, equipmentValidationRules, sessionValidationRules } = require('./middleware/validation');
 const sequelize = require("./db");
 const { Customers, Trainers, GymEquipments, TrainingSessions } = sequelize;
 const fs = require('fs');
@@ -147,7 +148,7 @@ app.get("/api/logs", async (req, res) => {
   }
 });
 
-app.post("/api/register", async (req, res) => {
+app.post("/api/register", registerValidationRules(), validate, async (req, res) => {
   try {
     const { fullName, email, phone } = req.body;
     
@@ -185,8 +186,32 @@ app.post("/api/register", async (req, res) => {
 // Customers API
 app.get("/api/customers", async (req, res) => {
   try {
-    const rows = await Customers.findAll({ order: [["id", "ASC"]] });
-    res.json(rows);
+    const { q, page = 1, limit = 10 } = req.query;
+    const offset = (parseInt(page) - 1) * parseInt(limit);
+    const where = {};
+    
+    if (q) {
+      where[Op.or] = [
+        { fullName: { [Op.iLike]: `%${q}%` } },
+        { email: { [Op.iLike]: `%${q}%` } },
+        { phone: { [Op.iLike]: `%${q}%` } }
+      ];
+    }
+
+    const { count, rows } = await Customers.findAndCountAll({
+      where,
+      order: [["id", "ASC"]],
+      limit: parseInt(limit),
+      offset: parseInt(offset)
+    });
+
+    res.json({
+      data: rows,
+      total: count,
+      page: parseInt(page),
+      limit: parseInt(limit),
+      totalPages: Math.ceil(count / parseInt(limit))
+    });
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
@@ -202,7 +227,7 @@ app.get("/api/customers/:id", async (req, res) => {
   }
 });
 
-app.post("/api/customers", async (req, res) => {
+app.post("/api/customers", customerValidationRules(), validate, async (req, res) => {
   try {
     const created = await Customers.create(req.body);
     logAction("Create Customer", `Created customer: ${created.fullName} (ID: ${created.id})`);
@@ -212,7 +237,7 @@ app.post("/api/customers", async (req, res) => {
   }
 });
 
-app.put("/api/customers/:id", async (req, res) => {
+app.put("/api/customers/:id", customerValidationRules(), validate, async (req, res) => {
   try {
     const row = await Customers.findByPk(req.params.id);
     if (!row) return res.status(404).json({ error: "not_found" });
@@ -249,7 +274,7 @@ app.get("/api/trainers", async (req, res) => {
   }
 });
 
-app.post("/api/trainers", async (req, res) => {
+app.post("/api/trainers", trainerValidationRules(), validate, async (req, res) => {
   try {
     const created = await Trainers.create(req.body);
     logAction("Create Trainer", `Created trainer: ${created.trainerName} (ID: ${created.id})`);
@@ -259,7 +284,7 @@ app.post("/api/trainers", async (req, res) => {
   }
 });
 
-app.put("/api/trainers/:id", async (req, res) => {
+app.put("/api/trainers/:id", trainerValidationRules(), validate, async (req, res) => {
   try {
     const row = await Trainers.findByPk(req.params.id);
     if (!row) return res.status(404).json({ error: "not_found" });
@@ -296,7 +321,7 @@ app.get("/api/equipments", async (req, res) => {
   }
 });
 
-app.post("/api/equipments", async (req, res) => {
+app.post("/api/equipments", equipmentValidationRules(), validate, async (req, res) => {
   try {
     const created = await GymEquipments.create(req.body);
     logAction("Create Equipment", `Created equipment: ${created.equipmentName} (ID: ${created.id})`);
@@ -306,7 +331,7 @@ app.post("/api/equipments", async (req, res) => {
   }
 });
 
-app.put("/api/equipments/:id", async (req, res) => {
+app.put("/api/equipments/:id", equipmentValidationRules(), validate, async (req, res) => {
   try {
     const row = await GymEquipments.findByPk(req.params.id);
     if (!row) return res.status(404).json({ error: "not_found" });
@@ -379,7 +404,7 @@ app.get("/api/sessions", async (req, res) => {
   }
 });
 
-app.post("/api/sessions", async (req, res) => {
+app.post("/api/sessions", sessionValidationRules(), validate, async (req, res) => {
   try {
     const { sessionDate, duration, trainerId, equipmentId, customerId } = req.body;
     

@@ -9,6 +9,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
+      darkMode: 'class',
       theme: {
         extend: {
           colors: {
@@ -16,6 +17,13 @@
             secondary: '#296374',
             accent: '#629FAD',
             contrast: '#EDEDCE',
+            dark: {
+                bg: '#0F0F0F',
+                card: '#232D3F',
+                primary: '#005B41',
+                accent: '#008170',
+                text: '#EDEDCE'
+            }
           },
           fontFamily: {
             sans: ['Inter', 'sans-serif'],
@@ -49,8 +57,9 @@
     ::-webkit-scrollbar-thumb { background: #296374; }
     ::-webkit-scrollbar-thumb:hover { background: #0C2C55; }
   </style>
+  <script src="/js/theme.js"></script>
 </head>
-<body class="bg-contrast text-primary min-h-screen flex overflow-hidden">
+<body class="bg-contrast text-primary min-h-screen flex overflow-hidden dark:bg-dark-bg dark:text-dark-text transition-colors duration-300">
 
   <!-- Sidebar -->
   <aside class="w-64 bg-primary text-contrast flex-shrink-0 flex flex-col border-r-4 border-accent hidden md:flex">
@@ -100,6 +109,10 @@
             <i data-lucide="log-out" class="w-5 h-5 group-hover:text-red-400 transition-colors"></i>
             <span>Logout</span>
           </button>
+          <button onclick="toggleTheme()" class="w-full text-left flex items-center gap-4 px-6 py-4 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group">
+            <i id="theme-icon" data-lucide="moon" class="w-5 h-5 group-hover:text-accent transition-colors"></i>
+            <span>Theme</span>
+          </button>
         </li>
       </ul>
     </nav>
@@ -148,52 +161,54 @@
     </div>
 
     <!-- Content Area -->
-    <div class="flex-1 overflow-y-auto p-4 md:p-8 bg-contrast relative">
+    <div class="flex-1 overflow-y-auto p-4 md:p-8 bg-contrast relative dark:bg-dark-bg">
       
-      <div class="mb-8 border-b-4 border-primary pb-4">
-        <h2 class="text-4xl font-extrabold text-primary uppercase tracking-tighter">Equipment Management</h2>
-        <p class="text-secondary font-medium mt-1">Track and manage gym equipment status.</p>
+      <div class="mb-8 border-b-4 border-primary pb-4 dark:border-dark-primary">
+        <h2 class="text-4xl font-extrabold text-primary uppercase tracking-tighter dark:text-dark-text">Equipment Management</h2>
+        <p class="text-secondary font-medium mt-1 dark:text-dark-accent">Track and manage gym equipment status.</p>
       </div>
 
       <!-- Add Equipment Form -->
-      <div class="bg-white border-2 border-primary p-6 mb-8 shadow-[4px_4px_0px_0px_#0C2C55]">
-        <h3 class="text-xl font-bold uppercase mb-4 flex items-center gap-2">
-          <i data-lucide="plus-square" class="w-5 h-5 text-accent"></i> Add New Equipment
+      <div class="bg-white border-2 border-primary p-6 mb-8 shadow-[4px_4px_0px_0px_#0C2C55] dark:bg-dark-card dark:border-dark-primary dark:shadow-[4px_4px_0px_0px_#005B41]">
+        <h3 class="text-xl font-bold uppercase mb-4 flex items-center gap-2 dark:text-dark-text">
+          <i data-lucide="monitor-smartphone" class="w-5 h-5 text-accent dark:text-dark-accent"></i> Add New Equipment
         </h3>
         <form id="equipment-form" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <input id="name" placeholder="Equipment Name" required class="border-2 border-primary p-3 font-bold focus:outline-none focus:border-accent placeholder-gray-400">
-          <input id="category" placeholder="Category" class="border-2 border-primary p-3 font-bold focus:outline-none focus:border-accent placeholder-gray-400">
+          <input id="equipmentName" placeholder="Equipment Name" required class="border-2 border-primary p-3 font-bold focus:outline-none focus:border-accent placeholder-gray-400 dark:bg-dark-bg dark:border-dark-primary dark:text-dark-text">
           
-          <select id="status" required class="border-2 border-primary p-3 font-bold focus:outline-none focus:border-accent bg-white">
+          <input id="category" placeholder="Category (e.g. Cardio, Strength)" class="border-2 border-primary p-3 font-bold focus:outline-none focus:border-accent placeholder-gray-400 dark:bg-dark-bg dark:border-dark-primary dark:text-dark-text">
+
+          <select id="status" required class="border-2 border-primary p-3 font-bold focus:outline-none focus:border-accent bg-white dark:bg-dark-bg dark:border-dark-primary dark:text-dark-text">
             <option value="Available">Available</option>
+            <option value="In Use">In Use</option>
             <option value="Maintenance">Maintenance</option>
           </select>
           
-          <button type="submit" class="bg-primary text-contrast font-bold uppercase hover:bg-secondary hover:shadow-[2px_2px_0px_0px_#629FAD] transition-all active:translate-y-1 active:shadow-none border-2 border-transparent h-full flex items-center justify-center gap-2">
+          <button type="submit" class="bg-primary text-contrast font-bold uppercase hover:bg-secondary hover:shadow-[2px_2px_0px_0px_#629FAD] transition-all active:translate-y-1 active:shadow-none border-2 border-transparent h-full flex items-center justify-center gap-2 dark:bg-dark-primary dark:text-white dark:hover:bg-dark-accent">
             <i data-lucide="save" class="w-4 h-4"></i> Save Equipment
           </button>
         </form>
       </div>
 
       <!-- Equipment List -->
-      <div class="bg-white border-2 border-primary shadow-[8px_8px_0px_0px_#296374]">
-        <div class="bg-secondary p-4 border-b-2 border-primary">
+      <div class="bg-white border-2 border-primary shadow-[8px_8px_0px_0px_#296374] dark:bg-dark-card dark:border-dark-primary">
+        <div class="bg-secondary p-4 border-b-2 border-primary dark:bg-dark-primary dark:border-dark-accent">
           <h3 class="text-xl font-bold text-white uppercase tracking-wider flex items-center gap-2">
-            <i data-lucide="monitor-smartphone" class="w-5 h-5 text-accent"></i> Equipment Inventory
+            <i data-lucide="list" class="w-5 h-5 text-accent dark:text-dark-text"></i> Inventory List
           </h3>
         </div>
         <div class="overflow-x-auto">
           <table class="w-full text-left border-collapse">
             <thead>
-              <tr class="bg-gray-100 border-b-2 border-primary text-primary text-sm uppercase tracking-wider">
+              <tr class="bg-gray-100 border-b-2 border-primary text-primary text-sm uppercase tracking-wider dark:bg-dark-bg dark:text-dark-text dark:border-dark-primary">
                 <th class="p-4 font-extrabold">ID</th>
-                <th class="p-4 font-extrabold">Name</th>
+                <th class="p-4 font-extrabold">Equipment Name</th>
                 <th class="p-4 font-extrabold">Category</th>
                 <th class="p-4 font-extrabold">Status</th>
                 <th class="p-4 font-extrabold text-center">Actions</th>
               </tr>
             </thead>
-            <tbody id="equipments-table" class="divide-y-2 divide-gray-100 text-sm font-semibold text-secondary">
+            <tbody id="equipments-table" class="divide-y-2 divide-gray-100 text-sm font-semibold text-secondary dark:text-gray-300 dark:divide-dark-primary">
               <!-- JS Populated -->
             </tbody>
           </table>

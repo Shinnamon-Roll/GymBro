@@ -1,5 +1,9 @@
 const API = window.API;
 
+let currentPage = 1;
+const limit = 10;
+let totalPages = 1;
+
 const tbody = document.getElementById("customers-table");
 const form = document.getElementById("customer-form");
 const nameEl = document.getElementById("name");
@@ -42,9 +46,43 @@ const row = (c) => {
 };
 
 const load = async () => {
-  const data = await fetch(`${API}/customers`).then((r) => r.json());
+  const q = document.getElementById("search-input").value;
+  const res = await fetch(`${API}/customers?page=${currentPage}&limit=${limit}&q=${encodeURIComponent(q)}`).then((r) => r.json());
+  
+  let data = [];
+  if (Array.isArray(res)) {
+      data = res;
+  } else {
+      data = res.data;
+      totalPages = res.totalPages;
+      currentPage = res.page;
+  }
+
   tbody.innerHTML = "";
-  data.forEach((c) => tbody.appendChild(row(c)));
+  if (data.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-secondary font-bold">No customers found</td></tr>`;
+  } else {
+      data.forEach((c) => tbody.appendChild(row(c)));
+  }
+  updatePaginationControls();
+};
+
+const updatePaginationControls = () => {
+    document.getElementById("page-info").textContent = `Page ${currentPage} of ${totalPages || 1}`;
+    document.getElementById("prev-page").disabled = currentPage <= 1;
+    document.getElementById("next-page").disabled = currentPage >= totalPages;
+};
+
+window.searchCustomers = () => {
+    currentPage = 1;
+    load();
+};
+
+window.changePage = (delta) => {
+    currentPage += delta;
+    if (currentPage < 1) currentPage = 1;
+    if (currentPage > totalPages) currentPage = totalPages;
+    load();
 };
 
 form.addEventListener("submit", async (e) => {
@@ -62,6 +100,13 @@ form.addEventListener("submit", async (e) => {
   if (r.ok) {
     form.reset();
     load();
+  } else {
+    const err = await r.json();
+    if (err.errors) {
+        alert(err.errors.map(e => e.msg).join('\n'));
+    } else {
+        alert(err.error || 'Failed to create customer');
+    }
   }
 });
 
@@ -93,12 +138,27 @@ tbody.addEventListener("click", async (e) => {
       if (phone === null) return;
 
       if (name && email) {
+        const body = {
+            ...currentData,
+            fullName: name,
+            email: email,
+            phone: phone
+        };
         const r = await fetch(`${API}/customers/${id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ fullName: name, email, phone }),
+          body: JSON.stringify(body),
         });
-        if (r.ok) load();
+        if (r.ok) {
+            load();
+        } else {
+            const err = await r.json();
+            if (err.errors) {
+                alert(err.errors.map(e => e.msg).join('\n'));
+            } else {
+                alert(err.error || 'Failed to update customer');
+            }
+        }
       }
     } catch (err) {
       console.error(err);

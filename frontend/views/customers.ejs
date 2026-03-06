@@ -9,6 +9,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
+      darkMode: 'class',
       theme: {
         extend: {
           colors: {
@@ -16,6 +17,13 @@
             secondary: '#296374',
             accent: '#629FAD',
             contrast: '#EDEDCE',
+            dark: {
+                bg: '#0F0F0F',
+                card: '#232D3F',
+                primary: '#005B41',
+                accent: '#008170',
+                text: '#EDEDCE'
+            }
           },
           fontFamily: {
             sans: ['Inter', 'sans-serif'],
@@ -49,8 +57,9 @@
     ::-webkit-scrollbar-thumb { background: #296374; }
     ::-webkit-scrollbar-thumb:hover { background: #0C2C55; }
   </style>
+  <script src="/js/theme.js"></script>
 </head>
-<body class="bg-contrast text-primary min-h-screen flex overflow-hidden">
+<body class="bg-contrast text-primary min-h-screen flex overflow-hidden dark:bg-dark-bg dark:text-dark-text transition-colors duration-300">
 
   <!-- Sidebar (Same as Index) -->
   <aside class="w-64 bg-primary text-contrast flex-shrink-0 flex flex-col border-r-4 border-accent hidden md:flex">
@@ -100,6 +109,10 @@
             <i data-lucide="log-out" class="w-5 h-5 group-hover:text-red-400 transition-colors"></i>
             <span>Logout</span>
           </button>
+          <button onclick="toggleTheme()" class="w-full text-left flex items-center gap-4 px-6 py-4 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group">
+            <i id="theme-icon" data-lucide="moon" class="w-5 h-5 group-hover:text-accent transition-colors"></i>
+            <span>Theme</span>
+          </button>
         </li>
       </ul>
     </nav>
@@ -148,71 +161,84 @@
     </div>
 
     <!-- Content Area -->
-    <div class="flex-1 overflow-y-auto p-4 md:p-8 bg-contrast relative">
+    <div class="flex-1 overflow-y-auto p-4 md:p-8 bg-contrast relative dark:bg-dark-bg">
       
-      <div class="mb-8 border-b-4 border-primary pb-4">
-        <h2 class="text-4xl font-extrabold text-primary uppercase tracking-tighter">Member Management</h2>
-        <p class="text-secondary font-medium mt-1">Add new members and manage existing ones.</p>
+      <div class="mb-8 border-b-4 border-primary pb-4 dark:border-dark-primary">
+        <h2 class="text-4xl font-extrabold text-primary uppercase tracking-tighter dark:text-dark-text">Member Management</h2>
+        <p class="text-secondary font-medium mt-1 dark:text-dark-accent">Add new members and manage existing ones.</p>
       </div>
 
       <!-- Add Customer Form -->
-      <div class="bg-white border-2 border-primary p-6 mb-8 shadow-[4px_4px_0px_0px_#0C2C55]">
-        <h3 class="text-xl font-bold uppercase mb-4 flex items-center gap-2">
-          <i data-lucide="user-plus" class="w-5 h-5 text-accent"></i> Add New Member
+      <div class="bg-white border-2 border-primary p-6 mb-8 shadow-[4px_4px_0px_0px_#0C2C55] dark:bg-dark-card dark:border-dark-primary dark:shadow-[4px_4px_0px_0px_#005B41]">
+        <h3 class="text-xl font-bold uppercase mb-4 flex items-center gap-2 dark:text-dark-text">
+          <i data-lucide="user-plus" class="w-5 h-5 text-accent dark:text-dark-accent"></i> Add New Member
         </h3>
         <form id="customer-form" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <input id="name" placeholder="Full Name" required class="border-2 border-primary p-3 font-bold focus:outline-none focus:border-accent placeholder-gray-400">
-          <input id="email" placeholder="Email" required type="email" class="border-2 border-primary p-3 font-bold focus:outline-none focus:border-accent placeholder-gray-400">
-          <input id="phone" placeholder="Phone" class="border-2 border-primary p-3 font-bold focus:outline-none focus:border-accent placeholder-gray-400">
+          <input id="name" placeholder="Full Name" required class="border-2 border-primary p-3 font-bold focus:outline-none focus:border-accent placeholder-gray-400 dark:bg-dark-bg dark:border-dark-primary dark:text-dark-text">
+          <input id="email" placeholder="Email" required type="email" class="border-2 border-primary p-3 font-bold focus:outline-none focus:border-accent placeholder-gray-400 dark:bg-dark-bg dark:border-dark-primary dark:text-dark-text">
+          <input id="phone" placeholder="Phone" class="border-2 border-primary p-3 font-bold focus:outline-none focus:border-accent placeholder-gray-400 dark:bg-dark-bg dark:border-dark-primary dark:text-dark-text">
           
-          <select id="memberType" required class="border-2 border-primary p-3 font-bold focus:outline-none focus:border-accent bg-white">
+          <select id="memberType" required class="border-2 border-primary p-3 font-bold focus:outline-none focus:border-accent bg-white dark:bg-dark-bg dark:border-dark-primary dark:text-dark-text">
             <option value="Standard">Standard</option>
             <option value="Premium">Premium</option>
             <option value="VIP">VIP</option>
           </select>
           
-          <select id="memberLevel" required class="border-2 border-primary p-3 font-bold focus:outline-none focus:border-accent bg-white">
+          <select id="memberLevel" required class="border-2 border-primary p-3 font-bold focus:outline-none focus:border-accent bg-white dark:bg-dark-bg dark:border-dark-primary dark:text-dark-text">
             <option value="Basic">Basic</option>
             <option value="Silver">Silver</option>
             <option value="Gold">Gold</option>
           </select>
           
           <div class="flex flex-col">
-            <label class="text-xs font-bold uppercase text-secondary mb-1">Start Date</label>
-            <input id="memberStartDate" type="date" required class="border-2 border-primary p-2 font-bold focus:outline-none focus:border-accent">
+            <label class="text-xs font-bold uppercase text-secondary mb-1 dark:text-dark-accent">Start Date</label>
+            <input id="memberStartDate" type="date" required class="border-2 border-primary p-2 font-bold focus:outline-none focus:border-accent dark:bg-dark-bg dark:border-dark-primary dark:text-dark-text">
           </div>
           
           <div class="flex flex-col">
-            <label class="text-xs font-bold uppercase text-secondary mb-1">End Date</label>
-            <input id="memberEndDate" type="date" class="border-2 border-primary p-2 font-bold focus:outline-none focus:border-accent">
+            <label class="text-xs font-bold uppercase text-secondary mb-1 dark:text-dark-accent">End Date</label>
+            <input id="memberEndDate" type="date" class="border-2 border-primary p-2 font-bold focus:outline-none focus:border-accent dark:bg-dark-bg dark:border-dark-primary dark:text-dark-text">
           </div>
           
-          <button type="submit" class="bg-primary text-contrast font-bold uppercase hover:bg-secondary hover:shadow-[2px_2px_0px_0px_#629FAD] transition-all active:translate-y-1 active:shadow-none border-2 border-transparent h-full flex items-center justify-center gap-2">
+          <button type="submit" class="bg-primary text-contrast font-bold uppercase hover:bg-secondary hover:shadow-[2px_2px_0px_0px_#629FAD] transition-all active:translate-y-1 active:shadow-none border-2 border-transparent h-full flex items-center justify-center gap-2 dark:bg-dark-primary dark:text-white dark:hover:bg-dark-accent">
             <i data-lucide="save" class="w-4 h-4"></i> Save Member
           </button>
         </form>
       </div>
 
+      <!-- Search & Pagination Controls -->
+      <div class="mb-4 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div class="flex w-full md:w-auto gap-2">
+            <input type="text" id="search-input" placeholder="Search customers..." class="border-2 border-primary p-2 w-full md:w-64 font-bold text-sm bg-white focus:outline-none focus:border-accent dark:bg-dark-card dark:border-dark-primary dark:text-dark-text" onkeypress="if(event.key==='Enter') searchCustomers()">
+            <button onclick="searchCustomers()" class="bg-primary text-contrast px-4 py-2 font-bold uppercase text-xs hover:bg-secondary transition-colors dark:bg-dark-primary dark:text-white">Search</button>
+        </div>
+        <div class="flex items-center gap-2">
+            <button id="prev-page" onclick="changePage(-1)" class="bg-white border-2 border-primary px-3 py-1 font-bold uppercase text-xs hover:bg-secondary hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed dark:bg-dark-card dark:border-dark-primary dark:text-dark-text">Prev</button>
+            <span id="page-info" class="font-bold text-sm text-primary dark:text-dark-text">Page 1 of 1</span>
+            <button id="next-page" onclick="changePage(1)" class="bg-white border-2 border-primary px-3 py-1 font-bold uppercase text-xs hover:bg-secondary hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed dark:bg-dark-card dark:border-dark-primary dark:text-dark-text">Next</button>
+        </div>
+      </div>
+
       <!-- Customer List -->
-      <div class="bg-white border-2 border-primary shadow-[8px_8px_0px_0px_#296374]">
-        <div class="bg-secondary p-4 border-b-2 border-primary">
+      <div class="bg-white border-2 border-primary shadow-[8px_8px_0px_0px_#296374] dark:bg-dark-card dark:border-dark-primary">
+        <div class="bg-secondary p-4 border-b-2 border-primary dark:bg-dark-primary dark:border-dark-accent">
           <h3 class="text-xl font-bold text-white uppercase tracking-wider flex items-center gap-2">
-            <i data-lucide="users" class="w-5 h-5 text-accent"></i> Member List
+            <i data-lucide="users" class="w-5 h-5 text-accent dark:text-dark-text"></i> Registered Members
           </h3>
         </div>
         <div class="overflow-x-auto">
           <table class="w-full text-left border-collapse">
             <thead>
-              <tr class="bg-gray-100 border-b-2 border-primary text-primary text-sm uppercase tracking-wider">
+              <tr class="bg-gray-100 border-b-2 border-primary text-primary text-sm uppercase tracking-wider dark:bg-dark-bg dark:text-dark-text dark:border-dark-primary">
                 <th class="p-4 font-extrabold">ID</th>
-                <th class="p-4 font-extrabold">Name</th>
+                <th class="p-4 font-extrabold">Full Name</th>
                 <th class="p-4 font-extrabold">Contact</th>
-                <th class="p-4 font-extrabold">Type/Level</th>
-                <th class="p-4 font-extrabold">Dates</th>
+                <th class="p-4 font-extrabold">Membership</th>
+                <th class="p-4 font-extrabold">Status</th>
                 <th class="p-4 font-extrabold text-center">Actions</th>
               </tr>
             </thead>
-            <tbody id="customers-table" class="divide-y-2 divide-gray-100 text-sm font-semibold text-secondary">
+            <tbody id="customers-table" class="divide-y-2 divide-gray-100 text-sm font-semibold text-secondary dark:text-gray-300 dark:divide-dark-primary">
               <!-- JS Populated -->
             </tbody>
           </table>
@@ -240,5 +266,8 @@
   <script src="/js/config.js"></script>
   <script src="/js/auth.js"></script>
   <script src="/js/customers.js"></script>
+  <script>
+    lucide.createIcons();
+  </script>
 </body>
 </html>

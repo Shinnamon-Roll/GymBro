@@ -316,3 +316,195 @@ setInterval(checkExpiredMembers, 24 * 60 * 60 * 1000);
 % FILE: db.js
 % ==========================================================================================
 
+
+\section{ฟีเจอร์เพิ่มเติม (Additional Features)}
+
+\subsection{การค้นหาและแบ่งหน้า (Search \& Pagination) - ส่วน Backend}
+API Endpoint \texttt{GET /api/customers} ได้รับการปรับปรุงให้รองรับการค้นหา (Search) และการแบ่งหน้า (Pagination)
+
+\subsubsection{การทำงาน (Implementation)}
+ใช้ \texttt{Op.like} ของ Sequelize สำหรับการค้นหาแบบ Partial Match และใช้ \texttt{limit}, \texttt{offset} สำหรับการแบ่งหน้า
+
+\begin{lstlisting}[language=JavaScript, caption={Logic การค้นหาและแบ่งหน้าใน server.js}, label={code:backend-search-pagination}]
+// Customers API
+app.get("/api/customers", async (req, res) => {
+  try {
+    const { q, page = 1, limit = 10 } = req.query;
+    const offset = (parseInt(page) - 1) * parseInt(limit);
+    const where = {};
+    
+    if (q) {
+      where[Op.or] = [
+        { fullName: { [Op.iLike]: `%${q}%` } },
+        { email: { [Op.iLike]: `%${q}%` } },
+        { phone: { [Op.iLike]: `%${q}%` } }
+      ];
+    }
+
+    const { count, rows } = await Customers.findAndCountAll({
+      where,
+      order: [["id", "ASC"]],
+      limit: parseInt(limit),
+      offset: parseInt(offset)
+    });
+
+    res.json({
+      data: rows,
+      total: count,
+      page: parseInt(page),
+      limit: parseInt(limit),
+      totalPages: Math.ceil(count / parseInt(limit))
+    });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+\end{lstlisting}
+
+\subsection{Validation Middleware}
+ระบบมีการตรวจสอบความถูกต้องของข้อมูล (Data Validation) ก่อนบันทึกลงฐานข้อมูล โดยใช้ไลบรารี \texttt{express-validator}
+
+\subsubsection{การทำงาน (Implementation)}
+สร้าง Middleware ชื่อ \texttt{validate} และกำหนดกฎการตรวจสอบ (Validation Rules) แยกตามแต่ละ Route ในไฟล์ \texttt{middleware/validation.js}
+
+\begin{lstlisting}[language=JavaScript, caption={ไฟล์ backend/middleware/validation.js}, label={code:backend-validation}]
+const { body, validationResult } = require('express-validator');
+
+const validate = (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  next();
+};
+
+const customerValidationRules = () => {
+  return [
+    body('fullName').trim().notEmpty().withMessage('Full Name is required'),
+    body('email').trim().isEmail().withMessage('Invalid email format'),
+    // ...
+  ];
+};
+
+module.exports = {
+  validate,
+  customerValidationRules,
+  // ...
+};
+\end{lstlisting}
+
+\subsection{การเชื่อมต่อฐานข้อมูล (Database Connection - db.js)}
+ไฟล์ \texttt{db.js} ทำหน้าที่กำหนดการเชื่อมต่อกับฐานข้อมูล PostgreSQL ผ่าน Sequelize ORM และกำหนด Schema ของตารางต่างๆ
+
+\subsubsection{การตั้งค่า Sequelize (Sequelize Instance)}
+\begin{lstlisting}[language=JavaScript, caption={การตั้งค่า Sequelize ใน db.js}, label={code:db-setup}]
+const { Sequelize, DataTypes } = require("sequelize");
+
+const sequelize = new Sequelize(
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASSWORD,
+  {
+    host: process.env.DB_HOST,
+    dialect: "postgres",
+    port: process.env.DB_PORT,
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false, // รองรับ Self-signed certificate
+      },
+    },
+    logging: false, // ปิด SQL logging เพื่อความสะอาดของ Console
+  }
+);
+\end{lstlisting}
+
+\subsubsection{การนิยาม Model (Model Definitions)}
+มีการกำหนด Model สำหรับตารางหลักทั้ง 4 ตาราง ได้แก่ Customers, Trainers, GymEquipments, และ TrainingSessions
+
+\begin{lstlisting}[language=JavaScript, caption={ตัวอย่าง Model Definition: Customers}, label={code:db-model-customer}]
+const Customers = sequelize.define("customers", {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  fullName: { type: DataTypes.STRING, allowNull: false },
+  email: { type: DataTypes.STRING, allowNull: false, unique: true },
+  phone: { type: DataTypes.STRING },
+  memberType: { type: DataTypes.STRING, defaultValue: "Standard" }, // Standard, Premium, VIP
+  memberLevel: { type: DataTypes.STRING, defaultValue: "Basic" }, // Basic, Silver, Gold
+  memberStartDate: { type: DataTypes.DATEONLY, defaultValue: DataTypes.NOW },
+  memberEndDate: { type: DataTypes.DATEONLY },
+});
+\end{lstlisting}
+
+\begin{lstlisting}[language=JavaScript, caption={ตัวอย่าง Model Definition: TrainingSessions และ Relationships}, label={code:db-model-session}]
+const TrainingSessions = sequelize.define("training_sessions", {
+  // ... fields definition
+});
+
+// กำหนดความสัมพันธ์ (Associations)
+TrainingSessions.belongsTo(Customers, { foreignKey: "customerId", as: "customer" });
+TrainingSessions.belongsTo(Trainers, { foreignKey: "trainerId", as: "trainer" });
+TrainingSessions.belongsTo(GymEquipments, { foreignKey: "equipmentId", as: "equipment" });
+\end{lstlisting}
+
+\subsection{API Endpoints (server.js)}
+ระบบมีการแยก API Endpoint ตามทรัพยากรข้อมูล เพื่อให้ง่ายต่อการจัดการตามหลักการ RESTful
+
+\subsubsection{Trainers API}
+API สำหรับจัดการข้อมูลเทรนเนอร์ รองรับการทำงานแบบ CRUD (Create, Read, Update, Delete)
+
+\begin{lstlisting}[language=JavaScript, caption={Trainers API}, label={code:api-trainers}]
+// Get All Trainers
+app.get("/api/trainers", async (req, res) => {
+  try {
+    const rows = await Trainers.findAll({ order: [["id", "ASC"]] });
+    res.json(rows);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// Create Trainer (พร้อม Validation)
+app.post("/api/trainers", trainerValidationRules(), validate, async (req, res) => {
+  try {
+    const created = await Trainers.create(req.body);
+    logAction("Create Trainer", `Created trainer: ${created.trainerName}...`);
+    res.status(201).json(created);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+\end{lstlisting}
+
+\subsubsection{Dashboard Summary API}
+API พิเศษสำหรับรวบรวมสถิติเพื่อแสดงผลบน Dashboard ของผู้ดูแลระบบ โดยใช้ \texttt{Promise.all} เพื่อดึงข้อมูลจากหลายตารางพร้อมกันอย่างมีประสิทธิภาพ
+
+\begin{lstlisting}[language=JavaScript, caption={Summary API}, label={code:api-summary}]
+app.get("/api/summary", async (req, res) => {
+  try {
+    const start = new Date();
+    start.setHours(0, 0, 0, 0); // เริ่มต้นวัน
+    const end = new Date();
+    end.setHours(23, 59, 59, 999); // สิ้นสุดวัน
+
+    const [c, t, e, s] = await Promise.all([
+      Customers.count(),
+      Trainers.count(),
+      GymEquipments.count(),
+      TrainingSessions.count({
+        where: {
+          sessionDate: { [Sequelize.Op.between]: [start, end] },
+        },
+      }),
+    ]);
+    
+    res.json({
+      customers: c,
+      trainers: t,
+      equipments: e,
+      sessions_today: s,
+    });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+\end{lstlisting}
