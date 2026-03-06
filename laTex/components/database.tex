@@ -1,0 +1,313 @@
+\section{Database (ฐานข้อมูล)}
+
+\subsection{ภาพรวมฐานข้อมูล (Database Overview)}
+ระบบ GymBro เลือกใช้ \textbf{PostgreSQL} ซึ่งเป็นระบบจัดการฐานข้อมูลเชิงสัมพันธ์ (Relational Database Management System - RDBMS) ที่มีความเสถียร ประสิทธิภาพสูง และรองรับมาตรฐาน SQL อย่างครบถ้วน โดยฐานข้อมูลถูกโฮสต์อยู่บน \textbf{Ruk-Com Cloud} ซึ่งเป็นผู้ให้บริการ Cloud Hosting ที่มีความน่าเชื่อถือและประสิทธิภาพสูงในประเทศไทย
+
+การเลือกใช้ PostgreSQL บน Ruk-Com Cloud ช่วยให้ระบบมีความยืดหยุ่นในการขยายตัว (Scalability) รองรับการเข้าถึงจากผู้ใช้งานจำนวนมากพร้อมกัน และมีการสำรองข้อมูลอัตโนมัติ (Automated Backup) เพื่อป้องกันการสูญหายของข้อมูลสำคัญ
+
+\subsection{การเชื่อมต่อฐานข้อมูล (Database Connection)}
+ระบบ Backend เชื่อมต่อกับฐานข้อมูลผ่าน \textbf{Sequelize ORM} ซึ่งช่วยลดความซับซ้อนในการเขียนคำสั่ง SQL ดิบ (Raw SQL) และช่วยให้โค้ดมีความเป็นระเบียบ อ่านง่าย และดูแลรักษาได้สะดวก
+\subsection{db.js}
+
+\subsubsection{ภาพรวม (Overview)}
+ไฟล์ \texttt{db.js} รับผิดชอบการจัดการการเชื่อมต่อกับฐานข้อมูล PostgreSQL โดยใช้ Sequelize ORM รวมถึงการนิยาม Model (Schema) ของตารางต่างๆ ภายในระบบ และการกำหนดความสัมพันธ์ (Associations) ระหว่างตารางเหล่านั้น
+
+\subsubsection{การเชื่อมต่อฐานข้อมูล (Database Connection)}
+\begin{lstlisting}[language=JavaScript, caption={ซอร์สโค้ดจากไฟล์ db.js}, label={code:db-js-connection}]
+const path = require("path");
+require("dotenv").config({ path: path.resolve(__dirname, ".env") });
+const { Sequelize, DataTypes } = require("sequelize");
+
+const dbUrl = process.env.DATABASE_URL || \discretionary{}{}{}"postgres://webadmin:...@.../gymbro_db";
+
+const sequelize = new Sequelize(dbUrl, {
+  dialect: "postgres",
+  logging: false,
+});
+\end{lstlisting}
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item โหลดค่าตัวแปรสภาพแวดล้อม (Environment Variables) และเตรียม URL สำหรับการเชื่อมต่อฐานข้อมูล
+    \item สร้าง Instance ของ \texttt{Sequelize} โดยระบุ Dialect เป็น \texttt{postgres} และปิดการแสดงผล Logging เพื่อลดความซับซ้อนของข้อมูลใน Console
+\end{enumerate}
+
+\subsubsection{การนิยามแบบจำลองข้อมูล (Models Definition)}
+ส่วนนี้เป็นการกำหนดโครงสร้างของตารางต่างๆ ในฐานข้อมูล
+
+\paragraph{แบบจำลองข้อมูลลูกค้า (Customers Model)}
+\begin{lstlisting}[language=JavaScript, caption={ซอร์สโค้ดจากไฟล์ db.js}, label={code:db-js-customers}]
+const Customers = sequelize.define(
+  "Customers",
+  {
+    id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
+    fullName: { type: DataTypes.STRING(150), allowNull: false },
+    email: { type: DataTypes.STRING(150), allowNull: false },
+    phone: { type: DataTypes.STRING(20) },
+    memberType: { type: DataTypes.STRING(50), allowNull: false },
+    memberLevel: { type: DataTypes.STRING(50), allowNull: false },
+    memberStartDate: { type: DataTypes.DATE, allowNull: false },
+    memberEndDate: { type: DataTypes.DATE },
+  },
+  { tableName: "Customers", timestamps: false, freezeTableName: true }
+);
+\end{lstlisting}
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item นิยามตาราง \texttt{Customers} สำหรับจัดเก็บข้อมูลลูกค้า
+    \item กำหนดคอลัมน์ต่างๆ เช่น \texttt{fullName}, \texttt{email}, \texttt{memberType} พร้อมทั้งระบุชนิดข้อมูลและข้อจำกัด (Constraints)
+    \item ปิดการใช้งาน \texttt{timestamps} (created\_at, updated\_at) และใช้ \texttt{freezeTableName} เพื่อบังคับให้ใช้ชื่อตารางตามที่กำหนดไว้อย่างเคร่งครัด
+\end{enumerate}
+
+\paragraph{แบบจำลองข้อมูลเซสชันการฝึกซ้อมและความสัมพันธ์ (TrainingSessions Model \& Associations)}
+\begin{lstlisting}[language=JavaScript, caption={ซอร์สโค้ดจากไฟล์ db.js}, label={code:db-js-sessions}]
+const TrainingSessions = sequelize.define(
+  "TrainingSessions",
+  {
+    id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
+    sessionDate: { type: DataTypes.DATE, allowNull: false },
+    endDate: { type: DataTypes.DATE },
+    customerId: { type: DataTypes.INTEGER, allowNull: false },
+    trainerId: { type: DataTypes.INTEGER, allowNull: true },
+    equipmentId: { type: DataTypes.INTEGER, allowNull: false },
+  },
+  { tableName: "TrainingSessions", timestamps: false, freezeTableName: true }
+);
+
+TrainingSessions.belongsTo(Customers, { as: "customer", foreignKey: "customerId" });
+TrainingSessions.belongsTo(Trainers, { as: "trainer", foreignKey: "trainerId" });
+TrainingSessions.belongsTo(GymEquipments, { as: "equipment", foreignKey: "equipmentId" });
+Customers.hasMany(TrainingSessions, { as: "sessions", foreignKey: "customerId" });
+// ... (Similar relations for Trainers and GymEquipments)
+\end{lstlisting}
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item นิยามตาราง \texttt{TrainingSessions} ซึ่งประกอบด้วย Foreign Keys ได้แก่ \texttt{customerId}, \texttt{trainerId}, และ \texttt{equipmentId}
+    \item \textbf{การกำหนดความสัมพันธ์ (Associations)}:
+    \begin{enumerate}
+        \item \texttt{belongsTo}: กำหนดความสัมพันธ์แบบ Many-to-One ระบุว่าเซสชันหนึ่งๆ เป็นของลูกค้า, เทรนเนอร์, และอุปกรณ์ใด
+        \item \texttt{hasMany}: กำหนดความสัมพันธ์แบบ One-to-Many ระบุว่าลูกค้าหนึ่งคน (รวมถึงเทรนเนอร์และอุปกรณ์) สามารถมีได้หลายเซสชัน
+    \end{enumerate}
+    \item การตั้งค่านี้ช่วยให้ Sequelize สามารถทำการ Join ตารางโดยอัตโนมัติเมื่อมีการใช้คำสั่ง \texttt{include} ในขั้นตอนการ Query ข้อมูล
+\end{enumerate}
+
+% ==========================================================================================
+% FILE: schema.sql
+% ==========================================================================================
+
+\subsection{schema.sql}
+
+\subsubsection{ภาพรวม (Overview)}
+ไฟล์ \texttt{schema.sql} คือชุดคำสั่ง SQL (Structured Query Language) สำหรับสร้างโครงสร้างตารางในฐานข้อมูล PostgreSQL ไฟล์นี้เปรียบเสมือนพิมพ์เขียว (Blueprint) หลักของฐานข้อมูล ใช้สำหรับการอ้างอิงโครงสร้างที่แท้จริง หรือใช้สำหรับการเริ่มระบบฐานข้อมูลใหม่ (Initialize) ในสภาพแวดล้อมที่ไม่ได้ใช้งาน ORM
+
+\subsubsection{การนิยามตาราง (Table Definitions)}
+
+\paragraph{ตารางลูกค้า (Customers Table)}
+\begin{lstlisting}[language=SQL, caption={ซอร์สโค้ดจากไฟล์ schema.sql}, label={code:schema-sql-customers}]
+CREATE TABLE IF NOT EXISTS "Customers" (
+  id SERIAL PRIMARY KEY,
+  "fullName" VARCHAR(150) NOT NULL,
+  email VARCHAR(150) NOT NULL,
+  phone VARCHAR(20),
+  "memberType" VARCHAR(50) NOT NULL,
+  "memberLevel" VARCHAR(50) NOT NULL,
+  "memberStartDate" TIMESTAMP NOT NULL,
+  "memberEndDate" TIMESTAMP
+);
+\end{lstlisting}
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item สร้างตาราง \texttt{Customers} หากยังไม่มีอยู่ในระบบ (\texttt{IF NOT EXISTS})
+    \item \texttt{id SERIAL PRIMARY KEY}: กำหนดให้ id เป็น Primary Key และมีการเพิ่มค่าโดยอัตโนมัติ (Auto Increment)
+    \item คอลัมน์อื่นๆ มีการกำหนดชนิดข้อมูล (Data Type) ให้สอดคล้องกับที่ได้นิยามไว้ใน Sequelize Model
+\end{enumerate}
+
+\paragraph{ตารางเทรนเนอร์ (Trainers Table)}
+\begin{lstlisting}[language=SQL, caption={ซอร์สโค้ดจากไฟล์ schema.sql}, label={code:schema-sql-trainers}]
+CREATE TABLE IF NOT EXISTS "Trainers" (
+  id SERIAL PRIMARY KEY,
+  "trainerName" VARCHAR(150) NOT NULL,
+  "trainerLevel" VARCHAR(50) NOT NULL,
+  specialty VARCHAR(100),
+  phone VARCHAR(20)
+);
+\end{lstlisting}
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item สร้างตาราง \texttt{Trainers} สำหรับจัดเก็บข้อมูลเทรนเนอร์
+    \item \texttt{trainerName} และ \texttt{trainerLevel} ถูกกำหนดเป็น \texttt{NOT NULL} เพื่อบังคับให้ต้องมีข้อมูลเสมอ
+\end{enumerate}
+
+\paragraph{ตารางอุปกรณ์ยิม (GymEquipments Table)}
+\begin{lstlisting}[language=SQL, caption={ซอร์สโค้ดจากไฟล์ schema.sql}, label={code:schema-sql-equipments}]
+CREATE TABLE IF NOT EXISTS "GymEquipments" (
+  id SERIAL PRIMARY KEY,
+  "equipmentName" VARCHAR(150) NOT NULL,
+  category VARCHAR(100),
+  status VARCHAR(50) NOT NULL
+);
+\end{lstlisting}
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item สร้างตาราง \texttt{GymEquipments} สำหรับจัดเก็บข้อมูลอุปกรณ์ภายในยิม
+    \item \texttt{status} ใช้สำหรับระบุสถานะความพร้อมใช้งานของอุปกรณ์ เช่น 'Available' หรือ 'Maintenance'
+\end{enumerate}
+
+\paragraph{ตารางเซสชันการฝึกซ้อมและ Foreign Keys (TrainingSessions Table)}
+\begin{lstlisting}[language=SQL, caption={ซอร์สโค้ดจากไฟล์ schema.sql}, label={code:schema-sql-sessions}]
+CREATE TABLE IF NOT EXISTS "TrainingSessions" (
+  id SERIAL PRIMARY KEY,
+  "sessionDate" TIMESTAMP NOT NULL,
+  "customerId" INTEGER NOT NULL REFERENCES "Customers"(id) ON DELETE CASCADE,
+  "trainerId" INTEGER NOT NULL REFERENCES "Trainers"(id),
+  "equipmentId" INTEGER NOT NULL REFERENCES "GymEquipments"(id)
+);
+\end{lstlisting}
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item \texttt{REFERENCES "Customers"(id)}: สร้าง Foreign Key เชื่อมโยงไปยังตาราง Customers เพื่อรักษาความสัมพันธ์ของข้อมูล
+    \item \texttt{ON DELETE CASCADE}: กำหนดกฎว่าหากข้อมูล Customer ถูกลบ ให้ทำการลบ Session ที่เกี่ยวข้องทั้งหมดทิ้งโดยอัตโนมัติ (ดำเนินการในระดับฐานข้อมูล)
+    \item มีการเชื่อมโยงกับตาราง \texttt{Trainers} และ \texttt{GymEquipments} ในลักษณะเดียวกัน เพื่อรักษาความถูกต้องของข้อมูล (Referential Integrity)
+\end{enumerate}
+
+
+% ==========================================================================================
+% Data Dictionary
+% ==========================================================================================
+
+\section{พจนานุกรมข้อมูล (Data Dictionary)}
+ส่วนนี้แสดงรายละเอียดโครงสร้างของตารางทั้งหมดในฐานข้อมูล (Database Schema) รวมถึงคำอธิบายของแต่ละฟิลด์
+
+\subsection{ตาราง: Customers}
+ตารางสำหรับจัดเก็บข้อมูลลูกค้าและสมาชิกของยิม
+
+\begin{longtable}{p{4cm} p{3.5cm} c p{5.5cm}}
+\caption{รายละเอียดโครงสร้างตาราง Customers} \label{tab:customers} \\
+\toprule
+\textbf{ชื่อฟิลด์ (Field)} & \textbf{ชนิดข้อมูล (Type)} & \textbf{Key} & \textbf{คำอธิบาย (Description)} \\
+\midrule
+\endfirsthead
+
+\multicolumn{4}{c}%
+{{\bfseries \tablename\ \thetable{} -- ต่อจากหน้าก่อนหน้า}} \\
+\toprule
+\textbf{ชื่อฟิลด์ (Field)} & \textbf{ชนิดข้อมูล (Type)} & \textbf{Key} & \textbf{คำอธิบาย (Description)} \\
+\midrule
+\endhead
+
+\midrule
+\multicolumn{4}{r}{{ต่อหน้าถัดไป...}} \\
+\bottomrule
+\endfoot
+
+\bottomrule
+\endlastfoot
+
+id & INTEGER & PK & รหัสระบุตัวตนลูกค้า (Customer ID) สร้างอัตโนมัติ \\
+fullName & VARCHAR(150) & & ชื่อและนามสกุลของผู้ใช้งาน \\
+email & VARCHAR(150) & & ที่อยู่อีเมลสำหรับการติดต่อและเข้าสู่ระบบ \\
+phone & VARCHAR(20) & & หมายเลขโทรศัพท์สำหรับการติดต่อ \\
+memberType & VARCHAR(50) & & ประเภทของสมาชิก (เช่น รายวัน, รายเดือน, รายปี) \\
+memberLevel & VARCHAR(50) & & ระดับชั้นของสมาชิก (เช่น Bronze, Silver, Gold) \\
+memberStartDate & TIMESTAMP & & วันและเวลาที่เริ่มต้นสถานะสมาชิก \\
+memberEndDate & TIMESTAMP & & วันและเวลาที่สิ้นสุดสถานะสมาชิก \\
+
+\end{longtable}
+
+\subsection{ตาราง: Trainers}
+ตารางสำหรับจัดเก็บข้อมูลเทรนเนอร์หรือผู้ฝึกสอน
+
+\begin{longtable}{p{4cm} p{3.5cm} c p{5.5cm}}
+\caption{รายละเอียดโครงสร้างตาราง Trainers} \label{tab:trainers} \\
+\toprule
+\textbf{ชื่อฟิลด์ (Field)} & \textbf{ชนิดข้อมูล (Type)} & \textbf{Key} & \textbf{คำอธิบาย (Description)} \\
+\midrule
+\endfirsthead
+
+\multicolumn{4}{c}%
+{{\bfseries \tablename\ \thetable{} -- ต่อจากหน้าก่อนหน้า}} \\
+\toprule
+\textbf{ชื่อฟิลด์ (Field)} & \textbf{ชนิดข้อมูล (Type)} & \textbf{Key} & \textbf{คำอธิบาย (Description)} \\
+\midrule
+\endhead
+
+\midrule
+\multicolumn{4}{r}{{ต่อหน้าถัดไป...}} \\
+\bottomrule
+\endfoot
+
+\bottomrule
+\endlastfoot
+
+id & INTEGER & PK & รหัสระบุตัวตนเทรนเนอร์ (Trainer ID) สร้างอัตโนมัติ \\
+trainerName & VARCHAR(150) & & ชื่อและนามสกุลของเทรนเนอร์ \\
+trainerLevel & VARCHAR(50) & & ระดับความเชี่ยวชาญของเทรนเนอร์ \\
+specialty & VARCHAR(100) & & ความถนัดหรือประเภทกีฬาที่สอน (เช่น Yoga, Body Building) \\
+phone & VARCHAR(20) & & หมายเลขโทรศัพท์สำหรับการติดต่อ \\
+
+\end{longtable}
+
+\subsection{ตาราง: GymEquipments}
+ตารางสำหรับจัดเก็บข้อมูลอุปกรณ์ออกกำลังกายภายในยิม
+
+\begin{longtable}{p{4cm} p{3.5cm} c p{5.5cm}}
+\caption{รายละเอียดโครงสร้างตาราง GymEquipments} \label{tab:gymequipments} \\
+\toprule
+\textbf{ชื่อฟิลด์ (Field)} & \textbf{ชนิดข้อมูล (Type)} & \textbf{Key} & \textbf{คำอธิบาย (Description)} \\
+\midrule
+\endfirsthead
+
+\multicolumn{4}{c}%
+{{\bfseries \tablename\ \thetable{} -- ต่อจากหน้าก่อนหน้า}} \\
+\toprule
+\textbf{ชื่อฟิลด์ (Field)} & \textbf{ชนิดข้อมูล (Type)} & \textbf{Key} & \textbf{คำอธิบาย (Description)} \\
+\midrule
+\endhead
+
+\midrule
+\multicolumn{4}{r}{{ต่อหน้าถัดไป...}} \\
+\bottomrule
+\endfoot
+
+\bottomrule
+\endlastfoot
+
+id & INTEGER & PK & รหัสระบุตัวตนอุปกรณ์ (Equipment ID) สร้างอัตโนมัติ \\
+equipmentName & VARCHAR(150) & & ชื่อเรียกของอุปกรณ์ออกกำลังกาย \\
+category & VARCHAR(100) & & หมวดหมู่ของอุปกรณ์ (เช่น Cardio, Strength) \\
+status & VARCHAR(50) & & สถานะความพร้อมใช้งาน (เช่น Available, Maintenance) \\
+
+\end{longtable}
+
+\subsection{ตาราง: TrainingSessions}
+ตารางสำหรับจัดเก็บข้อมูลการจองเซสชันการฝึกซ้อม เชื่อมโยงระหว่างลูกค้า, เทรนเนอร์ และอุปกรณ์
+
+\begin{longtable}{p{4cm} p{3.5cm} c p{5.5cm}}
+\caption{รายละเอียดโครงสร้างตาราง TrainingSessions} \label{tab:trainingsessions} \\
+\toprule
+\textbf{ชื่อฟิลด์ (Field)} & \textbf{ชนิดข้อมูล (Type)} & \textbf{Key} & \textbf{คำอธิบาย (Description)} \\
+\midrule
+\endfirsthead
+
+\multicolumn{4}{c}%
+{{\bfseries \tablename\ \thetable{} -- ต่อจากหน้าก่อนหน้า}} \\
+\toprule
+\textbf{ชื่อฟิลด์ (Field)} & \textbf{ชนิดข้อมูล (Type)} & \textbf{Key} & \textbf{คำอธิบาย (Description)} \\
+\midrule
+\endhead
+
+\midrule
+\multicolumn{4}{r}{{ต่อหน้าถัดไป...}} \\
+\bottomrule
+\endfoot
+
+\bottomrule
+\endlastfoot
+
+id & INTEGER & PK & รหัสระบุตัวตนเซสชัน (Session ID) สร้างอัตโนมัติ \\
+sessionDate & TIMESTAMP & & วันและเวลาที่เริ่มต้นเซสชันการฝึกซ้อม \\
+endDate & TIMESTAMP & & วันและเวลาที่สิ้นสุดเซสชันการฝึกซ้อม \\
+customerId & INTEGER & FK & รหัสอ้างอิงลูกค้า (เชื่อมโยงกับตาราง Customers) \\
+trainerId & INTEGER & FK & รหัสอ้างอิงเทรนเนอร์ (เชื่อมโยงกับตาราง Trainers) \\
+equipmentId & INTEGER & FK & รหัสอ้างอิงอุปกรณ์ (เชื่อมโยงกับตาราง GymEquipments) \\
+
+\end{longtable}

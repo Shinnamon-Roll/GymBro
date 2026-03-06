@@ -1,0 +1,637 @@
+\documentclass[12pt]{report}
+\usepackage[left=1in, right=0.5in, top=0.5in, bottom=0.5in]{geometry}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{fontspec}
+\usepackage{caption}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\setmainfont{Sarabun}
+
+% Colors
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+% JavaScript Definition
+\lstdefinelanguage{JavaScript}{
+  keywords={break, case, catch, class, const, continue, debugger, default, delete, do, else, enum, export, extends, false, finally, for, function, if, import, in, instanceof, new, null, return, super, switch, this, throw, true, try, typeof, var, void, while, with, yield, async, await},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}
+
+\title{Term Project: GymBro (Queue Booking System)}
+\author{Full Stack Development}
+\date{\today}
+
+\begin{document}
+
+% Title Page
+\begin{titlepage}
+    \centering
+    \vspace*{1cm}
+    \Huge
+    \textbf{Term Project: GymBro}
+    
+    \vspace{0.5cm}
+    \LARGE
+    Queue Booking System
+    
+    \vspace{1.5cm}
+    \textbf{Course:} Full Stack Development
+    
+    \vfill
+    \Large
+    \today
+    
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\chapter{บทนำ (Introduction)}
+
+\section{ภาพรวมของโครงการ (Project Overview)}
+GymBro คือระบบจองคิวและบริหารจัดการยิมที่พัฒนาขึ้นเพื่ออำนวยความสะดวกให้กับทั้งผู้ดูแลระบบ (Admin) และสมาชิก (User) โดยระบบรองรับฟังก์ชันการทำงานหลักดังนี้:
+\begin{itemize}
+    \item \textbf{ระบบสมาชิก (Membership System)}: สมัครสมาชิก, ล็อกอิน, จัดการข้อมูลส่วนตัว
+    \item \textbf{ระบบจองคิว (Booking System)}: จองเซสชันกับเทรนเนอร์และอุปกรณ์, ตรวจสอบตารางเวลาว่าง
+    \item \textbf{ระบบจัดการหลังบ้าน (Admin Dashboard)}: จัดการข้อมูลลูกค้า, เทรนเนอร์, อุปกรณ์ และดูรายงานสรุป
+\end{itemize}
+
+\section{โครงสร้างของโปรเจกต์ (Project Structure)}
+โปรเจกต์นี้ถูกออกแบบโดยแยกส่วนการทำงานระหว่าง Backend และ Frontend อย่างชัดเจน (Separation of Concerns) ดังนี้:
+
+\begin{itemize}
+    \item \textbf{Backend}: พัฒนาด้วย Node.js และ Express.js เชื่อมต่อกับฐานข้อมูล PostgreSQL ผ่าน Sequelize ORM
+    \item \textbf{Frontend}: พัฒนาด้วย HTML, Tailwind CSS, และ Client-side JavaScript โดยมี Node.js Server ทำหน้าที่ให้บริการไฟล์ Static
+\end{itemize}
+
+\chapter{การออกแบบฐานข้อมูล (Database Design)}
+
+\section{แผนภาพความสัมพันธ์ (Database Schema)}
+ฐานข้อมูลถูกออกแบบให้มีความสัมพันธ์แบบ Relational Database โดยมีตารางหลักคือ Users (Customers), Trainers, Equipments, และ Sessions
+
+\subsection{SQL Schema (backend/schema.sql)}
+\begin{lstlisting}[language=SQL, caption={โครงสร้างฐานข้อมูลใน backend/schema.sql}, label={code:schema-sql}]
+-- Drop tables if exists
+DROP TABLE IF EXISTS "Sessions";
+DROP TABLE IF EXISTS "Equipments";
+DROP TABLE IF EXISTS "Trainers";
+DROP TABLE IF EXISTS "Customers";
+
+-- 1. Customers Table
+CREATE TABLE "Customers" (
+    id SERIAL PRIMARY KEY,
+    "fullName" VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    phone VARCHAR(20),
+    "memberType" VARCHAR(50) DEFAULT 'Standard', -- Standard, Premium, VIP
+    "memberLevel" VARCHAR(50) DEFAULT 'Basic',   -- Basic, Silver, Gold
+    "startDate" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    "endDate" TIMESTAMP WITH TIME ZONE,
+    "createdAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 2. Trainers Table
+CREATE TABLE "Trainers" (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    specialty VARCHAR(100), -- Yoga, Cardio, Bodybuilding
+    level VARCHAR(50) DEFAULT 'Junior', -- Junior, Senior, Master
+    phone VARCHAR(20),
+    "createdAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 3. Equipments Table
+CREATE TABLE "Equipments" (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    category VARCHAR(100), -- Treadmill, Dumbbell, Machine
+    status VARCHAR(50) DEFAULT 'Available', -- Available, Maintenance, In Use
+    "createdAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 4. Sessions Table (Booking)
+CREATE TABLE "Sessions" (
+    id SERIAL PRIMARY KEY,
+    "sessionDate" TIMESTAMP WITH TIME ZONE NOT NULL,
+    duration INTEGER DEFAULT 60, -- Minutes
+    status VARCHAR(50) DEFAULT 'Scheduled', -- Scheduled, Completed, Cancelled
+    "customerId" INTEGER REFERENCES "Customers"(id) ON DELETE CASCADE,
+    "trainerId" INTEGER REFERENCES "Trainers"(id) ON DELETE SET NULL,
+    "equipmentId" INTEGER REFERENCES "Equipments"(id) ON DELETE SET NULL,
+    "createdAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+\end{lstlisting}
+
+\section{การเชื่อมต่อฐานข้อมูล (ORM Implementation)}
+ใช้ Sequelize ในการจัดการ Model และ Association ระหว่างตาราง
+
+\subsection{Sequelize Setup (backend/db.js)}
+\begin{lstlisting}[language=JavaScript, caption={การตั้งค่า Sequelize และ Models ใน backend/db.js}, label={code:backend-db}]
+const { Sequelize, DataTypes } = require('sequelize');
+
+// Connection Setup
+const sequelize = new Sequelize('gymbro_db', 'postgres', 'postgres', {
+    host: 'localhost',
+    dialect: 'postgres',
+    logging: false
+});
+
+// 1. Customer Model
+const Customer = sequelize.define('Customer', {
+    fullName: { type: DataTypes.STRING, allowNull: false },
+    email: { type: DataTypes.STRING, unique: true, allowNull: false },
+    phone: { type: DataTypes.STRING },
+    memberType: { type: DataTypes.STRING, defaultValue: 'Standard' },
+    memberLevel: { type: DataTypes.STRING, defaultValue: 'Basic' },
+    startDate: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
+    endDate: { type: DataTypes.DATE }
+});
+
+// 2. Trainer Model
+const Trainer = sequelize.define('Trainer', {
+    name: { type: DataTypes.STRING, allowNull: false },
+    specialty: { type: DataTypes.STRING },
+    level: { type: DataTypes.STRING, defaultValue: 'Junior' },
+    phone: { type: DataTypes.STRING }
+});
+
+// 3. Equipment Model
+const Equipment = sequelize.define('Equipment', {
+    name: { type: DataTypes.STRING, allowNull: false },
+    category: { type: DataTypes.STRING },
+    status: { type: DataTypes.STRING, defaultValue: 'Available' }
+});
+
+// 4. Session Model
+const Session = sequelize.define('Session', {
+    sessionDate: { type: DataTypes.DATE, allowNull: false },
+    duration: { type: DataTypes.INTEGER, defaultValue: 60 },
+    status: { type: DataTypes.STRING, defaultValue: 'Scheduled' }
+});
+
+// Associations
+Customer.hasMany(Session, { foreignKey: 'customerId' });
+Session.belongsTo(Customer, { foreignKey: 'customerId' });
+
+Trainer.hasMany(Session, { foreignKey: 'trainerId' });
+Session.belongsTo(Trainer, { foreignKey: 'trainerId' });
+
+Equipment.hasMany(Session, { foreignKey: 'equipmentId' });
+Session.belongsTo(Equipment, { foreignKey: 'equipmentId' });
+
+module.exports = { sequelize, Customer, Trainer, Equipment, Session };
+\end{lstlisting}
+
+
+\chapter{การทำงานฝั่ง Server (Backend API)}
+
+\section{การตั้งค่า Server และ API Routes (backend/server.js)}
+ไฟล์ \texttt{backend/server.js} เป็นจุดเริ่มต้นของ Backend Application ซึ่งทำหน้าที่เชื่อมต่อฐานข้อมูลและให้บริการ REST API สำหรับ Frontend
+
+\begin{lstlisting}[language=JavaScript, caption={การตั้งค่า Express Server และ API Routes}, label={code:backend-server}]
+const express = require('express');
+const cors = require('cors');
+const { sequelize, Customer, Trainer, Equipment, Session } = require('./db');
+const app = express();
+const port = 3000;
+
+app.use(cors());
+app.use(express.json());
+
+// Sync Database
+sequelize.sync({ force: false }).then(() => {
+    console.log('Database synced');
+});
+
+// ==========================================
+// API Routes
+// ==========================================
+
+// 1. Customers API
+app.get('/api/customers', async (req, res) => {
+    const customers = await Customer.findAll();
+    res.json(customers);
+});
+
+app.post('/api/customers', async (req, res) => {
+    try {
+        const customer = await Customer.create(req.body);
+        res.status(201).json(customer);
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+});
+
+// 2. Trainers API
+app.get('/api/trainers', async (req, res) => {
+    const trainers = await Trainer.findAll();
+    res.json(trainers);
+});
+
+// 3. Equipments API
+app.get('/api/equipments', async (req, res) => {
+    const equipments = await Equipment.findAll();
+    res.json(equipments);
+});
+
+// 4. Sessions API (Booking Logic)
+app.get('/api/sessions', async (req, res) => {
+    const { date, today } = req.query;
+    const where = {};
+    
+    if (today) {
+        const start = new Date();
+        start.setHours(0,0,0,0);
+        const end = new Date();
+        end.setHours(23,59,59,999);
+        where.sessionDate = { [Sequelize.Op.between]: [start, end] };
+    } else if (date) {
+        const start = new Date(date);
+        const end = new Date(date);
+        end.setDate(end.getDate() + 1);
+        where.sessionDate = { [Sequelize.Op.between]: [start, end] };
+    }
+
+    const sessions = await Session.findAll({
+        where,
+        include: [Customer, Trainer, Equipment],
+        order: [['sessionDate', 'ASC']]
+    });
+    res.json(sessions);
+});
+
+app.post('/api/sessions', async (req, res) => {
+    // Booking Logic: Check availability
+    // (Implementation omitted for brevity)
+    const session = await Session.create(req.body);
+    res.status(201).json(session);
+});
+
+// Start Server
+app.listen(port, () => {
+    console.log(`Backend server running on http://localhost:${port}`);
+});
+\end{lstlisting}
+
+\chapter{ส่วนติดต่อผู้ใช้ (Frontend Application)}
+
+\section{Frontend Server (frontend/server.js)}
+ทำหน้าที่ให้บริการไฟล์ Static และ Routing เบื้องต้นสำหรับหน้าเว็บต่างๆ
+
+\begin{lstlisting}[language=JavaScript, caption={Frontend Server Setup}, label={code:frontend-server}]
+const express = require('express');
+const path = require('path');
+const app = express();
+const port = 5500;
+
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/js', express.static(path.join(__dirname, 'js')));
+
+// Routes
+app.get('/', (req, res) => res.redirect('/login'));
+app.get('/login', (req, res) => res.render('login'));
+app.get('/register', (req, res) => res.render('register'));
+
+// Admin Routes
+app.get('/admin/dashboard', (req, res) => res.render('index'));
+app.get('/admin/customers', (req, res) => res.render('customers'));
+// ... other admin routes
+
+// User Routes
+app.get('/user/dashboard', (req, res) => res.render('user/dashboard'));
+app.get('/user/profile', (req, res) => res.render('user/profile'));
+
+app.listen(port, () => {
+    console.log(`Frontend server running on http://localhost:${port}`);
+});
+\end{lstlisting}
+
+\section{การจัดการสิทธิ์และ Configuration (Core JS)}
+
+\subsection{Configuration (frontend/js/config.js)}
+\begin{lstlisting}[language=JavaScript, caption={Global Configuration}, label={code:frontend-config}]
+window.API = "http://localhost:3000/api";
+\end{lstlisting}
+
+\subsection{Authentication Logic (frontend/js/auth.js)}
+จัดการตรวจสอบสถานะการล็อกอินและ Role-based Access Control
+
+\begin{lstlisting}[language=JavaScript, caption={Authentication Guard}, label={code:frontend-auth}]
+const isLoginPage = window.location.pathname === '/login' || window.location.pathname === '/';
+
+if (!isLoginPage) {
+    const session = JSON.parse(localStorage.getItem('gymbro_user'));
+    if (!session || !session.user) {
+        window.location.href = '/login';
+    } else {
+        // Role Guard
+        const path = window.location.pathname;
+        if (path.startsWith('/admin') && session.role !== 'admin') {
+            window.location.href = '/user/dashboard';
+        }
+    }
+}
+
+window.logout = function() {
+    localStorage.removeItem('gymbro_user');
+    window.location.href = '/login';
+};
+\end{lstlisting}
+
+
+\chapter{ส่วนแสดงผลและส่วนติดต่อผู้ใช้ (User Interface Views)}
+
+\section{ระบบยืนยันตัวตน (Authentication)}
+
+\subsection{หน้าเข้าสู่ระบบ (frontend/views/login.ejs)}
+\begin{lstlisting}[language=HTML, caption={Login Page Structure}, label={code:views-login}]
+<body class="bg-primary flex items-center justify-center min-h-screen p-4">
+  <div class="w-full max-w-md bg-contrast shadow-[8px_8px_0px_0px_#629FAD] border-4 border-secondary p-8 relative">
+    <div class="text-center mb-8">
+      <h1 class="text-4xl font-extrabold text-primary uppercase italic tracking-tighter mb-2">Gym<span class="text-secondary">Bro</span></h1>
+      <p class="text-secondary font-bold text-sm uppercase tracking-widest">Queue Booking System</p>
+    </div>
+
+    <form id="login-form" class="space-y-6">
+      <!-- Email & Phone Inputs -->
+      <button type="submit" class="w-full bg-primary text-contrast font-black uppercase py-4 hover:bg-secondary transition-all">
+        Sign In
+      </button>
+    </form>
+  </div>
+  <script src="/js/auth.js"></script>
+</body>
+\end{lstlisting}
+
+\subsection{หน้าลงทะเบียน (frontend/views/register.ejs)}
+\begin{lstlisting}[language=HTML, caption={Register Page Structure}, label={code:views-register}]
+<form id="register-form" class="space-y-4">
+  <input type="text" id="fullName" placeholder="Full Name" required>
+  <input type="email" id="email" placeholder="Email Address" required>
+  <input type="tel" id="phone" placeholder="Phone Number" required>
+  
+  <button type="submit" class="w-full bg-primary text-contrast font-black uppercase py-3">
+    Create Account
+  </button>
+</form>
+
+<script>
+  // Inline Script for Registration
+  const form = document.getElementById('register-form');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    // Fetch API Logic...
+  });
+</script>
+\end{lstlisting}
+
+\section{ระบบจัดการหลังบ้าน (Admin Dashboard)}
+
+\subsection{หน้าหลัก (frontend/views/index.ejs)}
+แสดงภาพรวมสถิติและตารางงานวันนี้
+
+\begin{lstlisting}[language=HTML, caption={Admin Dashboard Layout}, label={code:views-index}]
+<!-- Sidebar -->
+<aside class="w-64 bg-primary text-contrast hidden md:flex flex-col">
+  <nav class="flex-1 overflow-y-auto py-6">
+    <!-- Menu Items -->
+  </nav>
+</aside>
+
+<!-- Main Content -->
+<main class="flex-1 flex flex-col h-screen overflow-hidden relative">
+  <!-- Stats Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+    <div class="bg-white border-2 border-primary p-6 shadow-[4px_4px_0px_0px_#0C2C55]">
+      <h3 class="text-3xl font-black text-primary" id="count-customers">0</h3>
+      <p class="text-sm font-bold text-gray-500 uppercase">Members</p>
+    </div>
+  </div>
+
+  <!-- Today's Schedule Table -->
+  <div class="bg-white border-2 border-primary shadow-[8px_8px_0px_0px_#296374]">
+    <table>
+      <tbody id="today-sessions"></tbody>
+    </table>
+  </div>
+</main>
+\end{lstlisting}
+
+
+\section{การจัดการทรัพยากร (Resource Management)}
+
+\subsection{การจัดการสมาชิก (frontend/views/customers.ejs)}
+ระบบจัดการสมาชิก รองรับการเพิ่ม, ลบ, แก้ไข และแสดงรายชื่อสมาชิกทั้งหมด
+
+\begin{lstlisting}[language=HTML, caption={Customer Management Interface}, label={code:views-customers}]
+<!-- Add Customer Form -->
+<form id="customer-form" class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+  <input id="name" placeholder="Full Name" required>
+  <input id="email" type="email" placeholder="Email" required>
+  <select id="memberType">
+    <option value="Standard">Standard</option>
+    <option value="Premium">Premium</option>
+  </select>
+  <button type="submit" class="bg-primary text-contrast font-bold uppercase">Save</button>
+</form>
+
+<!-- Customer List Table -->
+<table class="w-full text-left border-collapse">
+  <thead>
+    <tr>
+      <th>ID</th><th>Name</th><th>Type</th><th>Actions</th>
+    </tr>
+  </thead>
+  <tbody id="customers-table">
+    <!-- Populated by JS -->
+  </tbody>
+</table>
+<script src="/js/customers.js"></script>
+\end{lstlisting}
+
+\subsection{การจัดการเทรนเนอร์ (frontend/views/trainers.ejs)}
+\begin{lstlisting}[language=HTML, caption={Trainer Management Interface}, label={code:views-trainers}]
+<!-- Add Trainer Form -->
+<form id="trainer-form" class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
+  <input id="name" placeholder="Name" required>
+  <input id="specialty" placeholder="Specialty">
+  <select id="trainerLevel">
+    <option value="Junior">Junior</option>
+    <option value="Senior">Senior</option>
+  </select>
+  <button type="submit">Save Trainer</button>
+</form>
+
+<!-- Trainer List Table -->
+<table class="w-full">
+  <tbody id="trainers-table"></tbody>
+</table>
+<script src="/js/trainers.js"></script>
+\end{lstlisting}
+
+\subsection{การจัดการอุปกรณ์ (frontend/views/equipments.ejs)}
+\begin{lstlisting}[language=HTML, caption={Equipment Management Interface}, label={code:views-equipments}]
+<!-- Add Equipment Form -->
+<form id="equipment-form" class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+  <input id="name" placeholder="Name" required>
+  <input id="category" placeholder="Category">
+  <select id="status">
+    <option value="Available">Available</option>
+    <option value="Maintenance">Maintenance</option>
+  </select>
+  <button type="submit">Save Equipment</button>
+</form>
+
+<!-- Equipment List Table -->
+<table class="w-full">
+  <tbody id="equipments-table"></tbody>
+</table>
+<script src="/js/equipments.js"></script>
+\end{lstlisting}
+
+\section{การจัดการเซสชัน (Session Management)}
+
+\subsection{หน้าจอจัดการการจอง (frontend/views/sessions.ejs)}
+สำหรับผู้ดูแลระบบในการสร้างการจองและดูตารางทั้งหมด
+
+\begin{lstlisting}[language=HTML, caption={Session Management Interface}, label={code:views-sessions}]
+<!-- Booking Form -->
+<form id="session-form" class="grid grid-cols-1 md:grid-cols-5 gap-4">
+  <select id="customer" required><option>Select Customer</option></select>
+  <select id="trainer" required><option>Select Trainer</option></select>
+  <select id="equipment" required><option>Select Equipment</option></select>
+  <input id="scheduled_at" type="datetime-local" required>
+  <button type="submit">Book Now</button>
+</form>
+
+<!-- Sessions List Table -->
+<table class="w-full">
+  <thead>
+    <tr><th>Customer</th><th>Trainer</th><th>Date</th><th>Actions</th></tr>
+  </thead>
+  <tbody id="sessions-table"></tbody>
+</table>
+<script src="/js/sessions.js"></script>
+\end{lstlisting}
+
+
+\section{รายงานและการตรวจสอบ (Reports \& Logs)}
+
+\subsection{หน้าแสดงรายงาน (frontend/views/logs.ejs)}
+หน้าจอแสดงบันทึกการใช้งานและรายงานสรุปสำหรับผู้ดูแลระบบ
+
+\begin{lstlisting}[language=HTML, caption={Logs and Reports Interface}, label={code:views-logs}]
+<!-- Tab Controls -->
+<div class="flex">
+  <button onclick="switchTab('logs')" class="tab-active">System Logs</button>
+  <button onclick="switchTab('customer')" class="tab-inactive">Customer Report</button>
+</div>
+
+<!-- Log Tables (Hidden by default) -->
+<div id="section-logs" class="bg-white p-4">
+  <table class="w-full">
+    <thead><tr><th>Time</th><th>Action</th><th>Details</th></tr></thead>
+    <tbody id="logs-table"></tbody>
+  </table>
+</div>
+<script src="/js/logs.js"></script>
+\end{lstlisting}
+
+\chapter{ส่วนสมาชิก (User Portal)}
+
+\section{แดชบอร์ดสมาชิก (frontend/views/user/dashboard.ejs)}
+หน้าหลักสำหรับสมาชิกเพื่อดูตารางฝึกซ้อมและจองเซสชันด้วยตนเอง
+
+\begin{lstlisting}[language=HTML, caption={User Dashboard Interface}, label={code:views-user-dashboard}]
+<!-- Booking Modal -->
+<div id="booking-modal" class="hidden fixed inset-0 bg-black/50 z-50">
+  <div class="bg-white p-6 max-w-md mx-auto mt-20">
+    <h3 class="text-xl font-bold">Book New Session</h3>
+    <form id="booking-form">
+      <input type="date" id="book-date" required>
+      <select id="book-trainer"></select>
+      <button type="submit">Confirm</button>
+    </form>
+  </div>
+</div>
+
+<!-- Schedule Table -->
+<div class="bg-white border-2 border-primary">
+  <h3 class="bg-secondary text-white p-4">All Bookings</h3>
+  <table class="w-full">
+    <tbody id="schedule-table-body"></tbody>
+  </table>
+</div>
+<script src="/js/user/dashboard.js"></script>
+\end{lstlisting}
+
+\section{โปรไฟล์สมาชิก (frontend/views/user/profile.ejs)}
+หน้าแสดงข้อมูลส่วนตัว สถานะสมาชิก และประวัติการใช้งาน
+
+\begin{lstlisting}[language=HTML, caption={User Profile Interface}, label={code:views-user-profile}]
+<div class="flex flex-col md:flex-row gap-8">
+  <!-- Avatar Card -->
+  <div class="flex-shrink-0 flex flex-col items-center">
+    <div class="w-32 h-32 bg-secondary text-white flex items-center justify-center">
+      <i data-lucide="user"></i>
+    </div>
+    <span class="bg-primary text-accent px-3 py-1">Active Member</span>
+  </div>
+
+  <!-- Details -->
+  <div class="flex-1 space-y-6">
+    <div>
+      <label>Full Name</label>
+      <h3 id="profile-name" class="text-2xl font-black">Loading...</h3>
+    </div>
+    <div>
+      <label>Membership Type</label>
+      <span id="profile-type" class="bg-contrast px-4 py-2 border-2 border-primary">Standard</span>
+    </div>
+  </div>
+</div>
+<script src="/js/user/profile.js"></script>
+\end{lstlisting}
+
+\end{document}

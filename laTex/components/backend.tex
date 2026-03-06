@@ -1,0 +1,318 @@
+\section{Backend (ระบบหลังบ้าน)}
+
+\subsection{server.js}
+
+\subsubsection{ภาพรวม (Overview)}
+ไฟล์ \texttt{server.js} ทำหน้าที่เป็นจุดเริ่มต้นหลัก (Entry Point) สำหรับฝั่ง Backend ของระบบ GymBro โดยทำหน้าที่เป็น Web Server ผ่านการใช้งาน Express.js Framework ไฟล์นี้มีความรับผิดชอบหลักในการจัดการ API Requests ทั้งหมดที่ส่งมาจาก Frontend, การเชื่อมต่อกับฐานข้อมูลผ่าน Sequelize ORM, การจัดการตรรกะทางธุรกิจ (Business Logic), การบันทึกประวัติการทำงาน (Logging), และการตั้งค่าภารกิจตามกำหนดเวลา (Scheduled Task) สำหรับการลบข้อมูลสมาชิกที่หมดอายุโดยอัตโนมัติ
+
+\subsubsection{การนำเข้าไลบรารีและการตั้งค่าเริ่มต้น (Dependencies and Setup)}
+ส่วนนี้เป็นการนำเข้าไลบรารีที่จำเป็นและการกำหนดค่าเริ่มต้นสำหรับแอปพลิเคชัน
+
+\begin{lstlisting}[language=JavaScript, caption={ซอร์สโค้ดจากไฟล์ server.js}, label={code:server-js-setup}]
+require("dotenv").config();
+const express = require("express");
+const cors = require("cors");
+const { Sequelize, DataTypes } = require("sequelize");
+const sequelize = require("./db");
+const { Customers, Trainers, GymEquipments, TrainingSessions } = sequelize;
+const fs = require('fs');
+const fsPromises = require('fs').promises;
+const path = require('path');
+
+const LOGS_FILE = path.join(__dirname, 'logs.json');
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item \texttt{require("dotenv").config()}: โหลดค่าตัวแปรสภาพแวดล้อมจากไฟล์ \texttt{.env} เพื่อความปลอดภัยและความยืดหยุ่นในการตั้งค่า
+    \item \texttt{express}: เรียกใช้ Framework หลักสำหรับการสร้าง Web Server
+    \item \texttt{cors}: ใช้งาน Middleware สำหรับจัดการ Cross-Origin Resource Sharing เพื่ออนุญาตให้ Frontend สามารถเรียกใช้งาน API ข้ามโดเมนได้
+    \item \texttt{sequelize}: นำเข้า Instance การเชื่อมต่อฐานข้อมูลและ Models ต่างๆ (Customers, Trainers, etc.) จากไฟล์ \texttt{db.js}
+    \item \texttt{fs} และ \texttt{fsPromises}: ใช้งานโมดูลสำหรับจัดการระบบไฟล์ (File System) เพื่ออ่านและเขียนไฟล์ Logs
+    \item \texttt{LOGS\_FILE}: กำหนดเส้นทาง (Path) ของไฟล์ \texttt{logs.json} ที่จะใช้สำหรับเก็บประวัติการทำงานของระบบ
+\end{enumerate}
+
+\subsubsection{ฟังก์ชันช่วยสำหรับการบันทึกข้อมูล (Helper Function: logAction)}
+ฟังก์ชันนี้มีหน้าที่บันทึกการกระทำต่างๆ ที่เกิดขึ้นในระบบลงในไฟล์ JSON เพื่อใช้ในการตรวจสอบย้อนหลัง
+
+\begin{lstlisting}[language=JavaScript, caption={ซอร์สโค้ดจากไฟล์ server.js}, label={code:server-js-logaction}]
+async function logAction(action, details) {
+  try {
+    const timestamp = new Date().toISOString();
+    const logEntry = { timestamp, action, details };
+    
+    let logs = [];
+    try {
+      const data = await fsPromises.readFile(LOGS_FILE, 'utf8');
+      logs = JSON.parse(data || '[]');
+    } catch (readErr) {
+      logs = [];
+    }
+    
+    logs.unshift(logEntry);
+    if (logs.length > 1000) logs = logs.slice(0, 1000);
+    
+    await fsPromises.writeFile(LOGS_FILE, JSON.stringify(logs, null, 2));
+  } catch (err) {
+    console.error('Failed to write log:', err);
+  }
+}
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item \textbf{พารามิเตอร์}: รับค่า \texttt{action} (ชื่อการกระทำ) และ \texttt{details} (รายละเอียดของการกระทำ)
+    \item สร้าง Object \texttt{logEntry} ที่ประกอบด้วยเวลาปัจจุบัน (Timestamp), ชื่อการกระทำ, และรายละเอียด
+    \item อ่านข้อมูลจากไฟล์ \texttt{logs.json} เดิม หากไม่พบไฟล์จะเริ่มต้นด้วย Array ว่าง \texttt{[]}
+    \item \texttt{logs.unshift(logEntry)}: เพิ่มรายการ Log ใหม่ไปยังตำแหน่งแรกสุดของ Array
+    \item จำกัดจำนวน Log ไม่ให้เกิน 1,000 รายการ เพื่อป้องกันไม่ให้ขนาดไฟล์ใหญ่เกินความจำเป็น
+    \item บันทึกข้อมูลกลับลงสู่ไฟล์ \texttt{logs.json}
+\end{enumerate}
+
+\subsubsection{ฟังก์ชันช่วยสำหรับการจัดลำดับ ID ใหม่ (Helper Function: reorderIds)}
+ฟังก์ชันนี้ใช้สำหรับเรียงลำดับ ID ในฐานข้อมูลใหม่ (Reset Auto Increment) เพื่อให้ ID เรียงต่อกันอย่างสวยงามหลังจากมีการลบข้อมูลออกจากระบบ
+
+\begin{lstlisting}[language=JavaScript, caption={ซอร์สโค้ดจากไฟล์ server.js}, label={code:server-js-reorderids}]
+async function reorderIds(model) {
+  try {
+    const items = await model.findAll({ order: [['id', 'ASC']] });
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i];
+      const newId = i + 1;
+      if (item.id !== newId) {
+        const oldId = item.id;
+        
+        // Manual Cascade Update for TrainingSessions references
+        if (model === Customers) {
+          await TrainingSessions.update({ customerId: newId }, { where: { customerId: oldId } });
+        } else if (model === Trainers) {
+          await TrainingSessions.update({ trainerId: newId }, { where: { trainerId: oldId } });
+        } else if (model === GymEquipments) {
+          await TrainingSessions.update({ equipmentId: newId }, { where: { equipmentId: oldId } });
+        }
+        
+        // Update the item's ID using raw query
+        const tableName = model.tableName;
+        await sequelize.query(`UPDATE "${tableName}" SET id = ${newId} WHERE id = ${oldId}`);
+      }
+    }
+    
+    // Reset sequence
+    const tableName = model.tableName;
+    const seqName = `"${tableName}_id_seq"`;
+    
+    if (items.length > 0) {
+       await sequelize.query(`SELECT setval('${seqName}', ${items.length})`);
+    } else {
+       await sequelize.query(`SELECT setval('${seqName}', 1, false)`);
+    }
+    
+  } catch (err) {
+    console.error('Failed to reorder IDs:', err);
+  }
+}
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item \textbf{หลักการทำงาน}: ดึงข้อมูลทั้งหมดจากตารางมาเรียงตาม ID จากน้อยไปมาก แล้ววนลูปตรวจสอบว่า ID ของแต่ละรายการตรงกับลำดับที่ควรจะเป็น (index + 1) หรือไม่
+    \item \textbf{Cascade Update}: เนื่องจากมีการอ้างอิง Foreign Key ในตาราง \texttt{TrainingSessions} หากมีการเปลี่ยน ID ของ Customer, Trainer หรือ Equipment จำเป็นต้องอัปเดต ID ในตาราง Sessions ด้วยเพื่อรักษาความถูกต้องของความสัมพันธ์ข้อมูล
+    \item \textbf{Raw Query}: ใช้คำสั่ง SQL โดยตรงในการอัปเดต ID หลัก (\texttt{UPDATE ... SET id = ...})
+    \item \textbf{Reset Sequence}: ปรับค่า Auto Increment Sequence ของ PostgreSQL (\texttt{setval}) ให้สอดคล้องกับจำนวนข้อมูลปัจจุบัน เพื่อให้การเพิ่มข้อมูลครั้งต่อไปได้รับ ID ที่ถูกต้อง
+\end{enumerate}
+
+\subsubsection{การกำหนดค่า Server และ API สำหรับการเข้าสู่ระบบ (Server Configuration \& Login API)}
+ส่วนนี้เป็นการตั้งค่า Express App และสร้าง API Endpoint สำหรับการยืนยันตัวตน (Authentication)
+
+\begin{lstlisting}[language=JavaScript, caption={ซอร์สโค้ดจากไฟล์ server.js}, label={code:server-js-login}]
+const app = express();
+app.use(
+  cors({
+    origin: "http://localhost:5500",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type"],
+  })
+);
+app.options("*", cors({ origin: "http://localhost:5500" }));
+app.use(express.json());
+
+app.post("/api/login", async (req, res) => {
+  const { email, phone } = req.body;
+  
+  // Hardcoded Admin Check
+  if ((email === "admin@gymbro.com" && phone === "123456")) {
+    return res.json({
+      role: "admin",
+      user: { /* ...Admin Details... */ }
+    });
+  }
+
+  try {
+    const user = await Customers.findOne({ where: { email, phone } });
+    if (!user) {
+      return res.status(401).json({ error: "Invalid credentials" });
+    }
+    res.json({
+      role: "user",
+      user: user
+    });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item \texttt{cors}: อนุญาตให้ Frontend ที่รันอยู่บน \texttt{localhost:5500} สามารถเรียกใช้งาน API ได้
+    \item \texttt{express.json()}: ใช้งาน Middleware สำหรับแปลงข้อมูล Request Body ที่ส่งมาในรูปแบบ JSON
+    \item \textbf{POST /api/login}:
+    \begin{enumerate}
+        \item ตรวจสอบเงื่อนไข Admin แบบ Hardcoded: หากใช้อีเมล \texttt{admin@gymbro.com} และเบอร์โทร \texttt{123456} จะได้รับสิทธิ์เป็น "admin"
+        \item หากไม่ใช่ Admin จะทำการค้นหาข้อมูลในตาราง \texttt{Customers} โดยใช้อีเมลและเบอร์โทรศัพท์
+        \item หากพบข้อมูล จะส่งคืนสิทธิ์ "user" พร้อมข้อมูลลูกค้ากลับไป
+    \end{enumerate}
+\end{enumerate}
+
+\subsubsection{การเชื่อมต่อฐานข้อมูลและการตรวจสอบสถานะ (Database Sync \& Health Check)}
+\begin{lstlisting}[language=JavaScript, caption={ซอร์สโค้ดจากไฟล์ server.js}, label={code:server-js-health}]
+sequelize.sync();
+
+app.get("/api/health", async (req, res) => {
+  try {
+    await sequelize.authenticate();
+    res.json({ ok: true });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: e.message });
+  }
+});
+\end{lstlisting}
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item \texttt{sequelize.sync()}: ดำเนินการสร้างตารางในฐานข้อมูลให้ตรงกับ Models ที่นิยามไว้ หากยังไม่มีตารางดังกล่าว
+    \item \textbf{GET /api/health}: Endpoint สำหรับตรวจสอบสถานะความพร้อมของ Server และการเชื่อมต่อกับฐานข้อมูล
+\end{enumerate}
+
+\subsubsection{API สำหรับการจัดการเซสชันการฝึกซ้อม (Training Sessions API)}
+API นี้มีความซับซ้อนที่สุด เนื่องจากต้องมีการตรวจสอบเงื่อนไขทางธุรกิจหลายประการก่อนการสร้างข้อมูล
+
+\begin{lstlisting}[language=JavaScript, caption={ซอร์สโค้ดจากไฟล์ server.js}, label={code:server-js-sessions}]
+app.post("/api/sessions", async (req, res) => {
+  try {
+    const { sessionDate, duration, trainerId, equipmentId, customerId } = req.body;
+    
+    // Calculate endDate
+    const start = new Date(sessionDate);
+    let end;
+    if (req.body.endDate) {
+        end = new Date(req.body.endDate);
+    } else {
+        const dur = duration ? parseInt(duration) : 60;
+        end = new Date(start.getTime() + dur * 60000);
+    }
+    
+    // Check equipment status
+    if (equipmentId) {
+      const equipment = await GymEquipments.findByPk(equipmentId);
+      if (equipment && equipment.status === 'Maintenance') {
+        return res.status(400).json({ error: "This equipment is currently in maintenance..." });
+      }
+    }
+
+    // Check availability (Trainer)
+    if (trainerId) {
+        const trainerConflict = await TrainingSessions.findOne({
+            where: {
+                trainerId,
+                [Sequelize.Op.and]: [
+                    { sessionDate: { [Sequelize.Op.lt]: end } },
+                    { endDate: { [Sequelize.Op.gt]: start } }
+                ]
+            }
+        });
+        if (trainerConflict) return res.status(400).json({ error: "Trainer is not available..." });
+    }
+
+    // Check availability (Equipment)
+    const equipmentConflict = await TrainingSessions.findOne({
+        where: {
+            equipmentId,
+            [Sequelize.Op.and]: [
+                { sessionDate: { [Sequelize.Op.lt]: end } },
+                { endDate: { [Sequelize.Op.gt]: start } }
+            ]
+        }
+    });
+    if (equipmentConflict) return res.status(400).json({ error: "Equipment is already booked..." });
+
+    const created = await TrainingSessions.create({ /* ... */ });
+    logAction("Create Session", `Created session ID: ${created.id}...`);
+    res.status(201).json(created);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item \textbf{การคำนวณเวลาสิ้นสุด}: คำนวณค่า \texttt{endDate} โดยใช้เวลาเริ่มต้น (\texttt{start}) บวกกับระยะเวลา (\texttt{duration}) ในหน่วยนาที
+    \item \textbf{การตรวจสอบสถานะอุปกรณ์}: ตรวจสอบว่าอุปกรณ์ที่เลือกมีสถานะเป็น 'Maintenance' (ซ่อมบำรุง) หรือไม่ หากใช่จะไม่อนุญาตให้ทำการจอง
+    \item \textbf{การตรวจสอบเวลาทับซ้อน (Overlap Check)}: ใช้ตรรกะทางคณิตศาสตร์ \texttt{(StartA < EndB) AND (EndA > StartB)} เพื่อตรวจสอบว่าช่วงเวลาที่ต้องการจอง มีความซ้อนทับกับเซสชันที่มีอยู่เดิมหรือไม่
+    \begin{enumerate}
+        \item ตรวจสอบการว่างของเทรนเนอร์ (\texttt{trainerId})
+        \item ตรวจสอบการว่างของอุปกรณ์ (\texttt{equipmentId})
+    \end{enumerate}
+    \item หากผ่านทุกเงื่อนไข ระบบจะทำการ \texttt{create} ข้อมูลลงในฐานข้อมูลและบันทึก Log การกระทำ
+\end{enumerate}
+
+\subsubsection{ระบบลบสมาชิกที่หมดอายุอัตโนมัติ (Auto Delete Expired Users)}
+ฟังก์ชันนี้ทำงานเป็น Background Task เพื่อตรวจสอบและลบข้อมูลสมาชิกที่หมดระยะเวลาสมาชิกแล้ว
+
+\begin{lstlisting}[language=JavaScript, caption={ซอร์สโค้ดจากไฟล์ server.js}, label={code:server-js-autodelete}]
+async function checkExpiredMembers() {
+    try {
+        const now = new Date();
+        const expired = await Customers.findAll({
+            where: {
+                memberEndDate: {
+                    [Sequelize.Op.lt]: now
+                }
+            }
+        });
+        
+        if (expired.length > 0) {
+            for (const user of expired) {
+                // Delete sessions first (manual cascade)
+                await TrainingSessions.destroy({ where: { customerId: user.id } });
+                // Delete user
+                await user.destroy();
+                logAction("Auto Delete Expired", `Deleted user ID: ${user.id}...`);
+            }
+            // Reorder
+            await reorderIds(Customers);
+        }
+    } catch (err) { /* ... */ }
+}
+
+// Run on start and every 24 hours
+checkExpiredMembers();
+setInterval(checkExpiredMembers, 24 * 60 * 60 * 1000);
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item ค้นหาข้อมูลลูกค้าที่มี \texttt{memberEndDate} น้อยกว่าเวลาปัจจุบัน (\texttt{now})
+    \item ดำเนินการวนลูปเพื่อลบข้อมูล:
+    \begin{enumerate}
+        \item ลบข้อมูล \texttt{TrainingSessions} ที่เกี่ยวข้องกับลูกค้ารายนั้นก่อน (เพื่อป้องกันข้อผิดพลาด Foreign Key Constraint)
+        \item ลบข้อมูล \texttt{Customers}
+    \end{enumerate}
+    \item เรียกใช้งานฟังก์ชัน \texttt{reorderIds(Customers)} เพื่อจัดลำดับ ID ใหม่
+    \item ตั้งค่า \texttt{setInterval} ให้ฟังก์ชันทำงานซ้ำทุกๆ 24 ชั่วโมง
+\end{enumerate}
+
+% ==========================================================================================
+% FILE: db.js
+% ==========================================================================================
+

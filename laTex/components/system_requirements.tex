@@ -1,0 +1,135 @@
+\section{สถาปัตยกรรมระบบ (System Architecture)}
+
+\subsection{ภาพรวมสถาปัตยกรรม (Architecture Overview)}
+ระบบ GymBro ถูกออกแบบด้วยสถาปัตยกรรมแบบ \textbf{Client-Server Architecture} โดยมีการแยกส่วนการทำงานระหว่างส่วนติดต่อผู้ใช้ (Frontend) และส่วนประมวลผลหลัก (Backend) อย่างชัดเจน เพื่อความยืดหยุ่นในการพัฒนาและดูแลรักษา โดยมีการเชื่อมต่อข้อมูลผ่าน RESTful API
+
+\subsubsection{ส่วนประกอบหลักของระบบ (System Components)}
+\begin{enumerate}
+    \item \textbf{Frontend (Client Side):}
+    \begin{itemize}
+        \item พัฒนาด้วย \textbf{HTML5} และ \textbf{EJS (Embedded JavaScript templates)} สำหรับการแสดงผล
+        \item ใช้ \textbf{Tailwind CSS} สำหรับการจัดรูปแบบหน้าจอ (Styling) ให้มีความทันสมัยและรองรับการแสดงผลบนอุปกรณ์ต่างๆ (Responsive Design)
+        \item ใช้ \textbf{Vanilla JavaScript (ES6+)} ในการจัดการ Logic ฝั่งไคลเอนต์ เช่น การตรวจสอบข้อมูลในฟอร์ม (Form Validation), การเรียกใช้งาน API (Fetch API), และการจัดการ Session ผ่าน \texttt{localStorage}
+        \item ใช้ \textbf{Lucide Icons} สำหรับแสดงไอคอนประกอบในส่วนติดต่อผู้ใช้
+    \end{itemize}
+
+    \item \textbf{Backend (Server Side):}
+    \begin{itemize}
+        \item พัฒนาบน \textbf{Node.js Runtime Environment}
+        \item ใช้ \textbf{Express.js Framework} ในการสร้าง Web Server และจัดการเส้นทาง (Routing) ของ API
+        \item ใช้ \textbf{Sequelize ORM} เป็นตัวกลางในการติดต่อกับฐานข้อมูล เพื่อให้สามารถจัดการข้อมูลในรูปแบบ Object-Oriented แทนการเขียน SQL Query โดยตรง
+    \end{itemize}
+
+    \item \textbf{Database (Data Layer):}
+    \begin{itemize}
+        \item ใช้ฐานข้อมูล \textbf{PostgreSQL} ซึ่งเป็น Relational Database Management System (RDBMS) ที่มีความเสถียรสูง
+        \item ติดตั้งและใช้งานบนระบบคลาวด์ (Cloud Database) ผ่านผู้ให้บริการ Ruk-Com Cloud
+    \end{itemize}
+\end{enumerate}
+
+\section{ความต้องการของระบบ (System Requirements)}
+
+\subsection{ความต้องการฟังก์ชันการทำงาน (Functional Requirements)}
+
+\subsubsection{1. ระบบการยืนยันตัวตนและความปลอดภัย (Authentication \& Security)}
+\begin{itemize}
+    \item \textbf{การเข้าสู่ระบบ (Login):}
+    \begin{itemize}
+        \item รองรับการเข้าสู่ระบบโดยใช้อีเมล (Email) และเบอร์โทรศัพท์ (Phone) แทนรหัสผ่าน
+        \item มีระบบตรวจสอบสิทธิ์ (Role-based Authentication) เพื่อแยกการเข้าถึงระหว่างผู้ดูแลระบบ (Admin) และสมาชิกทั่วไป (Member)
+        \item บัญชีผู้ดูแลระบบถูกกำหนดสิทธิ์ไว้ในระบบ (Hardcoded Admin) คือ \texttt{admin@gymbro.com}
+    \end{itemize}
+    \item \textbf{การจัดการเซสชัน (Session Management):}
+    \begin{itemize}
+        \item บันทึกสถานะการเข้าสู่ระบบของผู้ใช้ลงใน \texttt{localStorage} ของเบราว์เซอร์
+        \item มีระบบ \textbf{Auth Guard} ตรวจสอบสิทธิ์ก่อนการเข้าถึงหน้าต่างๆ หากไม่มีสิทธิ์จะถูกส่งกลับไปหน้า Login โดยอัตโนมัติ
+        \item รองรับการออกจากระบบ (Logout) ซึ่งจะทำการลบข้อมูลเซสชันและนำผู้ใช้กลับสู่หน้าแรก
+    \end{itemize}
+    \item \textbf{การสมัครสมาชิก (Registration):}
+    \begin{itemize}
+        \item ผู้ใช้งานทั่วไปสามารถลงทะเบียนผ่านหน้าเว็บไซต์ได้
+        \item ระบบตรวจสอบความซ้ำซ้อนของอีเมล (Email Uniqueness Check)
+        \item กำหนดค่าเริ่มต้นให้สมาชิกใหม่ทันที: ประเภท "Member", ระดับ "Beginner", และมีอายุสมาชิก 1 ปี
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{2. ระบบสำหรับสมาชิก (Member Portal Features)}
+\begin{itemize}
+    \item \textbf{แดชบอร์ดสมาชิก (User Dashboard):}
+    \begin{itemize}
+        \item แสดงตารางการจองเซสชันการฝึกซ้อมของวันนี้ (Today's Schedule)
+        \item แสดงสถานะการจองด้วยสีที่แตกต่าง: รายการของฉัน (My Booking - สีเขียว), ถูกจองแล้ว (Occupied - สีเทา)
+        \item แสดงเวลาในรูปแบบท้องถิ่น (Thai Locale Format)
+    \end{itemize}
+    \item \textbf{ระบบการจองเซสชัน (Booking System):}
+    \begin{itemize}
+        \item \textbf{การตรวจสอบความพร้อม (Real-time Availability Check):} ระบบจะตรวจสอบตารางเวลาของเทรนเนอร์และอุปกรณ์ทันทีที่ผู้ใช้เลือกวันและเวลา เพื่อป้องกันการจองซ้อนทับ (Double Booking)
+        \item \textbf{ตัวเลือกอัจฉริยะ (Smart Dropdowns):} รายชื่อเทรนเนอร์และอุปกรณ์จะแสดงสถานะ "(Busy)" หรือถูกปิดการเลือก (Disabled) หากไม่ว่างในช่วงเวลานั้น
+        \item \textbf{สถานะซ่อมบำรุง (Maintenance Check):} อุปกรณ์ที่อยู่ในสถานะ "Maintenance" จะไม่สามารถเลือกจองได้
+        \item \textbf{การยกเลิกการจอง (Cancellation):} สมาชิกสามารถยกเลิกการจองของตนเองได้ผ่านหน้า Dashboard
+    \end{itemize}
+    \item \textbf{โปรไฟล์ผู้ใช้ (User Profile):}
+    \begin{itemize}
+        \item แสดงข้อมูลส่วนตัว, ประเภทสมาชิก, และวันหมดอายุสมาชิก
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{3. ระบบสำหรับผู้ดูแลระบบ (Admin Back Office Features)}
+\begin{itemize}
+    \item \textbf{แดชบอร์ดผู้ดูแลระบบ (Admin Dashboard):}
+    \begin{itemize}
+        \item แสดงสถิติภาพรวม: จำนวนลูกค้าทั้งหมด, จำนวนเทรนเนอร์, จำนวนอุปกรณ์, และจำนวนเซสชันที่มีการจองในวันนี้
+    \end{itemize}
+    \item \textbf{การจัดการข้อมูลพื้นฐาน (Master Data Management):}
+    \begin{itemize}
+        \item \textbf{จัดการลูกค้า (Customer Management):} ดูรายการ, เพิ่ม, ลบ, และแก้ไขข้อมูลลูกค้า (ใช้ Popup Prompt ในการแก้ไขข้อมูล)
+        \item \textbf{จัดการเทรนเนอร์ (Trainer Management):} ดูรายการ, เพิ่ม, ลบ, และแก้ไขข้อมูลเทรนเนอร์ (ชื่อ, ระดับ, ความเชี่ยวชาญ, เบอร์โทร)
+        \item \textbf{จัดการอุปกรณ์ (Equipment Management):} ดูรายการ, เพิ่ม, ลบ, และแก้ไขสถานะอุปกรณ์ (Active/Maintenance)
+    \end{itemize}
+    \item \textbf{การจัดการตารางฝึกซ้อม (Session Management):}
+    \begin{itemize}
+        \item ดูรายการการจองทั้งหมดในระบบ
+        \item ค้นหา/กรองรายการจองตามวันที่ (Filter by Date)
+        \item ผู้ดูแลระบบมีสิทธิ์ยกเลิกการจองของสมาชิกได้ทุกรายการ
+    \end{itemize}
+    \item \textbf{ดูบันทึกการทำงาน (System Logs):}
+    \begin{itemize}
+        \item ตรวจสอบประวัติการใช้งานระบบ (Action Logs) ย้อนหลังได้
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{4. ระบบงานเบื้องหลัง (Background Services \& Logic)}
+\begin{itemize}
+    \item \textbf{การตรวจสอบความขัดแย้งของเวลา (Time Conflict Detection Algorithm):}
+    \begin{itemize}
+        \item ใช้ตรรกะทางคณิตศาสตร์ตรวจสอบช่วงเวลาทับซ้อน: $(Start_A < End_B) \land (End_A > Start_B)$
+        \item ตรวจสอบทั้งฝั่งเทรนเนอร์และอุปกรณ์พร้อมกัน
+    \end{itemize}
+    \item \textbf{ระบบลบสมาชิกอัตโนมัติ (Auto-Cleanup Service):}
+    \begin{itemize}
+        \item มี Scheduled Task ทำงานทุก 24 ชั่วโมง เพื่อตรวจสอบสมาชิกที่หมดอายุ (Expired Members)
+        \item หากพบสมาชิกหมดอายุ ระบบจะลบข้อมูลสมาชิกคนนั้น พร้อมทั้งลบประวัติการจองทั้งหมดที่เกี่ยวข้อง (Cascade Delete) เพื่อคืนพื้นที่ฐานข้อมูล
+    \end{itemize}
+    \item \textbf{ระบบจัดเรียง ID (Smart ID Reordering):}
+    \begin{itemize}
+        \item เมื่อมีการลบข้อมูล (User/Trainer/Equipment) ระบบจะทำการจัดลำดับ ID ของข้อมูลที่เหลือใหม่อัตโนมัติ เพื่อให้ ID เรียงกันสวยงามและไม่กระโดดข้าม
+    \end{itemize}
+\end{itemize}
+
+\subsection{ความต้องการที่ไม่ใช่ฟังก์ชันการทำงาน (Non-Functional Requirements)}
+\begin{itemize}
+    \item \textbf{ประสิทธิภาพ (Performance):}
+    \begin{itemize}
+        \item รองรับการทำงานแบบ Asynchronous (Async/Await) เพื่อไม่ให้ Server หยุดชะงักระหว่างรอฐานข้อมูลตอบกลับ
+    \end{itemize}
+    \item \textbf{ความน่าเชื่อถือของข้อมูล (Data Integrity):}
+    \begin{itemize}
+        \item ใช้ Foreign Key Constraints ในระดับ Application Code เพื่อรักษาความถูกต้องของความสัมพันธ์ข้อมูล
+    \end{itemize}
+    \item \textbf{ความปลอดภัย (Security):}
+    \begin{itemize}
+        \item แยกไฟล์ Configuration (.env) ไม่ให้รวมอยู่ใน Source Code
+        \item จำกัดการเข้าถึง API ด้วย CORS Policy (อนุญาตเฉพาะ Frontend ที่กำหนด)
+    \end{itemize}
+\end{itemize}
+

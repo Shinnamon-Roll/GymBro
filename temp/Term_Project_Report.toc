@@ -1,0 +1,32 @@
+\contentsline {chapter}{\numberline {1}บทนำ (Introduction)}{2}{chapter.1}%
+\contentsline {section}{\numberline {1.1}ภาพรวมของโครงการ (Project Overview)}{2}{section.1.1}%
+\contentsline {section}{\numberline {1.2}โครงสร้างของโปรเจกต์ (Project Structure)}{2}{section.1.2}%
+\contentsline {chapter}{\numberline {2}การออกแบบฐานข้อมูล (Database Design)}{3}{chapter.2}%
+\contentsline {section}{\numberline {2.1}แผนภาพความสัมพันธ์ (Database Schema)}{3}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}SQL Schema (backend/schema.sql)}{3}{subsection.2.1.1}%
+\contentsline {section}{\numberline {2.2}การเชื่อมต่อฐานข้อมูล (ORM Implementation)}{4}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Sequelize Setup (backend/db.js)}{4}{subsection.2.2.1}%
+\contentsline {chapter}{\numberline {3}การทำงานฝั่ง Server (Backend API)}{6}{chapter.3}%
+\contentsline {section}{\numberline {3.1}การตั้งค่า Server และ API Routes (backend/server.js)}{6}{section.3.1}%
+\contentsline {chapter}{\numberline {4}ส่วนติดต่อผู้ใช้ (Frontend Application)}{8}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Frontend Server (frontend/server.js)}{8}{section.4.1}%
+\contentsline {section}{\numberline {4.2}การจัดการสิทธิ์และ Configuration (Core JS)}{8}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Configuration (frontend/js/config.js)}{8}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Authentication Logic (frontend/js/auth.js)}{9}{subsection.4.2.2}%
+\contentsline {chapter}{\numberline {5}ส่วนแสดงผลและส่วนติดต่อผู้ใช้ (User Interface Views)}{10}{chapter.5}%
+\contentsline {section}{\numberline {5.1}ระบบยืนยันตัวตน (Authentication)}{10}{section.5.1}%
+\contentsline {subsection}{\numberline {5.1.1}หน้าเข้าสู่ระบบ (frontend/views/login.ejs)}{10}{subsection.5.1.1}%
+\contentsline {subsection}{\numberline {5.1.2}หน้าลงทะเบียน (frontend/views/register.ejs)}{10}{subsection.5.1.2}%
+\contentsline {section}{\numberline {5.2}ระบบจัดการหลังบ้าน (Admin Dashboard)}{11}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}หน้าหลัก (frontend/views/index.ejs)}{11}{subsection.5.2.1}%
+\contentsline {section}{\numberline {5.3}การจัดการทรัพยากร (Resource Management)}{11}{section.5.3}%
+\contentsline {subsection}{\numberline {5.3.1}การจัดการสมาชิก (frontend/views/customers.ejs)}{11}{subsection.5.3.1}%
+\contentsline {subsection}{\numberline {5.3.2}การจัดการเทรนเนอร์ (frontend/views/trainers.ejs)}{12}{subsection.5.3.2}%
+\contentsline {subsection}{\numberline {5.3.3}การจัดการอุปกรณ์ (frontend/views/equipments.ejs)}{12}{subsection.5.3.3}%
+\contentsline {section}{\numberline {5.4}การจัดการเซสชัน (Session Management)}{13}{section.5.4}%
+\contentsline {subsection}{\numberline {5.4.1}หน้าจอจัดการการจอง (frontend/views/sessions.ejs)}{13}{subsection.5.4.1}%
+\contentsline {section}{\numberline {5.5}รายงานและการตรวจสอบ (Reports \& Logs)}{13}{section.5.5}%
+\contentsline {subsection}{\numberline {5.5.1}หน้าแสดงรายงาน (frontend/views/logs.ejs)}{13}{subsection.5.5.1}%
+\contentsline {chapter}{\numberline {6}ส่วนสมาชิก (User Portal)}{15}{chapter.6}%
+\contentsline {section}{\numberline {6.1}แดชบอร์ดสมาชิก (frontend/views/user/dashboard.ejs)}{15}{section.6.1}%
+\contentsline {section}{\numberline {6.2}โปรไฟล์สมาชิก (frontend/views/user/profile.ejs)}{15}{section.6.2}%

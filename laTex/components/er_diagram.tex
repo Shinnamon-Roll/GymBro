@@ -1,0 +1,103 @@
+\chapter{ER Diagram}
+
+แผนภาพความสัมพันธ์ระหว่างข้อมูล (Entity Relationship Diagram) ของระบบบริหารจัดการยิม (GymBro Management System) แสดงถึงโครงสร้างการจัดเก็บข้อมูลและความเชื่อมโยงระหว่างตารางต่างๆ ในฐานข้อมูล ดังปรากฏในรูปภาพต่อไปนี้
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[
+    node distance=2.5cm and 4cm,
+    entity/.style={
+        rectangle, 
+        draw=black, 
+        thick, 
+        minimum width=3cm, 
+        minimum height=1.5cm, 
+        align=center, 
+        fill=blue!10,
+        drop shadow
+    },
+    attribute/.style={
+        ellipse, 
+        draw=black, 
+        thin, 
+        minimum width=1.5cm, 
+        align=center, 
+        fill=white,
+        font=\footnotesize
+    },
+    line/.style={
+        draw, 
+        thick, 
+        -latex
+    }
+]
+
+% Entities
+\node[entity] (session) {TrainingSessions};
+\node[entity] (customer) [left=of session] {Customers};
+\node[entity] (trainer) [right=of session] {Trainers};
+\node[entity] (equipment) [below=of session] {GymEquipments};
+
+% Attributes for TrainingSessions
+\node[attribute] (sess_id) [above=1cm of session] {id (PK)};
+\node[attribute] (sess_cust) [above left=0.5cm of session] {customerId (FK)};
+\node[attribute] (sess_date) [above right=0.5cm of session] {sessionDate};
+\draw (session) -- (sess_id);
+\draw (session) -- (sess_date);
+\draw (session) -- (sess_cust);
+
+% Attributes for Customers
+\node[attribute] (cust_id) [above=0.5cm of customer] {id (PK)};
+\node[attribute] (cust_name) [below=0.5cm of customer] {fullName};
+\node[attribute] (cust_email) [left=0.5cm of customer] {email};
+\draw (customer) -- (cust_id);
+\draw (customer) -- (cust_name);
+\draw (customer) -- (cust_email);
+
+% Attributes for Trainers
+\node[attribute] (train_id) [above=0.5cm of trainer] {id (PK)};
+\node[attribute] (train_name) [below=0.5cm of trainer] {trainerName};
+\node[attribute] (train_level) [right=0.5cm of trainer] {trainerLevel};
+\draw (trainer) -- (train_id);
+\draw (trainer) -- (train_name);
+\draw (trainer) -- (train_level);
+
+% Attributes for GymEquipments
+\node[attribute] (equip_id) [left=0.5cm of equipment] {id (PK)};
+\node[attribute] (equip_name) [right=0.5cm of equipment] {equipmentName};
+\node[attribute] (equip_status) [below=0.5cm of equipment] {status};
+\draw (equipment) -- (equip_id);
+\draw (equipment) -- (equip_name);
+\draw (equipment) -- (equip_status);
+
+% Relationships (Edges)
+% Customer 1 -- N TrainingSessions
+\draw[line] (customer) -- node[near start, above] {1} node[near end, above] {N} node[midway, below] {books} (session);
+
+% Trainer 1 -- N TrainingSessions
+\draw[line] (trainer) -- node[near start, above] {1} node[near end, above] {N} node[midway, below] {trains in} (session);
+
+% GymEquipment 1 -- N TrainingSessions
+\draw[line] (equipment) -- node[near start, right] {1} node[near end, right] {N} node[midway, left] {used in} (session);
+
+\end{tikzpicture}
+\caption{แผนภาพแสดงความสัมพันธ์ของข้อมูล (Entity Relationship Diagram)}
+\label{fig:er-diagram}
+\end{figure}
+
+\section{คำอธิบายความสัมพันธ์ของข้อมูล (Data Relationship Description)}
+
+จากการวิเคราะห์โครงสร้างฐานข้อมูลของระบบ GymBro Management System สามารถสรุปความสัมพันธ์ระหว่างเอนทิตี (Entity) หลักได้ดังนี้
+
+\begin{enumerate}
+    \item \textbf{ความสัมพันธ์ระหว่าง Customers และ TrainingSessions (1:N)}: 
+    สมาชิก (Customers) เป็นผู้ดำเนินการจองเซสชันการฝึกซ้อม โดยสมาชิกหนึ่งท่านสามารถทำการจองเซสชันการฝึกซ้อมได้หลายครั้ง (Many) ในขณะที่แต่ละเซสชันการฝึกซ้อม (TrainingSessions) จะต้องถูกจองโดยสมาชิกเพียงท่านเดียว (One) ความสัมพันธ์นี้ถูกเชื่อมโยงผ่านคีย์นอก (Foreign Key) ชื่อ \texttt{customerId} ในตาราง TrainingSessions
+
+    \item \textbf{ความสัมพันธ์ระหว่าง Trainers และ TrainingSessions (1:N)}: 
+    เทรนเนอร์ (Trainers) ทำหน้าที่ให้คำแนะนำและดูแลสมาชิกในระหว่างการฝึกซ้อม โดยเทรนเนอร์หนึ่งท่านสามารถดูแลได้หลายเซสชัน (Many) แต่ในหนึ่งเซสชันการฝึกซ้อมจะมีเทรนเนอร์ผู้รับผิดชอบเพียงท่านเดียว (One) หรืออาจไม่มีเลยในกรณีที่เป็นการฝึกซ้อมอิสระ ความสัมพันธ์นี้เชื่อมโยงผ่าน \texttt{trainerId}
+
+    \item \textbf{ความสัมพันธ์ระหว่าง GymEquipments และ TrainingSessions (1:N)}: 
+    อุปกรณ์ออกกำลังกาย (GymEquipments) ถูกใช้งานในเซสชันการฝึกซ้อม โดยอุปกรณ์หนึ่งชิ้นสามารถถูกจองใช้งานในหลายช่วงเวลาหรือหลายเซสชัน (Many) (แต่ต้องไม่ซ้อนทับกันในช่วงเวลาเดียวกัน) และในหนึ่งเซสชันจะมีการระบุการใช้อุปกรณ์หลักหนึ่งชิ้น (One) เพื่อตรวจสอบสถานะความพร้อมใช้งาน ความสัมพันธ์นี้เชื่อมโยงผ่าน \texttt{equipmentId}
+\end{enumerate}
+
+โครงสร้างความสัมพันธ์ดังกล่าวสะท้อนให้เห็นว่าตาราง \textbf{TrainingSessions} ทำหน้าที่เป็นตารางศูนย์กลาง (Fact Table) หรือตารางเชื่อมโยง (Associative Entity) ที่รวบรวมข้อมูลการทำธุรกรรม (Transaction) หลักของระบบ โดยมีการอ้างอิงไปยังข้อมูลหลัก (Master Data) ได้แก่ ข้อมูลสมาชิก ข้อมูลเทรนเนอร์ และข้อมูลอุปกรณ์ เพื่อให้สามารถตรวจสอบย้อนกลับและจัดทำรายงานสรุปผลการใช้งานได้อย่างมีประสิทธิภาพ

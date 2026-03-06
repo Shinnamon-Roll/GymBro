@@ -1,0 +1,218 @@
+% ==========================================================================================
+% Chapter 4: Website Usage
+% ==========================================================================================
+
+\chapter{การใช้งานเว็บ (Website Usage)}
+
+บทนี้อธิบายวิธีการใช้งานระบบ GymBro Management System อย่างละเอียด แบ่งตามสิทธิ์การใช้งานของผู้ใช้ 3 กลุ่มหลัก ได้แก่ ผู้ใช้งานทั่วไป (Public), สมาชิก (Member), และผู้ดูแลระบบ (Admin)
+
+\section{ส่วนผู้ใช้งานทั่วไป (Public Section)}
+ส่วนนี้สำหรับผู้ที่ยังไม่ได้เข้าสู่ระบบ สามารถใช้งานได้ทุกคน
+
+\subsection{การใช้งานหน้าเข้าสู่ระบบ (Login Page)}
+หน้าแรกของระบบที่ใช้สำหรับยืนยันตัวตนก่อนเข้าใช้งาน
+
+\subsubsection{ขั้นตอนการเข้าสู่ระบบ}
+\begin{enumerate}
+    \item เปิดเว็บเบราว์เซอร์และเข้าสู่หน้าเว็บไซต์ ระบบจะแสดงแบบฟอร์ม Login
+    \item กรอก \textbf{Email Address} ที่ได้ลงทะเบียนไว้
+    \item กรอก \textbf{Phone Number} (ใช้แทนรหัสผ่าน)
+    \item กดปุ่ม \textbf{SIGN IN}
+    \item หากข้อมูลถูกต้อง ระบบจะตรวจสอบสิทธิ์ (Role) และเปลี่ยนหน้าไปยัง Dashboard ที่เหมาะสม (User หรือ Admin)
+    \item หากข้อมูลไม่ถูกต้อง ระบบจะแสดงข้อความแจ้งเตือนสีแดง "Invalid credentials"
+\end{enumerate}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/placeholder.png}
+    \caption{หน้าจอเข้าสู่ระบบ (Login)}
+    \label{fig:login}
+\end{figure}
+
+\subsection{การใช้งานหน้าลงทะเบียน (Register Page)}
+สำหรับผู้ใช้งานใหม่ที่ต้องการสมัครสมาชิก
+
+\subsubsection{ขั้นตอนการสมัครสมาชิก}
+\begin{enumerate}
+    \item ในหน้า Login ให้กดลิงก์ "Don't have an account? Register here"
+    \item ระบบจะพาไปที่หน้า Register
+    \item กรอก \textbf{Full Name} (ชื่อ-นามสกุล)
+    \item กรอก \textbf{Email Address} (ห้ามซ้ำกับที่มีในระบบ)
+    \item กรอก \textbf{Phone Number} (ใช้สำหรับล็อกอินในภายหลัง)
+    \item กดปุ่ม \textbf{CREATE ACCOUNT}
+    \item หากสำเร็จ ระบบจะแจ้งเตือนและพากลับไปหน้า Login เพื่อให้เข้าสู่ระบบใหม่
+\end{enumerate}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/placeholder.png}
+    \caption{หน้าจอลงทะเบียนสมาชิก (Register)}
+    \label{fig:register}
+\end{figure}
+
+\newpage
+\section{ส่วนสมาชิก (Member Section)}
+ส่วนนี้สำหรับผู้ใช้งานที่ล็อกอินด้วยสิทธิ์สมาชิก (User)
+
+\subsection{การใช้งานหน้าแดชบอร์ดสมาชิก (User Dashboard)}
+หน้าหลักของสมาชิก ใช้สำหรับดูตารางฝึกซ้อมและจองเซสชัน
+
+\subsubsection{การดูตารางฝึกซ้อม}
+\begin{enumerate}
+    \item เมื่อเข้าสู่ระบบสำเร็จ จะพบตารางแสดงรายการจองทั้งหมดในวันนี้ (All Bookings)
+    \item รายการที่เป็นของตนเอง (My Session) จะถูกไฮไลต์ด้วยสีพื้นหลังที่แตกต่างเพื่อให้สังเกตได้ง่าย
+    \item ตารางแสดงข้อมูลเวลา, กิจกรรม/อุปกรณ์, และชื่อเทรนเนอร์
+\end{enumerate}
+
+\subsubsection{การจองเซสชันใหม่ (Booking Session)}
+\begin{enumerate}
+    \item กดปุ่ม \textbf{BOOK SESSION} ที่มุมขวาบน
+    \item ระบบจะแสดงหน้าต่าง (Modal) สำหรับกรอกข้อมูลการจอง
+    \item เลือก \textbf{Date} (วันที่), \textbf{Time} (เวลา), และ \textbf{Duration} (ระยะเวลา)
+    \item ระบบจะตรวจสอบความว่าง (Availability) ของเทรนเนอร์และอุปกรณ์โดยอัตโนมัติ หากไม่ว่างตัวเลือกนั้นจะถูกปิดการใช้งาน (Disabled)
+    \item เลือก \textbf{Trainer} และ \textbf{Equipment} ที่ต้องการ
+    \item กดปุ่ม \textbf{CONFIRM BOOKING}
+    \item ระบบจะบันทึกข้อมูลและรีเฟรชตารางแสดงผลทันที
+\end{enumerate}
+
+\subsubsection{การยกเลิกการจอง (Cancel Session)}
+\begin{enumerate}
+    \item ในตารางรายการจอง ค้นหารายการที่เป็นของตนเอง
+    \item กดปุ่ม \textbf{Cancel} สีแดงที่อยู่ในคอลัมน์ Status/Action
+    \item กดยืนยันในหน้าต่าง Confirm Dialog
+    \item ระบบจะลบรายการจองนั้นออกจากฐานข้อมูล
+\end{enumerate}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/placeholder.png}
+    \caption{หน้าแดชบอร์ดสมาชิกและหน้าต่างการจอง (User Dashboard)}
+    \label{fig:user_dashboard}
+\end{figure}
+
+\subsection{การใช้งานหน้าข้อมูลส่วนตัว (My Profile)}
+หน้าแสดงรายละเอียดข้อมูลสมาชิก
+
+\subsubsection{ขั้นตอนการดูข้อมูล}
+\begin{enumerate}
+    \item ที่แถบเมนูด้านซ้าย เลือกเมนู \textbf{My Profile}
+    \item ระบบจะแสดงข้อมูลชื่อ, อีเมล, เบอร์โทรศัพท์, ประเภทสมาชิก (Member Type), และวันหมดอายุสมาชิก
+\end{enumerate}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/placeholder.png}
+    \caption{หน้าข้อมูลส่วนตัวสมาชิก (My Profile)}
+    \label{fig:user_profile}
+\end{figure}
+
+\newpage
+\section{ส่วนผู้ดูแลระบบ (Admin Section)}
+ส่วนนี้สำหรับผู้ใช้งานที่ล็อกอินด้วยสิทธิ์ผู้ดูแลระบบ (Admin)
+
+\subsection{การใช้งานหน้าแดชบอร์ดผู้ดูแลระบบ (Admin Dashboard)}
+หน้าสรุปภาพรวมของระบบ
+
+\subsubsection{การดูสถิติและตารางงานวันนี้}
+\begin{enumerate}
+    \item แสดงจำนวนรวมของลูกค้า (Customers), เทรนเนอร์ (Trainers), อุปกรณ์ (Equipments), และเซสชันวันนี้ (Today's Sessions)
+    \item ตารางด้านล่างแสดงรายการจองทั้งหมดที่เกิดขึ้นในวันนี้แบบ Real-time
+\end{enumerate}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/placeholder.png}
+    \caption{หน้าแดชบอร์ดผู้ดูแลระบบ (Admin Dashboard)}
+    \label{fig:admin_dashboard}
+\end{figure}
+
+\subsection{การจัดการข้อมูลลูกค้า (Customer Management)}
+เมนู \textbf{Customers} สำหรับบริหารจัดการข้อมูลสมาชิก
+
+\subsubsection{การเพิ่มลูกค้าใหม่}
+\begin{enumerate}
+    \item กรอกข้อมูลในฟอร์มด้านบน: Name, Email, Phone
+    \item เลือก \textbf{Member Type} (เช่น Monthly) และ \textbf{Level} (เช่น Silver)
+    \item ระบุ \textbf{Start Date}
+    \item กดปุ่ม \textbf{SAVE CUSTOMER}
+\end{enumerate}
+
+\subsubsection{การแก้ไขและลบข้อมูล}
+\begin{enumerate}
+    \item \textbf{แก้ไข:} กดปุ่ม \textbf{EDIT} ในแถวที่ต้องการ ระบบจะแสดง Popup (Prompt) ให้กรอกข้อมูลใหม่ทีละค่า (ชื่อ, อีเมล, เบอร์โทร)
+    \item \textbf{ลบ:} กดปุ่ม \textbf{DELETE} สีแดง และกดยืนยันเพื่อลบข้อมูลออกจากระบบถาวร
+\end{enumerate}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/placeholder.png}
+    \caption{หน้าจัดการข้อมูลลูกค้า (Customer Management)}
+    \label{fig:admin_customers}
+\end{figure}
+
+\subsection{การจัดการข้อมูลเทรนเนอร์ (Trainer Management)}
+เมนู \textbf{Trainers} สำหรับบริหารจัดการข้อมูลผู้ฝึกสอน
+
+\subsubsection{การเพิ่มเทรนเนอร์}
+\begin{enumerate}
+    \item กรอกข้อมูลในฟอร์ม: Name, Specialty (ความถนัด), Phone
+    \item เลือก \textbf{Level} (Junior, Senior, Master)
+    \item กดปุ่ม \textbf{SAVE TRAINER}
+\end{enumerate}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/placeholder.png}
+    \caption{หน้าจัดการข้อมูลเทรนเนอร์ (Trainer Management)}
+    \label{fig:admin_trainers}
+\end{figure}
+
+\subsection{การจัดการอุปกรณ์ (Equipment Management)}
+เมนู \textbf{Equipment} สำหรับบริหารจัดการอุปกรณ์ในยิม
+
+\subsubsection{การเพิ่มและจัดการสถานะอุปกรณ์}
+\begin{enumerate}
+    \item เพิ่มอุปกรณ์ใหม่โดยระบุชื่อและหมวดหมู่
+    \item สามารถกำหนดสถานะ (Status) ได้ว่าเป็น \textbf{Available} (พร้อมใช้) หรือ \textbf{Maintenance} (ซ่อมบำรุง)
+    \item หากอุปกรณ์สถานะเป็น Maintenance ระบบจะไม่ให้สมาชิกจองใช้อุปกรณ์นั้น
+\end{enumerate}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/placeholder.png}
+    \caption{หน้าจัดการอุปกรณ์ (Equipment Management)}
+    \label{fig:admin_equipments}
+\end{figure}
+
+\subsection{การจัดการตารางฝึกซ้อม (Session Management)}
+เมนู \textbf{Sessions} สำหรับดูและจัดการการจองทั้งหมด
+
+\subsubsection{การจองเซสชันโดยผู้ดูแลระบบ}
+\begin{enumerate}
+    \item เลือก \textbf{Customer}, \textbf{Trainer}, และ \textbf{Equipment} จาก Dropdown list
+    \item เลือกวันและเวลาที่ต้องการ (Date \& Time)
+    \item กดปุ่ม \textbf{BOOK NOW} ระบบจะตรวจสอบความขัดแย้งของเวลาและบันทึกข้อมูล
+\end{enumerate}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/placeholder.png}
+    \caption{หน้าจัดการตารางฝึกซ้อม (Session Management)}
+    \label{fig:admin_sessions}
+\end{figure}
+
+\subsection{การดูบันทึกระบบ (System Logs)}
+เมนู \textbf{System Logs} สำหรับตรวจสอบประวัติการใช้งาน
+
+\subsubsection{การใช้งาน}
+\begin{enumerate}
+    \item เลือกแท็บ \textbf{System Logs} เพื่อดูประวัติการกระทำทั้งหมด (เช่น ใครจอง, ใครลบข้อมูล)
+    \item สามารถกรองดูข้อมูลตามวันที่ได้โดยเลือกวันที่ที่ \textbf{Filter Date} และกด Apply
+\end{enumerate}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/placeholder.png}
+    \caption{หน้าบันทึกระบบ (System Logs)}
+    \label{fig:admin_logs}
+\end{figure}

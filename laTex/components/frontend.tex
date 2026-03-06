@@ -1,0 +1,2188 @@
+\section{Frontend (ระบบหน้าบ้าน)}
+
+\subsection{frontend/server.js}
+
+\subsubsection{ภาพรวม (Overview)}
+ไฟล์ \texttt{frontend/server.js} ทำหน้าที่เป็น Web Server สำหรับฝั่ง Frontend ของระบบ GymBro โดยใช้ Express.js ในการให้บริการไฟล์ Static และจัดการเส้นทาง (Routing) ไปยังหน้าเว็บต่างๆ ที่เขียนด้วย EJS Template Engine ไฟล์นี้ทำหน้าที่แยกส่วนการทำงานของ Frontend ออกจาก Backend API อย่างชัดเจน โดย Frontend Server จะทำงานที่พอร์ต 5500
+
+\subsubsection{การตั้งค่า View Engine และ Static Files}
+ส่วนนี้เป็นการกำหนดค่าให้ Express ใช้งาน EJS เป็น View Engine และกำหนดโฟลเดอร์สำหรับไฟล์ Static
+
+\begin{lstlisting}[language=JavaScript, caption={การตั้งค่า View Engine และ Static Files ใน frontend/server.js}, label={code:frontend-server-setup}]
+const express = require('express');
+const path = require('path');
+const app = express();
+const port = 5500;
+
+// Set view engine to EJS
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
+// Serve static files
+app.use(express.static(path.join(__dirname)));
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item \texttt{app.set('view engine', 'ejs')}: กำหนดให้ใช้ EJS (Embedded JavaScript) ในการแสดงผลหน้าเว็บ
+    \item \texttt{app.set('views', ...)}: กำหนดตำแหน่งของไฟล์ Template (.ejs) ให้อยู่ในโฟลเดอร์ \texttt{views}
+    \item \texttt{app.use(express.static(...))}: ให้บริการไฟล์ Static (เช่น CSS, JavaScript, รูปภาพ) จาก Root Directory ของโปรเจกต์
+\end{enumerate}
+
+\subsubsection{การจัดการเส้นทาง (Routes Configuration)}
+ไฟล์นี้กำหนดเส้นทาง URL ต่างๆ เพื่อนำทางผู้ใช้งานไปยังหน้าเว็บที่เหมาะสม แบ่งออกเป็นเส้นทางหลัก, Admin Routes, และ User Routes
+
+\begin{lstlisting}[language=JavaScript, caption={การกำหนด Routes ใน frontend/server.js}, label={code:frontend-server-routes}]
+// Routes
+app.get('/', (req, res) => {
+    res.redirect('/login');
+});
+
+app.get('/login', (req, res) => {
+    res.render('login');
+});
+
+app.get('/register', (req, res) => {
+    res.render('register');
+});
+
+// Admin Routes
+app.get('/admin/dashboard', (req, res) => {
+    res.render('index');
+});
+
+app.get('/admin/customers', (req, res) => {
+    res.render('customers');
+});
+
+// ... (Other admin routes: trainers, equipments, sessions, logs)
+
+// User Routes
+app.get('/user/dashboard', (req, res) => {
+    res.render('user/dashboard');
+});
+
+app.get('/user/profile', (req, res) => {
+    res.render('user/profile');
+});
+
+// Fallback for old links (redirect to new structure)
+app.get('/index.html', (req, res) => res.redirect('/admin/dashboard'));
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item \textbf{Redirection}: เส้นทางราก \texttt{/} จะถูก Redirect ไปยังหน้า \texttt{/login} เสมอ
+    \item \textbf{Rendering}: ใช้ \texttt{res.render()} เพื่อแสดงผลไฟล์ EJS ตามชื่อที่กำหนด (ไม่ต้องใส่นามสกุล .ejs)
+    \item \textbf{Route Groups}: แบ่งกลุ่ม URL ชัดเจนระหว่าง \texttt{/admin/*} และ \texttt{/user/*} เพื่อความเป็นระเบียบ
+    \item \textbf{Fallback}: มีการดักจับ URL แบบเก่า (.html) เพื่อ Redirect ไปยังเส้นทางใหม่ที่ถูกต้อง ป้องกัน Broken Links
+\end{enumerate}
+
+\subsubsection{การเริ่มทำงานของ Server (Server Startup)}
+\begin{lstlisting}[language=JavaScript, caption={การเริ่มทำงานของ Server ใน frontend/server.js}, label={code:frontend-server-start}]
+app.listen(port, () => {
+    console.log(`Frontend server running on http://localhost:${port}`);
+});
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item สั่งให้ Server เริ่มทำงานและรอรับ Request ที่พอร์ต 5500
+    \item แสดงข้อความใน Console เมื่อ Server เริ่มทำงานสำเร็จ
+\end{enumerate}
+
+% ==========================================================================================
+% FILE: frontend/index.js
+% ==========================================================================================
+
+\subsection{frontend/index.js}
+
+\subsubsection{ภาพรวม (Overview)}
+ไฟล์ \texttt{frontend/index.js} เป็น Web Server อย่างง่ายที่พัฒนาด้วย Node.js (Native Module) โดยไม่พึ่งพา Framework ภายนอก ทำหน้าที่ให้บริการไฟล์ Static (Static File Server) ตามคำขอของผู้ใช้งาน โดยมีการกำหนด MIME Types และมาตรการความปลอดภัยเบื้องต้นเพื่อป้องกันการเข้าถึงไฟล์ที่ไม่ได้รับอนุญาต
+
+\subsubsection{การนำเข้าโมดูลและการกำหนดค่า (Imports and Configuration)}
+ส่วนนี้เป็นการนำเข้าโมดูลพื้นฐานของ Node.js และการกำหนดพอร์ต รวมถึงประเภทของไฟล์ (MIME Types) ที่รองรับ
+
+\begin{lstlisting}[language=JavaScript, caption={การตั้งค่า Server และ MIME Types ใน frontend/index.js}, label={code:frontend-index-setup}]
+const http = require("http");
+const fs = require("fs");
+const path = require("path");
+const url = require("url");
+
+const root = __dirname;
+const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 5500;
+
+const mime = {
+  ".html": "text/html; charset=utf-8",
+  ".css": "text/css; charset=utf-8",
+  ".js": "application/javascript; charset=utf-8",
+  ".json": "application/json; charset=utf-8",
+  ".png": "image/png",
+  ".jpg": "image/jpeg",
+  ".jpeg": "image/jpeg",
+  ".svg": "image/svg+xml",
+  ".ico": "image/x-icon",
+};
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item \texttt{http}: ใช้สำหรับสร้าง HTTP Server
+    \item \texttt{fs}: ใช้สำหรับจัดการไฟล์ (อ่านไฟล์เพื่อส่งกลับไปยัง Client)
+    \item \texttt{path}: ใช้สำหรับจัดการเส้นทางไฟล์และตรวจสอบนามสกุลไฟล์
+    \item \texttt{mime}: ออบเจกต์ที่เก็บค่า Content-Type สำหรับไฟล์ประเภทต่างๆ เพื่อให้ Browser แสดงผลได้ถูกต้อง
+\end{enumerate}
+
+\subsubsection{มาตรการความปลอดภัย (Security: Path Traversal Prevention)}
+ฟังก์ชัน \texttt{safeJoin} ถูกสร้างขึ้นเพื่อป้องกันช่องโหว่ Path Traversal ซึ่งอาจทำให้ผู้ไม่หวังดีสามารถเข้าถึงไฟล์นอกเหนือจาก Root Directory ที่กำหนดได้
+
+\begin{lstlisting}[language=JavaScript, caption={ฟังก์ชัน safeJoin ป้องกัน Path Traversal}, label={code:frontend-index-safejoin}]
+const safeJoin = (base, target) => {
+  const targetPath = path.resolve(base, target.replace(/^\/+/, ""));
+  if (!targetPath.startsWith(base)) return null;
+  return targetPath;
+};
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item ใช้ \texttt{path.resolve} เพื่อสร้างเส้นทางไฟล์ที่สมบูรณ์
+    \item ตรวจสอบว่าเส้นทางปลายทาง (\texttt{targetPath}) ยังคงอยู่ภายใต้โฟลเดอร์ราก (\texttt{base}) หรือไม่ หากไม่อยู่ จะคืนค่า \texttt{null}
+\end{enumerate}
+
+\subsubsection{การจัดการคำขอ (Request Handling Logic)}
+ส่วนหลักของ Server ที่ทำหน้าที่รับ Request, ตรวจสอบเส้นทาง, และส่งไฟล์กลับไปยังผู้ใช้งาน
+
+\begin{lstlisting}[language=JavaScript, caption={Logic การจัดการ Request}, label={code:frontend-index-handler}]
+const server = http.createServer((req, res) => {
+  const parsed = url.parse(req.url);
+  let pathname = parsed.pathname || "/";
+  if (pathname === "/") pathname = "/index.html";
+  
+  const filePath = safeJoin(root, pathname);
+  if (!filePath) {
+    res.writeHead(400);
+    res.end("Bad Request");
+    return;
+  }
+  
+  fs.stat(filePath, (err, stat) => {
+    if (err) {
+      res.writeHead(404);
+      res.end("Not Found");
+      return;
+    }
+    if (stat.isDirectory()) {
+        // Handle directory access...
+    }
+    streamFile(filePath, res);
+  });
+});
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item แปลง URL และตรวจสอบว่าถ้าเป็น Root Path (\texttt{/}) ให้เปลี่ยนเป็น \texttt{/index.html}
+    \item เรียกใช้ \texttt{safeJoin} เพื่อความปลอดภัย
+    \item ใช้ \texttt{fs.stat} ตรวจสอบว่ามีไฟล์อยู่จริงหรือไม่ ถ้าไม่มีให้ส่งคืน 404 Not Found
+\end{enumerate}
+
+\subsubsection{ฟังก์ชันการส่งไฟล์ (File Streaming Helper)}
+ฟังก์ชัน \texttt{streamFile} ทำหน้าที่อ่านไฟล์และส่งข้อมูลกลับไปยัง Client ผ่าน HTTP Response Stream
+
+\begin{lstlisting}[language=JavaScript, caption={ฟังก์ชัน streamFile}, label={code:frontend-index-stream}]
+function streamFile(filePath, res) {
+  const ext = path.extname(filePath).toLowerCase();
+  const type = mime[ext] || "application/octet-stream";
+  res.setHeader("Content-Type", type);
+  res.setHeader("Cache-Control", "no-cache");
+  const stream = fs.createReadStream(filePath);
+  stream.pipe(res);
+}
+\end{lstlisting}
+
+% ==========================================================================================
+% FILE: frontend/js/config.js
+% ==========================================================================================
+
+\subsection{frontend/js/config.js}
+
+\subsubsection{ภาพรวม (Overview)}
+ไฟล์ \texttt{frontend/js/config.js} เป็นไฟล์กำหนดค่าเริ่มต้น (Configuration File) สำหรับฝั่ง Frontend ของระบบ GymBro โดยทำหน้าที่ประกาศตัวแปรส่วนกลาง (Global Variable) ที่ใช้สำหรับอ้างอิง URL พื้นฐานของ Backend API (API Base URL) เพื่อให้ไฟล์ JavaScript อื่นๆ สามารถเรียกใช้งานและเชื่อมต่อกับ Backend ได้อย่างถูกต้องและเป็นมาตรฐานเดียวกันทั้งระบบ
+
+\subsubsection{การกำหนดค่า Base URL (Base URL Configuration)}
+ส่วนนี้เป็นการประกาศตัวแปร \texttt{window.API} ซึ่งจะถูกใช้เป็น Prefix สำหรับทุกการเรียก API Request ในแอปพลิเคชัน
+
+\begin{lstlisting}[language=JavaScript, caption={การกำหนดค่า API Base URL ใน frontend/js/config.js}, label={code:frontend-js-config}]
+// Backend API base URL (Local)
+window.API = "http://localhost:3000/api";
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item \texttt{window.API}: การประกาศตัวแปรในระดับ \texttt{window} ทำให้ตัวแปรนี้มีสถานะเป็น Global Variable ซึ่งสามารถเข้าถึงได้จากทุกไฟล์ JavaScript ที่ถูกโหลดในหน้าเว็บเดียวกัน โดยไม่ต้องทำการ Import ซ้ำ
+    \item \texttt{"http://localhost:3000/api"}: กำหนดให้ชี้ไปยัง Backend Server ที่รันอยู่บนพอร์ต 3000 และมี Path Prefix เป็น \texttt{/api}
+    \item ประโยชน์ของการแยกไฟล์ Config คือความสะดวกในการเปลี่ยน Environment (เช่น จาก Localhost ไปยัง Production Server) โดยแก้ไขเพียงจุดเดียว
+\end{enumerate}
+
+% ==========================================================================================
+% FILE: frontend/js/auth.js
+% ==========================================================================================
+
+\subsection{frontend/js/auth.js}
+
+\subsubsection{ภาพรวม (Overview)}
+\begin{sloppypar}
+ไฟล์ \texttt{frontend/js/auth.js} เป็นหัวใจหลักของระบบรักษาความปลอดภัยฝั่ง Frontend (Client-Side Security) ของแอปพลิเคชัน GymBro ไฟล์นี้มีหน้าที่รับผิดชอบในการตรวจสอบสถานะการเข้าสู่ระบบของผู้ใช้ (Authentication State Management), การควบคุมการเข้าถึงหน้าเว็บต่างๆ (Route Guarding), และการจัดการกระบวนการล็อกอินและล็อกเอาต์ เพื่อให้มั่นใจว่าผู้ใช้จะสามารถเข้าถึงข้อมูลได้เฉพาะในส่วนที่ได้รับอนุญาตเท่านั้น
+\end{sloppypar}
+
+\subsubsection{ตัวแปรและการตรวจสอบหน้าปัจจุบัน (Global Variables \& Page Check)}
+ส่วนนี้เป็นการกำหนดตัวแปรเริ่มต้นและตรวจสอบว่าหน้าปัจจุบันคือหน้า Login หรือไม่ เพื่อใช้ในการตัดสินใจว่าจะรัน Logic การตรวจสอบสิทธิ์หรือไม่
+
+\begin{lstlisting}[language=JavaScript, caption={ซอร์สโค้ดจากไฟล์ frontend/js/auth.js: การตรวจสอบหน้า Login}, label={code:auth-js-page-check}]
+// Check if we are on the login page
+const isLoginPage = window.location.pathname === '/login' || window.location.pathname === '/';
+\end{lstlisting}
+
+\textbf{คำอธิบายโค้ด:}
+\begin{enumerate}
+    \item \textbf{จุดประสงค์:} เพื่อระบุว่าผู้ใช้กำลังอยู่ที่หน้าเข้าสู่ระบบหรือไม่
+    \item \textbf{Output:} ตัวแปร \texttt{isLoginPage} (Boolean) มีค่าเป็น \texttt{true} หาก URL path คือ \texttt{/login} หรือ \texttt{/}
+    \item \textbf{ขั้นตอนการทำงาน:}
+    \begin{enumerate}
+        \item อ่านค่า \texttt{window.location.pathname}
+        \item เปรียบเทียบกับ string ที่กำหนด
+    \end{enumerate}
+\end{enumerate}
+
+\subsubsection{ฟังก์ชัน logout (Global Logout Function)}
+\begin{sloppypar}
+ฟังก์ชันสำหรับการออกจากระบบ ซึ่งถูกประกาศให้เป็น Global Function (\texttt{window.logout}) เพื่อให้สามารถเรียกใช้ได้จากทุกจุดในแอปพลิเคชัน (เช่น จาก Navbar)
+\end{sloppypar}
+
+\begin{lstlisting}[language=JavaScript, caption={ซอร์สโค้ดจากไฟล์ frontend/js/auth.js: ฟังก์ชัน logout}, label={code:auth-js-logout}]
+window.logout = function() {
+    if (confirm('Are you sure you want to log out?')) {
+        localStorage.removeItem('gymbro_user');
+        window.location.href = '/login';
+    }
+};
+\end{lstlisting}
+
+\textbf{คำอธิบายโค้ด:}
+\begin{enumerate}
+    \item \textbf{จุดประสงค์:} ล้างข้อมูล Session ของผู้ใช้ออกจาก Browser และนำผู้ใช้กลับไปยังหน้า Login
+    \item \textbf{Input:} ไม่มี (Triggered by User Action)
+    \item \textbf{Output:} การเปลี่ยนหน้าไปยัง \texttt{/login}
+    \item \textbf{ขั้นตอนการทำงาน:}
+    \begin{enumerate}
+        \item แสดง Dialog ยืนยันการล็อกเอาต์ (\texttt{confirm})
+        \item หากผู้ใช้ยืนยัน ให้ลบ key \texttt{'gymbro\_user'} ออกจาก \texttt{localStorage}
+        \item สั่ง Redirect หน้าเว็บไปยัง \texttt{/login}
+    \end{enumerate}
+\end{enumerate}
+
+\subsubsection{ลอจิกตรวจสอบสิทธิ์ (Auth Guard Logic)}
+ส่วนนี้คือ Logic หลักที่จะทำงานทันทีที่โหลดไฟล์ เพื่อตรวจสอบว่าผู้ใช้มีสิทธิ์อยู่ในหน้านี้หรือไม่ (Route Protection)
+
+\begin{lstlisting}[language=JavaScript, caption={ซอร์สโค้ดจากไฟล์ frontend/js/auth.js: Auth Guard Logic}, label={code:auth-js-guard}]
+if (!isLoginPage) {
+    const session = JSON.parse(localStorage.getItem('gymbro_user'));
+    
+    if (!session || !session.user) {
+        window.location.href = '/login';
+    } else {
+        // Role Guard
+        const path = window.location.pathname;
+        const role = session.role;
+
+        if (path.startsWith('/admin') && role !== 'admin') {
+            alert('Access Denied: Admin only.');
+            window.location.href = '/user/dashboard';
+        } 
+    }
+} else {
+    // If on login page and already logged in, redirect
+    const session = JSON.parse(localStorage.getItem('gymbro_user'));
+    if (session && session.user) {
+        if (session.role === 'admin') {
+            window.location.href = '/admin/dashboard';
+        } else {
+            window.location.href = '/user/dashboard';
+        }
+    }
+}
+\end{lstlisting}
+
+\textbf{คำอธิบายโค้ด:}
+\begin{enumerate}
+    \item \textbf{จุดประสงค์:} ป้องกันการเข้าถึงหน้าเว็บโดยไม่ได้รับอนุญาต และ Redirect ผู้ใช้ไปยังหน้า Dashboard หากล็อกอินแล้ว
+    \item \textbf{Input:} \texttt{localStorage} และ \texttt{window.location.pathname}
+    \item \textbf{ขั้นตอนการทำงาน:}
+    \begin{enumerate}
+        \item ตรวจสอบว่าไม่ใช่หน้า Login
+        \item ดึงข้อมูล Session จาก Storage
+        \item \textbf{กรณีไม่มี Session:} Redirect ไปหน้า Login
+        \item \textbf{กรณีมี Session:} ตรวจสอบ Role ของผู้ใช้ หากเป็น User ธรรมดาแต่พยายามเข้าหน้า \texttt{/admin} จะถูกดีดกลับไปหน้า User Dashboard
+        \item \textbf{กรณีอยู่หน้า Login แต่มี Session แล้ว:} Redirect ไปยัง Dashboard ตาม Role ของผู้ใช้ทันที (ไม่ต้องล็อกอินซ้ำ)
+    \end{enumerate}
+\end{enumerate}
+
+\subsubsection{การจัดการฟอร์มล็อกอิน (Login Form Event Handler)}
+ส่วนนี้จัดการเหตุการณ์เมื่อผู้ใช้กดปุ่ม Submit ที่ฟอร์มล็อกอิน
+
+\begin{lstlisting}[language=JavaScript, caption={ซอร์สโค้ดจากไฟล์ frontend/js/auth.js: Login Form Handler}, label={code:auth-js-login-handler}]
+const loginForm = document.getElementById('login-form');
+if (loginForm) {
+    loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const emailVal = document.getElementById('email').value;
+        const phoneVal = document.getElementById('phone').value; 
+
+        // Hide error
+        const errorMsg = document.getElementById('error-message');
+        if (errorMsg) errorMsg.classList.add('hidden');
+
+        try {
+            const response = await fetch(`${window.API}/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: emailVal, phone: phoneVal })
+            });
+
+            if (!response.ok) {
+                throw new Error('Login failed');
+            }
+
+            const data = await response.json();
+            localStorage.setItem('gymbro_user', JSON.stringify(data));
+
+            // Redirect based on role
+            if (data.role === 'admin') {
+                window.location.href = '/admin/dashboard';
+            } else {
+                window.location.href = '/user/dashboard';
+            }
+
+        } catch (error) {
+            console.error('Login Error:', error);
+            if (errorMsg) {
+                errorMsg.classList.remove('hidden');
+                errorMsg.innerText = 'Invalid email or phone number.';
+            }
+        }
+    });
+}
+\end{lstlisting}
+
+\textbf{คำอธิบายโค้ด:}
+\begin{enumerate}
+    \item \textbf{จุดประสงค์:} ส่งข้อมูลล็อกอินไปยัง Backend และจัดการผลลัพธ์
+    \item \textbf{Input:} Email และ Phone จากฟอร์ม
+    \item \textbf{ขั้นตอนการทำงาน:}
+    \begin{enumerate}
+        \item ป้องกันการ Reload หน้าเว็บด้วย \texttt{e.preventDefault()}
+        \item อ่านค่าจาก Input Fields
+        \item ซ่อนข้อความ Error เก่า (ถ้ามี)
+        \item ส่ง POST Request ไปยัง \texttt{/api/login}
+        \item หากสำเร็จ: บันทึกข้อมูลลง \texttt{localStorage} และ Redirect ไปยัง Dashboard ที่เหมาะสม
+        \item หากล้มเหลว: แสดงข้อความ Error แจ้งผู้ใช้
+    \end{enumerate}
+\end{enumerate}
+
+\subsubsection{ฟังก์ชัน displayUserInfo}
+ฟังก์ชันสำหรับแสดงชื่อและสถานะของผู้ใช้บนหน้า UI
+
+\begin{lstlisting}[language=JavaScript, caption={ซอร์สโค้ดจากไฟล์ frontend/js/auth.js: ฟังก์ชัน displayUserInfo}, label={code:auth-js-display-user}]
+function displayUserInfo() {
+    const session = JSON.parse(localStorage.getItem('gymbro_user'));
+    if (session && session.user) {
+        const userNameElements = document.querySelectorAll('.user-name-display');
+        userNameElements.forEach(el => {
+            el.textContent = session.user.fullName || session.user.email;
+        });
+        
+        const userRoleElements = document.querySelectorAll('.user-role-display');
+        userRoleElements.forEach(el => {
+            el.textContent = session.role.toUpperCase();
+        });
+    }
+}
+// Call display info on load
+document.addEventListener('DOMContentLoaded', displayUserInfo);
+\end{lstlisting}
+
+\textbf{คำอธิบายโค้ด:}
+\begin{enumerate}
+    \item \textbf{จุดประสงค์:} อัปเดต UI ให้แสดงชื่อผู้ใช้ที่ล็อกอินอยู่
+    \item \textbf{Input:} ข้อมูล Session จาก \texttt{localStorage}
+    \item \textbf{ขั้นตอนการทำงาน:}
+    \begin{enumerate}
+        \item อ่านข้อมูล User จาก Storage
+        \item ค้นหา Elements ที่มี class \texttt{.user-name-display} และ \texttt{.user-role-display} ทั้งหมดในหน้า
+        \item วนลูปอัปเดต \texttt{textContent} ของ Elements เหล่านั้นให้เป็นชื่อและ Role ของผู้ใช้
+    \end{enumerate}
+\end{enumerate}
+
+% ==========================================================================================
+% FILE: frontend/js/user/dashboard.js
+% ==========================================================================================
+
+\subsection{frontend/js/user/dashboard.js}
+
+\subsubsection{ภาพรวม (Overview)}
+\begin{sloppypar}
+ไฟล์ \texttt{frontend/js/user/dashboard.js} รับผิดชอบการทำงานของหน้า Dashboard สำหรับสมาชิก (User) หน้าที่หลักคือการแสดงตารางการฝึกซ้อมส่วนตัว (Personal Schedule) และระบบการจองเซสชัน (Booking System) ไฟล์นี้มีความซับซ้อนสูงเนื่องจากต้องมีการตรวจสอบความพร้อมของทรัพยากร (Availability Check) แบบเรียลไทม์เพื่อป้องกันการจองซ้ำซ้อน
+\end{sloppypar}
+
+\subsubsection{ฟังก์ชัน Initialization (Event Listeners Setup)}
+โค้ดส่วนนี้ทำงานเมื่อ DOM โหลดเสร็จ เพื่อเตรียมข้อมูลและผูก Event Listeners
+
+\begin{lstlisting}[language=JavaScript, caption={ซอร์สโค้ดจากไฟล์ frontend/js/user/dashboard.js: Initialization}, label={code:user-dash-init}]
+document.addEventListener('DOMContentLoaded', () => {
+    fetchSchedule();
+    fetchResources();
+    
+    // Event Listeners for Modal
+    document.getElementById('btn-book-session').addEventListener('click', openBookingModal);
+    document.getElementById('close-booking-modal').addEventListener('click', closeBookingModal);
+    document.getElementById('cancel-booking').addEventListener('click', closeBookingModal);
+    document.getElementById('booking-modal').addEventListener('click', (e) => {
+        if (e.target.id === 'booking-modal') closeBookingModal();
+    });
+
+    // Form Change Listeners for Availability Check
+    ['book-date', 'book-time', 'book-duration'].forEach(id => {
+        document.getElementById(id).addEventListener('change', checkAvailability);
+    });
+
+    document.getElementById('booking-form').addEventListener('submit', handleBookingSubmit);
+});
+\end{lstlisting}
+
+\textbf{คำอธิบายโค้ด:}
+\begin{enumerate}
+    \item \textbf{จุดประสงค์:} เริ่มต้นการทำงานของหน้าเว็บ
+    \item \textbf{ขั้นตอนการทำงาน:}
+    \begin{enumerate}
+        \item เรียก \texttt{fetchSchedule()} เพื่อโหลดตารางงาน
+        \item เรียก \texttt{fetchResources()} เพื่อโหลดข้อมูลเทรนเนอร์และอุปกรณ์
+        \item ผูก Event Click สำหรับเปิด/ปิด Modal
+        \item ผูก Event Change สำหรับ Input Fields ในฟอร์มจอง เพื่อเรียก \texttt{checkAvailability()} ทุกครั้งที่มีการเปลี่ยนข้อมูล
+        \item ผูก Event Submit สำหรับฟอร์มจอง
+    \end{enumerate}
+\end{enumerate}
+
+\subsubsection{ฟังก์ชัน fetchResources}
+ดึงข้อมูลเทรนเนอร์และอุปกรณ์ทั้งหมดมาเก็บไว้ในตัวแปร Global เพื่อใช้ในการสร้างตัวเลือกใน Dropdown
+
+\begin{lstlisting}[language=JavaScript, caption={ซอร์สโค้ดจากไฟล์ frontend/js/user/dashboard.js: ฟังก์ชัน fetchResources}, label={code:user-dash-fetch-resources}]
+async function fetchResources() {
+    try {
+        const [tRes, eRes] = await Promise.all([
+            fetch(`${API}/trainers`),
+            fetch(`${API}/equipments`)
+        ]);
+        allTrainers = await tRes.json();
+        allEquipments = await eRes.json();
+    } catch (error) {
+        console.error("Failed to fetch resources:", error);
+    }
+}
+\end{lstlisting}
+
+\textbf{คำอธิบายโค้ด:}
+\begin{enumerate}
+    \item \textbf{จุดประสงค์:} โหลดข้อมูล Master Data (Trainers, Equipments)
+    \item \textbf{ขั้นตอนการทำงาน:}
+    \begin{enumerate}
+        \item ใช้ \texttt{Promise.all} เพื่อยิง Request 2 ตัวพร้อมกัน (Parallel Fetching)
+        \item เก็บผลลัพธ์ลงในตัวแปร Global \texttt{allTrainers} และ \texttt{allEquipments}
+    \end{enumerate}
+\end{enumerate}
+
+\subsubsection{ฟังก์ชัน fetchSchedule}
+ดึงข้อมูลตารางการฝึกซ้อมของ "วันนี้" มาแสดงผล
+
+\begin{lstlisting}[language=JavaScript, caption={ซอร์สโค้ดจากไฟล์ frontend/js/user/dashboard.js: ฟังก์ชัน fetchSchedule}, label={code:user-dash-fetch-schedule}]
+async function fetchSchedule() {
+    try {
+        const res = await fetch(`${API}/sessions?today=true`); 
+        if (!res.ok) throw new Error('Failed to fetch schedule');
+        const sessions = await res.json();
+        renderSchedule(sessions);
+    } catch (error) {
+        console.error(error);
+        // Error handling UI...
+    }
+}
+\end{lstlisting}
+
+\textbf{คำอธิบายโค้ด:}
+\begin{enumerate}
+    \item \textbf{จุดประสงค์:} ดึงข้อมูล Session ของวันนี้
+    \item \textbf{ขั้นตอนการทำงาน:}
+    \begin{enumerate}
+        \item เรียก API \texttt{/sessions?today=true}
+        \item ส่งข้อมูลที่ได้ไปให้ฟังก์ชัน \texttt{renderSchedule} วาดตาราง
+    \end{enumerate}
+\end{enumerate}
+
+\subsubsection{ฟังก์ชัน renderSchedule}
+สร้าง HTML Table Rows จากข้อมูล Session โดยมีการแยกแยะระหว่าง Session ของผู้ใช้เองกับของผู้อื่น
+
+\begin{lstlisting}[language=JavaScript, caption={ซอร์สโค้ดจากไฟล์ frontend/js/user/dashboard.js: ฟังก์ชัน renderSchedule}, label={code:user-dash-render}]
+function renderSchedule(sessions) {
+    // ... (Get User ID from Session)
+    sessions.forEach(s => {
+        // ... (Date Formatting Logic)
+        
+        // Check if this session belongs to the current user
+        const customerId = s.customerId || (s.customer ? s.customer.id : null);
+        const isMySession = customerId === myId;
+        
+        // ... (Create TR element)
+        
+        if (isMySession) {
+            tr.className = "bg-accent/10 border-l-4 border-accent ...";
+            actionCell = `... My Booking ... Cancel Button ...`;
+        } else {
+            tr.className = "hover:bg-contrast ...";
+            actionCell = '<span class="...">Occupied</span>';
+        }
+        
+        // ... (Append to Tbody)
+    });
+}
+\end{lstlisting}
+
+\textbf{คำอธิบายโค้ด:}
+\begin{enumerate}
+    \item \textbf{จุดประสงค์:} แสดงผลตารางการฝึกซ้อม
+    \item \textbf{Input:} Array ของ Session Objects
+    \item \textbf{ขั้นตอนการทำงาน:}
+    \begin{enumerate}
+        \item วนลูปข้อมูลแต่ละ Session
+        \item ตรวจสอบว่าเป็นของผู้ใช้ปัจจุบันหรือไม่ (\texttt{isMySession})
+        \item หากใช่: ให้แสดงแถวสีพิเศษ (Highlight) และปุ่ม Cancel
+        \item หากไม่ใช่: ให้แสดงแถวปกติและขึ้นสถานะ Occupied
+    \end{enumerate}
+\end{enumerate}
+
+\subsubsection{ฟังก์ชัน checkAvailability}
+ตรวจสอบความว่างของเทรนเนอร์และอุปกรณ์ตามวันและเวลาที่เลือก
+
+\begin{lstlisting}[language=JavaScript, caption={ซอร์สโค้ดจากไฟล์ frontend/js/user/dashboard.js: ฟังก์ชัน checkAvailability}, label={code:user-dash-check-avail}]
+async function checkAvailability() {
+    // 1. Get Inputs
+    const dateVal = document.getElementById('book-date').value;
+    const timeVal = document.getElementById('book-time').value;
+    const durationVal = parseInt(document.getElementById('book-duration').value);
+
+    if (!dateVal || !timeVal) return;
+
+    // 2. Fetch Daily Sessions
+    const res = await fetch(`${API}/sessions?date=${dateVal}`);
+    dailySessions = await res.json();
+
+    // 3. Calculate Requested Time Window
+    const start = new Date(`${dateVal}T${timeVal}`);
+    const end = new Date(start.getTime() + durationVal * 60000);
+
+    // 4. Check Trainers Overlap
+    const trainerOptions = document.getElementById('book-trainer').options;
+    for (let i = 0; i < trainerOptions.length; i++) {
+        const trainerId = parseInt(trainerOptions[i].value);
+        const isBusy = dailySessions.some(s => {
+            if (s.trainerId !== trainerId) return false;
+            const sStart = new Date(s.sessionDate);
+            const sEnd = s.endDate ? new Date(s.endDate) : new Date(sStart.getTime() + 60*60000);
+            return (start < sEnd && end > sStart);
+        });
+
+        if (isBusy) {
+            trainerOptions[i].disabled = true;
+            trainerOptions[i].text += " (Busy)";
+        } else {
+            trainerOptions[i].disabled = false;
+        }
+    }
+    // ... (Same logic for Equipments)
+}
+\end{lstlisting}
+
+\textbf{คำอธิบายโค้ด:}
+\begin{enumerate}
+    \item \textbf{จุดประสงค์:} ป้องกันการเลือกเทรนเนอร์หรืออุปกรณ์ที่ไม่ว่าง
+    \item \textbf{ขั้นตอนการทำงาน:}
+    \begin{enumerate}
+        \item ดึงข้อมูลวัน เวลา และระยะเวลาที่ผู้ใช้เลือก
+        \item ดึงข้อมูลการจองทั้งหมดของ "วันที่เลือก" มาจาก Server
+        \item คำนวณช่วงเวลา Start-End ที่ผู้ใช้ต้องการจอง
+        \item วนลูปตรวจสอบเทรนเนอร์ทีละคนเทียบกับรายการจองที่มีอยู่
+        \item หากพบว่าช่วงเวลาทับซ้อนกัน (Overlap) ให้ Disable ตัวเลือกนั้นใน Dropdown
+    \end{enumerate}
+\end{enumerate}
+
+\subsubsection{ฟังก์ชัน handleBookingSubmit}
+จัดการการส่งฟอร์มการจองไปยัง Server
+
+\begin{lstlisting}[language=JavaScript, caption={ซอร์สโค้ดจากไฟล์ frontend/js/user/dashboard.js: ฟังก์ชัน handleBookingSubmit}, label={code:user-dash-submit}]
+async function handleBookingSubmit(e) {
+    e.preventDefault();
+    // ... (Validation)
+
+    const start = new Date(`${dateVal}T${timeVal}`);
+    
+    // Create UTC Date preserving local face value
+    const utcStart = new Date(Date.UTC(
+        start.getFullYear(), start.getMonth(), start.getDate(),
+        start.getHours(), start.getMinutes(), 0
+    ));
+
+    const payload = {
+        sessionDate: utcStart.toISOString(),
+        duration: parseInt(durationVal),
+        trainerId: parseInt(trainerId),
+        equipmentId: parseInt(equipmentId),
+        customerId: parseInt(customerId)
+    };
+
+    try {
+        const res = await fetch(`${API}/sessions`, {
+            method: 'POST',
+            body: JSON.stringify(payload)
+            // ...
+        });
+        // ... (Handle Success/Error)
+    } catch (error) { ... }
+}
+\end{lstlisting}
+
+\textbf{คำอธิบายโค้ด:}
+\begin{enumerate}
+    \item \textbf{จุดประสงค์:} บันทึกการจองใหม่ลงฐานข้อมูล
+    \item \textbf{ขั้นตอนการทำงาน:}
+    \begin{enumerate}
+        \item ตรวจสอบความครบถ้วนของข้อมูล
+        \item \begin{sloppypar}
+แปลงเวลา Local Time เป็น UTC (Fake UTC Strategy) เพื่อให้เวลาที่บันทึกตรงกับที่เลือก ไม่เพี้ยนตาม Timezone
+\end{sloppypar}
+        \item ส่ง POST Request ไปยัง API
+        \item แจ้งเตือนผลลัพธ์และรีเฟรชตาราง
+    \end{enumerate}
+\end{enumerate}
+
+% ==========================================================================================
+% FILE: frontend/views/index.ejs
+% ==========================================================================================
+
+\subsection{ไฟล์ frontend/views/index.ejs}
+
+\subsubsection{ภาพรวม (Overview)}
+\begin{sloppypar}
+ไฟล์ \texttt{frontend/views/index.ejs} คือหน้า Dashboard หลักสำหรับผู้ดูแลระบบ (Admin) ทำหน้าที่แสดงภาพรวมของระบบ เช่น สถิติสมาชิก, จำนวนเทรนเนอร์, อุปกรณ์, และเซสชันในวันนี้ รวมถึงแสดงตารางงาน (Schedule) ประจำวัน หน้าเว็บนี้ถูกออกแบบให้รองรับการแสดงผลบนมือถือ (Responsive Design) โดยใช้ Tailwind CSS
+\end{sloppypar}
+
+\subsubsection{ส่วนหัวและการนำทาง (Head and Navigation)}
+ส่วนนี้ประกอบด้วยการตั้งค่า Meta Tags, การนำเข้า Tailwind CSS และ Lucide Icons, รวมถึง Sidebar Navigation สำหรับ Desktop
+
+\begin{lstlisting}[language=HTML, caption={ซอร์สโค้ดจากไฟล์ frontend/views/index.ejs: Head and Sidebar}, label={code:views-index-head}]
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GymBro • Dashboard</title>
+  
+  <!-- Tailwind CSS via CDN for rapid prototyping/draft -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#0C2C55',
+            secondary: '#296374',
+            accent: '#629FAD',
+            contrast: '#EDEDCE',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- Google Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    /* Custom Scrollbar Styles */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #EDEDCE; }
+    ::-webkit-scrollbar-thumb { background: #296374; }
+  </style>
+</head>
+<body class="bg-contrast text-primary min-h-screen flex overflow-hidden">
+
+  <!-- Sidebar (Desktop) -->
+  <aside class="w-64 bg-primary text-contrast flex-shrink-0 flex flex-col border-r-4 border-accent hidden md:flex">
+    <div class="h-20 flex items-center justify-center border-b border-secondary">
+      <h1 class="text-3xl font-extrabold tracking-tighter uppercase italic">Gym<span class="text-accent">Bro</span></h1>
+    </div>
+
+    <nav class="flex-1 overflow-y-auto py-6">
+      <ul class="space-y-1">
+        <li>
+          <a href="/admin/dashboard" class="flex items-center gap-4 px-6 py-4 bg-secondary border-l-4 border-accent text-white font-bold uppercase tracking-wide transition-all">
+            <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <!-- Other Menu Items: Customers, Trainers, Equipments, Sessions, Logs -->
+        <li>
+            <button onclick="logout()" class="w-full text-left flex items-center gap-4 px-6 py-4 text-red-300 hover:bg-red-900/50 hover:text-red-100 font-semibold uppercase tracking-wide transition-all group">
+            <i data-lucide="log-out" class="w-5 h-5 group-hover:text-red-400 transition-colors"></i>
+            <span>Logout</span>
+          </button>
+        </li>
+      </ul>
+    </nav>
+    
+    <!-- Admin Profile Section -->
+    <div class="p-4 bg-secondary border-t border-primary">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-accent flex items-center justify-center text-primary font-bold text-lg">AD</div>
+        <div>
+          <p class="text-sm font-bold text-white">Admin User</p>
+          <p class="text-xs text-accent">Manager</p>
+        </div>
+      </div>
+    </div>
+  </aside>
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item \textbf{Tailwind Configuration}: มีการปรับแต่ง Theme ของ Tailwind โดยเพิ่มสีหลักของแบรนด์ (Primary, Secondary, Accent, Contrast) เพื่อให้การออกแบบเป็นไปในทิศทางเดียวกัน
+    \item \textbf{Sidebar}: แถบเมนูด้านซ้ายสำหรับ Desktop ซึ่งจะซ่อนเมื่อหน้าจอมีขนาดเล็ก (\texttt{hidden md:flex})
+    \item \textbf{Active State}: เมนู Dashboard มีการเน้นสีพื้นหลัง (\texttt{bg-secondary}) เพื่อแสดงว่าผู้ใช้กำลังอยู่ในหน้านี้
+\end{enumerate}
+
+\subsubsection{ส่วนเนื้อหาหลักและสคริปต์ (Main Content and Scripts)}
+ส่วนนี้ประกอบด้วย Mobile Header, Cards แสดงสถิติ, ตารางงาน, และ JavaScript สำหรับจัดการ UI
+
+\begin{lstlisting}[language=HTML, caption={ซอร์สโค้ดจากไฟล์ frontend/views/index.ejs: Main Content}, label={code:views-index-main}]
+  <!-- Main Content -->
+  <main class="flex-1 flex flex-col h-screen overflow-hidden relative">
+    
+    <!-- Mobile Header & Sidebar Overlay -->
+    <header class="h-16 bg-primary text-contrast flex items-center justify-between px-4 md:hidden shadow-lg z-10">
+      <button id="mobile-menu-btn" class="p-2 hover:bg-secondary text-white">
+        <i data-lucide="menu" class="w-6 h-6"></i>
+      </button>
+      <span class="font-bold uppercase tracking-wider">GymBro Dashboard</span>
+      <div class="w-8"></div>
+    </header>
+
+    <!-- Stats Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <!-- Stat Card: Members -->
+        <div class="bg-white border-2 border-primary p-6 shadow-[4px_4px_0px_0px_#0C2C55] hover:shadow-[6px_6px_0px_0px_#0C2C55] transition-all group">
+          <div class="flex justify-between items-start mb-4">
+            <div class="p-3 bg-secondary text-white"><i data-lucide="users" class="w-6 h-6"></i></div>
+            <span class="text-xs font-bold uppercase text-secondary bg-contrast px-2 py-1">Total</span>
+          </div>
+          <h3 class="text-3xl font-black text-primary" id="count-customers">0</h3>
+          <p class="text-sm font-bold text-gray-500 uppercase tracking-wide mt-1">Members</p>
+        </div>
+        <!-- Other cards: Trainers, Equipment, Sessions (Similar Structure) -->
+    </div>
+
+    <!-- Schedule Section -->
+    <div class="bg-white border-2 border-primary shadow-[8px_8px_0px_0px_#296374]">
+        <div class="bg-secondary p-4 flex justify-between items-center border-b-2 border-primary">
+          <h3 class="text-xl font-bold text-white uppercase tracking-wider flex items-center gap-2">
+            <i data-lucide="calendar" class="w-5 h-5 text-accent"></i>
+            Today's Schedule
+          </h3>
+          <button class="text-sm font-bold text-contrast hover:text-accent underline uppercase">View All</button>
+        </div>
+        
+        <div class="p-0 overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-gray-100 border-b-2 border-primary text-primary text-sm uppercase tracking-wider">
+                <th class="p-4 font-extrabold">Customer</th>
+                <th class="p-4 font-extrabold">Trainer</th>
+                <th class="p-4 font-extrabold">Activity/Equipment</th>
+                <th class="p-4 font-extrabold">Time</th>
+                <th class="p-4 font-extrabold text-center">Status</th>
+              </tr>
+            </thead>
+            <tbody id="today-sessions" class="divide-y-2 divide-gray-100 text-sm font-semibold text-secondary">
+              <!-- JS will populate this -->
+            </tbody>
+          </table>
+        </div>
+    </div>
+  </main>
+
+  <!-- Scripts -->
+  <script>
+    lucide.createIcons();
+    // ... (Mobile Sidebar Logic)
+  </script>
+  <script src="/js/config.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/index.js"></script>
+</body>
+</html>
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item \textbf{Mobile Responsiveness}: มีการใช้ Mobile Header และ Overlay Sidebar ที่จะทำงานเฉพาะในหน้าจอขนาดเล็ก
+    \item \textbf{Stats Cards}: การ์ดแสดงสถิติมีการใช้ \texttt{id} (เช่น \texttt{count-customers}) เพื่อให้ JavaScript สามารถดึงข้อมูลมาใส่ได้
+    \item \textbf{Script Loading}: มีการโหลด \texttt{config.js}, \texttt{auth.js}, และ \texttt{index.js} ตามลำดับ ซึ่งเป็นสิ่งสำคัญเพราะ \texttt{index.js} อาจต้องใช้ตัวแปรจากไฟล์ก่อนหน้า
+\end{enumerate}
+
+% ==========================================================================================
+% FILE: frontend/views/login.ejs
+% ==========================================================================================
+
+\subsection{ไฟล์ frontend/views/login.ejs}
+
+\subsubsection{ภาพรวม (Overview)}
+\begin{sloppypar}
+ไฟล์ \texttt{frontend/views/login.ejs} คือหน้าจอเข้าสู่ระบบ (Login Page) ซึ่งเป็นด่านแรกของผู้ใช้งานก่อนเข้าถึงระบบ GymBro หน้าเว็บนี้ถูกออกแบบด้วย Tailwind CSS โดยใช้สไตล์ที่เป็นเอกลักษณ์ (Bold/Brutalism Style) ที่เน้นเส้นขอบหนา สีสันที่ตัดกันชัดเจน และเงาแบบแข็ง (Hard Shadows) เพื่อสื่อถึงความแข็งแรงและทันสมัย
+\end{sloppypar}
+
+\subsubsection{การออกแบบและโครงสร้าง (Design \& Structure)}
+ส่วนนี้แสดงการตั้งค่า Theme สี และโครงสร้างหลักของหน้าเว็บที่จัดวางเนื้อหาให้อยู่กึ่งกลางหน้าจอ
+
+\begin{lstlisting}[language=HTML, caption={ซอร์สโค้ดจากไฟล์ frontend/views/login.ejs: Head and Container}, label={code:views-login-structure}]
+<!doctype html>
+<html lang="th">
+<head>
+  <!-- Meta Tags & Title -->
+  <title>GymBro • Login</title>
+  
+  <!-- Tailwind Configuration -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#0C2C55',
+            secondary: '#296374',
+            accent: '#629FAD',
+            contrast: '#EDEDCE',
+          },
+          // ... (Font & Border Radius Config)
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-primary flex items-center justify-center min-h-screen p-4">
+
+  <!-- Main Card Container -->
+  <div class="w-full max-w-md bg-contrast shadow-[8px_8px_0px_0px_#629FAD] border-4 border-secondary p-8 relative">
+    
+    <!-- Decorative Badge -->
+    <div class="absolute -top-6 -left-6 bg-accent text-primary px-4 py-2 font-black text-xl border-2 border-primary shadow-[4px_4px_0px_0px_#0C2C55]">
+      LOGIN
+    </div>
+
+    <!-- Header / Logo -->
+    <div class="text-center mb-8">
+      <h1 class="text-4xl font-extrabold text-primary uppercase italic tracking-tighter mb-2">Gym<span class="text-secondary">Bro</span></h1>
+      <p class="text-secondary font-bold text-sm uppercase tracking-widest">Queue Booking System</p>
+    </div>
+
+    <!-- Form Section (See next listing) -->
+    
+  </div>
+</body>
+</html>
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item \textbf{Flexbox Centering}: ใช้ \texttt{flex items-center justify-center min-h-screen} ที่ \texttt{body} เพื่อจัดให้การ์ด Login อยู่กึ่งกลางหน้าจอเสมอไม่ว่าหน้าจอจะมีขนาดเท่าไหร่
+    \item \textbf{Custom Shadow}: การใช้ \texttt{shadow-[8px\_8px\_0px\_0px\_...]} สร้างเงาแบบทึบและหนา ซึ่งเป็นเอกลักษณ์ของการออกแบบสไตล์นี้
+    \item \textbf{Absolute Positioning}: ป้าย "LOGIN" ถูกจัดวางด้วย \texttt{absolute} เพื่อให้ลอยออกมาจากกรอบหลัก สร้างมิติให้กับหน้าเว็บ
+\end{enumerate}
+
+\subsubsection{ฟอร์มการเข้าสู่ระบบ (Login Form)}
+ส่วนฟอร์มรับข้อมูลประกอบด้วยช่องกรอก Email และ Phone Number (ซึ่งใช้แทนรหัสผ่านในระบบนี้) รวมถึงส่วนแสดงข้อความแจ้งเตือนข้อผิดพลาด
+
+\begin{lstlisting}[language=HTML, caption={ซอร์สโค้ดจากไฟล์ frontend/views/login.ejs: Form Elements}, label={code:views-login-form}]
+    <form id="login-form" class="space-y-6">
+      <!-- Email Input -->
+      <div>
+        <label for="email" class="block text-primary font-bold uppercase text-sm mb-2">Email Address</label>
+        <div class="relative">
+          <input type="email" id="email" required 
+            class="w-full bg-white border-2 border-primary p-3 pl-10 font-bold focus:outline-none focus:border-accent placeholder-gray-400 text-primary"
+            placeholder="member@example.com">
+          <i data-lucide="mail" class="absolute left-3 top-3.5 w-5 h-5 text-secondary"></i>
+        </div>
+      </div>
+
+      <!-- Phone Input (Password) -->
+      <div>
+        <label for="phone" class="block text-primary font-bold uppercase text-sm mb-2">Phone Number (Password)</label>
+        <div class="relative">
+          <input type="password" id="phone" required 
+            class="w-full bg-white border-2 border-primary p-3 pl-10 font-bold focus:outline-none focus:border-accent placeholder-gray-400 text-primary"
+            placeholder="0812345678">
+          <i data-lucide="phone" class="absolute left-3 top-3.5 w-5 h-5 text-secondary"></i>
+        </div>
+      </div>
+
+      <!-- Error Message (Hidden by default) -->
+      <div id="error-message" class="hidden text-red-600 font-bold text-sm text-center bg-red-100 p-2 border-l-4 border-red-600">
+        Invalid credentials. Please try again.
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" 
+        class="w-full bg-primary text-contrast font-black uppercase py-4 hover:bg-secondary hover:shadow-[4px_4px_0px_0px_#629FAD] transition-all active:translate-y-1 active:shadow-none border-2 border-transparent flex items-center justify-center gap-2 text-lg tracking-wider">
+        <i data-lucide="log-in" class="w-5 h-5"></i> Sign In
+      </button>
+    </form>
+    
+    <!-- Scripts -->
+    <script src="/js/config.js"></script>
+    <script src="/js/auth.js"></script>
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item \textbf{Input Styling}: ช่องกรอกข้อมูลมีการใช้ \texttt{pl-10} (Padding Left) เพื่อเว้นที่สำหรับไอคอนด้านหน้า
+    \item \textbf{Error Handling}: \texttt{div id="error-message"} มีคลาส \texttt{hidden} อยู่เริ่มต้น และจะถูกแสดงผลด้วย JavaScript (ในไฟล์ \texttt{auth.js}) เมื่อการล็อกอินล้มเหลว
+    \item \textbf{Interactive Button}: ปุ่ม Submit มี Effect เมื่อเอาเมาส์ไปวาง (\texttt{hover}) และเมื่อกด (\texttt{active}) เพื่อให้ผู้ใช้รู้สึกถึงการตอบสนอง
+    \item \textbf{JavaScript Integration}: ไฟล์นี้โหลด \texttt{auth.js} ซึ่งเป็นหัวใจสำคัญในการจัดการ Logic การส่งข้อมูลฟอร์มไปยัง Server
+\end{enumerate}
+
+% ==========================================================================================
+% FILE: frontend/views/register.ejs
+% ==========================================================================================
+
+\subsection{ไฟล์ frontend/views/register.ejs}
+
+\subsubsection{ภาพรวม (Overview)}
+\begin{sloppypar}
+ไฟล์ \texttt{frontend/views/register.ejs} คือหน้าลงทะเบียนสมาชิกใหม่ (Member Registration) หน้าเว็บนี้ยังคงใช้การออกแบบสไตล์ Brutalism ที่สอดคล้องกับหน้า Login แต่มีการปรับเปลี่ยนเนื้อหาภายในฟอร์มให้เหมาะสมกับการเก็บข้อมูลส่วนตัวเบื้องต้นของผู้ใช้
+\end{sloppypar}
+
+\subsubsection{ฟอร์มลงทะเบียน (Registration Form)}
+ฟอร์มนี้รับข้อมูลสำคัญ 3 ส่วน ได้แก่ ชื่อ-นามสกุล, อีเมล, และเบอร์โทรศัพท์ (ซึ่งใช้เป็นรหัสผ่าน)
+
+\begin{lstlisting}[language=HTML, caption={ซอร์สโค้ดจากไฟล์ frontend/views/register.ejs: Registration Form}, label={code:views-register-form}]
+    <form id="register-form" class="space-y-4">
+      <!-- Full Name -->
+      <div>
+        <label for="fullName" class="block text-primary font-bold uppercase text-xs mb-1">Full Name</label>
+        <input type="text" id="fullName" required 
+          class="w-full bg-white border-2 border-primary p-2 font-bold focus:outline-none focus:border-accent text-primary"
+          placeholder="John Doe">
+      </div>
+
+      <!-- Email -->
+      <div>
+        <label for="email" class="block text-primary font-bold uppercase text-xs mb-1">Email Address</label>
+        <input type="email" id="email" required 
+          class="w-full bg-white border-2 border-primary p-2 font-bold focus:outline-none focus:border-accent text-primary"
+          placeholder="member@example.com">
+      </div>
+
+      <!-- Phone (Password) -->
+      <div>
+        <label for="phone" class="block text-primary font-bold uppercase text-xs mb-1">Phone Number (Password)</label>
+        <input type="tel" id="phone" required 
+          class="w-full bg-white border-2 border-primary p-2 font-bold focus:outline-none focus:border-accent text-primary"
+          placeholder="0812345678">
+      </div>
+      
+      <!-- Error Message Area -->
+      <div id="error-message" class="hidden text-red-600 font-bold text-xs text-center bg-red-100 p-2 border-l-4 border-red-600">
+        Registration failed.
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" 
+        class="w-full bg-primary text-contrast font-black uppercase py-3 hover:bg-secondary hover:shadow-[4px_4px_0px_0px_#629FAD] transition-all active:translate-y-1 active:shadow-none border-2 border-transparent flex items-center justify-center gap-2 text-md tracking-wider mt-4">
+        <i data-lucide="user-plus" class="w-5 h-5"></i> Create Account
+      </button>
+    </form>
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item \textbf{Input Types}: มีการใช้ \texttt{type="tel"} สำหรับเบอร์โทรศัพท์เพื่อให้คีย์บอร์ดบนมือถือแสดงผลตัวเลขได้สะดวกขึ้น
+    \item \textbf{Compact Design}: ใช้ \texttt{text-xs} และ \texttt{p-2} เพื่อให้ฟอร์มดูกระชับและไม่กินพื้นที่หน้าจอมากเกินไป
+\end{enumerate}
+
+\subsubsection{สคริปต์การจัดการการลงทะเบียน (Registration Script)}
+เนื่องจากหน้านี้มีการทำงานที่ไม่ซับซ้อนมาก จึงมีการฝัง Script ไว้ภายในไฟล์โดยตรง (Inline Script) เพื่อจัดการการส่งข้อมูลไปยัง API
+
+\begin{lstlisting}[language=JavaScript, caption={ซอร์สโค้ดจากไฟล์ frontend/views/register.ejs: Inline Script}, label={code:views-register-script}]
+  <script src="/js/config.js"></script>
+  <script>
+    lucide.createIcons();
+    
+    const form = document.getElementById('register-form');
+    const errorMsg = document.getElementById('error-message');
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        errorMsg.classList.add('hidden');
+        
+        const fullName = document.getElementById('fullName').value;
+        const email = document.getElementById('email').value;
+        const phone = document.getElementById('phone').value;
+
+        try {
+            const res = await fetch(`${window.API}/register`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ fullName, email, phone })
+            });
+
+            if (res.ok) {
+                alert('Registration successful! Please login.');
+                window.location.href = '/login';
+            } else {
+                const data = await res.json();
+                errorMsg.textContent = data.error || 'Registration failed.';
+                errorMsg.classList.remove('hidden');
+            }
+        } catch (error) {
+            console.error(error);
+            errorMsg.textContent = 'Network error. Please try again.';
+            errorMsg.classList.remove('hidden');
+        }
+    });
+  </script>
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item \textbf{Config Import}: นำเข้า \texttt{config.js} เพื่อให้สามารถเข้าถึงตัวแปร \texttt{window.API} ได้
+    \item \textbf{Form Submission}: ดักจับ Event \texttt{submit} ป้องกันการ Refresh หน้าจอ และส่งข้อมูล JSON ไปยัง Endpoint \texttt{/register}
+    \item \textbf{Success Handling}: หากสมัครสำเร็จ จะแสดง Alert แจ้งเตือนและ Redirect ไปยังหน้า Login
+    \item \textbf{Error Handling}: หากสมัครไม่สำเร็จ จะดึงข้อความ Error จาก Server มาแสดงในพื้นที่ที่เตรียมไว้
+\end{enumerate}
+
+% ==========================================================================================
+% FILE: frontend/views/customers.ejs
+% ==========================================================================================
+
+\subsection{ไฟล์ frontend/views/customers.ejs}
+
+\subsubsection{ภาพรวม (Overview)}
+ไฟล์ \texttt{frontend/views/customers.ejs} คือหน้าจอสำหรับผู้ดูแลระบบ (Admin) เพื่อใช้ในการบริหารจัดการข้อมูลสมาชิก (Member Management) หน้าจอนี้ประกอบด้วยฟอร์มสำหรับเพิ่มสมาชิกใหม่ และตารางแสดงรายชื่อสมาชิกทั้งหมดในระบบ รวมถึงสถานะและระดับสมาชิก (Member Level) โดยมีการออกแบบให้รองรับการใช้งานบนอุปกรณ์ทุกขนาด (Responsive Design)
+
+\subsubsection{การนำทางและสถานะเมนู (Navigation State)}
+ในหน้านี้ เมนู "Customers" ใน Sidebar จะถูกเน้น (Active State) เพื่อให้ผู้ใช้ทราบว่ากำลังใช้งานอยู่ในส่วนใด
+
+\begin{lstlisting}[language=HTML, caption={ซอร์สโค้ดจากไฟล์ frontend/views/customers.ejs: Sidebar Navigation}, label={code:views-customers-nav}]
+<!-- Sidebar Navigation Item for Customers -->
+<li>
+  <a href="/admin/customers" class="flex items-center gap-4 px-6 py-4 bg-secondary border-l-4 border-accent text-white font-bold uppercase tracking-wide transition-all">
+    <i data-lucide="users" class="w-5 h-5"></i>
+    <span>Customers</span>
+  </a>
+</li>
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item \textbf{Active State}: ลิงก์ไปยัง \texttt{/admin/customers} จะมีคลาส \texttt{bg-secondary} และ \texttt{border-l-4 border-accent} ซึ่งแตกต่างจากเมนูอื่นๆ ที่เป็นสีเทาและไม่มีขอบซ้ายสีฟ้า
+\end{enumerate}
+
+\subsubsection{ฟอร์มเพิ่มสมาชิกใหม่ (Add Member Form)}
+ส่วนนี้เป็นฟอร์มสำหรับลงทะเบียนสมาชิกใหม่ ถูกออกแบบโดยใช้ Grid Layout เพื่อให้แสดงผลได้สวยงามและเป็นระเบียบ
+
+\begin{lstlisting}[language=HTML, caption={ซอร์สโค้ดจากไฟล์ frontend/views/customers.ejs: Add Member Form}, label={code:views-customers-form}]
+<!-- Add Customer Form -->
+<div class="bg-white border-2 border-primary p-6 mb-8 shadow-[4px_4px_0px_0px_#0C2C55]">
+  <h3 class="text-xl font-bold uppercase mb-4 flex items-center gap-2">
+    <i data-lucide="user-plus" class="w-5 h-5 text-accent"></i> Add New Member
+  </h3>
+  <form id="customer-form" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <!-- Full Name Input -->
+    <input id="name" placeholder="Full Name" required class="border-2 border-primary p-3 font-bold focus:outline-none focus:border-accent placeholder-gray-400">
+    
+    <!-- Email Input -->
+    <input id="email" placeholder="Email" required type="email" class="border-2 border-primary p-3 font-bold focus:outline-none focus:border-accent placeholder-gray-400">
+    
+    <!-- Phone Input -->
+    <input id="phone" placeholder="Phone" class="border-2 border-primary p-3 font-bold focus:outline-none focus:border-accent placeholder-gray-400">
+    
+    <!-- Member Type Select -->
+    <select id="memberType" required class="border-2 border-primary p-3 font-bold focus:outline-none focus:border-accent bg-white">
+      <option value="Standard">Standard</option>
+      <option value="Premium">Premium</option>
+      <option value="VIP">VIP</option>
+    </select>
+    
+    <!-- Member Level Select -->
+    <select id="memberLevel" required class="border-2 border-primary p-3 font-bold focus:outline-none focus:border-accent bg-white">
+      <option value="Basic">Basic</option>
+      <option value="Silver">Silver</option>
+      <option value="Gold">Gold</option>
+    </select>
+    
+    <!-- Start Date -->
+    <div class="flex flex-col">
+      <label class="text-xs font-bold uppercase text-secondary mb-1">Start Date</label>
+      <input id="memberStartDate" type="date" required class="border-2 border-primary p-2 font-bold focus:outline-none focus:border-accent">
+    </div>
+    
+    <!-- End Date -->
+    <div class="flex flex-col">
+      <label class="text-xs font-bold uppercase text-secondary mb-1">End Date</label>
+      <input id="memberEndDate" type="date" class="border-2 border-primary p-2 font-bold focus:outline-none focus:border-accent">
+    </div>
+    
+    <!-- Submit Button -->
+    <button type="submit" class="bg-primary text-contrast font-bold uppercase hover:bg-secondary hover:shadow-[2px_2px_0px_0px_#629FAD] transition-all active:translate-y-1 active:shadow-none border-2 border-transparent h-full flex items-center justify-center gap-2">
+      <i data-lucide="save" class="w-4 h-4"></i> Save Member
+    </button>
+  </form>
+</div>
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item \textbf{Grid System}: ใช้ \texttt{grid-cols-1} สำหรับมือถือ, \texttt{md:grid-cols-2} สำหรับแท็บเล็ต, และ \texttt{lg:grid-cols-4} สำหรับหน้าจอคอมพิวเตอร์ เพื่อให้การจัดวางฟอร์มมีความยืดหยุ่น
+    \item \textbf{Input Styling}: ฟิลด์กรอกข้อมูลมีขอบหนา (\texttt{border-2}) และเปลี่ยนสีขอบเมื่อ Focus (\texttt{focus:border-accent}) เพื่อความชัดเจนในการใช้งาน
+\end{enumerate}
+
+\subsubsection{ตารางรายชื่อสมาชิก (Member List Table)}
+ส่วนแสดงผลข้อมูลสมาชิกทั้งหมดในรูปแบบตาราง ซึ่งจะถูกเติมข้อมูลโดย JavaScript
+
+\begin{lstlisting}[language=HTML, caption={ซอร์สโค้ดจากไฟล์ frontend/views/customers.ejs: Member List Table}, label={code:views-customers-table}]
+<!-- Customer List -->
+<div class="bg-white border-2 border-primary shadow-[8px_8px_0px_0px_#296374]">
+  <div class="bg-secondary p-4 border-b-2 border-primary">
+    <h3 class="text-xl font-bold text-white uppercase tracking-wider flex items-center gap-2">
+      <i data-lucide="users" class="w-5 h-5 text-accent"></i> Member List
+    </h3>
+  </div>
+  <div class="overflow-x-auto">
+    <table class="w-full text-left border-collapse">
+      <thead>
+        <tr class="bg-gray-100 border-b-2 border-primary text-primary text-sm uppercase tracking-wider">
+          <th class="p-4 font-extrabold">ID</th>
+          <th class="p-4 font-extrabold">Name</th>
+          <th class="p-4 font-extrabold">Contact</th>
+          <th class="p-4 font-extrabold">Type/Level</th>
+          <th class="p-4 font-extrabold">Dates</th>
+          <th class="p-4 font-extrabold text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody id="customers-table" class="divide-y-2 divide-gray-100 text-sm font-semibold text-secondary">
+        <!-- JS Populated -->
+      </tbody>
+    </table>
+  </div>
+</div>
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item \textbf{Table Structure}: โครงสร้างตารางมาตรฐานที่มีส่วนหัว (Thead) และส่วนเนื้อหา (Tbody)
+    \item \textbf{JavaScript Integration}: \texttt{tbody id="customers-table"} ถูกเตรียมไว้สำหรับให้ JavaScript (\texttt{customers.js}) เข้ามาจัดการ DOM เพื่อแสดงรายการสมาชิก
+\end{enumerate}
+
+\subsubsection{การนำเข้าสคริปต์ (Script Imports)}
+ไฟล์นี้มีการนำเข้าไฟล์ JavaScript ที่จำเป็นสำหรับการทำงาน
+
+\begin{lstlisting}[language=HTML, caption={ซอร์สโค้ดจากไฟล์ frontend/views/customers.ejs: Scripts}, label={code:views-customers-scripts}]
+<script src="/js/config.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/customers.js"></script>
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item \texttt{config.js}: สำหรับการตั้งค่า API Base URL
+    \item \texttt{auth.js}: สำหรับตรวจสอบสิทธิ์การเข้าใช้งานของผู้ดูแลระบบ
+    \item \texttt{customers.js}: สคริปต์หลักสำหรับจัดการ Logic ของหน้า Customers (เช่น การดึงข้อมูลสมาชิก, การเพิ่มสมาชิกใหม่, การลบสมาชิก)
+\end{enumerate}
+
+% ==========================================================================================
+% FILE: frontend/views/equipments.ejs
+% ==========================================================================================
+
+\subsection{ไฟล์ frontend/views/equipments.ejs}
+
+\subsubsection{ภาพรวม (Overview)}
+ไฟล์ \texttt{frontend/views/equipments.ejs} คือหน้าจอสำหรับผู้ดูแลระบบ (Admin) เพื่อใช้ในการบริหารจัดการข้อมูลอุปกรณ์ออกกำลังกายภายในยิม (Equipment Management) ผู้ดูแลระบบสามารถเพิ่มอุปกรณ์ใหม่ แก้ไขสถานะของอุปกรณ์ (เช่น พร้อมใช้งาน หรือ ปิดปรับปรุง) และดูรายการอุปกรณ์ทั้งหมดที่มีอยู่ในระบบได้
+
+\subsubsection{การนำทางและสถานะเมนู (Navigation State)}
+ในหน้านี้ เมนู "Equipment" ใน Sidebar จะถูกเน้น (Active State) ด้วยแถบสีพื้นหลังและขอบด้านซ้าย
+
+\begin{lstlisting}[language=HTML, caption={ซอร์สโค้ดจากไฟล์ frontend/views/equipments.ejs: Sidebar Navigation}, label={code:views-equipments-nav}]
+<!-- Sidebar Navigation Item for Equipment -->
+<li>
+  <a href="/admin/equipments" class="flex items-center gap-4 px-6 py-4 bg-secondary border-l-4 border-accent text-white font-bold uppercase tracking-wide transition-all">
+    <i data-lucide="monitor-smartphone" class="w-5 h-5"></i>
+    <span>Equipment</span>
+  </a>
+</li>
+\end{lstlisting}
+
+\subsubsection{ฟอร์มเพิ่มอุปกรณ์ใหม่ (Add Equipment Form)}
+ฟอร์มสำหรับเพิ่มข้อมูลอุปกรณ์ใหม่ โดยมีการเลือกสถานะเริ่มต้นได้ (Available หรือ Maintenance)
+
+\begin{lstlisting}[language=HTML, caption={ซอร์สโค้ดจากไฟล์ frontend/views/equipments.ejs: Add Equipment Form}, label={code:views-equipments-form}]
+<!-- Add Equipment Form -->
+<div class="bg-white border-2 border-primary p-6 mb-8 shadow-[4px_4px_0px_0px_#0C2C55]">
+  <h3 class="text-xl font-bold uppercase mb-4 flex items-center gap-2">
+    <i data-lucide="plus-square" class="w-5 h-5 text-accent"></i> Add New Equipment
+  </h3>
+  <form id="equipment-form" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <!-- Equipment Name -->
+    <input id="name" placeholder="Equipment Name" required class="border-2 border-primary p-3 font-bold focus:outline-none focus:border-accent placeholder-gray-400">
+    
+    <!-- Category -->
+    <input id="category" placeholder="Category" class="border-2 border-primary p-3 font-bold focus:outline-none focus:border-accent placeholder-gray-400">
+    
+    <!-- Status Select -->
+    <select id="status" required class="border-2 border-primary p-3 font-bold focus:outline-none focus:border-accent bg-white">
+      <option value="Available">Available</option>
+      <option value="Maintenance">Maintenance</option>
+    </select>
+    
+    <!-- Save Button -->
+    <button type="submit" class="bg-primary text-contrast font-bold uppercase hover:bg-secondary hover:shadow-[2px_2px_0px_0px_#629FAD] transition-all active:translate-y-1 active:shadow-none border-2 border-transparent h-full flex items-center justify-center gap-2">
+      <i data-lucide="save" class="w-4 h-4"></i> Save Equipment
+    </button>
+  </form>
+</div>
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item \textbf{Status Selection}: มี Dropdown สำหรับเลือกสถานะของอุปกรณ์ ซึ่งสำคัญต่อการจองคลาส (Session) เพราะอุปกรณ์ที่อยู่ในสถานะ \texttt{Maintenance} จะไม่สามารถถูกจองได้
+\end{enumerate}
+
+\subsubsection{ตารางรายการอุปกรณ์ (Equipment Inventory Table)}
+ส่วนแสดงรายการอุปกรณ์ทั้งหมด พร้อมปุ่มสำหรับดำเนินการ (Actions) เช่น การลบหรือแก้ไข
+
+\begin{lstlisting}[language=HTML, caption={ซอร์สโค้ดจากไฟล์ frontend/views/equipments.ejs: Equipment Table}, label={code:views-equipments-table}]
+<!-- Equipment List -->
+<div class="bg-white border-2 border-primary shadow-[8px_8px_0px_0px_#296374]">
+  <div class="bg-secondary p-4 border-b-2 border-primary">
+    <h3 class="text-xl font-bold text-white uppercase tracking-wider flex items-center gap-2">
+      <i data-lucide="monitor-smartphone" class="w-5 h-5 text-accent"></i> Equipment Inventory
+    </h3>
+  </div>
+  <div class="overflow-x-auto">
+    <table class="w-full text-left border-collapse">
+      <thead>
+        <tr class="bg-gray-100 border-b-2 border-primary text-primary text-sm uppercase tracking-wider">
+          <th class="p-4 font-extrabold">ID</th>
+          <th class="p-4 font-extrabold">Name</th>
+          <th class="p-4 font-extrabold">Category</th>
+          <th class="p-4 font-extrabold">Status</th>
+          <th class="p-4 font-extrabold text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody id="equipments-table" class="divide-y-2 divide-gray-100 text-sm font-semibold text-secondary">
+        <!-- JS Populated -->
+      </tbody>
+    </table>
+  </div>
+</div>
+\end{lstlisting}
+
+\subsubsection{การนำเข้าสคริปต์ (Script Imports)}
+\begin{lstlisting}[language=HTML, caption={ซอร์สโค้ดจากไฟล์ frontend/views/equipments.ejs: Scripts}, label={code:views-equipments-scripts}]
+<script src="/js/config.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/equipments.js"></script>
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item \texttt{equipments.js}: ไฟล์ JavaScript หลักที่รับผิดชอบการดึงข้อมูลอุปกรณ์จาก API มาแสดงในตาราง และจัดการการส่งฟอร์มเพิ่มอุปกรณ์
+\end{enumerate}
+
+% ==========================================================================================
+% FILE: frontend/views/trainers.ejs
+% ==========================================================================================
+
+\subsection{ไฟล์ frontend/views/trainers.ejs}
+
+\subsubsection{ภาพรวม (Overview)}
+ไฟล์ \texttt{frontend/views/trainers.ejs} คือหน้าจอสำหรับผู้ดูแลระบบ (Admin) เพื่อใช้ในการบริหารจัดการข้อมูลเทรนเนอร์ (Trainer Management) หน้าจอนี้ช่วยให้แอดมินสามารถเพิ่มรายชื่อเทรนเนอร์ใหม่ ระบุความเชี่ยวชาญ (Specialty) และระดับความสามารถ (Level) รวมถึงดูรายชื่อเทรนเนอร์ทั้งหมดที่มีในระบบได้
+
+\subsubsection{การนำทางและสถานะเมนู (Navigation State)}
+ในหน้านี้ เมนู "Trainers" ใน Sidebar จะถูกเน้น (Active State) เพื่อให้ผู้ใช้ทราบตำแหน่งปัจจุบันของตนเองในระบบ
+
+\begin{lstlisting}[language=HTML, caption={ซอร์สโค้ดจากไฟล์ frontend/views/trainers.ejs: Sidebar Navigation}, label={code:views-trainers-nav}]
+<!-- Sidebar Navigation Item for Trainers -->
+<li>
+  <a href="/admin/trainers" class="flex items-center gap-4 px-6 py-4 bg-secondary border-l-4 border-accent text-white font-bold uppercase tracking-wide transition-all">
+    <i data-lucide="dumbbell" class="w-5 h-5"></i>
+    <span>Trainers</span>
+  </a>
+</li>
+\end{lstlisting}
+
+\subsubsection{ฟอร์มเพิ่มเทรนเนอร์ใหม่ (Add Trainer Form)}
+ฟอร์มสำหรับเพิ่มข้อมูลเทรนเนอร์ ประกอบด้วยชื่อ ความเชี่ยวชาญ ระดับ และเบอร์โทรศัพท์
+
+\begin{lstlisting}[language=HTML, caption={ซอร์สโค้ดจากไฟล์ frontend/views/trainers.ejs: Add Trainer Form}, label={code:views-trainers-form}]
+<!-- Add Trainer Form -->
+<div class="bg-white border-2 border-primary p-6 mb-8 shadow-[4px_4px_0px_0px_#0C2C55]">
+  <h3 class="text-xl font-bold uppercase mb-4 flex items-center gap-2">
+    <i data-lucide="user-plus" class="w-5 h-5 text-accent"></i> Add New Trainer
+  </h3>
+  <form id="trainer-form" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+    <!-- Name Input -->
+    <input id="name" placeholder="Trainer Name" required class="border-2 border-primary p-3 font-bold focus:outline-none focus:border-accent placeholder-gray-400">
+    
+    <!-- Specialty Input -->
+    <input id="specialty" placeholder="Specialty (e.g. Yoga, Cardio)" class="border-2 border-primary p-3 font-bold focus:outline-none focus:border-accent placeholder-gray-400">
+    
+    <!-- Level Select -->
+    <select id="trainerLevel" required class="border-2 border-primary p-3 font-bold focus:outline-none focus:border-accent bg-white">
+      <option value="Junior">Junior</option>
+      <option value="Senior">Senior</option>
+      <option value="Master">Master</option>
+    </select>
+    
+    <!-- Phone Input -->
+    <input id="phone" placeholder="Phone Number" class="border-2 border-primary p-3 font-bold focus:outline-none focus:border-accent placeholder-gray-400">
+
+    <!-- Submit Button -->
+    <button type="submit" class="bg-primary text-contrast font-bold uppercase hover:bg-secondary hover:shadow-[2px_2px_0px_0px_#629FAD] transition-all active:translate-y-1 active:shadow-none border-2 border-transparent h-full flex items-center justify-center gap-2">
+      <i data-lucide="save" class="w-4 h-4"></i> Save Trainer
+    </button>
+  </form>
+</div>
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item \textbf{Grid Layout}: ใช้ \texttt{lg:grid-cols-5} เพื่อจัดเรียง Input Fields และปุ่ม Submit ให้อยู่ในแถวเดียวกันบนหน้าจอขนาดใหญ่
+    \item \textbf{Trainer Level}: มี Dropdown ให้เลือกตําแหน่งของเทรนเนอร์ (Junior, Senior, Master) ซึ่งอาจมีผลต่อราคาหรือสิทธิ์ในการสอน
+\end{enumerate}
+
+\subsubsection{ตารางรายชื่อเทรนเนอร์ (Trainers Roster)}
+ส่วนแสดงรายชื่อเทรนเนอร์ทั้งหมดในรูปแบบตาราง
+
+\begin{lstlisting}[language=HTML, caption={ซอร์สโค้ดจากไฟล์ frontend/views/trainers.ejs: Trainers Table}, label={code:views-trainers-table}]
+<!-- Trainers List -->
+<div class="bg-white border-2 border-primary shadow-[8px_8px_0px_0px_#296374]">
+  <div class="bg-secondary p-4 border-b-2 border-primary">
+    <h3 class="text-xl font-bold text-white uppercase tracking-wider flex items-center gap-2">
+      <i data-lucide="dumbbell" class="w-5 h-5 text-accent"></i> Trainers Roster
+    </h3>
+  </div>
+  <div class="overflow-x-auto">
+    <table class="w-full text-left border-collapse">
+      <thead>
+        <tr class="bg-gray-100 border-b-2 border-primary text-primary text-sm uppercase tracking-wider">
+          <th class="p-4 font-extrabold">ID</th>
+          <th class="p-4 font-extrabold">Name</th>
+          <th class="p-4 font-extrabold">Specialty</th>
+          <th class="p-4 font-extrabold">Level</th>
+          <th class="p-4 font-extrabold">Phone</th>
+          <th class="p-4 font-extrabold text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody id="trainers-table" class="divide-y-2 divide-gray-100 text-sm font-semibold text-secondary">
+        <!-- JS Populated -->
+      </tbody>
+    </table>
+  </div>
+</div>
+\end{lstlisting}
+
+\subsubsection{การนำเข้าสคริปต์ (Script Imports)}
+\begin{lstlisting}[language=HTML, caption={ซอร์สโค้ดจากไฟล์ frontend/views/trainers.ejs: Scripts}, label={code:views-trainers-scripts}]
+<script src="/js/config.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/trainers.js"></script>
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item \texttt{trainers.js}: ไฟล์ JavaScript สำหรับจัดการการดึงข้อมูลและบันทึกข้อมูลเทรนเนอร์
+\end{enumerate}
+
+
+% ==========================================================================================
+% FILE: frontend/views/sessions.ejs
+% ==========================================================================================
+\subsection{ไฟล์ frontend/views/sessions.ejs}
+หน้าเว็บสำหรับผู้ดูแลระบบ (Admin) เพื่อจัดการการจองเซสชันการฝึกซ้อม (Sessions)
+
+\subsubsection{ส่วนหัวและสไตล์ (Head and Styles)}
+กำหนด Meta tags, นำเข้า Tailwind CSS, Google Fonts, Lucide Icons และกำหนดสไตล์เพิ่มเติม
+
+\begin{lstlisting}[language=HTML, caption={ซอร์สโค้ดจากไฟล์ frontend/views/sessions.ejs: Head Section}, label={code:views-sessions-head}]
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GymBro • Sessions</title>
+  
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#0C2C55',
+            secondary: '#296374',
+            accent: '#629FAD',
+            contrast: '#EDEDCE',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          borderRadius: {
+            DEFAULT: '0px',
+            'none': '0px',
+            'sm': '0px',
+            'md': '0px',
+            'lg': '0px',
+            'xl': '0px',
+            '2xl': '0px',
+            '3xl': '0px',
+            'full': '0px',
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #EDEDCE; }
+    ::-webkit-scrollbar-thumb { background: #296374; }
+    ::-webkit-scrollbar-thumb:hover { background: #0C2C55; }
+  </style>
+</head>
+<body class="bg-contrast text-primary min-h-screen flex overflow-hidden">
+\end{lstlisting}
+
+\subsubsection{แถบนำทาง (Sidebar Navigation)}
+แถบเมนูด้านซ้ายสำหรับผู้ดูแลระบบ ซึ่งมีการเน้นเมนู "Sessions" เพื่อแสดงสถานะหน้าปัจจุบัน
+
+\begin{lstlisting}[language=HTML, caption={ซอร์สโค้ดจากไฟล์ frontend/views/sessions.ejs: Sidebar}, label={code:views-sessions-sidebar}]
+  <!-- Sidebar -->
+  <aside class="w-64 bg-primary text-contrast flex-shrink-0 flex flex-col border-r-4 border-accent hidden md:flex">
+    <div class="h-20 flex items-center justify-center border-b border-secondary">
+      <h1 class="text-3xl font-extrabold tracking-tighter uppercase italic">Gym<span class="text-accent">Bro</span></h1>
+    </div>
+    <nav class="flex-1 overflow-y-auto py-6">
+      <ul class="space-y-1">
+        <!-- Other menu items omitted for brevity -->
+        <li>
+          <a href="/admin/sessions" class="flex items-center gap-4 px-6 py-4 bg-secondary border-l-4 border-accent text-white font-bold uppercase tracking-wide transition-all">
+            <i data-lucide="calendar-check" class="w-5 h-5"></i>
+            <span>Sessions</span>
+          </a>
+        </li>
+        <!-- Other menu items omitted for brevity -->
+      </ul>
+    </nav>
+    <!-- Admin Profile Section -->
+  </aside>
+\end{lstlisting}
+
+\subsubsection{ส่วนเนื้อหาหลักและฟอร์มการจอง (Main Content \& Booking Form)}
+ส่วนแสดงหัวข้อหน้าและฟอร์มสำหรับสร้างการจองเซสชันใหม่ โดยมีการเลือก Customer, Trainer, Equipment และเวลา
+
+\begin{lstlisting}[language=HTML, caption={ซอร์สโค้ดจากไฟล์ frontend/views/sessions.ejs: Booking Form}, label={code:views-sessions-form}]
+    <!-- Content Area -->
+    <div class="flex-1 overflow-y-auto p-4 md:p-8 bg-contrast relative">
+      
+      <div class="mb-8 border-b-4 border-primary pb-4">
+        <h2 class="text-4xl font-extrabold text-primary uppercase tracking-tighter">Training Sessions</h2>
+        <p class="text-secondary font-medium mt-1">Schedule and manage training sessions.</p>
+      </div>
+
+      <!-- Add Session Form -->
+      <div class="bg-white border-2 border-primary p-6 mb-8 shadow-[4px_4px_0px_0px_#0C2C55]">
+        <h3 class="text-xl font-bold uppercase mb-4 flex items-center gap-2">
+          <i data-lucide="calendar-plus" class="w-5 h-5 text-accent"></i> Book Session
+        </h3>
+        <form id="session-form" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+          <select id="customer" required class="border-2 border-primary p-3 font-bold focus:outline-none focus:border-accent bg-white">
+            <option value="" disabled selected>Select Customer</option>
+          </select>
+          <select id="trainer" required class="border-2 border-primary p-3 font-bold focus:outline-none focus:border-accent bg-white">
+            <option value="" disabled selected>Select Trainer</option>
+          </select>
+          <select id="equipment" required class="border-2 border-primary p-3 font-bold focus:outline-none focus:border-accent bg-white">
+            <option value="" disabled selected>Select Equipment</option>
+          </select>
+          <input id="scheduled_at" type="datetime-local" required class="border-2 border-primary p-3 font-bold focus:outline-none focus:border-accent">
+          
+          <button type="submit" class="bg-primary text-contrast font-bold uppercase hover:bg-secondary hover:shadow-[2px_2px_0px_0px_#629FAD] transition-all active:translate-y-1 active:shadow-none border-2 border-transparent h-full flex items-center justify-center gap-2">
+            <i data-lucide="check-circle" class="w-4 h-4"></i> Book Now
+          </button>
+        </form>
+      </div>
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item \textbf{Form Controls}: ใช้ \texttt{select} สำหรับเลือกข้อมูล Customer, Trainer และ Equipment ซึ่งข้อมูลใน Dropdown จะถูกดึงมาจาก API
+    \item \textbf{Date Selection}: ใช้ \texttt{input type="datetime-local"} เพื่อให้ผู้ดูแลระบบสามารถระบุวันและเวลาที่ต้องการจองได้ในคราวเดียว
+    \item \textbf{Layout}: ใช้ \texttt{grid-cols-5} จัดเรียงองค์ประกอบให้สวยงามบนหน้าจอขนาดใหญ่
+\end{enumerate}
+
+\subsubsection{ตารางรายการเซสชัน (Sessions List Table)}
+ส่วนแสดงรายการเซสชันที่ถูกจองทั้งหมด
+
+\begin{lstlisting}[language=HTML, caption={ซอร์สโค้ดจากไฟล์ frontend/views/sessions.ejs: Sessions Table}, label={code:views-sessions-table}]
+      <!-- Sessions List -->
+      <div class="bg-white border-2 border-primary shadow-[8px_8px_0px_0px_#296374]">
+        <div class="bg-secondary p-4 border-b-2 border-primary">
+          <h3 class="text-xl font-bold text-white uppercase tracking-wider flex items-center gap-2">
+            <i data-lucide="list-checks" class="w-5 h-5 text-accent"></i> Scheduled Sessions
+          </h3>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-gray-100 border-b-2 border-primary text-primary text-sm uppercase tracking-wider">
+                <th class="p-4 font-extrabold">Customer</th>
+                <th class="p-4 font-extrabold">Trainer</th>
+                <th class="p-4 font-extrabold">Equipment</th>
+                <th class="p-4 font-extrabold">Date & Time</th>
+                <th class="p-4 font-extrabold text-center">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="sessions-table" class="divide-y-2 divide-gray-100 text-sm font-semibold text-secondary">
+              <!-- JS Populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+\end{lstlisting}
+
+\subsubsection{สคริปต์ (Scripts)}
+การนำเข้าไฟล์ JavaScript ที่จำเป็น รวมถึง `sessions.js` สำหรับจัดการ logic ของหน้า
+
+\begin{lstlisting}[language=HTML, caption={ซอร์สโค้ดจากไฟล์ frontend/views/sessions.ejs: Scripts}, label={code:views-sessions-scripts}]
+  <script>
+    lucide.createIcons();
+    // Mobile Sidebar Logic (omitted)
+  </script>
+  <script src="/js/config.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/sessions.js"></script>
+</body>
+</html>
+\end{lstlisting}
+
+% ==========================================================================================
+% FILE: frontend/views/logs.ejs
+% ==========================================================================================
+\subsection{ไฟล์ frontend/views/logs.ejs}
+หน้าเว็บสำหรับผู้ดูแลระบบ (Admin) เพื่อดูรายงานและบันทึกการใช้งานระบบ (Reports \& Logs) โดยมีการแบ่งข้อมูลออกเป็น 3 ส่วนหลัก ได้แก่ System Logs, Customer Report และ Trainer Report
+
+\subsubsection{ส่วนหัวและสไตล์ (Head and Styles)}
+กำหนด Meta tags, นำเข้า Tailwind CSS, Google Fonts, Lucide Icons และกำหนดสไตล์สำหรับ Tab Switching
+
+\begin{lstlisting}[language=HTML, caption={ซอร์สโค้ดจากไฟล์ frontend/views/logs.ejs: Head Section}, label={code:views-logs-head}]
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GymBro • Reports & Logs</title>
+  
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#0C2C55',
+            secondary: '#296374',
+            accent: '#629FAD',
+            contrast: '#EDEDCE',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          borderRadius: {
+            DEFAULT: '0px',
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- Google Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #EDEDCE; }
+    ::-webkit-scrollbar-thumb { background: #296374; }
+    ::-webkit-scrollbar-thumb:hover { background: #0C2C55; }
+    .tab-active {
+        background-color: #296374;
+        color: white;
+        border-bottom: 4px solid #629FAD;
+    }
+    .tab-inactive {
+        background-color: #EDEDCE;
+        color: #0C2C55;
+        border-bottom: 4px solid transparent;
+    }
+    .tab-inactive:hover {
+        background-color: #e0e0c0;
+    }
+  </style>
+</head>
+<body class="bg-contrast text-primary min-h-screen flex overflow-hidden">
+\end{lstlisting}
+
+\subsubsection{แถบนำทาง (Sidebar Navigation)}
+แถบเมนูด้านซ้ายสำหรับผู้ดูแลระบบ ซึ่งมีการเน้นเมนู "Reports \& Logs"
+
+\begin{lstlisting}[language=HTML, caption={ซอร์สโค้ดจากไฟล์ frontend/views/logs.ejs: Sidebar}, label={code:views-logs-sidebar}]
+  <!-- Sidebar -->
+  <aside class="w-64 bg-primary text-contrast flex-shrink-0 flex flex-col border-r-4 border-accent hidden md:flex">
+    <!-- Header omitted -->
+    <nav class="flex-1 overflow-y-auto py-6">
+      <ul class="space-y-1">
+        <!-- Other menu items omitted -->
+        <li>
+          <a href="/admin/logs" class="flex items-center gap-4 px-6 py-4 bg-secondary border-l-4 border-accent text-white font-bold uppercase tracking-wide transition-all">
+            <i data-lucide="file-text" class="w-5 h-5"></i>
+            <span>Reports & Logs</span>
+          </a>
+        </li>
+        <!-- Logout omitted -->
+      </ul>
+    </nav>
+    <!-- Profile omitted -->
+  </aside>
+\end{lstlisting}
+
+\subsubsection{ส่วนควบคุมแท็บและตัวกรอง (Tabs \& Filters)}
+ส่วนสำหรับเลือกประเภทรายงานที่ต้องการดู (System Logs, Customer Report, Trainer Report) และตัวกรองวันที่
+
+\begin{lstlisting}[language=HTML, caption={ซอร์สโค้ดจากไฟล์ frontend/views/logs.ejs: Tabs Control}, label={code:views-logs-tabs}]
+    <!-- Content Area -->
+    <div class="flex-1 overflow-y-auto p-4 md:p-8 bg-contrast relative">
+      
+      <div class="mb-6 border-b-4 border-primary pb-4">
+        <h2 class="text-4xl font-extrabold text-primary uppercase tracking-tighter">Reports & System Logs</h2>
+        <p class="text-secondary font-medium mt-1">View usage reports and system activity.</p>
+      </div>
+
+      <!-- Tabs -->
+      <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4 border-b-2 border-secondary/20 pb-2">
+        <div class="flex">
+            <button id="tab-logs" onclick="switchTab('logs')" class="px-6 py-3 font-bold uppercase tracking-wide transition-all tab-active">
+                System Logs
+            </button>
+            <button id="tab-customer" onclick="switchTab('customer')" class="px-6 py-3 font-bold uppercase tracking-wide transition-all tab-inactive">
+                Customer Report
+            </button>
+            <button id="tab-trainer" onclick="switchTab('trainer')" class="px-6 py-3 font-bold uppercase tracking-wide transition-all tab-inactive">
+                Trainer Report
+            </button>
+        </div>
+        
+        <!-- Date Filter -->
+        <div class="flex items-center gap-2">
+            <label for="filter-date" class="font-bold text-sm uppercase text-primary">Filter Date:</label>
+            <input type="date" id="filter-date" class="border-2 border-primary p-2 font-bold text-sm bg-white focus:outline-none focus:border-accent">
+            <button onclick="applyDateFilter()" class="bg-primary text-contrast px-4 py-2 font-bold uppercase text-xs hover:bg-secondary transition-colors">
+                Apply
+            </button>
+            <button onclick="clearDateFilter()" class="text-xs text-red-500 font-bold uppercase hover:underline">
+                Clear
+            </button>
+        </div>
+      </div>
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item \textbf{Tab Controls}: ใช้ \texttt{button} พร้อม Event Listener \texttt{onclick} เพื่อสลับการแสดงผลระหว่าง Log และ Report ประเภทต่างๆ
+    \item \textbf{Visual Feedback}: คลาส \texttt{tab-active} และ \texttt{tab-inactive} ถูกใช้เพื่อเปลี่ยนสีพื้นหลังและเส้นขอบล่างของปุ่ม เพื่อแสดงว่าผู้ใช้กำลังดู Tab ใดอยู่
+    \item \textbf{Date Filter}: Input \texttt{type="date"} ช่วยให้ผู้ดูแลระบบสามารถกรองข้อมูลตามวันที่ที่สนใจได้
+\end{enumerate}
+
+\subsubsection{ส่วนแสดงผลรายงาน (Report Sections)}
+พื้นที่แสดงตารางข้อมูลตามแท็บที่เลือก โดยแต่ละส่วนจะมี ID ที่ไม่ซ้ำกันเพื่อใช้ในการซ่อน/แสดง
+
+\begin{lstlisting}[language=HTML, caption={ซอร์สโค้ดจากไฟล์ frontend/views/logs.ejs: Report Tables}, label={code:views-logs-sections}]
+      <!-- System Logs Section -->
+      <div id="section-logs" class="bg-white border-2 border-primary shadow-[8px_8px_0px_0px_#296374]">
+        <!-- Header omitted -->
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-gray-100 border-b-2 border-primary text-primary text-sm uppercase tracking-wider">
+                <th class="p-4 font-extrabold w-48">Timestamp</th>
+                <th class="p-4 font-extrabold w-48">Action</th>
+                <th class="p-4 font-extrabold">Details</th>
+              </tr>
+            </thead>
+            <tbody id="logs-table" class="divide-y-2 divide-gray-100 text-sm font-semibold text-secondary">
+              <tr><td colspan="3" class="p-4 text-center">Loading logs...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Customer Report Section (Hidden by default) -->
+      <div id="section-customer" class="hidden bg-white border-2 border-primary shadow-[8px_8px_0px_0px_#296374]">
+        <!-- Table Structure similar to logs but with Customer columns -->
+      </div>
+
+      <!-- Trainer Report Section (Hidden by default) -->
+      <div id="section-trainer" class="hidden bg-white border-2 border-primary shadow-[8px_8px_0px_0px_#296374]">
+        <!-- Table Structure similar to logs but with Trainer columns -->
+      </div>
+\end{lstlisting}
+
+\subsubsection{สคริปต์และการจัดการแท็บ (Scripts \& Tab Logic)}
+ส่วนจัดการ Logic การสลับแท็บและการโหลดข้อมูล
+
+\begin{lstlisting}[language=HTML, caption={ซอร์สโค้ดจากไฟล์ frontend/views/logs.ejs: Tab Logic}, label={code:views-logs-scripts}]
+  <script>
+    lucide.createIcons();
+    // Mobile Sidebar Logic (omitted)
+
+    // Tab Switching Logic
+    function switchTab(tabName) {
+        // Hide all sections
+        document.getElementById('section-logs').classList.add('hidden');
+        document.getElementById('section-customer').classList.add('hidden');
+        document.getElementById('section-trainer').classList.add('hidden');
+        
+        // Reset tab styles (omitted for brevity)
+
+        // Show selected section
+        document.getElementById(`section-${tabName}`).classList.remove('hidden');
+        
+        // Activate selected tab (omitted for brevity)
+
+        // Load data if needed
+        if(tabName === 'logs') loadLogs();
+        if(tabName === 'customer') loadCustomerReport();
+        if(tabName === 'trainer') loadTrainerReport();
+    }
+  </script>
+  <script src="/js/config.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/logs.js"></script>
+</body>
+</html>
+\end{lstlisting}
+
+% ==========================================================================================
+% FILE: frontend/views/user/dashboard.ejs
+% ==========================================================================================
+\subsection{ไฟล์ frontend/views/user/dashboard.ejs}
+หน้าแดชบอร์ดสำหรับสมาชิกทั่วไป (User) เพื่อดูตารางการจองและทำการจองเซสชันใหม่
+
+\subsubsection{ส่วนหัวและ Modal การจอง (Head \& Booking Modal)}
+ส่วนกำหนด Meta tags และ Modal Form สำหรับการจองเซสชันใหม่ (ซ่อนอยู่โดยเริ่มต้น)
+
+\begin{lstlisting}[language=HTML, caption={ซอร์สโค้ดจากไฟล์ frontend/views/user/dashboard.ejs: Head \& Modal}, label={code:views-user-dashboard-head}]
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GymBro • User Dashboard</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Booking Modal -->
+  <div id="booking-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white border-4 border-primary shadow-[8px_8px_0px_0px_#296374] w-full max-w-md max-h-[90vh] overflow-y-auto">
+        <div class="bg-primary text-contrast p-4 flex justify-between items-center border-b-4 border-accent">
+            <h3 class="text-xl font-extrabold uppercase tracking-tighter">Book New Session</h3>
+            <button id="close-booking-modal" class="hover:text-accent"><i data-lucide="x" class="w-6 h-6"></i></button>
+        </div>
+        <div class="p-6">
+            <form id="booking-form" class="space-y-4">
+                <!-- Form Inputs: Date, Time, Duration, Trainer, Equipment -->
+                <div>
+                    <label class="block text-sm font-bold uppercase mb-1">Date</label>
+                    <input type="date" id="book-date" required class="w-full p-3 border-2 border-primary bg-contrast focus:outline-none focus:border-accent font-bold">
+                </div>
+                <!-- Other inputs omitted for brevity -->
+                
+                <div class="pt-4 flex justify-end gap-4">
+                    <button type="button" id="cancel-booking" class="px-6 py-3 font-bold uppercase text-primary hover:bg-gray-100 transition-colors">Cancel</button>
+                    <button type="submit" class="bg-primary text-contrast px-6 py-3 font-bold uppercase hover:bg-secondary hover:shadow-[4px_4px_0px_0px_#629FAD] transition-all active:translate-y-1 active:shadow-none border-2 border-transparent">
+                        Confirm Booking
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+  </div>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#0C2C55',
+            secondary: '#296374',
+            accent: '#629FAD',
+            contrast: '#EDEDCE',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          borderRadius: {
+            DEFAULT: '0px',
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Fonts & Icons omitted -->
+</head>
+<body class="bg-contrast text-primary min-h-screen flex overflow-hidden">
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item \textbf{Modal Dialog}: ใช้ \texttt{div id="booking-modal"} ที่มีคลาส \texttt{hidden} เพื่อซ่อนฟอร์มการจองไว้ในตอนแรก และจะแสดงเมื่อผู้ใช้กดปุ่ม "Book Session"
+    \item \textbf{Overlay}: พื้นหลังสีดำจางๆ (\texttt{bg-black/50}) ช่วยเน้นให้ Modal โดดเด่นขึ้นและป้องกันการคลิกพื้นหลังโดยไม่ตั้งใจ
+    \item \textbf{Booking Form}: ฟอร์มภายใน Modal ใช้สำหรับส่งข้อมูลการจองไปยัง API \texttt{/api/sessions}
+\end{enumerate}
+
+\subsubsection{แถบนำทาง (Sidebar Navigation)}
+แถบเมนูด้านซ้ายสำหรับสมาชิกทั่วไป ซึ่งมีเมนู "Schedule" และ "My Profile"
+
+\begin{lstlisting}[language=HTML, caption={ซอร์สโค้ดจากไฟล์ frontend/views/user/dashboard.ejs: Sidebar}, label={code:views-user-dashboard-sidebar}]
+  <!-- Sidebar -->
+  <aside class="w-64 bg-primary text-contrast flex-shrink-0 flex flex-col border-r-4 border-accent hidden md:flex">
+    <!-- Header omitted -->
+
+    <nav class="flex-1 overflow-y-auto py-6">
+      <ul class="space-y-1">
+        <li>
+          <a href="/user/dashboard" class="flex items-center gap-4 px-6 py-4 bg-secondary border-l-4 border-accent text-white font-bold uppercase tracking-wide transition-all">
+            <i data-lucide="calendar" class="w-5 h-5"></i>
+            <span>Schedule</span>
+          </a>
+        </li>
+        <li>
+          <a href="/user/profile" class="flex items-center gap-4 px-6 py-4 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group">
+            <i data-lucide="user" class="w-5 h-5 group-hover:text-accent transition-colors"></i>
+            <span>My Profile</span>
+          </a>
+        </li>
+        <!-- Logout omitted -->
+      </ul>
+    </nav>
+
+    <!-- User Profile Footer -->
+    <div class="p-4 bg-secondary border-t border-primary">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-accent flex items-center justify-center text-primary font-bold text-lg rounded-none">
+          ME
+        </div>
+        <div>
+          <p class="text-sm font-bold text-white user-name-display">Loading...</p>
+          <p class="text-xs text-accent user-role-display">Member</p>
+        </div>
+      </div>
+    </div>
+  </aside>
+\end{lstlisting}
+
+\subsubsection{ส่วนเนื้อหาหลักและตารางการจอง (Main Content \& Schedule Table)}
+ส่วนแสดงหัวข้อหน้า, ปุ่มเปิด Modal การจอง และตารางแสดงรายการจองทั้งหมด
+
+\begin{lstlisting}[language=HTML, caption={ซอร์สโค้ดจากไฟล์ frontend/views/user/dashboard.ejs: Content}, label={code:views-user-dashboard-content}]
+    <!-- Content Area -->
+    <div class="flex-1 overflow-y-auto p-4 md:p-8 bg-contrast relative">
+      
+      <!-- Page Header -->
+      <div class="mb-8 border-b-4 border-primary pb-4 flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <h2 class="text-4xl font-extrabold text-primary uppercase tracking-tighter">
+            Gym Schedule
+          </h2>
+          <p class="text-secondary font-medium mt-1">
+            Check availability and your upcoming sessions.
+          </p>
+        </div>
+        <button id="btn-book-session" class="bg-primary text-contrast px-6 py-3 font-bold uppercase hover:bg-secondary hover:shadow-[4px_4px_0px_0px_#629FAD] transition-all active:translate-y-1 active:shadow-none border-2 border-transparent flex items-center gap-2">
+            <i data-lucide="plus-circle" class="w-5 h-5"></i>
+            Book Session
+        </button>
+      </div>
+
+      <!-- Schedule Table -->
+      <div class="bg-white border-2 border-primary shadow-[8px_8px_0px_0px_#296374]">
+        <div class="bg-secondary p-4 flex justify-between items-center border-b-2 border-primary">
+          <h3 class="text-xl font-bold text-white uppercase tracking-wider flex items-center gap-2">
+            <i data-lucide="calendar-days" class="w-5 h-5 text-accent"></i>
+            All Bookings
+          </h3>
+          <span class="text-xs font-bold text-accent bg-primary px-2 py-1 uppercase">Read Only</span>
+        </div>
+        
+        <div class="p-0 overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-gray-100 border-b-2 border-primary text-primary text-sm uppercase tracking-wider">
+                <th class="p-4 font-extrabold">Time</th>
+                <th class="p-4 font-extrabold">Activity/Equipment</th>
+                <th class="p-4 font-extrabold">Trainer</th>
+                <th class="p-4 font-extrabold text-center">Status</th>
+              </tr>
+            </thead>
+            <tbody id="schedule-table-body" class="divide-y-2 divide-gray-100 text-sm font-semibold text-secondary">
+              <tr>
+                <td colspan="4" class="p-4 text-center">Loading schedule...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+\end{lstlisting}
+
+\subsubsection{สคริปต์ (Scripts)}
+การนำเข้าไฟล์ JavaScript ที่จำเป็น รวมถึง `user/dashboard.js` สำหรับจัดการ logic ของหน้า
+
+\begin{lstlisting}[language=HTML, caption={ซอร์สโค้ดจากไฟล์ frontend/views/user/dashboard.ejs: Scripts}, label={code:views-user-dashboard-scripts}]
+  <script>
+    lucide.createIcons();
+    
+    // Sidebar Logic (omitted)
+  </script>
+  
+  <script src="/js/config.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/user/dashboard.js"></script>
+</body>
+</html>
+\end{lstlisting}
+
+% ==========================================================================================
+% FILE: frontend/views/user/profile.ejs
+% ==========================================================================================
+\subsection{ไฟล์ frontend/views/user/profile.ejs}
+หน้าแสดงข้อมูลส่วนตัวของสมาชิก (User Profile) แสดงรายละเอียดเกี่ยวกับสมาชิก เช่น ชื่อ, อีเมล, ประเภทสมาชิก และสถานะ
+
+\subsubsection{ส่วนหัวและสไตล์ (Head and Styles)}
+กำหนด Meta tags, นำเข้า Tailwind CSS, Google Fonts, Lucide Icons และกำหนดสไตล์เพิ่มเติม
+
+\begin{lstlisting}[language=HTML, caption={ซอร์สโค้ดจากไฟล์ frontend/views/user/profile.ejs: Head Section}, label={code:views-user-profile-head}]
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GymBro • My Profile</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#0C2C55',
+            secondary: '#296374',
+            accent: '#629FAD',
+            contrast: '#EDEDCE',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          borderRadius: {
+            DEFAULT: '0px',
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- Fonts & Icons omitted -->
+</head>
+<body class="bg-contrast text-primary min-h-screen flex overflow-hidden">
+\end{lstlisting}
+
+\subsubsection{แถบนำทาง (Sidebar Navigation)}
+แถบเมนูด้านซ้ายสำหรับสมาชิกทั่วไป ซึ่งมีเมนู "My Profile" ที่ถูกเน้น
+
+\begin{lstlisting}[language=HTML, caption={ซอร์สโค้ดจากไฟล์ frontend/views/user/profile.ejs: Sidebar}, label={code:views-user-profile-sidebar}]
+  <!-- Sidebar -->
+  <aside class="w-64 bg-primary text-contrast flex-shrink-0 flex flex-col border-r-4 border-accent hidden md:flex">
+    <!-- Header omitted -->
+
+    <nav class="flex-1 overflow-y-auto py-6">
+      <ul class="space-y-1">
+        <li>
+          <a href="/user/dashboard" class="flex items-center gap-4 px-6 py-4 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group">
+            <i data-lucide="calendar" class="w-5 h-5 group-hover:text-accent transition-colors"></i>
+            <span>Schedule</span>
+          </a>
+        </li>
+        <li>
+          <a href="/user/profile" class="flex items-center gap-4 px-6 py-4 bg-secondary border-l-4 border-accent text-white font-bold uppercase tracking-wide transition-all">
+            <i data-lucide="user" class="w-5 h-5"></i>
+            <span>My Profile</span>
+          </a>
+        </li>
+        <!-- Logout omitted -->
+      </ul>
+    </nav>
+    <!-- User Profile Footer omitted -->
+  </aside>
+\end{lstlisting}
+
+\subsubsection{ส่วนเนื้อหาหลักและข้อมูลส่วนตัว (Main Content \& Profile Details)}
+ส่วนแสดงการ์ดข้อมูลส่วนตัวสมาชิก ตกแต่งด้วย Tailwind CSS
+
+\begin{lstlisting}[language=HTML, caption={ซอร์สโค้ดจากไฟล์ frontend/views/user/profile.ejs: Profile Card}, label={code:views-user-profile-card}]
+    <!-- Content Area -->
+    <div class="flex-1 overflow-y-auto p-4 md:p-8 bg-contrast relative">
+      
+      <!-- Page Header -->
+      <div class="mb-8 border-b-4 border-primary pb-4 flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <h2 class="text-4xl font-extrabold text-primary uppercase tracking-tighter">
+            My Profile
+          </h2>
+          <p class="text-secondary font-medium mt-1">
+            Your membership details and information.
+          </p>
+        </div>
+      </div>
+
+      <!-- Profile Card -->
+      <div class="max-w-3xl mx-auto">
+        <div class="bg-white border-4 border-secondary shadow-[8px_8px_0px_0px_#0C2C55] p-8 relative overflow-hidden">
+          
+          <!-- Decoration -->
+          <div class="absolute -right-12 -top-12 w-40 h-40 bg-contrast rotate-45 border-4 border-primary"></div>
+          
+          <div class="relative z-10 flex flex-col md:flex-row gap-8 items-start">
+            
+            <!-- Avatar Section -->
+            <div class="flex-shrink-0 flex flex-col items-center gap-4">
+              <div class="w-32 h-32 bg-secondary border-4 border-primary flex items-center justify-center text-white text-4xl font-black shadow-[4px_4px_0px_0px_#629FAD]">
+                <i data-lucide="user" class="w-16 h-16"></i>
+              </div>
+              <span class="bg-primary text-accent px-3 py-1 text-xs font-black uppercase tracking-widest border border-accent w-full text-center">
+                Active Member
+              </span>
+            </div>
+
+            <!-- Details Section -->
+            <div class="flex-1 space-y-6 w-full">
+              
+              <div class="border-b-2 border-dashed border-gray-300 pb-4">
+                <label class="block text-xs font-bold uppercase text-secondary mb-1">Full Name</label>
+                <h3 class="text-2xl font-black text-primary" id="profile-name">Loading...</h3>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label class="block text-xs font-bold uppercase text-secondary mb-1">Email Address</label>
+                  <p class="text-lg font-bold text-gray-800" id="profile-email">-</p>
+                </div>
+                <div>
+                  <label class="block text-xs font-bold uppercase text-secondary mb-1">Phone Number</label>
+                  <p class="text-lg font-bold font-mono text-gray-800" id="profile-phone">-</p>
+                </div>
+              </div>
+
+              <!-- Membership Details -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t-2 border-dashed border-gray-300">
+                <div>
+                  <label class="block text-xs font-bold uppercase text-secondary mb-1">Membership Type</label>
+                  <div class="inline-block bg-contrast border-2 border-primary px-4 py-2 text-primary font-bold uppercase shadow-[2px_2px_0px_0px_#296374]">
+                    <span id="profile-type">Standard</span>
+                  </div>
+                </div>
+                <!-- Current Level omitted -->
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Footer/Dates -->
+          <div class="mt-8 pt-6 border-t-4 border-primary bg-gray-50 -mx-8 -mb-8 p-6 flex justify-between items-center text-sm font-semibold text-gray-500">
+            <div>
+              <span>Member Since:</span>
+              <span class="text-primary font-bold" id="profile-since">-</span>
+            </div>
+            <div>
+              <span>Valid Until:</span>
+              <span class="text-secondary font-bold" id="profile-until">-</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item \textbf{Profile Card}: ใช้การจัดวางแบบ Flexbox เพื่อแสดงรูป Avatar และข้อมูลส่วนตัวควบคู่กัน รองรับการปรับเปลี่ยนตามขนาดหน้าจอ (Responsive)
+    \item \textbf{Dynamic Data}: มีการใช้ \texttt{id} (เช่น \texttt{profile-name}, \texttt{profile-email}) เพื่อให้ JavaScript สามารถนำข้อมูลจาก Server มาแสดงผลได้แบบไดนามิก
+    \item \textbf{Membership Info}: แสดงประเภทสมาชิกและวันหมดอายุอย่างชัดเจน เพื่อให้สมาชิกตรวจสอบสถานะของตนเองได้ง่าย
+\end{enumerate}
+
+\subsubsection{สคริปต์ (Scripts)}
+การนำเข้าไฟล์ JavaScript ที่จำเป็น รวมถึง `user/profile.js` สำหรับดึงข้อมูลโปรไฟล์มาแสดง
+
+\begin{lstlisting}[language=HTML, caption={ซอร์สโค้ดจากไฟล์ frontend/views/user/profile.ejs: Scripts}, label={code:views-user-profile-scripts}]
+  <script>
+    lucide.createIcons();
+    // Sidebar Logic (omitted)
+  </script>
+  
+  <script src="/js/config.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/user/profile.js"></script>
+</body>
+</html>
+\end{lstlisting}
+

@@ -1,0 +1,136 @@
+\documentclass[10pt]{report}
+\usepackage[left=1in, right=1in, top=0.5in, bottom=0.5in]{geometry}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{fontspec}
+\usepackage{caption} % สำหรับการใส่ caption และ label ให้กับ listings
+\usepackage[demo]{graphicx} % สำหรับใส่รูปภาพ (เผื่อจำเป็น)
+\usepackage{hyperref} % สำหรับทำ Link ในสารบัญ
+\usepackage{longtable} % สำหรับตารางข้ามหน้า
+\usepackage{booktabs} % สำหรับเส้นตารางสวยงาม
+\usepackage{tikz} % สำหรับวาด ER Diagram
+\usetikzlibrary{shapes,arrows,positioning,calc,shadows.blur}
+\usepackage{titlesec}
+
+% Configure title formats for strict font size control (10pt base, max 12pt headings)
+\titleformat{\chapter}[display]
+  {\normalfont\large\bfseries}{\chaptertitlename\ \thechapter}{15pt}{\large}
+\titleformat{\section}
+  {\normalfont\large\bfseries}{\thesection}{0.8em}{}
+\titleformat{\subsection}
+  {\normalfont\normalsize\bfseries}{\thesubsection}{0.8em}{}
+\titleformat{\subsubsection}
+  {\normalfont\normalsize\bfseries}{\thesubsubsection}{0.8em}{}
+\titlespacing*{\chapter}{0pt}{40pt}{30pt}
+
+\setmainfont{Sarabun} % กำหนดฟอนต์หลักเป็น Sarabun สำหรับภาษาไทย
+
+% กำหนดสีสำหรับโค้ด
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+% นิยามภาษา JavaScript เพิ่มเติมเพื่อให้ไฮไลต์ได้ถูกต้อง
+\lstdefinelanguage{JavaScript}{
+  keywords={break, case, catch, class, const, continue, debugger, default, delete, do, else, enum, export, extends, false, finally, for, function, if, import, in, instanceof, new, null, return, super, switch, this, throw, true, try, typeof, var, void, while, with, let, await, async},
+  morecomment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]',
+  morestring=[b]",
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  keywordstyle=\color{magenta}\bfseries,
+  ndkeywordstyle=\color{codepurple}\bfseries,
+  identifierstyle=\color{black},
+  commentstyle=\color{codegreen}\ttfamily,
+  stringstyle=\color{codepurple}\ttfamily,
+  sensitive=true
+}
+
+% กำหนดสไตล์ของ Listings
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    breakatwhitespace=true,
+    breakautoindent=true,
+    postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2,
+    frame=single % เพิ่มกรอบรอบโค้ด
+}
+
+\lstset{style=mystyle}
+
+% เปลี่ยนชื่อ Caption เป็น "รหัสต้นฉบับที่" หรือ "Listing" ตามต้องการ
+\renewcommand{\lstlistingname}{Listing}
+% เปลี่ยนคำนำหน้าบทให้เป็น "บทที่"
+\renewcommand{\chaptername}{บทที่}
+
+\title{\textbf{เอกสารประกอบโครงงาน Term Project Full Stack Dev}\\ \large ระบบบริหารจัดการยิม (GymBro Management System)}
+\author{นายเมธัส ทองจันทร์ (6606022610030) \\
+นายนพคุณ เหล่าอิ่มจันทร์ (6606022610013) \\
+นายกาญจน์ชญา สู่สุข (6606022610048) \\
+นางสาวทิพย์สุดา สังข์เงิน (6606022620060)}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+% ==========================================================================================
+% บทที่ 1: บทนำ
+% ==========================================================================================
+\chapter{บทนำ}
+\input{components/system_requirements}
+\newpage
+
+% ==========================================================================================
+% บทที่ 2: ER Diagram
+% ==========================================================================================
+\input{components/er_diagram}
+\newpage
+
+% ==========================================================================================
+% บทที่ 3: ตาราง Database
+% ==========================================================================================
+\chapter{ตาราง Database}
+\input{components/database}
+\newpage
+
+% ==========================================================================================
+% บทที่ 4: การใช้งานเว็บ
+% ==========================================================================================
+\chapter{การใช้งานเว็บ}
+\input{components/usage}
+\newpage
+
+% ==========================================================================================
+% บทที่ 5: อธิบายโค้ด
+% ==========================================================================================
+\chapter{อธิบายโค้ด}
+\input{components/backend}
+\input{components/frontend}
+\newpage
+
+% ==========================================================================================
+% บทที่ 6: สรุป
+% ==========================================================================================
+\chapter{สรุป}
+\input{components/conclusion}
+\newpage
+
+\end{document}
