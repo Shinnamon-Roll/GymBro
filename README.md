@@ -5,6 +5,7 @@ Web application for managing a gym, including member management, trainer schedul
 ## Features
 
 ### For Administrators (Back Office)
+
 - **Dashboard**: Overview of daily activities, stats, and quick actions.
 - **Member Management**: Add, edit, delete, and view member details.
 - **Trainer Management**: Manage trainer profiles and specialties.
@@ -13,6 +14,7 @@ Web application for managing a gym, including member management, trainer schedul
 - **System Logs**: View system activities and audit logs.
 
 ### For Members (Front Office)
+
 - **User Dashboard**: View personal schedule and book new sessions.
 - **Booking System**: Real-time availability check for trainers and equipment.
 - **Profile**: View membership status and history.
@@ -26,18 +28,20 @@ Web application for managing a gym, including member management, trainer schedul
 ## Installation
 
 ### Prerequisites
+
 - Node.js (v18+)
 - PostgreSQL Database
 
 ### Setup
 
 1. **Clone the repository**
+
    ```bash
-   git clone <repository_url>
+   git clone https://github.com/Shinnamon-Roll/GymBro.git
    cd GymBro
    ```
-
 2. **Backend Setup**
+
    ```bash
    cd backend
    npm install
@@ -45,16 +49,16 @@ Web application for managing a gym, including member management, trainer schedul
    # DATABASE_URL=postgres://user:pass@host:port/dbname
    npm run dev
    ```
-
 3. **Frontend Setup**
+
    ```bash
    cd frontend
    npm install
    # Start the frontend server (default port 5500)
    npm start
    ```
-
 4. **Access the Application**
+
    - Frontend: `http://localhost:5500`
    - Backend API: `http://localhost:3000`
 
@@ -66,11 +70,11 @@ Web application for managing a gym, including member management, trainer schedul
 
 ## Team Members
 
-| Name | Student ID |
-|------|------------|
-| นายเมธัส ทองจันทร์ | 6606022610030 |
-| นายนพคุณ เหล่าอิ่มจันทร์ | 6606022610013 |
-| นายกาญจน์ชญา สู่สุข | 6606022610048 |
+| Name                                              | Student ID    |
+| ------------------------------------------------- | ------------- |
+| นายเมธัส ทองจันทร์               | 6606022610030 |
+| นายนพคุณ เหล่าอิ่มจันทร์   | 6606022610013 |
+| นายกาญจน์ชญา สู่สุข             | 6606022610048 |
 | นางสาวทิพย์สุดา สังข์เงิน | 6606022620060 |
 
 ---
