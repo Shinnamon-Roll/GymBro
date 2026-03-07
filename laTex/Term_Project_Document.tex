@@ -24,6 +24,8 @@
 \titlespacing*{\chapter}{0pt}{40pt}{30pt}
 
 \setmainfont{Sarabun} % กำหนดฟอนต์หลักเป็น Sarabun สำหรับภาษาไทย
+\XeTeXlinebreaklocale "th" % กำหนดการตัดคำภาษาไทย
+\XeTeXlinebreakskip = 0pt plus 1pt % กำหนดระยะห่างระหว่างคำสำหรับการตัดคำ
 
 % กำหนดสีสำหรับโค้ด
 \definecolor{codegreen}{rgb}{0,0.6,0}
@@ -78,17 +80,45 @@
 % เปลี่ยนคำนำหน้าบทให้เป็น "บทที่"
 \renewcommand{\chaptername}{บทที่}
 
-\title{\textbf{เอกสารประกอบโครงงาน Term Project Full Stack Dev}\\ \large ระบบบริหารจัดการยิม (GymBro Management System)}
-\author{นายเมธัส ทองจันทร์ (6606022610030) \\
-นายนพคุณ เหล่าอิ่มจันทร์ (6606022610013) \\
-นายกาญจน์ชญา สู่สุข (6606022610048) \\
-นางสาวทิพย์สุดา สังข์เงิน (6606022620060)}
-\date{\today}
-
 \begin{document}
 \sloppy
 
-\maketitle
+\begin{titlepage}
+    \centering
+    \vspace*{1cm}
+    
+    {\Large ภาควิชาเทคโนโลยีสารสนเทศ \par}
+    \vspace{1.5cm}
+    
+    {\Huge \bfseries โครงงานปลายภาค \par}
+    \vspace{0.5cm}
+    
+    {\LARGE Full Stack Web Development \par}
+    \vspace{0.3cm}
+    {\Large ออกแบบและพัฒนาเว็บแอปพลิเคชันที่ขับเคลื่อนด้วยฐานข้อมูล \par}
+    \vspace{0.5cm}
+    
+    {\large Express.js \textbar\ EJS \textbar\ Sequelize \textbar\ PostgreSQL \textbar\ CSS \par}
+    \vspace{2cm}
+    
+    {\Large \bfseries ระบบบริหารจัดการยิม (GymBro Management System) \par}
+    \vspace{1.5cm}
+    
+    {\large
+    \begin{tabular}{ll}
+        นายเมธัส ทองจันทร์ & 6606022610030 \\
+        นายนพคุณ เหล่าอิ่มจันทร์ & 6606022610013 \\
+        นายกาญจน์ชญา สู่สุข & 6606022610048 \\
+        นางสาวทิพย์สุดา สังข์เงิน & 6606022620060 \\
+    \end{tabular}
+    \par}
+    \vfill
+    
+    {\Large ปีการศึกษา 2568 ภาคเรียนที่ 2 \par}
+    {\Large กำหนดส่ง: 9 มีนาคม 2569 \par}
+    
+    \vspace*{1cm}
+\end{titlepage}
 \tableofcontents
 \newpage
 

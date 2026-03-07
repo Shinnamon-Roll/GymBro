@@ -1210,7 +1210,9 @@ async function handleBookingSubmit(e) {
     </div>
     
     <!-- Submit Button -->
-    <button type="submit" class="bg-primary text-contrast font-bold uppercase hover:bg-secondary hover:shadow-[2px_2px_0px_0px_#629FAD] transition-all active:translate-y-1 active:shadow-none border-2 border-transparent h-full flex items-center justify-center gap-2">
+    <button type="submit" class="bg-primary text-contrast font-bold uppercase 
+    hover:bg-secondary hover:shadow-[2px_2px_0px_0px_#629FAD] transition-all 
+    active:translate-y-1 active:shadow-none border-2 border-transparent h-full flex items-center justify-center gap-2">
       <i data-lucide="save" class="w-4 h-4"></i> Save Member
     </button>
   </form>
@@ -1390,7 +1392,8 @@ async function handleBookingSubmit(e) {
 \begin{lstlisting}[language=HTML, caption={ซอร์สโค้ดจากไฟล์ frontend/views/trainers.ejs: Sidebar Navigation}, label={code:views-trainers-nav}]
 <!-- Sidebar Navigation Item for Trainers -->
 <li>
-  <a href="/admin/trainers" class="flex items-center gap-4 px-6 py-4 bg-secondary border-l-4 border-accent text-white font-bold uppercase tracking-wide transition-all">
+  <a href="/admin/trainers" class="flex items-center gap-4 px-6 py-4 bg-secondary 
+  border-l-4 border-accent text-white font-bold uppercase tracking-wide transition-all">
     <i data-lucide="dumbbell" class="w-5 h-5"></i>
     <span>Trainers</span>
   </a>
@@ -1954,7 +1957,8 @@ async function handleBookingSubmit(e) {
     <nav class="flex-1 overflow-y-auto py-6">
       <ul class="space-y-1">
         <li>
-          <a href="/user/dashboard" class="flex items-center gap-4 px-6 py-4 bg-secondary border-l-4 border-accent text-white font-bold uppercase tracking-wide transition-all">
+          <a href="/user/dashboard" class="flex items-center gap-4 px-6 py-4 bg-secondary 
+          border-l-4 border-accent text-white font-bold uppercase tracking-wide transition-all">
             <i data-lucide="calendar" class="w-5 h-5"></i>
             <span>Schedule</span>
           </a>
@@ -2001,7 +2005,9 @@ async function handleBookingSubmit(e) {
             Check availability and your upcoming sessions.
           </p>
         </div>
-        <button id="btn-book-session" class="bg-primary text-contrast px-6 py-3 font-bold uppercase hover:bg-secondary hover:shadow-[4px_4px_0px_0px_#629FAD] transition-all active:translate-y-1 active:shadow-none border-2 border-transparent flex items-center gap-2">
+        <button id="btn-book-session" class="bg-primary text-contrast px-6 py-3 font-bold uppercase 
+        hover:bg-secondary hover:shadow-[4px_4px_0px_0px_#629FAD] transition-all 
+        active:translate-y-1 active:shadow-none border-2 border-transparent flex items-center gap-2">
             <i data-lucide="plus-circle" class="w-5 h-5"></i>
             Book Session
         </button>
@@ -2326,7 +2332,9 @@ function toggleTheme() {
 const load = async () => {
   const q = document.getElementById("search-input").value;
   // ส่ง Query Params: page, limit, q (search query)
-  const res = await fetch(`${API}/customers?page=${currentPage}&limit=${limit}&q=${encodeURIComponent(q)}`).then((r) => r.json());
+  const res = await fetch(
+    `${API}/customers?page=${currentPage}&limit=${limit}&q=${encodeURIComponent(q)}`
+  ).then((r) => r.json());
   
   let data = [];
   if (Array.isArray(res)) {
