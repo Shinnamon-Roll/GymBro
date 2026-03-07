@@ -1,5 +1,25 @@
 [
   {
+    "timestamp": "2026-03-07T15:43:50.365Z",
+    "action": "Auto Delete Expired",
+    "details": "Deleted user ID: 12 (Kanchaya)"
+  },
+  {
+    "timestamp": "2026-03-07T15:43:33.511Z",
+    "action": "Create Customer",
+    "details": "Created customer: Kanchaya (ID: 12)"
+  },
+  {
+    "timestamp": "2026-03-07T14:17:38.364Z",
+    "action": "Create Session",
+    "details": "Created session ID: 5 (Customer: 11, Trainer: 3)"
+  },
+  {
+    "timestamp": "2026-03-07T14:16:51.503Z",
+    "action": "Register User",
+    "details": "New user registered: Kanchaya (korn@gmail.com)"
+  },
+  {
     "timestamp": "2026-03-06T04:51:36.992Z",
     "action": "Delete Session",
     "details": "Deleted session ID: 4"

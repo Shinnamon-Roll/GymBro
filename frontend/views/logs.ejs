@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="th">
 <head>
@@ -6,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>GymBro • Reports & Logs</title>
   
-  <!-- Tailwind CSS via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -18,13 +16,6 @@
             secondary: '#296374',
             accent: '#629FAD',
             contrast: '#EDEDCE',
-            dark: {
-                bg: '#0F0F0F',
-                card: '#232D3F',
-                primary: '#005B41',
-                accent: '#008170',
-                text: '#EDEDCE'
-            }
           },
           fontFamily: {
             sans: ['Inter', 'sans-serif'],
@@ -37,10 +28,8 @@
     }
   </script>
   
-  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   
-  <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
@@ -49,6 +38,45 @@
     ::-webkit-scrollbar-track { background: #EDEDCE; }
     ::-webkit-scrollbar-thumb { background: #296374; }
     ::-webkit-scrollbar-thumb:hover { background: #0C2C55; }
+    
+    .dark ::-webkit-scrollbar-track { background: #06182c; }
+    .dark ::-webkit-scrollbar-thumb { background: #296374; }
+
+    /* --- ส่วนที่แก้ไขเรื่องสีและ Hover --- */
+    
+    /* ปรับสีตัวอักษรในตารางให้ชัดเจนในโหมดมืด */
+    .dark #logs-table td, 
+    .dark #customer-report-table td, 
+    .dark #trainer-report-table td { 
+        color: #EDEDCE !important; /* สีครีมสว่าง */
+    }
+
+    /* Hover Effect: โหมดปกติ (สีเทาจางๆ) */
+    tbody tr {
+        transition: background-color 0.2s ease;
+        cursor: default;
+    }
+    tbody tr:hover {
+        background-color: rgba(0, 0, 0, 0.03);
+    }
+
+    /* Hover Effect: โหมดมืด (ใช้สีเขียวอมฟ้าจางๆ แบบ Dashboard) */
+    .dark tbody tr:hover {
+        background-color: rgba(98, 159, 173, 0.15) !important;
+    }
+
+    /* ปรับให้แถวสลับสีในโหมดมืดดูซอฟต์ลง */
+    .dark tbody tr:nth-child(even) {
+        background-color: rgba(41, 99, 116, 0.05);
+    }
+
+    /* ไฮไลท์ข้อความสำคัญ */
+    .dark .highlight-text {
+        color: #629FAD !important;
+        font-weight: 800;
+    }
+    /* ---------------------------------- */
+
     .tab-active {
         background-color: #296374;
         color: white;
@@ -59,9 +87,17 @@
         color: #0C2C55;
         border-bottom: 4px solid transparent;
     }
-    .tab-inactive:hover {
-        background-color: #e0e0c0;
+    
+    .dark .tab-active {
+        background-color: #296374;
+        color: white;
+        border-bottom-color: #629FAD;
     }
+    .dark .tab-inactive {
+        background-color: #0C2C55;
+        color: #629FAD;
+    }
+
     @media print {
       aside, header, #mobile-sidebar, #btn-print, .no-print, button {
         display: none !important;
@@ -77,60 +113,46 @@
         color: black !important;
         overflow: visible !important;
       }
-      .overflow-y-auto {
-        overflow: visible !important;
-        height: auto !important;
-      }
     }
   </style>
   <script src="/js/theme.js"></script>
 </head>
-<body class="bg-contrast text-primary min-h-screen flex overflow-hidden dark:bg-dark-bg dark:text-dark-text transition-colors duration-300">
+<body class="bg-contrast text-primary min-h-screen flex overflow-hidden dark:bg-[#06182c] dark:text-contrast transition-colors duration-300">
 
-  <!-- Sidebar -->
-  <aside class="w-64 bg-primary text-contrast flex-shrink-0 flex flex-col border-r-4 border-accent hidden md:flex">
+  <aside class="w-64 bg-primary text-contrast flex-shrink-0 flex flex-col border-r-4 border-accent hidden md:flex transition-colors duration-300">
     <div class="h-20 flex items-center justify-center border-b border-secondary">
       <h1 class="text-3xl font-extrabold tracking-tighter uppercase italic">Gym<span class="text-accent">Bro</span></h1>
     </div>
     <nav class="flex-1 overflow-y-auto py-6">
       <ul class="space-y-1">
-        <li><a href="/admin/dashboard" class="flex items-center gap-4 px-6 py-4 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group"><i data-lucide="layout-dashboard" class="w-5 h-5 group-hover:text-accent transition-colors"></i><span>Dashboard</span></a></li>
-        <li><a href="/admin/customers" class="flex items-center gap-4 px-6 py-4 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group"><i data-lucide="users" class="w-5 h-5 group-hover:text-accent transition-colors"></i><span>Customers</span></a></li>
-        <li><a href="/admin/trainers" class="flex items-center gap-4 px-6 py-4 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group"><i data-lucide="dumbbell" class="w-5 h-5 group-hover:text-accent transition-colors"></i><span>Trainers</span></a></li>
-        <li><a href="/admin/equipments" class="flex items-center gap-4 px-6 py-4 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group"><i data-lucide="monitor-smartphone" class="w-5 h-5 group-hover:text-accent transition-colors"></i><span>Equipment</span></a></li>
-        <li><a href="/admin/sessions" class="flex items-center gap-4 px-6 py-4 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group"><i data-lucide="calendar-check" class="w-5 h-5 group-hover:text-accent transition-colors"></i><span>Sessions</span></a></li>
+        <li><a href="/admin/dashboard" class="flex items-center gap-4 px-6 py-4 text-gray-400 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group"><i data-lucide="layout-dashboard" class="w-5 h-5 group-hover:text-accent transition-colors"></i><span>Dashboard</span></a></li>
+        <li><a href="/admin/customers" class="flex items-center gap-4 px-6 py-4 text-gray-400 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group"><i data-lucide="users" class="w-5 h-5 group-hover:text-accent transition-colors"></i><span>Customers</span></a></li>
+        <li><a href="/admin/trainers" class="flex items-center gap-4 px-6 py-4 text-gray-400 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group"><i data-lucide="dumbbell" class="w-5 h-5 group-hover:text-accent transition-colors"></i><span>Trainers</span></a></li>
+        <li><a href="/admin/equipments" class="flex items-center gap-4 px-6 py-4 text-gray-400 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group"><i data-lucide="monitor-smartphone" class="w-5 h-5 group-hover:text-accent transition-colors"></i><span>Equipment</span></a></li>
+        <li><a href="/admin/sessions" class="flex items-center gap-4 px-6 py-4 text-gray-400 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group"><i data-lucide="calendar-check" class="w-5 h-5 group-hover:text-accent transition-colors"></i><span>Sessions</span></a></li>
         <li><a href="/admin/logs" class="flex items-center gap-4 px-6 py-4 bg-secondary border-l-4 border-accent text-white font-bold uppercase tracking-wide transition-all"><i data-lucide="file-text" class="w-5 h-5"></i><span>Reports & Logs</span></a></li>
         <li class="mt-8 border-t border-secondary pt-4">
           <button onclick="logout()" class="w-full text-left flex items-center gap-4 px-6 py-4 text-red-300 hover:bg-red-900/50 hover:text-red-100 font-semibold uppercase tracking-wide transition-all group">
             <i data-lucide="log-out" class="w-5 h-5 group-hover:text-red-400 transition-colors"></i>
             <span>Logout</span>
           </button>
-          <button onclick="toggleTheme()" class="w-full text-left flex items-center gap-4 px-6 py-4 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group">
+          <button onclick="toggleTheme()" class="w-full text-left flex items-center gap-4 px-6 py-4 text-gray-400 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group">
             <i id="theme-icon" data-lucide="moon" class="w-5 h-5 group-hover:text-accent transition-colors"></i>
             <span>Theme</span>
           </button>
         </li>
       </ul>
     </nav>
-    <div class="p-4 bg-secondary border-t border-primary">
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 bg-accent flex items-center justify-center text-primary font-bold text-lg">AD</div>
-        <div><p class="text-sm font-bold text-white">Admin User</p><p class="text-xs text-accent">Manager</p></div>
-      </div>
-    </div>
   </aside>
 
-  <!-- Main Content -->
   <main class="flex-1 flex flex-col h-screen overflow-hidden relative">
     
-    <!-- Mobile Header -->
-    <header class="h-16 bg-primary text-contrast flex items-center justify-between px-4 md:hidden shadow-lg z-10">
+    <header class="h-16 bg-primary text-contrast flex items-center justify-between px-4 md:hidden shadow-lg z-10 transition-colors duration-300">
       <button id="mobile-menu-btn" class="p-2 hover:bg-secondary text-white"><i data-lucide="menu" class="w-6 h-6"></i></button>
       <span class="font-bold uppercase tracking-wider">Reports</span>
       <div class="w-8"></div>
     </header>
 
-    <!-- Mobile Sidebar Overlay -->
     <div id="mobile-sidebar" class="fixed inset-0 bg-black bg-opacity-50 z-20 hidden md:hidden">
       <aside class="w-64 h-full bg-primary text-contrast flex flex-col border-r-4 border-accent shadow-2xl transform -translate-x-full transition-transform duration-300" id="mobile-sidebar-content">
         <div class="h-16 flex items-center justify-between px-6 border-b border-secondary">
@@ -139,11 +161,11 @@
         </div>
         <nav class="flex-1 overflow-y-auto py-4">
           <ul class="space-y-1">
-            <li><a href="/admin/dashboard" class="block px-6 py-3 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase">Dashboard</a></li>
-            <li><a href="/admin/customers" class="block px-6 py-3 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase">Customers</a></li>
-            <li><a href="/admin/trainers" class="block px-6 py-3 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase">Trainers</a></li>
-            <li><a href="/admin/equipments" class="block px-6 py-3 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase">Equipment</a></li>
-            <li><a href="/admin/sessions" class="block px-6 py-3 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase">Sessions</a></li>
+            <li><a href="/admin/dashboard" class="block px-6 py-3 text-gray-400 hover:bg-secondary hover:text-white font-semibold uppercase">Dashboard</a></li>
+            <li><a href="/admin/customers" class="block px-6 py-3 text-gray-400 hover:bg-secondary hover:text-white font-semibold uppercase">Customers</a></li>
+            <li><a href="/admin/trainers" class="block px-6 py-3 text-gray-400 hover:bg-secondary hover:text-white font-semibold uppercase">Trainers</a></li>
+            <li><a href="/admin/equipments" class="block px-6 py-3 text-gray-400 hover:bg-secondary hover:text-white font-semibold uppercase">Equipment</a></li>
+            <li><a href="/admin/sessions" class="block px-6 py-3 text-gray-400 hover:bg-secondary hover:text-white font-semibold uppercase">Sessions</a></li>
             <li><a href="/admin/logs" class="block px-6 py-3 bg-secondary text-white font-bold uppercase border-l-4 border-accent">Reports & Logs</a></li>
             <li><button onclick="logout()" class="block w-full text-left px-6 py-3 text-red-300 hover:bg-red-900/50 hover:text-red-100 font-semibold uppercase">Logout</button></li>
           </ul>
@@ -151,21 +173,19 @@
       </aside>
     </div>
 
-    <!-- Content Area -->
-    <div class="flex-1 overflow-y-auto p-4 md:p-8 bg-contrast relative dark:bg-dark-bg">
+    <div class="flex-1 overflow-y-auto p-4 md:p-8 bg-contrast relative dark:bg-[#06182c] transition-colors duration-300">
       
-      <div class="mb-6 border-b-4 border-primary pb-4 flex flex-col md:flex-row justify-between md:items-end gap-4 dark:border-dark-primary">
+      <div class="mb-6 border-b-4 border-primary pb-4 flex flex-col md:flex-row justify-between md:items-end gap-4 dark:border-accent">
         <div>
-            <h2 class="text-4xl font-extrabold text-primary uppercase tracking-tighter dark:text-dark-text">Reports & System Logs</h2>
-            <p class="text-secondary font-medium mt-1 dark:text-dark-accent">View usage reports and system activity.</p>
+            <h2 class="text-4xl font-extrabold text-primary uppercase tracking-tighter dark:text-white">Reports & System Logs</h2>
+            <p class="text-secondary font-medium mt-1 dark:text-accent">View usage reports and system activity.</p>
         </div>
-        <button id="btn-print" onclick="window.print()" class="bg-primary text-contrast px-6 py-3 font-bold uppercase hover:bg-secondary hover:shadow-[4px_4px_0px_0px_#629FAD] transition-all active:translate-y-1 active:shadow-none border-2 border-transparent dark:bg-dark-primary dark:text-white dark:hover:bg-dark-accent">
+        <button id="btn-print" onclick="window.print()" class="bg-primary text-contrast px-6 py-3 font-bold uppercase hover:bg-secondary hover:shadow-[4px_4px_0px_0px_#629FAD] transition-all active:translate-y-1 active:shadow-none border-2 border-transparent dark:bg-accent dark:text-primary dark:hover:bg-contrast">
             <i data-lucide="printer" class="inline-block w-5 h-5 mr-2"></i> Print Report
         </button>
       </div>
 
-      <!-- Tabs -->
-      <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4 border-b-2 border-secondary/20 pb-2 dark:border-dark-primary">
+      <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4 border-b-2 border-secondary/20 pb-2 dark:border-secondary/50">
         <div class="flex">
             <button id="tab-logs" onclick="switchTab('logs')" class="px-6 py-3 font-bold uppercase tracking-wide transition-all tab-active">
                 System Logs
@@ -178,11 +198,10 @@
             </button>
         </div>
         
-        <!-- Date Filter -->
         <div class="flex items-center gap-2">
-            <label for="filter-date" class="font-bold text-sm uppercase text-primary dark:text-dark-text">Filter Date:</label>
-            <input type="date" id="filter-date" class="border-2 border-primary p-2 font-bold text-sm bg-white focus:outline-none focus:border-accent dark:bg-dark-bg dark:border-dark-primary dark:text-dark-text">
-            <button onclick="applyDateFilter()" class="bg-primary text-contrast px-4 py-2 font-bold uppercase text-xs hover:bg-secondary transition-colors dark:bg-dark-primary dark:text-white">
+            <label for="filter-date" class="font-bold text-sm uppercase text-primary dark:text-white">Filter Date:</label>
+            <input type="date" id="filter-date" class="border-2 border-primary p-2 font-bold text-sm bg-white focus:outline-none focus:border-accent dark:bg-primary dark:border-accent dark:text-white">
+            <button onclick="applyDateFilter()" class="bg-primary text-contrast px-4 py-2 font-bold uppercase text-xs hover:bg-secondary transition-colors dark:bg-accent dark:text-primary">
                 Apply
             </button>
             <button onclick="clearDateFilter()" class="text-xs text-red-500 font-bold uppercase hover:underline">
@@ -191,33 +210,31 @@
         </div>
       </div>
 
-      <!-- System Logs Section -->
-      <div id="section-logs" class="bg-white border-2 border-primary shadow-[8px_8px_0px_0px_#296374] dark:bg-dark-card dark:border-dark-primary">
-        <div class="bg-secondary p-4 border-b-2 border-primary flex justify-between items-center dark:bg-dark-primary dark:border-dark-accent">
+      <div id="section-logs" class="bg-white border-2 border-primary shadow-[8px_8px_0px_0px_#296374] dark:bg-primary dark:border-accent dark:shadow-[8px_8px_0px_0px_#629FAD] transition-all">
+        <div class="bg-secondary p-4 border-b-2 border-primary flex justify-between items-center dark:border-accent">
           <h3 class="text-xl font-bold text-white uppercase tracking-wider flex items-center gap-2">
-            <i data-lucide="file-clock" class="w-5 h-5 text-accent dark:text-dark-text"></i> Recent Activity
+            <i data-lucide="file-clock" class="w-5 h-5 text-accent"></i> Recent Activity
           </h3>
-          <button onclick="loadLogs()" class="text-xs bg-accent text-primary px-3 py-1 font-bold uppercase hover:bg-white transition-colors dark:bg-dark-accent dark:text-white">Refresh</button>
+          <button onclick="loadLogs()" class="text-xs bg-accent text-primary px-3 py-1 font-bold uppercase hover:bg-white transition-colors">Refresh</button>
         </div>
         <div class="overflow-x-auto">
           <table class="w-full text-left border-collapse">
             <thead>
-              <tr class="bg-gray-100 border-b-2 border-primary text-primary text-sm uppercase tracking-wider dark:bg-dark-bg dark:text-dark-text dark:border-dark-primary">
+              <tr class="bg-gray-100 border-b-2 border-primary text-primary text-sm uppercase tracking-wider dark:bg-[#06182c] dark:text-accent dark:border-accent">
                 <th class="p-4 font-extrabold w-48">Timestamp</th>
                 <th class="p-4 font-extrabold w-48">Action</th>
                 <th class="p-4 font-extrabold">Details</th>
               </tr>
             </thead>
-            <tbody id="logs-table" class="divide-y-2 divide-gray-100 text-sm font-semibold text-secondary dark:text-gray-300 dark:divide-dark-primary">
+            <tbody id="logs-table" class="divide-y-2 divide-gray-100 text-sm font-semibold text-secondary dark:text-contrast dark:divide-secondary/20">
               <tr><td colspan="3" class="p-4 text-center">Loading logs...</td></tr>
             </tbody>
           </table>
         </div>
       </div>
 
-      <!-- Customer Report Section -->
-      <div id="section-customer" class="hidden bg-white border-2 border-primary shadow-[8px_8px_0px_0px_#296374] dark:bg-dark-card dark:border-dark-primary">
-        <div class="bg-secondary p-4 border-b-2 border-primary flex justify-between items-center dark:bg-dark-primary dark:border-dark-accent">
+      <div id="section-customer" class="hidden bg-white border-2 border-primary shadow-[8px_8px_0px_0px_#296374] dark:bg-primary dark:border-accent dark:shadow-[8px_8px_0px_0px_#629FAD] transition-all">
+        <div class="bg-secondary p-4 border-b-2 border-primary flex justify-between items-center dark:border-accent">
             <h3 class="text-xl font-bold text-white uppercase tracking-wider flex items-center gap-2">
               <i data-lucide="user" class="w-5 h-5 text-accent"></i> Customer Usage History
             </h3>
@@ -226,7 +243,7 @@
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
               <thead>
-                <tr class="bg-gray-100 border-b-2 border-primary text-primary text-sm uppercase tracking-wider">
+                <tr class="bg-gray-100 border-b-2 border-primary text-primary text-sm uppercase tracking-wider dark:bg-[#06182c] dark:text-accent dark:border-accent">
                   <th class="p-4 font-extrabold">Customer Name</th>
                   <th class="p-4 font-extrabold">Equipment Used</th>
                   <th class="p-4 font-extrabold">Trainer</th>
@@ -234,16 +251,15 @@
                   <th class="p-4 font-extrabold">Duration</th>
                 </tr>
               </thead>
-              <tbody id="customer-report-table" class="divide-y-2 divide-gray-100 text-sm font-semibold text-secondary">
+              <tbody id="customer-report-table" class="divide-y-2 divide-gray-100 text-sm font-semibold text-secondary dark:text-contrast dark:divide-secondary/20">
                 <tr><td colspan="5" class="p-4 text-center">Loading data...</td></tr>
               </tbody>
             </table>
         </div>
       </div>
 
-      <!-- Trainer Report Section -->
-      <div id="section-trainer" class="hidden bg-white border-2 border-primary shadow-[8px_8px_0px_0px_#296374]">
-        <div class="bg-secondary p-4 border-b-2 border-primary flex justify-between items-center">
+      <div id="section-trainer" class="hidden bg-white border-2 border-primary shadow-[8px_8px_0px_0px_#296374] dark:bg-primary dark:border-accent dark:shadow-[8px_8px_0px_0px_#629FAD] transition-all">
+        <div class="bg-secondary p-4 border-b-2 border-primary flex justify-between items-center dark:border-accent">
             <h3 class="text-xl font-bold text-white uppercase tracking-wider flex items-center gap-2">
               <i data-lucide="dumbbell" class="w-5 h-5 text-accent"></i> Trainer Session History
             </h3>
@@ -252,7 +268,7 @@
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
               <thead>
-                <tr class="bg-gray-100 border-b-2 border-primary text-primary text-sm uppercase tracking-wider">
+                <tr class="bg-gray-100 border-b-2 border-primary text-primary text-sm uppercase tracking-wider dark:bg-[#06182c] dark:text-accent dark:border-accent">
                   <th class="p-4 font-extrabold">Trainer Name</th>
                   <th class="p-4 font-extrabold">Customer</th>
                   <th class="p-4 font-extrabold">Equipment Used</th>
@@ -260,7 +276,7 @@
                   <th class="p-4 font-extrabold">Duration</th>
                 </tr>
               </thead>
-              <tbody id="trainer-report-table" class="divide-y-2 divide-gray-100 text-sm font-semibold text-secondary">
+              <tbody id="trainer-report-table" class="divide-y-2 divide-gray-100 text-sm font-semibold text-secondary dark:text-contrast dark:divide-secondary/20">
                 <tr><td colspan="5" class="p-4 text-center">Loading data...</td></tr>
               </tbody>
             </table>
@@ -272,7 +288,6 @@
 
   <script>
     lucide.createIcons();
-    // Mobile Sidebar Logic
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
     const closeSidebarBtn = document.getElementById('close-sidebar-btn');
     const mobileSidebar = document.getElementById('mobile-sidebar');
@@ -285,29 +300,22 @@
     if(closeSidebarBtn) closeSidebarBtn.addEventListener('click', closeSidebar);
     if(mobileSidebar) mobileSidebar.addEventListener('click', (e) => { if(e.target === mobileSidebar) closeSidebar(); });
 
-    // Tab Switching Logic
     function switchTab(tabName) {
-        // Hide all sections
         document.getElementById('section-logs').classList.add('hidden');
         document.getElementById('section-customer').classList.add('hidden');
         document.getElementById('section-trainer').classList.add('hidden');
         
-        // Reset tab styles
         ['logs', 'customer', 'trainer'].forEach(t => {
             const btn = document.getElementById(`tab-${t}`);
             btn.classList.remove('tab-active');
             btn.classList.add('tab-inactive');
         });
 
-        // Show selected section
         document.getElementById(`section-${tabName}`).classList.remove('hidden');
-        
-        // Activate selected tab
         const activeBtn = document.getElementById(`tab-${tabName}`);
         activeBtn.classList.remove('tab-inactive');
         activeBtn.classList.add('tab-active');
 
-        // Load data if needed
         if(tabName === 'logs') loadLogs();
         if(tabName === 'customer') loadCustomerReport();
         if(tabName === 'trainer') loadTrainerReport();
@@ -316,8 +324,5 @@
   <script src="/js/config.js"></script>
   <script src="/js/auth.js"></script>
   <script src="/js/logs.js"></script>
-  <script>
-    lucide.createIcons();
-  </script>
 </body>
 </html>

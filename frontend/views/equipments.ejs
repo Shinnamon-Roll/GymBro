@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>GymBro • Equipment</title>
   
-  <!-- Tailwind CSS via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -17,13 +16,6 @@
             secondary: '#296374',
             accent: '#629FAD',
             contrast: '#EDEDCE',
-            dark: {
-                bg: '#0F0F0F',
-                card: '#232D3F',
-                primary: '#005B41',
-                accent: '#008170',
-                text: '#EDEDCE'
-            }
           },
           fontFamily: {
             sans: ['Inter', 'sans-serif'],
@@ -44,10 +36,8 @@
     }
   </script>
   
-  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   
-  <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
@@ -56,13 +46,52 @@
     ::-webkit-scrollbar-track { background: #EDEDCE; }
     ::-webkit-scrollbar-thumb { background: #296374; }
     ::-webkit-scrollbar-thumb:hover { background: #0C2C55; }
+    
+    /* Scrollbar โหมดมืด */
+    .dark ::-webkit-scrollbar-track { background: #06182c; }
+    .dark ::-webkit-scrollbar-thumb { background: #296374; }
+    .dark ::-webkit-scrollbar-thumb:hover { background: #629FAD; }
+
+    /* ปรับเอฟเฟกต์ Hover ตารางในโหมดมืด */
+    .dark #equipments-table tr:hover {
+      background-color: #296374 !important;
+    }
+    
+    /* 1. บังคับสีข้อความที่ดึงมาจาก Database ให้เป็นสีสว่างในโหมดมืด */
+    .dark #equipments-table td {
+      color: #EDEDCE !important;
+    }
+    
+    /* กรณีมีปุ่ม ลิงก์ หรือไอคอนในตาราง ให้เปลี่ยนสีด้วย */
+    .dark #equipments-table td a,
+    .dark #equipments-table td button,
+    .dark #equipments-table td i {
+      color: #EDEDCE !important;
+    }
+    
+    /* 2. เน้นคอลัมน์แรก (ID) ให้เป็นสีฟ้า accent และตัวหนา */
+    .dark #equipments-table td:nth-child(1) {
+      color: #629FAD !important; 
+      font-weight: 800 !important;
+    }
+
+    /* 3. ทำให้กรอบ Status (คอลัมน์ 4) สีมืดทึบขั้นสุด */
+    .dark #equipments-table td:nth-child(4) * {
+      background-color: #020b16 !important; /* สีพื้นหลังทึบ มืดกว่าตารางปกติ (เกือบดำ) ตัดปัญหาแสงทะลุ */
+      border: 1px solid #296374 !important; /* ดรอปสีกรอบให้เข้มลง ไม่ให้สว่างเกินไป */
+      color: #629FAD !important; /* สีตัวหนังสือฟ้าหม่นๆ ให้เข้าธีมและอ่านสบายตา */
+      padding: 4px 12px !important;
+      border-radius: 2px !important;
+      box-shadow: none !important; /* เอาเงาออกให้แบนเรียบไปกับความมืด */
+      font-weight: 700 !important;
+      letter-spacing: 0.5px;
+    }
   </style>
   <script src="/js/theme.js"></script>
 </head>
-<body class="bg-contrast text-primary min-h-screen flex overflow-hidden dark:bg-dark-bg dark:text-dark-text transition-colors duration-300">
+<body class="bg-contrast text-primary dark:bg-[#06182c] dark:text-contrast min-h-screen flex overflow-hidden transition-colors duration-300">
 
-  <!-- Sidebar -->
-  <aside class="w-64 bg-primary text-contrast flex-shrink-0 flex flex-col border-r-4 border-accent hidden md:flex">
+  <aside class="w-64 bg-primary text-contrast flex-shrink-0 flex flex-col border-r-4 border-accent hidden md:flex z-20 transition-colors duration-300">
     <div class="h-20 flex items-center justify-center border-b border-secondary">
       <h1 class="text-3xl font-extrabold tracking-tighter uppercase italic">Gym<span class="text-accent">Bro</span></h1>
     </div>
@@ -70,19 +99,19 @@
       <ul class="space-y-1">
         <li>
           <a href="/admin/dashboard" class="flex items-center gap-4 px-6 py-4 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group">
-            <i data-lucide="layout-dashboard" class="w-5 h-5 group-hover:text-accent transition-colors"></i>
+            <i data-lucide="layout-dashboard" class="w-5 h-5 group-hover:text-accent transition-colors text-accent"></i>
             <span>Dashboard</span>
           </a>
         </li>
         <li>
           <a href="/admin/customers" class="flex items-center gap-4 px-6 py-4 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group">
-            <i data-lucide="users" class="w-5 h-5 group-hover:text-accent transition-colors"></i>
+            <i data-lucide="users" class="w-5 h-5 group-hover:text-accent transition-colors text-accent"></i>
             <span>Customers</span>
           </a>
         </li>
         <li>
           <a href="/admin/trainers" class="flex items-center gap-4 px-6 py-4 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group">
-            <i data-lucide="dumbbell" class="w-5 h-5 group-hover:text-accent transition-colors"></i>
+            <i data-lucide="dumbbell" class="w-5 h-5 group-hover:text-accent transition-colors text-accent"></i>
             <span>Trainers</span>
           </a>
         </li>
@@ -94,13 +123,13 @@
         </li>
         <li>
           <a href="/admin/sessions" class="flex items-center gap-4 px-6 py-4 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group">
-            <i data-lucide="calendar-check" class="w-5 h-5 group-hover:text-accent transition-colors"></i>
+            <i data-lucide="calendar-check" class="w-5 h-5 group-hover:text-accent transition-colors text-accent"></i>
             <span>Sessions</span>
           </a>
         </li>
         <li>
           <a href="/admin/logs" class="flex items-center gap-4 px-6 py-4 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group">
-            <i data-lucide="file-text" class="w-5 h-5 group-hover:text-accent transition-colors"></i>
+            <i data-lucide="file-text" class="w-5 h-5 group-hover:text-accent transition-colors text-accent"></i>
             <span>System Logs</span>
           </a>
         </li>
@@ -110,7 +139,7 @@
             <span>Logout</span>
           </button>
           <button onclick="toggleTheme()" class="w-full text-left flex items-center gap-4 px-6 py-4 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group">
-            <i id="theme-icon" data-lucide="moon" class="w-5 h-5 group-hover:text-accent transition-colors"></i>
+            <i id="theme-icon" data-lucide="moon" class="w-5 h-5 group-hover:text-accent transition-colors text-accent"></i>
             <span>Theme</span>
           </button>
         </li>
@@ -127,11 +156,9 @@
     </div>
   </aside>
 
-  <!-- Main Content -->
   <main class="flex-1 flex flex-col h-screen overflow-hidden relative">
     
-    <!-- Mobile Header -->
-    <header class="h-16 bg-primary text-contrast flex items-center justify-between px-4 md:hidden shadow-lg z-10">
+    <header class="h-16 bg-primary text-contrast flex items-center justify-between px-4 md:hidden shadow-lg z-10 transition-colors duration-300 border-b border-accent">
       <button id="mobile-menu-btn" class="p-2 hover:bg-secondary text-white">
         <i data-lucide="menu" class="w-6 h-6"></i>
       </button>
@@ -139,7 +166,6 @@
       <div class="w-8"></div>
     </header>
 
-    <!-- Mobile Sidebar Overlay -->
     <div id="mobile-sidebar" class="fixed inset-0 bg-black bg-opacity-50 z-20 hidden md:hidden">
       <aside class="w-64 h-full bg-primary text-contrast flex flex-col border-r-4 border-accent shadow-2xl transform -translate-x-full transition-transform duration-300" id="mobile-sidebar-content">
         <div class="h-16 flex items-center justify-between px-6 border-b border-secondary">
@@ -160,47 +186,44 @@
       </aside>
     </div>
 
-    <!-- Content Area -->
-    <div class="flex-1 overflow-y-auto p-4 md:p-8 bg-contrast relative dark:bg-dark-bg">
+    <div class="flex-1 overflow-y-auto p-4 md:p-8 transition-colors duration-300 relative">
       
-      <div class="mb-8 border-b-4 border-primary pb-4 dark:border-dark-primary">
-        <h2 class="text-4xl font-extrabold text-primary uppercase tracking-tighter dark:text-dark-text">Equipment Management</h2>
-        <p class="text-secondary font-medium mt-1 dark:text-dark-accent">Track and manage gym equipment status.</p>
+      <div class="mb-8 border-b-4 border-primary dark:border-accent pb-4">
+        <h2 class="text-4xl font-extrabold text-primary dark:text-white uppercase tracking-tighter">Equipment Management</h2>
+        <p class="text-secondary dark:text-accent font-medium mt-1">Track and manage gym equipment status.</p>
       </div>
 
-      <!-- Add Equipment Form -->
-      <div class="bg-white border-2 border-primary p-6 mb-8 shadow-[4px_4px_0px_0px_#0C2C55] dark:bg-dark-card dark:border-dark-primary dark:shadow-[4px_4px_0px_0px_#005B41]">
-        <h3 class="text-xl font-bold uppercase mb-4 flex items-center gap-2 dark:text-dark-text">
-          <i data-lucide="monitor-smartphone" class="w-5 h-5 text-accent dark:text-dark-accent"></i> Add New Equipment
+      <div class="bg-white dark:bg-primary border-2 border-primary dark:border-accent p-6 mb-8 shadow-[4px_4px_0px_0px_#0C2C55] dark:shadow-[4px_4px_0px_0px_#629FAD] transition-all duration-300">
+        <h3 class="text-xl font-bold uppercase mb-4 flex items-center gap-2 text-primary dark:text-accent">
+          <i data-lucide="monitor-smartphone" class="w-5 h-5 text-accent"></i> Add New Equipment
         </h3>
         <form id="equipment-form" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <input id="equipmentName" placeholder="Equipment Name" required class="border-2 border-primary p-3 font-bold focus:outline-none focus:border-accent placeholder-gray-400 dark:bg-dark-bg dark:border-dark-primary dark:text-dark-text">
+          <input id="equipmentName" placeholder="Equipment Name" required class="border-2 border-primary dark:border-secondary p-3 font-bold focus:outline-none focus:border-accent dark:focus:border-accent bg-white dark:bg-[#06182c] text-primary dark:text-contrast placeholder-gray-400">
           
-          <input id="category" placeholder="Category (e.g. Cardio, Strength)" class="border-2 border-primary p-3 font-bold focus:outline-none focus:border-accent placeholder-gray-400 dark:bg-dark-bg dark:border-dark-primary dark:text-dark-text">
+          <input id="category" placeholder="Category (e.g. Cardio, Strength)" class="border-2 border-primary dark:border-secondary p-3 font-bold focus:outline-none focus:border-accent dark:focus:border-accent bg-white dark:bg-[#06182c] text-primary dark:text-contrast placeholder-gray-400">
 
-          <select id="status" required class="border-2 border-primary p-3 font-bold focus:outline-none focus:border-accent bg-white dark:bg-dark-bg dark:border-dark-primary dark:text-dark-text">
+          <select id="status" required class="border-2 border-primary dark:border-secondary p-3 font-bold focus:outline-none focus:border-accent dark:focus:border-accent bg-white dark:bg-[#06182c] text-primary dark:text-contrast">
             <option value="Available">Available</option>
             <option value="In Use">In Use</option>
             <option value="Maintenance">Maintenance</option>
           </select>
           
-          <button type="submit" class="bg-primary text-contrast font-bold uppercase hover:bg-secondary hover:shadow-[2px_2px_0px_0px_#629FAD] transition-all active:translate-y-1 active:shadow-none border-2 border-transparent h-full flex items-center justify-center gap-2 dark:bg-dark-primary dark:text-white dark:hover:bg-dark-accent">
+          <button type="submit" class="bg-primary dark:bg-accent text-contrast dark:text-primary font-bold uppercase hover:bg-secondary dark:hover:bg-contrast hover:shadow-[2px_2px_0px_0px_#629FAD] dark:hover:shadow-[2px_2px_0px_0px_#EDEDCE] transition-all active:translate-y-1 active:shadow-none border-2 border-transparent h-full flex items-center justify-center gap-2">
             <i data-lucide="save" class="w-4 h-4"></i> Save Equipment
           </button>
         </form>
       </div>
 
-      <!-- Equipment List -->
-      <div class="bg-white border-2 border-primary shadow-[8px_8px_0px_0px_#296374] dark:bg-dark-card dark:border-dark-primary">
-        <div class="bg-secondary p-4 border-b-2 border-primary dark:bg-dark-primary dark:border-dark-accent">
-          <h3 class="text-xl font-bold text-white uppercase tracking-wider flex items-center gap-2">
-            <i data-lucide="list" class="w-5 h-5 text-accent dark:text-dark-text"></i> Inventory List
+      <div class="bg-white dark:bg-primary border-2 border-primary dark:border-accent shadow-[8px_8px_0px_0px_#296374] dark:shadow-[8px_8px_0px_0px_#629FAD] transition-all duration-300">
+        <div class="bg-secondary p-4 border-b-2 border-primary dark:border-accent">
+          <h3 class="text-xl font-bold text-white dark:text-contrast uppercase tracking-wider flex items-center gap-2">
+            <i data-lucide="list" class="w-5 h-5 text-accent"></i> Inventory List
           </h3>
         </div>
         <div class="overflow-x-auto">
           <table class="w-full text-left border-collapse">
             <thead>
-              <tr class="bg-gray-100 border-b-2 border-primary text-primary text-sm uppercase tracking-wider dark:bg-dark-bg dark:text-dark-text dark:border-dark-primary">
+              <tr class="bg-gray-100 dark:bg-[#06182c] border-b-2 border-primary dark:border-accent text-primary dark:text-accent text-sm uppercase tracking-wider">
                 <th class="p-4 font-extrabold">ID</th>
                 <th class="p-4 font-extrabold">Equipment Name</th>
                 <th class="p-4 font-extrabold">Category</th>
@@ -208,9 +231,8 @@
                 <th class="p-4 font-extrabold text-center">Actions</th>
               </tr>
             </thead>
-            <tbody id="equipments-table" class="divide-y-2 divide-gray-100 text-sm font-semibold text-secondary dark:text-gray-300 dark:divide-dark-primary">
-              <!-- JS Populated -->
-            </tbody>
+            <tbody id="equipments-table" class="divide-y-2 divide-gray-100 dark:divide-[#06182c] text-sm font-semibold text-secondary dark:text-contrast bg-white dark:bg-primary">
+              </tbody>
           </table>
         </div>
       </div>

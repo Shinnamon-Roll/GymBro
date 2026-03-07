@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>GymBro • Dashboard</title>
   
-  <!-- Tailwind CSS via CDN for rapid prototyping/draft -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -17,13 +16,6 @@
             secondary: '#296374',
             accent: '#629FAD',
             contrast: '#EDEDCE',
-            dark: {
-                bg: '#0F0F0F',
-                card: '#232D3F',
-                primary: '#005B41',
-                accent: '#008170',
-                text: '#EDEDCE'
-            }
           },
           fontFamily: {
             sans: ['Inter', 'sans-serif'],
@@ -44,94 +36,106 @@
     }
   </script>
   
-  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  
-  <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
-    body {
-      font-family: 'Inter', sans-serif;
+    body { font-family: 'Inter', sans-serif; }
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #EDEDCE; }
+    ::-webkit-scrollbar-thumb { background: #296374; }
+    ::-webkit-scrollbar-thumb:hover { background: #0C2C55; }
+    
+    /* Scrollbar โหมดมืด */
+    .dark ::-webkit-scrollbar-track { background: #06182c; }
+    .dark ::-webkit-scrollbar-thumb { background: #296374; }
+    .dark ::-webkit-scrollbar-thumb:hover { background: #629FAD; }
+
+    /* ปรับตาราง Hover ให้ชัดเจนเหมือนหน้า Trainers */
+    .dark #today-sessions tr:hover {
+      background-color: #296374 !important;
     }
-    /* Custom Scrollbar */
-    ::-webkit-scrollbar {
-      width: 8px;
+    .dark #today-sessions tr:hover td {
+      color: #EDEDCE !important;
     }
-    ::-webkit-scrollbar-track {
-      background: #EDEDCE;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #296374; 
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #0C2C55; 
-    }
+
+    .dark table tbody td {
+    color: #EDEDCE !important;
+  }
+
+  /* ถ้ามีลิงก์หรือปุ่มข้างใน ให้เปลี่ยนสีด้วย */
+  .dark table tbody td a,
+  .dark table tbody td button,
+  .dark table tbody td span {
+    color: #EDEDCE !important;
+  }
+  
+  /* ถ้าอยากให้คอลัมน์แรก (ชื่อลูกค้า) หนาและโดดเด่นขึ้น */
+  .dark table tbody td:nth-child(1) {
+    color: #629FAD !important; /* เปลี่ยนเป็นสีฟ้า accent */
+    font-weight: 800 !important;
+  }
   </style>
   <script src="/js/theme.js"></script>
 </head>
-<body class="bg-contrast text-primary min-h-screen flex overflow-hidden dark:bg-dark-bg dark:text-dark-text transition-colors duration-300">
+<body class="bg-contrast text-primary dark:bg-[#06182c] dark:text-contrast min-h-screen flex overflow-hidden transition-colors duration-300">
 
-  <!-- Sidebar -->
-  <aside class="w-64 bg-primary text-contrast flex-shrink-0 flex flex-col border-r-4 border-accent hidden md:flex">
-    <!-- Brand -->
+  <aside class="w-64 bg-primary text-contrast flex-shrink-0 flex flex-col border-r-4 border-accent hidden md:flex z-20 transition-colors duration-300">
     <div class="h-20 flex items-center justify-center border-b border-secondary">
       <h1 class="text-3xl font-extrabold tracking-tighter uppercase italic">Gym<span class="text-accent">Bro</span></h1>
     </div>
 
-    <!-- Navigation -->
     <nav class="flex-1 overflow-y-auto py-6">
       <ul class="space-y-1">
         <li>
-          <a href="/admin/dashboard" class="flex items-center gap-4 px-6 py-4 bg-secondary border-l-4 border-accent text-white font-bold uppercase tracking-wide transition-all">
+          <a href="/admin/dashboard" class="flex items-center gap-4 px-6 py-4 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group">
             <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
             <span>Dashboard</span>
           </a>
         </li>
         <li>
           <a href="/admin/customers" class="flex items-center gap-4 px-6 py-4 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group">
-            <i data-lucide="users" class="w-5 h-5 group-hover:text-accent transition-colors"></i>
+            <i data-lucide="users" class="w-5 h-5 text-accent transition-colors"></i>
             <span>Customers</span>
           </a>
         </li>
         <li>
           <a href="/admin/trainers" class="flex items-center gap-4 px-6 py-4 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group">
-            <i data-lucide="dumbbell" class="w-5 h-5 group-hover:text-accent transition-colors"></i>
+            <i data-lucide="dumbbell" class="w-5 h-5 text-accent transition-colors"></i>
             <span>Trainers</span>
           </a>
         </li>
         <li>
           <a href="/admin/equipments" class="flex items-center gap-4 px-6 py-4 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group">
-            <i data-lucide="monitor-smartphone" class="w-5 h-5 group-hover:text-accent transition-colors"></i>
+            <i data-lucide="monitor-smartphone" class="w-5 h-5 text-accent transition-colors"></i>
             <span>Equipment</span>
           </a>
         </li>
         <li>
           <a href="/admin/sessions" class="flex items-center gap-4 px-6 py-4 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group">
-            <i data-lucide="calendar-check" class="w-5 h-5 group-hover:text-accent transition-colors"></i>
+            <i data-lucide="calendar-check" class="w-5 h-5 text-accent transition-colors"></i>
             <span>Sessions</span>
           </a>
         </li>
         <li>
           <a href="/admin/logs" class="flex items-center gap-4 px-6 py-4 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group">
-            <i data-lucide="file-text" class="w-5 h-5 group-hover:text-accent transition-colors"></i>
+            <i data-lucide="file-text" class="w-5 h-5 text-accent transition-colors"></i>
             <span>Reports & Logs</span>
           </a>
         </li>
         <li class="mt-8 border-t border-secondary pt-4">
           <button onclick="logout()" class="w-full text-left flex items-center gap-4 px-6 py-4 text-red-300 hover:bg-red-900/50 hover:text-red-100 font-semibold uppercase tracking-wide transition-all group">
-            <i data-lucide="log-out" class="w-5 h-5 group-hover:text-red-400 transition-colors"></i>
+            <i data-lucide="log-out" class="w-5 h-5 transition-colors"></i>
             <span>Logout</span>
           </button>
           <button onclick="toggleTheme()" class="w-full text-left flex items-center gap-4 px-6 py-4 text-gray-300 hover:bg-secondary hover:text-white font-semibold uppercase tracking-wide transition-all group">
-            <i id="theme-icon" data-lucide="moon" class="w-5 h-5 group-hover:text-accent transition-colors"></i>
+            <i id="theme-icon" data-lucide="moon" class="w-5 h-5 text-accent transition-colors"></i>
             <span>Theme</span>
           </button>
         </li>
       </ul>
     </nav>
 
-    <!-- User Profile -->
     <div class="p-4 bg-secondary border-t border-primary">
       <div class="flex items-center gap-3">
         <div class="w-10 h-10 bg-accent flex items-center justify-center text-primary font-bold text-lg">
@@ -145,19 +149,16 @@
     </div>
   </aside>
 
-  <!-- Main Content -->
   <main class="flex-1 flex flex-col h-screen overflow-hidden relative">
     
-    <!-- Mobile Header -->
-    <header class="h-16 bg-primary text-contrast flex items-center justify-between px-4 md:hidden shadow-lg z-10">
+    <header class="h-16 bg-primary text-contrast flex items-center justify-between px-4 md:hidden shadow-lg z-10 transition-colors duration-300 border-b border-accent">
       <button id="mobile-menu-btn" class="p-2 hover:bg-secondary text-white">
         <i data-lucide="menu" class="w-6 h-6"></i>
       </button>
       <span class="font-bold uppercase tracking-wider">GymBro Dashboard</span>
-      <div class="w-8"></div> <!-- Spacer -->
+      <div class="w-8"></div>
     </header>
 
-    <!-- Mobile Sidebar Overlay (Hidden by default) -->
     <div id="mobile-sidebar" class="fixed inset-0 bg-black bg-opacity-50 z-20 hidden md:hidden">
       <aside class="w-64 h-full bg-primary text-contrast flex flex-col border-r-4 border-accent shadow-2xl transform -translate-x-full transition-transform duration-300" id="mobile-sidebar-content">
         <div class="h-16 flex items-center justify-between px-6 border-b border-secondary">
@@ -180,89 +181,81 @@
       </aside>
     </div>
 
-    <!-- Content Area -->
-    <div class="flex-1 overflow-y-auto p-4 md:p-8 bg-contrast relative dark:bg-dark-bg">
+    <div class="flex-1 overflow-y-auto p-4 md:p-8 transition-colors duration-300 relative">
       
-      <!-- Page Header -->
-      <div class="mb-8 border-b-4 border-primary pb-4 flex flex-col md:flex-row md:items-end justify-between gap-4 dark:border-dark-primary">
+      <div class="mb-8 border-b-4 border-primary dark:border-accent pb-4 flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <h2 class="text-4xl font-extrabold text-primary uppercase tracking-tighter dark:text-dark-text">
+          <h2 class="text-4xl font-extrabold text-primary dark:text-white uppercase tracking-tighter">
             Overview
           </h2>
-          <p class="text-secondary font-medium mt-1 dark:text-dark-accent">
+          <p class="text-secondary dark:text-accent font-medium mt-1">
             Welcome back! Here's what's happening at the gym today.
           </p>
         </div>
-        <button id="btn-new-booking" class="bg-primary text-contrast px-6 py-3 font-bold uppercase hover:bg-secondary hover:shadow-[4px_4px_0px_0px_#629FAD] transition-all active:translate-y-1 active:shadow-none border-2 border-transparent">
+        <button id="btn-new-booking" class="bg-primary dark:bg-accent text-contrast dark:text-primary px-6 py-3 font-bold uppercase hover:bg-secondary dark:hover:bg-contrast hover:shadow-[4px_4px_0px_0px_#629FAD] dark:hover:shadow-[4px_4px_0px_0px_#EDEDCE] transition-all active:translate-y-1 active:shadow-none border-2 border-transparent">
           + New Booking
         </button>
       </div>
 
-      <!-- Stats Grid -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <!-- Stat Card 1 -->
-        <div class="bg-white border-2 border-primary p-6 shadow-[4px_4px_0px_0px_#0C2C55] hover:shadow-[6px_6px_0px_0px_#0C2C55] transition-all group dark:bg-dark-card dark:border-dark-primary dark:shadow-[4px_4px_0px_0px_#005B41]">
-          <div class="flex justify-between items-start mb-4">
-            <div class="p-3 bg-secondary text-white dark:bg-dark-accent">
-              <i data-lucide="users" class="w-6 h-6"></i>
-            </div>
-            <span class="text-xs font-bold uppercase text-secondary bg-contrast px-2 py-1 dark:bg-dark-bg dark:text-dark-accent">Total</span>
-          </div>
-          <h3 class="text-3xl font-black text-primary dark:text-dark-text" id="count-customers">0</h3>
-          <p class="text-sm font-bold text-gray-500 uppercase tracking-wide mt-1 dark:text-gray-400">Members</p>
-        </div>
-
-        <!-- Stat Card 2 -->
-        <div class="bg-white border-2 border-primary p-6 shadow-[4px_4px_0px_0px_#0C2C55] hover:shadow-[6px_6px_0px_0px_#0C2C55] transition-all group">
+        <div class="bg-white dark:bg-primary border-2 border-primary dark:border-accent p-6 shadow-[4px_4px_0px_0px_#0C2C55] dark:shadow-[4px_4px_0px_0px_#629FAD] transition-all group">
           <div class="flex justify-between items-start mb-4">
             <div class="p-3 bg-secondary text-white">
-              <i data-lucide="dumbbell" class="w-6 h-6"></i>
+              <i data-lucide="users" class="w-6 h-6 text-accent"></i>
             </div>
-            <span class="text-xs font-bold uppercase text-secondary bg-contrast px-2 py-1">Active</span>
+            <span class="text-xs font-bold uppercase text-secondary dark:text-accent bg-contrast dark:bg-[#06182c] px-2 py-1">Total</span>
           </div>
-          <h3 class="text-3xl font-black text-primary" id="count-trainers">0</h3>
-          <p class="text-sm font-bold text-gray-500 uppercase tracking-wide mt-1">Trainers</p>
+          <h3 class="text-3xl font-black text-primary dark:text-contrast" id="count-customers">0</h3>
+          <p class="text-sm font-bold text-gray-500 dark:text-accent uppercase tracking-wide mt-1">Members</p>
         </div>
 
-        <!-- Stat Card 3 -->
-        <div class="bg-white border-2 border-primary p-6 shadow-[4px_4px_0px_0px_#0C2C55] hover:shadow-[6px_6px_0px_0px_#0C2C55] transition-all group">
+        <div class="bg-white dark:bg-primary border-2 border-primary dark:border-accent p-6 shadow-[4px_4px_0px_0px_#0C2C55] dark:shadow-[4px_4px_0px_0px_#629FAD] transition-all group">
           <div class="flex justify-between items-start mb-4">
             <div class="p-3 bg-secondary text-white">
-              <i data-lucide="monitor-smartphone" class="w-6 h-6"></i>
+              <i data-lucide="dumbbell" class="w-6 h-6 text-accent"></i>
             </div>
-            <span class="text-xs font-bold uppercase text-secondary bg-contrast px-2 py-1">Status</span>
+            <span class="text-xs font-bold uppercase text-secondary dark:text-accent bg-contrast dark:bg-[#06182c] px-2 py-1">Active</span>
           </div>
-          <h3 class="text-3xl font-black text-primary" id="count-equipments">0</h3>
-          <p class="text-sm font-bold text-gray-500 uppercase tracking-wide mt-1">Equipment</p>
+          <h3 class="text-3xl font-black text-primary dark:text-contrast" id="count-trainers">0</h3>
+          <p class="text-sm font-bold text-gray-500 dark:text-accent uppercase tracking-wide mt-1">Trainers</p>
         </div>
 
-        <!-- Stat Card 4 -->
-        <div class="bg-white border-2 border-primary p-6 shadow-[4px_4px_0px_0px_#0C2C55] hover:shadow-[6px_6px_0px_0px_#0C2C55] transition-all group">
+        <div class="bg-white dark:bg-primary border-2 border-primary dark:border-accent p-6 shadow-[4px_4px_0px_0px_#0C2C55] dark:shadow-[4px_4px_0px_0px_#629FAD] transition-all group">
+          <div class="flex justify-between items-start mb-4">
+            <div class="p-3 bg-secondary text-white">
+              <i data-lucide="monitor-smartphone" class="w-6 h-6 text-accent"></i>
+            </div>
+            <span class="text-xs font-bold uppercase text-secondary dark:text-accent bg-contrast dark:bg-[#06182c] px-2 py-1">Status</span>
+          </div>
+          <h3 class="text-3xl font-black text-primary dark:text-contrast" id="count-equipments">0</h3>
+          <p class="text-sm font-bold text-gray-500 dark:text-accent uppercase tracking-wide mt-1">Equipment</p>
+        </div>
+
+        <div class="bg-white dark:bg-primary border-2 border-primary dark:border-accent p-6 shadow-[4px_4px_0px_0px_#0C2C55] dark:shadow-[4px_4px_0px_0px_#629FAD] transition-all group">
           <div class="flex justify-between items-start mb-4">
             <div class="p-3 bg-accent text-primary">
               <i data-lucide="clock" class="w-6 h-6"></i>
             </div>
-            <span class="text-xs font-bold uppercase text-white bg-primary px-2 py-1">Today</span>
+            <span class="text-xs font-bold uppercase text-white dark:text-contrast bg-primary px-2 py-1">Today</span>
           </div>
-          <h3 class="text-3xl font-black text-primary" id="count-sessions">0</h3>
-          <p class="text-sm font-bold text-gray-500 uppercase tracking-wide mt-1">Sessions</p>
+          <h3 class="text-3xl font-black text-primary dark:text-contrast" id="count-sessions">0</h3>
+          <p class="text-sm font-bold text-gray-500 dark:text-accent uppercase tracking-wide mt-1">Sessions</p>
         </div>
       </div>
 
-      <!-- Schedule Section -->
-      <div class="bg-white border-2 border-primary shadow-[8px_8px_0px_0px_#296374] dark:bg-dark-card dark:border-dark-primary">
-        <div class="bg-secondary p-4 flex justify-between items-center border-b-2 border-primary dark:bg-dark-primary dark:border-dark-accent">
-          <h3 class="text-xl font-bold text-white uppercase tracking-wider flex items-center gap-2">
-            <i data-lucide="calendar" class="w-5 h-5 text-accent dark:text-dark-text"></i>
+      <div class="bg-white dark:bg-primary border-2 border-primary dark:border-accent shadow-[8px_8px_0px_0px_#296374] dark:shadow-[8px_8px_0px_0px_#629FAD] transition-all duration-300">
+        <div class="bg-secondary p-4 flex justify-between items-center border-b-2 border-primary dark:border-accent">
+          <h3 class="text-xl font-bold text-white dark:text-contrast uppercase tracking-wider flex items-center gap-2">
+            <i data-lucide="calendar" class="w-5 h-5 text-accent"></i>
             Today's Schedule
           </h3>
-          <button class="text-sm font-bold text-contrast hover:text-accent underline uppercase dark:text-dark-accent">View All</button>
+          <button class="text-sm font-bold text-contrast hover:text-accent underline uppercase">View All</button>
         </div>
         
         <div class="p-0 overflow-x-auto">
           <table class="w-full text-left border-collapse">
-            <thead class="dark:bg-dark-bg dark:text-dark-text dark:border-dark-primary">
-              <tr class="bg-gray-100 border-b-2 border-primary text-primary text-sm uppercase tracking-wider dark:border-dark-primary">
+            <thead>
+              <tr class="bg-gray-100 dark:bg-[#06182c] border-b-2 border-primary dark:border-accent text-primary dark:text-accent text-sm uppercase tracking-wider">
                 <th class="p-4 font-extrabold">Customer</th>
                 <th class="p-4 font-extrabold">Trainer</th>
                 <th class="p-4 font-extrabold">Activity/Equipment</th>
@@ -270,14 +263,13 @@
                 <th class="p-4 font-extrabold text-center">Status</th>
               </tr>
             </thead>
-            <tbody id="today-sessions" class="divide-y-2 divide-gray-100 text-sm font-semibold text-secondary dark:text-gray-300 dark:divide-dark-primary">
-              <!-- JS will populate this, but here's a placeholder structure -->
-              <tr class="hover:bg-contrast transition-colors dark:hover:bg-dark-accent/10">
+            <tbody id="today-sessions" class="divide-y-2 divide-gray-100 dark:divide-[#06182c] text-sm font-semibold text-secondary dark:text-contrast bg-white dark:bg-primary">
+              <tr>
                 <td class="p-4">Loading...</td>
                 <td class="p-4">Loading...</td>
                 <td class="p-4">Loading...</td>
                 <td class="p-4">Loading...</td>
-                <td class="p-4 text-center"><span class="bg-gray-200 px-2 py-1 text-xs font-bold uppercase dark:bg-gray-700 dark:text-gray-300">Pending</span></td>
+                <td class="p-4 text-center"><span class="bg-gray-200 dark:bg-[#06182c] px-2 py-1 text-xs font-bold uppercase dark:text-contrast">Pending</span></td>
               </tr>
             </tbody>
           </table>
@@ -287,9 +279,7 @@
     </div>
   </main>
 
-  <!-- Scripts -->
   <script>
-    // Initialize Lucide Icons
     lucide.createIcons();
 
     // Mobile Sidebar Toggle Logic
@@ -312,17 +302,14 @@
       }, 300);
     }
 
-    mobileMenuBtn.addEventListener('click', openSidebar);
-    closeSidebarBtn.addEventListener('click', closeSidebar);
-    mobileSidebar.addEventListener('click', (e) => {
+    if(mobileMenuBtn) mobileMenuBtn.addEventListener('click', openSidebar);
+    if(closeSidebarBtn) closeSidebarBtn.addEventListener('click', closeSidebar);
+    if(mobileSidebar) mobileSidebar.addEventListener('click', (e) => {
       if (e.target === mobileSidebar) closeSidebar();
     });
   </script>
   <script src="/js/config.js"></script>
   <script src="/js/auth.js"></script>
   <script src="/js/index.js"></script>
-  <script>
-    lucide.createIcons();
-  </script>
 </body>
 </html>
