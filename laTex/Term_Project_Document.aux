@@ -185,8 +185,8 @@
 \newlabel{code:server-js-sessions}{{6.6}{26}{ซอร์สโค้ดจากไฟล์ server.js}{lstlisting.6.6}{}}
 \@writefile{lol}{\contentsline {lstlisting}{\numberline {6.6}{\ignorespaces ซอร์สโค้ดจากไฟล์ server.js}}{26}{lstlisting.6.6}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{ระบบลบสมาชิกที่หมดอายุอัตโนมัติ (Auto Delete Expired Users)}{27}{Item.128}\protected@file@percent }
-\newlabel{code:server-js-autodelete}{{6.7}{27}{ซอร์สโค้ดจากไฟล์ server.js}{lstlisting.6.7}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.7}{\ignorespaces ซอร์สโค้ดจากไฟล์ server.js}}{27}{lstlisting.6.7}\protected@file@percent }
+\newlabel{code:server-js-autodelete}{{6.7}{27}{ฟังก์ชัน checkExpiredMembers ใน server.js}{lstlisting.6.7}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.7}{\ignorespaces ฟังก์ชัน checkExpiredMembers ใน server.js}}{27}{lstlisting.6.7}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {6.2}ฟีเจอร์เพิ่มเติม (Additional Features)}{28}{section.6.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.2.1}การค้นหาและแบ่งหน้า (Search \& Pagination) - ส่วน Backend}{28}{subsection.6.2.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{การทำงาน (Implementation)}{28}{subsection.6.2.1}\protected@file@percent }
@@ -200,230 +200,315 @@
 \@writefile{toc}{\contentsline {subsubsection}{การตั้งค่า Sequelize (Sequelize Instance)}{29}{subsection.6.2.3}\protected@file@percent }
 \newlabel{code:db-setup}{{6.10}{29}{การตั้งค่า Sequelize ใน db.js}{lstlisting.6.10}{}}
 \@writefile{lol}{\contentsline {lstlisting}{\numberline {6.10}{\ignorespaces การตั้งค่า Sequelize ใน db.js}}{29}{lstlisting.6.10}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{การนิยาม Model (Model Definitions)}{30}{lstnumber.6.10.19}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{การนิยาม Model (Model Definitions)}{30}{lstnumber.6.10.16}\protected@file@percent }
 \newlabel{code:db-model-customer}{{6.11}{30}{ตัวอย่าง Model Definition: Customers}{lstlisting.6.11}{}}
 \@writefile{lol}{\contentsline {lstlisting}{\numberline {6.11}{\ignorespaces ตัวอย่าง Model Definition: Customers}}{30}{lstlisting.6.11}\protected@file@percent }
 \newlabel{code:db-model-session}{{6.12}{30}{ตัวอย่าง Model Definition: TrainingSessions และ Relationships}{lstlisting.6.12}{}}
 \@writefile{lol}{\contentsline {lstlisting}{\numberline {6.12}{\ignorespaces ตัวอย่าง Model Definition: TrainingSessions และ Relationships}}{30}{lstlisting.6.12}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.2.4}API Endpoints (server.js)}{30}{subsection.6.2.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{Trainers API}{30}{subsection.6.2.4}\protected@file@percent }
-\newlabel{code:api-trainers}{{6.13}{30}{Trainers API}{lstlisting.6.13}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.13}{\ignorespaces Trainers API}}{30}{lstlisting.6.13}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{Dashboard Summary API}{31}{lstnumber.6.13.20}\protected@file@percent }
-\newlabel{code:api-summary}{{6.14}{31}{Summary API}{lstlisting.6.14}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.14}{\ignorespaces Summary API}}{31}{lstlisting.6.14}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {6.3}Frontend (ระบบหน้าบ้าน)}{31}{section.6.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.1}frontend/server.js}{31}{subsection.6.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{ภาพรวม (Overview)}{31}{subsection.6.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{การตั้งค่า View Engine และ Static Files}{31}{subsection.6.3.1}\protected@file@percent }
-\newlabel{code:frontend-server-setup}{{6.15}{31}{การตั้งค่า View Engine และ Static Files ใน frontend/server.js}{lstlisting.6.15}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.15}{\ignorespaces การตั้งค่า View Engine และ Static Files ใน frontend/server.js}}{31}{lstlisting.6.15}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{การจัดการเส้นทาง (Routes Configuration)}{32}{Item.137}\protected@file@percent }
-\newlabel{code:frontend-server-routes}{{6.16}{32}{การกำหนด Routes ใน frontend/server.js}{lstlisting.6.16}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.16}{\ignorespaces การกำหนด Routes ใน frontend/server.js}}{32}{lstlisting.6.16}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{การเริ่มทำงานของ Server (Server Startup)}{32}{Item.141}\protected@file@percent }
-\newlabel{code:frontend-server-start}{{6.17}{32}{การเริ่มทำงานของ Server ใน frontend/server.js}{lstlisting.6.17}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.17}{\ignorespaces การเริ่มทำงานของ Server ใน frontend/server.js}}{32}{lstlisting.6.17}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.2}frontend/index.js}{33}{subsection.6.3.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{ภาพรวม (Overview)}{33}{subsection.6.3.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{การนำเข้าโมดูลและการกำหนดค่า (Imports and Configuration)}{33}{subsection.6.3.2}\protected@file@percent }
-\newlabel{code:frontend-index-setup}{{6.18}{33}{การตั้งค่า Server และ MIME Types ใน frontend/index.js}{lstlisting.6.18}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.18}{\ignorespaces การตั้งค่า Server และ MIME Types ใน frontend/index.js}}{33}{lstlisting.6.18}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{มาตรการความปลอดภัย (Security: Path Traversal Prevention)}{33}{Item.147}\protected@file@percent }
-\newlabel{code:frontend-index-safejoin}{{6.19}{33}{ฟังก์ชัน safeJoin ป้องกัน Path Traversal}{lstlisting.6.19}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.19}{\ignorespaces ฟังก์ชัน safeJoin ป้องกัน Path Traversal}}{33}{lstlisting.6.19}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{การจัดการคำขอ (Request Handling Logic)}{34}{Item.149}\protected@file@percent }
-\newlabel{code:frontend-index-handler}{{6.20}{34}{Logic การจัดการ Request}{lstlisting.6.20}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.20}{\ignorespaces Logic การจัดการ Request}}{34}{lstlisting.6.20}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{ฟังก์ชันการส่งไฟล์ (File Streaming Helper)}{34}{Item.152}\protected@file@percent }
-\newlabel{code:frontend-index-stream}{{6.21}{34}{ฟังก์ชัน streamFile}{lstlisting.6.21}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.21}{\ignorespaces ฟังก์ชัน streamFile}}{34}{lstlisting.6.21}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.3}frontend/js/config.js}{34}{subsection.6.3.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{ภาพรวม (Overview)}{34}{subsection.6.3.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{การกำหนดค่า Base URL (Base URL Configuration)}{34}{subsection.6.3.3}\protected@file@percent }
-\newlabel{code:frontend-js-config}{{6.22}{35}{การกำหนดค่า API Base URL ใน frontend/js/config.js}{lstlisting.6.22}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.22}{\ignorespaces การกำหนดค่า API Base URL ใน frontend/js/config.js}}{35}{lstlisting.6.22}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.4}frontend/js/auth.js}{35}{subsection.6.3.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{ภาพรวม (Overview)}{35}{subsection.6.3.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{ตัวแปรและการตรวจสอบหน้าปัจจุบัน (Global Variables \& Page Check)}{35}{subsection.6.3.4}\protected@file@percent }
-\newlabel{code:auth-js-page-check}{{6.23}{35}{ซอร์สโค้ดจากไฟล์ frontend/js/auth.js: การตรวจสอบหน้า Login}{lstlisting.6.23}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.23}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/js/auth.js: การตรวจสอบหน้า Login}}{35}{lstlisting.6.23}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{ฟังก์ชัน logout (Global Logout Function)}{35}{Item.160}\protected@file@percent }
-\newlabel{code:auth-js-logout}{{6.24}{35}{ซอร์สโค้ดจากไฟล์ frontend/js/auth.js: ฟังก์ชัน logout}{lstlisting.6.24}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.24}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/js/auth.js: ฟังก์ชัน logout}}{35}{lstlisting.6.24}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{ลอจิกตรวจสอบสิทธิ์ (Auth Guard Logic)}{36}{Item.167}\protected@file@percent }
-\newlabel{code:auth-js-guard}{{6.25}{36}{ซอร์สโค้ดจากไฟล์ frontend/js/auth.js: Auth Guard Logic}{lstlisting.6.25}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.25}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/js/auth.js: Auth Guard Logic}}{36}{lstlisting.6.25}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{การจัดการฟอร์มล็อกอิน (Login Form Event Handler)}{37}{Item.175}\protected@file@percent }
-\newlabel{code:auth-js-login-handler}{{6.26}{37}{ซอร์สโค้ดจากไฟล์ frontend/js/auth.js: Login Form Handler}{lstlisting.6.26}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.26}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/js/auth.js: Login Form Handler}}{37}{lstlisting.6.26}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{ฟังก์ชัน displayUserInfo}{37}{Item.184}\protected@file@percent }
-\newlabel{code:auth-js-display-user}{{6.27}{38}{ซอร์สโค้ดจากไฟล์ frontend/js/auth.js: ฟังก์ชัน displayUserInfo}{lstlisting.6.27}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.27}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/js/auth.js: ฟังก์ชัน displayUserInfo}}{38}{lstlisting.6.27}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.5}frontend/js/user/dashboard.js}{38}{subsection.6.3.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{ภาพรวม (Overview)}{38}{subsection.6.3.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{ฟังก์ชัน Initialization (Event Listeners Setup)}{38}{subsection.6.3.5}\protected@file@percent }
-\newlabel{code:user-dash-init}{{6.28}{38}{ซอร์สโค้ดจากไฟล์ frontend/js/user/dashboard.js: Initialization}{lstlisting.6.28}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.28}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/js/user/dashboard.js: Initialization}}{38}{lstlisting.6.28}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{ฟังก์ชัน fetchResources}{39}{Item.197}\protected@file@percent }
-\newlabel{code:user-dash-fetch-resources}{{6.29}{39}{ซอร์สโค้ดจากไฟล์ frontend/js/user/dashboard.js: ฟังก์ชัน fetchResources}{lstlisting.6.29}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.29}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/js/user/dashboard.js: ฟังก์ชัน fetchResources}}{39}{lstlisting.6.29}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{ฟังก์ชัน fetchSchedule}{39}{Item.201}\protected@file@percent }
-\newlabel{code:user-dash-fetch-schedule}{{6.30}{39}{ซอร์สโค้ดจากไฟล์ frontend/js/user/dashboard.js: ฟังก์ชัน fetchSchedule}{lstlisting.6.30}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.30}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/js/user/dashboard.js: ฟังก์ชัน fetchSchedule}}{39}{lstlisting.6.30}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{ฟังก์ชัน renderSchedule}{40}{Item.205}\protected@file@percent }
-\newlabel{code:user-dash-render}{{6.31}{40}{ซอร์สโค้ดจากไฟล์ frontend/js/user/dashboard.js: ฟังก์ชัน renderSchedule}{lstlisting.6.31}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.31}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/js/user/dashboard.js: ฟังก์ชัน renderSchedule}}{40}{lstlisting.6.31}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{ฟังก์ชัน checkAvailability}{40}{Item.212}\protected@file@percent }
-\newlabel{code:user-dash-check-avail}{{6.32}{40}{ซอร์สโค้ดจากไฟล์ frontend/js/user/dashboard.js: ฟังก์ชัน checkAvailability}{lstlisting.6.32}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.32}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/js/user/dashboard.js: ฟังก์ชัน checkAvailability}}{40}{lstlisting.6.32}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{ฟังก์ชัน handleBookingSubmit}{41}{Item.219}\protected@file@percent }
-\newlabel{code:user-dash-submit}{{6.33}{41}{ซอร์สโค้ดจากไฟล์ frontend/js/user/dashboard.js: ฟังก์ชัน handleBookingSubmit}{lstlisting.6.33}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.33}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/js/user/dashboard.js: ฟังก์ชัน handleBookingSubmit}}{41}{lstlisting.6.33}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.6}ไฟล์ frontend/views/index.ejs}{42}{subsection.6.3.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{ภาพรวม (Overview)}{42}{subsection.6.3.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{ส่วนหัวและการนำทาง (Head and Navigation)}{42}{subsection.6.3.6}\protected@file@percent }
-\newlabel{code:views-index-head}{{6.34}{42}{ซอร์สโค้ดจากไฟล์ frontend/views/index.ejs: Head and Sidebar}{lstlisting.6.34}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.34}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/index.ejs: Head and Sidebar}}{42}{lstlisting.6.34}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{ส่วนเนื้อหาหลักและสคริปต์ (Main Content and Scripts)}{43}{Item.228}\protected@file@percent }
-\newlabel{code:views-index-main}{{6.35}{43}{ซอร์สโค้ดจากไฟล์ frontend/views/index.ejs: Main Content}{lstlisting.6.35}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.35}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/index.ejs: Main Content}}{43}{lstlisting.6.35}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.7}ไฟล์ frontend/views/login.ejs}{45}{subsection.6.3.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{ภาพรวม (Overview)}{45}{subsection.6.3.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{การออกแบบและโครงสร้าง (Design \& Structure)}{45}{subsection.6.3.7}\protected@file@percent }
-\newlabel{code:views-login-structure}{{6.36}{45}{ซอร์สโค้ดจากไฟล์ frontend/views/login.ejs: Head and Container}{lstlisting.6.36}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.36}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/login.ejs: Head and Container}}{45}{lstlisting.6.36}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{ฟอร์มการเข้าสู่ระบบ (Login Form)}{46}{Item.234}\protected@file@percent }
-\newlabel{code:views-login-form}{{6.37}{46}{ซอร์สโค้ดจากไฟล์ frontend/views/login.ejs: Form Elements}{lstlisting.6.37}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.37}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/login.ejs: Form Elements}}{46}{lstlisting.6.37}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.8}ไฟล์ frontend/views/register.ejs}{47}{subsection.6.3.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{ภาพรวม (Overview)}{47}{subsection.6.3.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{ฟอร์มลงทะเบียน (Registration Form)}{47}{subsection.6.3.8}\protected@file@percent }
-\newlabel{code:views-register-form}{{6.38}{47}{ซอร์สโค้ดจากไฟล์ frontend/views/register.ejs: Registration Form}{lstlisting.6.38}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.38}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/register.ejs: Registration Form}}{47}{lstlisting.6.38}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{สคริปต์การจัดการการลงทะเบียน (Registration Script)}{48}{Item.240}\protected@file@percent }
-\newlabel{code:views-register-script}{{6.39}{48}{ซอร์สโค้ดจากไฟล์ frontend/views/register.ejs: Inline Script}{lstlisting.6.39}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.39}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/register.ejs: Inline Script}}{48}{lstlisting.6.39}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.9}ไฟล์ frontend/views/customers.ejs}{48}{subsection.6.3.9}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{ภาพรวม (Overview)}{48}{subsection.6.3.9}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{การนำทางและสถานะเมนู (Navigation State)}{48}{subsection.6.3.9}\protected@file@percent }
-\newlabel{code:views-customers-nav}{{6.40}{49}{ซอร์สโค้ดจากไฟล์ frontend/views/customers.ejs: Sidebar Navigation}{lstlisting.6.40}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.40}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/customers.ejs: Sidebar Navigation}}{49}{lstlisting.6.40}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{ฟอร์มเพิ่มสมาชิกใหม่ (Add Member Form)}{49}{Item.245}\protected@file@percent }
-\newlabel{code:views-customers-form}{{6.41}{49}{ซอร์สโค้ดจากไฟล์ frontend/views/customers.ejs: Add Member Form}{lstlisting.6.41}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.41}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/customers.ejs: Add Member Form}}{49}{lstlisting.6.41}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{ตารางรายชื่อสมาชิก (Member List Table)}{50}{Item.247}\protected@file@percent }
-\newlabel{code:views-customers-table}{{6.42}{50}{ซอร์สโค้ดจากไฟล์ frontend/views/customers.ejs: Member List Table}{lstlisting.6.42}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.42}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/customers.ejs: Member List Table}}{50}{lstlisting.6.42}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{การนำเข้าสคริปต์ (Script Imports)}{50}{Item.249}\protected@file@percent }
-\newlabel{code:views-customers-scripts}{{6.43}{50}{ซอร์สโค้ดจากไฟล์ frontend/views/customers.ejs: Scripts}{lstlisting.6.43}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.43}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/customers.ejs: Scripts}}{50}{lstlisting.6.43}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.10}ไฟล์ frontend/views/equipments.ejs}{51}{subsection.6.3.10}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{ภาพรวม (Overview)}{51}{subsection.6.3.10}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{การนำทางและสถานะเมนู (Navigation State)}{51}{subsection.6.3.10}\protected@file@percent }
-\newlabel{code:views-equipments-nav}{{6.44}{51}{ซอร์สโค้ดจากไฟล์ frontend/views/equipments.ejs: Sidebar Navigation}{lstlisting.6.44}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.44}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/equipments.ejs: Sidebar Navigation}}{51}{lstlisting.6.44}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{ฟอร์มเพิ่มอุปกรณ์ใหม่ (Add Equipment Form)}{51}{lstnumber.6.44.7}\protected@file@percent }
-\newlabel{code:views-equipments-form}{{6.45}{51}{ซอร์สโค้ดจากไฟล์ frontend/views/equipments.ejs: Add Equipment Form}{lstlisting.6.45}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.45}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/equipments.ejs: Add Equipment Form}}{51}{lstlisting.6.45}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{ตารางรายการอุปกรณ์ (Equipment Inventory Table)}{52}{Item.253}\protected@file@percent }
-\newlabel{code:views-equipments-table}{{6.46}{52}{ซอร์สโค้ดจากไฟล์ frontend/views/equipments.ejs: Equipment Table}{lstlisting.6.46}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.46}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/equipments.ejs: Equipment Table}}{52}{lstlisting.6.46}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{การนำเข้าสคริปต์ (Script Imports)}{52}{lstnumber.6.46.24}\protected@file@percent }
-\newlabel{code:views-equipments-scripts}{{6.47}{52}{ซอร์สโค้ดจากไฟล์ frontend/views/equipments.ejs: Scripts}{lstlisting.6.47}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.47}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/equipments.ejs: Scripts}}{52}{lstlisting.6.47}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.11}ไฟล์ frontend/views/trainers.ejs}{52}{subsection.6.3.11}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{ภาพรวม (Overview)}{52}{subsection.6.3.11}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{การนำทางและสถานะเมนู (Navigation State)}{52}{subsection.6.3.11}\protected@file@percent }
-\newlabel{code:views-trainers-nav}{{6.48}{53}{ซอร์สโค้ดจากไฟล์ frontend/views/trainers.ejs: Sidebar Navigation}{lstlisting.6.48}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.48}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/trainers.ejs: Sidebar Navigation}}{53}{lstlisting.6.48}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{ฟอร์มเพิ่มเทรนเนอร์ใหม่ (Add Trainer Form)}{53}{lstnumber.6.48.7}\protected@file@percent }
-\newlabel{code:views-trainers-form}{{6.49}{53}{ซอร์สโค้ดจากไฟล์ frontend/views/trainers.ejs: Add Trainer Form}{lstlisting.6.49}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.49}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/trainers.ejs: Add Trainer Form}}{53}{lstlisting.6.49}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{ตารางรายชื่อเทรนเนอร์ (Trainers Roster)}{53}{Item.256}\protected@file@percent }
-\newlabel{code:views-trainers-table}{{6.50}{53}{ซอร์สโค้ดจากไฟล์ frontend/views/trainers.ejs: Trainers Table}{lstlisting.6.50}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.50}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/trainers.ejs: Trainers Table}}{53}{lstlisting.6.50}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{การนำเข้าสคริปต์ (Script Imports)}{54}{lstnumber.6.50.25}\protected@file@percent }
-\newlabel{code:views-trainers-scripts}{{6.51}{54}{ซอร์สโค้ดจากไฟล์ frontend/views/trainers.ejs: Scripts}{lstlisting.6.51}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.51}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/trainers.ejs: Scripts}}{54}{lstlisting.6.51}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.12}ไฟล์ frontend/views/sessions.ejs}{54}{subsection.6.3.12}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{ส่วนหัวและสไตล์ (Head and Styles)}{54}{subsection.6.3.12}\protected@file@percent }
-\newlabel{code:views-sessions-head}{{6.52}{54}{ซอร์สโค้ดจากไฟล์ frontend/views/sessions.ejs: Head Section}{lstlisting.6.52}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.52}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/sessions.ejs: Head Section}}{54}{lstlisting.6.52}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{แถบนำทาง (Sidebar Navigation)}{55}{lstnumber.6.52.53}\protected@file@percent }
-\newlabel{code:views-sessions-sidebar}{{6.53}{55}{ซอร์สโค้ดจากไฟล์ frontend/views/sessions.ejs: Sidebar}{lstlisting.6.53}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.53}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/sessions.ejs: Sidebar}}{55}{lstlisting.6.53}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{ส่วนเนื้อหาหลักและฟอร์มการจอง (Main Content \& Booking Form)}{55}{lstnumber.6.53.19}\protected@file@percent }
-\newlabel{code:views-sessions-form}{{6.54}{55}{ซอร์สโค้ดจากไฟล์ frontend/views/sessions.ejs: Booking Form}{lstlisting.6.54}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.54}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/sessions.ejs: Booking Form}}{55}{lstlisting.6.54}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{ตารางรายการเซสชัน (Sessions List Table)}{56}{Item.260}\protected@file@percent }
-\newlabel{code:views-sessions-table}{{6.55}{56}{ซอร์สโค้ดจากไฟล์ frontend/views/sessions.ejs: Sessions Table}{lstlisting.6.55}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.55}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/sessions.ejs: Sessions Table}}{56}{lstlisting.6.55}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{สคริปต์ (Scripts)}{57}{lstnumber.6.55.24}\protected@file@percent }
-\newlabel{code:views-sessions-scripts}{{6.56}{57}{ซอร์สโค้ดจากไฟล์ frontend/views/sessions.ejs: Scripts}{lstlisting.6.56}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.56}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/sessions.ejs: Scripts}}{57}{lstlisting.6.56}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.13}ไฟล์ frontend/views/logs.ejs}{57}{subsection.6.3.13}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{ส่วนหัวและสไตล์ (Head and Styles)}{57}{subsection.6.3.13}\protected@file@percent }
-\newlabel{code:views-logs-head}{{6.57}{57}{ซอร์สโค้ดจากไฟล์ frontend/views/logs.ejs: Head Section}{lstlisting.6.57}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.57}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/logs.ejs: Head Section}}{57}{lstlisting.6.57}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{แถบนำทาง (Sidebar Navigation)}{58}{lstnumber.6.57.56}\protected@file@percent }
-\newlabel{code:views-logs-sidebar}{{6.58}{58}{ซอร์สโค้ดจากไฟล์ frontend/views/logs.ejs: Sidebar}{lstlisting.6.58}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.58}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/logs.ejs: Sidebar}}{58}{lstlisting.6.58}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{ส่วนควบคุมแท็บและตัวกรอง (Tabs \& Filters)}{58}{lstnumber.6.58.17}\protected@file@percent }
-\newlabel{code:views-logs-tabs}{{6.59}{58}{ซอร์สโค้ดจากไฟล์ frontend/views/logs.ejs: Tabs Control}{lstlisting.6.59}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.59}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/logs.ejs: Tabs Control}}{58}{lstlisting.6.59}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{ส่วนแสดงผลรายงาน (Report Sections)}{59}{Item.263}\protected@file@percent }
-\newlabel{code:views-logs-sections}{{6.60}{59}{ซอร์สโค้ดจากไฟล์ frontend/views/logs.ejs: Report Tables}{lstlisting.6.60}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.60}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/logs.ejs: Report Tables}}{59}{lstlisting.6.60}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{สคริปต์และการจัดการแท็บ (Scripts \& Tab Logic)}{60}{lstnumber.6.60.28}\protected@file@percent }
-\newlabel{code:views-logs-scripts}{{6.61}{60}{ซอร์สโค้ดจากไฟล์ frontend/views/logs.ejs: Tab Logic}{lstlisting.6.61}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.61}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/logs.ejs: Tab Logic}}{60}{lstlisting.6.61}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.14}ไฟล์ frontend/views/user/dashboard.ejs}{60}{subsection.6.3.14}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{ส่วนหัวและ Modal การจอง (Head \& Booking Modal)}{60}{subsection.6.3.14}\protected@file@percent }
-\newlabel{code:views-user-dashboard-head}{{6.62}{60}{ซอร์สโค้ดจากไฟล์ frontend/views/user/dashboard.ejs: Head \& Modal}{lstlisting.6.62}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.62}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/user/dashboard.ejs: Head \& Modal}}{60}{lstlisting.6.62}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{แถบนำทาง (Sidebar Navigation)}{61}{Item.266}\protected@file@percent }
-\newlabel{code:views-user-dashboard-sidebar}{{6.63}{61}{ซอร์สโค้ดจากไฟล์ frontend/views/user/dashboard.ejs: Sidebar}{lstlisting.6.63}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.63}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/user/dashboard.ejs: Sidebar}}{61}{lstlisting.6.63}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{ส่วนเนื้อหาหลักและตารางการจอง (Main Content \& Schedule Table)}{62}{lstnumber.6.63.35}\protected@file@percent }
-\newlabel{code:views-user-dashboard-content}{{6.64}{62}{ซอร์สโค้ดจากไฟล์ frontend/views/user/dashboard.ejs: Content}{lstlisting.6.64}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.64}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/user/dashboard.ejs: Content}}{62}{lstlisting.6.64}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{สคริปต์ (Scripts)}{63}{lstnumber.6.64.49}\protected@file@percent }
-\newlabel{code:views-user-dashboard-scripts}{{6.65}{63}{ซอร์สโค้ดจากไฟล์ frontend/views/user/dashboard.ejs: Scripts}{lstlisting.6.65}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.65}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/user/dashboard.ejs: Scripts}}{63}{lstlisting.6.65}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.15}ไฟล์ frontend/views/user/profile.ejs}{63}{subsection.6.3.15}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{ส่วนหัวและสไตล์ (Head and Styles)}{63}{subsection.6.3.15}\protected@file@percent }
-\newlabel{code:views-user-profile-head}{{6.66}{63}{ซอร์สโค้ดจากไฟล์ frontend/views/user/profile.ejs: Head Section}{lstlisting.6.66}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.66}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/user/profile.ejs: Head Section}}{63}{lstlisting.6.66}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{แถบนำทาง (Sidebar Navigation)}{64}{lstnumber.6.66.32}\protected@file@percent }
-\newlabel{code:views-user-profile-sidebar}{{6.67}{64}{ซอร์สโค้ดจากไฟล์ frontend/views/user/profile.ejs: Sidebar}{lstlisting.6.67}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.67}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/user/profile.ejs: Sidebar}}{64}{lstlisting.6.67}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{ส่วนเนื้อหาหลักและข้อมูลส่วนตัว (Main Content \& Profile Details)}{64}{lstnumber.6.67.23}\protected@file@percent }
-\newlabel{code:views-user-profile-card}{{6.68}{64}{ซอร์สโค้ดจากไฟล์ frontend/views/user/profile.ejs: Profile Card}{lstlisting.6.68}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.68}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/user/profile.ejs: Profile Card}}{64}{lstlisting.6.68}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{สคริปต์ (Scripts)}{66}{Item.269}\protected@file@percent }
-\newlabel{code:views-user-profile-scripts}{{6.69}{66}{ซอร์สโค้ดจากไฟล์ frontend/views/user/profile.ejs: Scripts}{lstlisting.6.69}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.69}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/user/profile.ejs: Scripts}}{66}{lstlisting.6.69}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {6.4}ฟีเจอร์เพิ่มเติม (Additional Features)}{66}{section.6.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.1}Dark Mode (โหมดมืด)}{66}{subsection.6.4.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{การทำงาน (Implementation)}{66}{subsection.6.4.1}\protected@file@percent }
-\newlabel{code:theme-js}{{6.70}{66}{ไฟล์ frontend/js/theme.js}{lstlisting.6.70}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.70}{\ignorespaces ไฟล์ frontend/js/theme.js}}{66}{lstlisting.6.70}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.2}รายงานพร้อมพิมพ์ (Printable Report)}{67}{subsection.6.4.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{การทำงาน (Implementation)}{67}{subsection.6.4.2}\protected@file@percent }
-\newlabel{code:media-print}{{6.71}{67}{CSS @media print ใน logs.ejs}{lstlisting.6.71}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.71}{\ignorespaces CSS @media print ใน logs.ejs}}{67}{lstlisting.6.71}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.3}การค้นหาและแบ่งหน้า (Search \& Pagination) - ส่วน Frontend}{67}{subsection.6.4.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{การทำงาน (Implementation)}{67}{subsection.6.4.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{Logic การค้นหาและแบ่งหน้า (customers.js)}{67}{Item.275}\protected@file@percent }
-\newlabel{code:frontend-customers-load}{{6.72}{68}{ฟังก์ชัน load ใน customers.js}{lstlisting.6.72}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.72}{\ignorespaces ฟังก์ชัน load ใน customers.js}}{68}{lstlisting.6.72}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {7}สรุป}{69}{chapter.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Customers API}{30}{subsection.6.2.4}\protected@file@percent }
+\newlabel{code:api-customers}{{6.13}{30}{Customers API}{lstlisting.6.13}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.13}{\ignorespaces Customers API}}{30}{lstlisting.6.13}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Trainers API}{31}{lstnumber.6.13.27}\protected@file@percent }
+\newlabel{code:api-trainers}{{6.14}{31}{Trainers API}{lstlisting.6.14}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.14}{\ignorespaces Trainers API}}{31}{lstlisting.6.14}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Equipments API}{31}{lstnumber.6.14.20}\protected@file@percent }
+\newlabel{code:api-equipments}{{6.15}{31}{Equipments API (Delete)}{lstlisting.6.15}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.15}{\ignorespaces Equipments API (Delete)}}{31}{lstlisting.6.15}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Logs API}{31}{lstnumber.6.15.13}\protected@file@percent }
+\newlabel{code:api-logs}{{6.16}{31}{Logs API}{lstlisting.6.16}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.16}{\ignorespaces Logs API}}{31}{lstlisting.6.16}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Dashboard Summary API}{32}{lstnumber.6.16.9}\protected@file@percent }
+\newlabel{code:api-summary}{{6.17}{32}{Summary API}{lstlisting.6.17}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.17}{\ignorespaces Summary API}}{32}{lstlisting.6.17}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6.3}Frontend (ระบบหน้าบ้าน)}{32}{section.6.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.1}frontend/server.js}{32}{subsection.6.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ภาพรวม (Overview)}{32}{subsection.6.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{การตั้งค่า View Engine และ Static Files}{32}{subsection.6.3.1}\protected@file@percent }
+\newlabel{code:frontend-server-setup}{{6.18}{32}{การตั้งค่า View Engine และ Static Files ใน frontend/server.js}{lstlisting.6.18}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.18}{\ignorespaces การตั้งค่า View Engine และ Static Files ใน frontend/server.js}}{32}{lstlisting.6.18}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{การจัดการเส้นทาง (Routes Configuration)}{33}{Item.136}\protected@file@percent }
+\newlabel{code:frontend-server-routes}{{6.19}{33}{การกำหนด Routes ใน frontend/server.js}{lstlisting.6.19}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.19}{\ignorespaces การกำหนด Routes ใน frontend/server.js}}{33}{lstlisting.6.19}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{การเริ่มทำงานของ Server (Server Startup)}{34}{Item.140}\protected@file@percent }
+\newlabel{code:frontend-server-start}{{6.20}{34}{การเริ่มทำงานของ Server ใน frontend/server.js}{lstlisting.6.20}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.20}{\ignorespaces การเริ่มทำงานของ Server ใน frontend/server.js}}{34}{lstlisting.6.20}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.2}frontend/index.js}{34}{subsection.6.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ภาพรวม (Overview)}{34}{subsection.6.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{การนำเข้าโมดูลและการกำหนดค่า (Imports and Configuration)}{34}{subsection.6.3.2}\protected@file@percent }
+\newlabel{code:frontend-index-setup}{{6.21}{34}{การตั้งค่า Server และ MIME Types ใน frontend/index.js}{lstlisting.6.21}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.21}{\ignorespaces การตั้งค่า Server และ MIME Types ใน frontend/index.js}}{34}{lstlisting.6.21}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{มาตรการความปลอดภัย (Security: Path Traversal Prevention)}{34}{Item.146}\protected@file@percent }
+\newlabel{code:frontend-index-safejoin}{{6.22}{35}{ฟังก์ชัน safeJoin ป้องกัน Path Traversal}{lstlisting.6.22}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.22}{\ignorespaces ฟังก์ชัน safeJoin ป้องกัน Path Traversal}}{35}{lstlisting.6.22}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{การจัดการคำขอ (Request Handling Logic)}{35}{Item.148}\protected@file@percent }
+\newlabel{code:frontend-index-handler}{{6.23}{35}{Logic การจัดการ Request}{lstlisting.6.23}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.23}{\ignorespaces Logic การจัดการ Request}}{35}{lstlisting.6.23}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ฟังก์ชันการส่งไฟล์ (File Streaming Helper)}{35}{Item.151}\protected@file@percent }
+\newlabel{code:frontend-index-stream}{{6.24}{35}{ฟังก์ชัน streamFile}{lstlisting.6.24}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.24}{\ignorespaces ฟังก์ชัน streamFile}}{35}{lstlisting.6.24}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.3}frontend/js/config.js}{36}{subsection.6.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ภาพรวม (Overview)}{36}{subsection.6.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{การกำหนดค่า Base URL (Base URL Configuration)}{36}{subsection.6.3.3}\protected@file@percent }
+\newlabel{code:frontend-js-config}{{6.25}{36}{การกำหนดค่า API Base URL ใน frontend/js/config.js}{lstlisting.6.25}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.25}{\ignorespaces การกำหนดค่า API Base URL ใน frontend/js/config.js}}{36}{lstlisting.6.25}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.4}frontend/js/auth.js}{36}{subsection.6.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ภาพรวม (Overview)}{36}{subsection.6.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ตัวแปรและการตรวจสอบหน้าปัจจุบัน (Global Variables \& Page Check)}{36}{subsection.6.3.4}\protected@file@percent }
+\newlabel{code:auth-js-page-check}{{6.26}{36}{ซอร์สโค้ดจากไฟล์ frontend/js/auth.js: การตรวจสอบหน้า Login}{lstlisting.6.26}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.26}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/js/auth.js: การตรวจสอบหน้า Login}}{36}{lstlisting.6.26}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ฟังก์ชัน logout (Global Logout Function)}{37}{Item.159}\protected@file@percent }
+\newlabel{code:auth-js-logout}{{6.27}{37}{ซอร์สโค้ดจากไฟล์ frontend/js/auth.js: ฟังก์ชัน logout}{lstlisting.6.27}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.27}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/js/auth.js: ฟังก์ชัน logout}}{37}{lstlisting.6.27}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ลอจิกตรวจสอบสิทธิ์ (Auth Guard Logic)}{37}{Item.166}\protected@file@percent }
+\newlabel{code:auth-js-guard}{{6.28}{37}{ซอร์สโค้ดจากไฟล์ frontend/js/auth.js: Auth Guard Logic}{lstlisting.6.28}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.28}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/js/auth.js: Auth Guard Logic}}{37}{lstlisting.6.28}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{การจัดการฟอร์มล็อกอิน (Login Form Event Handler)}{38}{Item.174}\protected@file@percent }
+\newlabel{code:auth-js-login-handler}{{6.29}{38}{ซอร์สโค้ดจากไฟล์ frontend/js/auth.js: Login Form Handler}{lstlisting.6.29}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.29}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/js/auth.js: Login Form Handler}}{38}{lstlisting.6.29}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ฟังก์ชัน displayUserInfo}{39}{Item.183}\protected@file@percent }
+\newlabel{code:auth-js-display-user}{{6.30}{39}{ซอร์สโค้ดจากไฟล์ frontend/js/auth.js: ฟังก์ชัน displayUserInfo}{lstlisting.6.30}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.30}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/js/auth.js: ฟังก์ชัน displayUserInfo}}{39}{lstlisting.6.30}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.5}frontend/js/user/dashboard.js}{39}{subsection.6.3.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ภาพรวม (Overview)}{39}{subsection.6.3.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ฟังก์ชัน Initialization (Event Listeners Setup)}{39}{subsection.6.3.5}\protected@file@percent }
+\newlabel{code:user-dash-init}{{6.31}{39}{ซอร์สโค้ดจากไฟล์ frontend/js/user/dashboard.js: Initialization}{lstlisting.6.31}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.31}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/js/user/dashboard.js: Initialization}}{39}{lstlisting.6.31}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ฟังก์ชัน fetchResources}{40}{Item.196}\protected@file@percent }
+\newlabel{code:user-dash-fetch-resources}{{6.32}{40}{ซอร์สโค้ดจากไฟล์ frontend/js/user/dashboard.js: ฟังก์ชัน fetchResources}{lstlisting.6.32}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.32}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/js/user/dashboard.js: ฟังก์ชัน fetchResources}}{40}{lstlisting.6.32}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ฟังก์ชัน fetchSchedule}{40}{Item.200}\protected@file@percent }
+\newlabel{code:user-dash-fetch-schedule}{{6.33}{40}{ซอร์สโค้ดจากไฟล์ frontend/js/user/dashboard.js: ฟังก์ชัน fetchSchedule}{lstlisting.6.33}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.33}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/js/user/dashboard.js: ฟังก์ชัน fetchSchedule}}{40}{lstlisting.6.33}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ฟังก์ชัน renderSchedule}{41}{Item.204}\protected@file@percent }
+\newlabel{code:user-dash-render}{{6.34}{41}{ซอร์สโค้ดจากไฟล์ frontend/js/user/dashboard.js: ฟังก์ชัน renderSchedule}{lstlisting.6.34}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.34}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/js/user/dashboard.js: ฟังก์ชัน renderSchedule}}{41}{lstlisting.6.34}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ฟังก์ชัน openBookingModal และ closeBookingModal}{41}{Item.211}\protected@file@percent }
+\newlabel{code:user-dash-modal}{{6.35}{41}{Modal Functions ใน user/dashboard.js}{lstlisting.6.35}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.35}{\ignorespaces Modal Functions ใน user/dashboard.js}}{41}{lstlisting.6.35}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ฟังก์ชัน populateSelects}{42}{Item.213}\protected@file@percent }
+\newlabel{code:user-dash-populate}{{6.36}{42}{ฟังก์ชัน populateSelects ใน user/dashboard.js}{lstlisting.6.36}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.36}{\ignorespaces ฟังก์ชัน populateSelects ใน user/dashboard.js}}{42}{lstlisting.6.36}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ฟังก์ชัน checkAvailability}{42}{Item.215}\protected@file@percent }
+\newlabel{code:user-dash-check-avail}{{6.37}{42}{ซอร์สโค้ดจากไฟล์ frontend/js/user/dashboard.js: ฟังก์ชัน checkAvailability}{lstlisting.6.37}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.37}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/js/user/dashboard.js: ฟังก์ชัน checkAvailability}}{42}{lstlisting.6.37}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ฟังก์ชัน handleBookingSubmit}{43}{Item.222}\protected@file@percent }
+\newlabel{code:user-dash-submit}{{6.38}{43}{ซอร์สโค้ดจากไฟล์ frontend/js/user/dashboard.js: ฟังก์ชัน handleBookingSubmit}{lstlisting.6.38}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.38}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/js/user/dashboard.js: ฟังก์ชัน handleBookingSubmit}}{43}{lstlisting.6.38}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.6}ไฟล์ frontend/views/index.ejs}{44}{subsection.6.3.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ภาพรวม (Overview)}{44}{subsection.6.3.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ส่วนหัวและการนำทาง (Head and Navigation)}{44}{subsection.6.3.6}\protected@file@percent }
+\newlabel{code:views-index-head}{{6.39}{44}{ซอร์สโค้ดจากไฟล์ frontend/views/index.ejs: Head and Sidebar}{lstlisting.6.39}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.39}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/index.ejs: Head and Sidebar}}{44}{lstlisting.6.39}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ส่วนเนื้อหาหลักและสคริปต์ (Main Content and Scripts)}{45}{Item.231}\protected@file@percent }
+\newlabel{code:views-index-main}{{6.40}{45}{ซอร์สโค้ดจากไฟล์ frontend/views/index.ejs: Main Content}{lstlisting.6.40}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.40}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/index.ejs: Main Content}}{45}{lstlisting.6.40}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.7}ไฟล์ frontend/views/login.ejs}{47}{subsection.6.3.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ภาพรวม (Overview)}{47}{subsection.6.3.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{การออกแบบและโครงสร้าง (Design \& Structure)}{47}{subsection.6.3.7}\protected@file@percent }
+\newlabel{code:views-login-structure}{{6.41}{47}{ซอร์สโค้ดจากไฟล์ frontend/views/login.ejs: Head and Container}{lstlisting.6.41}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.41}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/login.ejs: Head and Container}}{47}{lstlisting.6.41}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ฟอร์มการเข้าสู่ระบบ (Login Form)}{48}{Item.237}\protected@file@percent }
+\newlabel{code:views-login-form}{{6.42}{48}{ซอร์สโค้ดจากไฟล์ frontend/views/login.ejs: Form Elements}{lstlisting.6.42}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.42}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/login.ejs: Form Elements}}{48}{lstlisting.6.42}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.8}ไฟล์ frontend/views/register.ejs}{49}{subsection.6.3.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ภาพรวม (Overview)}{49}{subsection.6.3.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ฟอร์มลงทะเบียน (Registration Form)}{49}{subsection.6.3.8}\protected@file@percent }
+\newlabel{code:views-register-form}{{6.43}{49}{ซอร์สโค้ดจากไฟล์ frontend/views/register.ejs: Registration Form}{lstlisting.6.43}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.43}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/register.ejs: Registration Form}}{49}{lstlisting.6.43}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{สคริปต์การจัดการการลงทะเบียน (Registration Script)}{50}{Item.243}\protected@file@percent }
+\newlabel{code:views-register-script}{{6.44}{50}{ซอร์สโค้ดจากไฟล์ frontend/views/register.ejs: Inline Script}{lstlisting.6.44}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.44}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/register.ejs: Inline Script}}{50}{lstlisting.6.44}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.9}ไฟล์ frontend/views/customers.ejs}{50}{subsection.6.3.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ภาพรวม (Overview)}{50}{subsection.6.3.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{การนำทางและสถานะเมนู (Navigation State)}{50}{subsection.6.3.9}\protected@file@percent }
+\newlabel{code:views-customers-nav}{{6.45}{51}{ซอร์สโค้ดจากไฟล์ frontend/views/customers.ejs: Sidebar Navigation}{lstlisting.6.45}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.45}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/customers.ejs: Sidebar Navigation}}{51}{lstlisting.6.45}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ฟอร์มเพิ่มสมาชิกใหม่ (Add Member Form)}{51}{Item.248}\protected@file@percent }
+\newlabel{code:views-customers-form}{{6.46}{51}{ซอร์สโค้ดจากไฟล์ frontend/views/customers.ejs: Add Member Form}{lstlisting.6.46}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.46}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/customers.ejs: Add Member Form}}{51}{lstlisting.6.46}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ตารางรายชื่อสมาชิก (Member List Table)}{52}{Item.250}\protected@file@percent }
+\newlabel{code:views-customers-table}{{6.47}{52}{ซอร์สโค้ดจากไฟล์ frontend/views/customers.ejs: Member List Table}{lstlisting.6.47}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.47}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/customers.ejs: Member List Table}}{52}{lstlisting.6.47}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{การนำเข้าสคริปต์ (Script Imports)}{52}{Item.252}\protected@file@percent }
+\newlabel{code:views-customers-scripts}{{6.48}{52}{ซอร์สโค้ดจากไฟล์ frontend/views/customers.ejs: Scripts}{lstlisting.6.48}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.48}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/customers.ejs: Scripts}}{52}{lstlisting.6.48}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.10}ไฟล์ frontend/views/equipments.ejs}{53}{subsection.6.3.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ภาพรวม (Overview)}{53}{subsection.6.3.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{การนำทางและสถานะเมนู (Navigation State)}{53}{subsection.6.3.10}\protected@file@percent }
+\newlabel{code:views-equipments-nav}{{6.49}{53}{ซอร์สโค้ดจากไฟล์ frontend/views/equipments.ejs: Sidebar Navigation}{lstlisting.6.49}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.49}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/equipments.ejs: Sidebar Navigation}}{53}{lstlisting.6.49}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ฟอร์มเพิ่มอุปกรณ์ใหม่ (Add Equipment Form)}{53}{lstnumber.6.49.7}\protected@file@percent }
+\newlabel{code:views-equipments-form}{{6.50}{53}{ซอร์สโค้ดจากไฟล์ frontend/views/equipments.ejs: Add Equipment Form}{lstlisting.6.50}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.50}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/equipments.ejs: Add Equipment Form}}{53}{lstlisting.6.50}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ตารางรายการอุปกรณ์ (Equipment Inventory Table)}{54}{Item.256}\protected@file@percent }
+\newlabel{code:views-equipments-table}{{6.51}{54}{ซอร์สโค้ดจากไฟล์ frontend/views/equipments.ejs: Equipment Table}{lstlisting.6.51}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.51}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/equipments.ejs: Equipment Table}}{54}{lstlisting.6.51}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{การนำเข้าสคริปต์ (Script Imports)}{54}{lstnumber.6.51.24}\protected@file@percent }
+\newlabel{code:views-equipments-scripts}{{6.52}{54}{ซอร์สโค้ดจากไฟล์ frontend/views/equipments.ejs: Scripts}{lstlisting.6.52}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.52}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/equipments.ejs: Scripts}}{54}{lstlisting.6.52}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.11}ไฟล์ frontend/views/trainers.ejs}{54}{subsection.6.3.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ภาพรวม (Overview)}{54}{subsection.6.3.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{การนำทางและสถานะเมนู (Navigation State)}{54}{subsection.6.3.11}\protected@file@percent }
+\newlabel{code:views-trainers-nav}{{6.53}{55}{ซอร์สโค้ดจากไฟล์ frontend/views/trainers.ejs: Sidebar Navigation}{lstlisting.6.53}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.53}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/trainers.ejs: Sidebar Navigation}}{55}{lstlisting.6.53}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ฟอร์มเพิ่มเทรนเนอร์ใหม่ (Add Trainer Form)}{55}{lstnumber.6.53.7}\protected@file@percent }
+\newlabel{code:views-trainers-form}{{6.54}{55}{ซอร์สโค้ดจากไฟล์ frontend/views/trainers.ejs: Add Trainer Form}{lstlisting.6.54}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.54}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/trainers.ejs: Add Trainer Form}}{55}{lstlisting.6.54}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ตารางรายชื่อเทรนเนอร์ (Trainers Roster)}{55}{Item.259}\protected@file@percent }
+\newlabel{code:views-trainers-table}{{6.55}{55}{ซอร์สโค้ดจากไฟล์ frontend/views/trainers.ejs: Trainers Table}{lstlisting.6.55}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.55}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/trainers.ejs: Trainers Table}}{55}{lstlisting.6.55}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{การนำเข้าสคริปต์ (Script Imports)}{56}{lstnumber.6.55.25}\protected@file@percent }
+\newlabel{code:views-trainers-scripts}{{6.56}{56}{ซอร์สโค้ดจากไฟล์ frontend/views/trainers.ejs: Scripts}{lstlisting.6.56}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.56}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/trainers.ejs: Scripts}}{56}{lstlisting.6.56}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.12}ไฟล์ frontend/views/sessions.ejs}{56}{subsection.6.3.12}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ส่วนหัวและสไตล์ (Head and Styles)}{56}{subsection.6.3.12}\protected@file@percent }
+\newlabel{code:views-sessions-head}{{6.57}{56}{ซอร์สโค้ดจากไฟล์ frontend/views/sessions.ejs: Head Section}{lstlisting.6.57}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.57}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/sessions.ejs: Head Section}}{56}{lstlisting.6.57}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{แถบนำทาง (Sidebar Navigation)}{57}{lstnumber.6.57.53}\protected@file@percent }
+\newlabel{code:views-sessions-sidebar}{{6.58}{57}{ซอร์สโค้ดจากไฟล์ frontend/views/sessions.ejs: Sidebar}{lstlisting.6.58}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.58}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/sessions.ejs: Sidebar}}{57}{lstlisting.6.58}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ส่วนเนื้อหาหลักและฟอร์มการจอง (Main Content \& Booking Form)}{57}{lstnumber.6.58.19}\protected@file@percent }
+\newlabel{code:views-sessions-form}{{6.59}{57}{ซอร์สโค้ดจากไฟล์ frontend/views/sessions.ejs: Booking Form}{lstlisting.6.59}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.59}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/sessions.ejs: Booking Form}}{57}{lstlisting.6.59}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ตารางรายการเซสชัน (Sessions List Table)}{58}{Item.263}\protected@file@percent }
+\newlabel{code:views-sessions-table}{{6.60}{58}{ซอร์สโค้ดจากไฟล์ frontend/views/sessions.ejs: Sessions Table}{lstlisting.6.60}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.60}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/sessions.ejs: Sessions Table}}{58}{lstlisting.6.60}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{สคริปต์ (Scripts)}{59}{lstnumber.6.60.24}\protected@file@percent }
+\newlabel{code:views-sessions-scripts}{{6.61}{59}{ซอร์สโค้ดจากไฟล์ frontend/views/sessions.ejs: Scripts}{lstlisting.6.61}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.61}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/sessions.ejs: Scripts}}{59}{lstlisting.6.61}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.13}ไฟล์ frontend/views/logs.ejs}{59}{subsection.6.3.13}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ส่วนหัวและสไตล์ (Head and Styles)}{59}{subsection.6.3.13}\protected@file@percent }
+\newlabel{code:views-logs-head}{{6.62}{59}{ซอร์สโค้ดจากไฟล์ frontend/views/logs.ejs: Head Section}{lstlisting.6.62}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.62}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/logs.ejs: Head Section}}{59}{lstlisting.6.62}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{แถบนำทาง (Sidebar Navigation)}{60}{lstnumber.6.62.56}\protected@file@percent }
+\newlabel{code:views-logs-sidebar}{{6.63}{60}{ซอร์สโค้ดจากไฟล์ frontend/views/logs.ejs: Sidebar}{lstlisting.6.63}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.63}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/logs.ejs: Sidebar}}{60}{lstlisting.6.63}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ส่วนควบคุมแท็บและตัวกรอง (Tabs \& Filters)}{60}{lstnumber.6.63.17}\protected@file@percent }
+\newlabel{code:views-logs-tabs}{{6.64}{60}{ซอร์สโค้ดจากไฟล์ frontend/views/logs.ejs: Tabs Control}{lstlisting.6.64}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.64}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/logs.ejs: Tabs Control}}{60}{lstlisting.6.64}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ส่วนแสดงผลรายงาน (Report Sections)}{61}{Item.266}\protected@file@percent }
+\newlabel{code:views-logs-sections}{{6.65}{61}{ซอร์สโค้ดจากไฟล์ frontend/views/logs.ejs: Report Tables}{lstlisting.6.65}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.65}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/logs.ejs: Report Tables}}{61}{lstlisting.6.65}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{สคริปต์และการจัดการแท็บ (Scripts \& Tab Logic)}{62}{lstnumber.6.65.28}\protected@file@percent }
+\newlabel{code:views-logs-scripts}{{6.66}{62}{ซอร์สโค้ดจากไฟล์ frontend/views/logs.ejs: Tab Logic}{lstlisting.6.66}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.66}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/logs.ejs: Tab Logic}}{62}{lstlisting.6.66}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.14}ไฟล์ frontend/views/user/dashboard.ejs}{62}{subsection.6.3.14}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ส่วนหัวและ Modal การจอง (Head \& Booking Modal)}{62}{subsection.6.3.14}\protected@file@percent }
+\newlabel{code:views-user-dashboard-head}{{6.67}{62}{ซอร์สโค้ดจากไฟล์ frontend/views/user/dashboard.ejs: Head \& Modal}{lstlisting.6.67}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.67}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/user/dashboard.ejs: Head \& Modal}}{62}{lstlisting.6.67}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{แถบนำทาง (Sidebar Navigation)}{63}{Item.269}\protected@file@percent }
+\newlabel{code:views-user-dashboard-sidebar}{{6.68}{63}{ซอร์สโค้ดจากไฟล์ frontend/views/user/dashboard.ejs: Sidebar}{lstlisting.6.68}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.68}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/user/dashboard.ejs: Sidebar}}{63}{lstlisting.6.68}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ส่วนเนื้อหาหลักและตารางการจอง (Main Content \& Schedule Table)}{64}{lstnumber.6.68.35}\protected@file@percent }
+\newlabel{code:views-user-dashboard-content}{{6.69}{64}{ซอร์สโค้ดจากไฟล์ frontend/views/user/dashboard.ejs: Content}{lstlisting.6.69}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.69}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/user/dashboard.ejs: Content}}{64}{lstlisting.6.69}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{สคริปต์ (Scripts)}{65}{lstnumber.6.69.49}\protected@file@percent }
+\newlabel{code:views-user-dashboard-scripts}{{6.70}{65}{ซอร์สโค้ดจากไฟล์ frontend/views/user/dashboard.ejs: Scripts}{lstlisting.6.70}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.70}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/user/dashboard.ejs: Scripts}}{65}{lstlisting.6.70}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.15}ไฟล์ frontend/views/user/profile.ejs}{65}{subsection.6.3.15}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ส่วนหัวและสไตล์ (Head and Styles)}{65}{subsection.6.3.15}\protected@file@percent }
+\newlabel{code:views-user-profile-head}{{6.71}{65}{ซอร์สโค้ดจากไฟล์ frontend/views/user/profile.ejs: Head Section}{lstlisting.6.71}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.71}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/user/profile.ejs: Head Section}}{65}{lstlisting.6.71}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{แถบนำทาง (Sidebar Navigation)}{66}{lstnumber.6.71.32}\protected@file@percent }
+\newlabel{code:views-user-profile-sidebar}{{6.72}{66}{ซอร์สโค้ดจากไฟล์ frontend/views/user/profile.ejs: Sidebar}{lstlisting.6.72}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.72}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/user/profile.ejs: Sidebar}}{66}{lstlisting.6.72}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ส่วนเนื้อหาหลักและข้อมูลส่วนตัว (Main Content \& Profile Details)}{66}{lstnumber.6.72.23}\protected@file@percent }
+\newlabel{code:views-user-profile-card}{{6.73}{66}{ซอร์สโค้ดจากไฟล์ frontend/views/user/profile.ejs: Profile Card}{lstlisting.6.73}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.73}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/user/profile.ejs: Profile Card}}{66}{lstlisting.6.73}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{สคริปต์ (Scripts)}{68}{Item.272}\protected@file@percent }
+\newlabel{code:views-user-profile-scripts}{{6.74}{68}{ซอร์สโค้ดจากไฟล์ frontend/views/user/profile.ejs: Scripts}{lstlisting.6.74}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.74}{\ignorespaces ซอร์สโค้ดจากไฟล์ frontend/views/user/profile.ejs: Scripts}}{68}{lstlisting.6.74}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6.4}ฟีเจอร์เพิ่มเติม (Additional Features)}{68}{section.6.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.1}Dark Mode (โหมดมืด)}{68}{subsection.6.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{การทำงาน (Implementation)}{68}{subsection.6.4.1}\protected@file@percent }
+\newlabel{code:theme-js}{{6.75}{68}{ไฟล์ frontend/js/theme.js}{lstlisting.6.75}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.75}{\ignorespaces ไฟล์ frontend/js/theme.js}}{68}{lstlisting.6.75}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.2}รายงานพร้อมพิมพ์ (Printable Report)}{69}{subsection.6.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{การทำงาน (Implementation)}{69}{subsection.6.4.2}\protected@file@percent }
+\newlabel{code:media-print}{{6.76}{69}{CSS @media print ใน logs.ejs}{lstlisting.6.76}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.76}{\ignorespaces CSS @media print ใน logs.ejs}}{69}{lstlisting.6.76}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.3}การค้นหาและแบ่งหน้า (Search \& Pagination) - ส่วน Frontend}{69}{subsection.6.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{การทำงาน (Implementation)}{69}{subsection.6.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Logic การค้นหาและแบ่งหน้า (customers.js)}{69}{Item.278}\protected@file@percent }
+\newlabel{code:frontend-customers-load}{{6.77}{70}{ฟังก์ชัน load ใน customers.js}{lstlisting.6.77}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.77}{\ignorespaces ฟังก์ชัน load ใน customers.js}}{70}{lstlisting.6.77}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.4}frontend/js/equipments.js}{70}{subsection.6.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ฟังก์ชัน row (สร้างแถวตาราง)}{70}{subsection.6.4.4}\protected@file@percent }
+\newlabel{code:equipments-row}{{6.78}{70}{ฟังก์ชัน row ใน equipments.js}{lstlisting.6.78}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.78}{\ignorespaces ฟังก์ชัน row ใน equipments.js}}{70}{lstlisting.6.78}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ฟังก์ชัน load (โหลดข้อมูล)}{71}{Item.285}\protected@file@percent }
+\newlabel{code:equipments-load}{{6.79}{71}{ฟังก์ชัน load ใน equipments.js}{lstlisting.6.79}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.79}{\ignorespaces ฟังก์ชัน load ใน equipments.js}}{71}{lstlisting.6.79}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{การเพิ่มอุปกรณ์ใหม่ (Form Handler)}{71}{Item.288}\protected@file@percent }
+\newlabel{code:equipments-submit}{{6.80}{71}{Form Submit Handler ใน equipments.js}{lstlisting.6.80}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.80}{\ignorespaces Form Submit Handler ใน equipments.js}}{71}{lstlisting.6.80}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.5}frontend/js/trainers.js}{72}{subsection.6.4.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ฟังก์ชัน row (สร้างแถวตาราง)}{72}{subsection.6.4.5}\protected@file@percent }
+\newlabel{code:trainers-row}{{6.81}{72}{ฟังก์ชัน row ใน trainers.js}{lstlisting.6.81}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.81}{\ignorespaces ฟังก์ชัน row ใน trainers.js}}{72}{lstlisting.6.81}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ฟังก์ชัน load (โหลดข้อมูล)}{72}{Item.293}\protected@file@percent }
+\newlabel{code:trainers-load}{{6.82}{72}{ฟังก์ชัน load ใน trainers.js}{lstlisting.6.82}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.82}{\ignorespaces ฟังก์ชัน load ใน trainers.js}}{72}{lstlisting.6.82}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{การจัดการปุ่ม Edit/Delete (Event Delegation)}{73}{Item.294}\protected@file@percent }
+\newlabel{code:trainers-actions}{{6.83}{73}{Event Delegation ใน trainers.js}{lstlisting.6.83}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.83}{\ignorespaces Event Delegation ใน trainers.js}}{73}{lstlisting.6.83}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.6}frontend/js/sessions.js}{73}{subsection.6.4.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ฟังก์ชัน Helper และ Row Creation}{73}{subsection.6.4.6}\protected@file@percent }
+\newlabel{code:sessions-helpers}{{6.84}{73}{ฟังก์ชัน opt และ row ใน sessions.js}{lstlisting.6.84}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.84}{\ignorespaces ฟังก์ชัน opt และ row ใน sessions.js}}{73}{lstlisting.6.84}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ฟังก์ชัน loadLists และ loadSessions}{74}{Item.298}\protected@file@percent }
+\newlabel{code:sessions-load}{{6.85}{74}{ฟังก์ชันโหลดข้อมูลใน sessions.js}{lstlisting.6.85}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.85}{\ignorespaces ฟังก์ชันโหลดข้อมูลใน sessions.js}}{74}{lstlisting.6.85}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{การสร้าง Session ใหม่ (Form Handler)}{75}{Item.300}\protected@file@percent }
+\newlabel{code:sessions-submit}{{6.86}{75}{Form Submit Handler ใน sessions.js}{lstlisting.6.86}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.86}{\ignorespaces Form Submit Handler ใน sessions.js}}{75}{lstlisting.6.86}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.7}frontend/js/index.js (Admin Dashboard)}{75}{subsection.6.4.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ฟังก์ชัน Helper และ Render}{75}{subsection.6.4.7}\protected@file@percent }
+\newlabel{code:index-helpers}{{6.87}{75}{ฟังก์ชัน Helper ใน index.js}{lstlisting.6.87}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.87}{\ignorespaces ฟังก์ชัน Helper ใน index.js}}{75}{lstlisting.6.87}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ฟังก์ชัน load (Dashboard Data)}{76}{Item.304}\protected@file@percent }
+\newlabel{code:index-load}{{6.88}{76}{ฟังก์ชัน load ใน index.js}{lstlisting.6.88}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.88}{\ignorespaces ฟังก์ชัน load ใน index.js}}{76}{lstlisting.6.88}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.8}frontend/js/logs.js}{76}{subsection.6.4.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ฟังก์ชัน Helper สำหรับวันที่และเวลา}{76}{subsection.6.4.8}\protected@file@percent }
+\newlabel{code:logs-helpers}{{6.89}{76}{Helper Functions ใน logs.js}{lstlisting.6.89}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.89}{\ignorespaces Helper Functions ใน logs.js}}{76}{lstlisting.6.89}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ฟังก์ชัน applyDateFilter}{77}{Item.308}\protected@file@percent }
+\newlabel{code:logs-filter}{{6.90}{77}{ฟังก์ชัน applyDateFilter ใน logs.js}{lstlisting.6.90}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.90}{\ignorespaces ฟังก์ชัน applyDateFilter ใน logs.js}}{77}{lstlisting.6.90}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ฟังก์ชัน switchTab}{77}{Item.310}\protected@file@percent }
+\newlabel{code:logs-switch-tab}{{6.91}{77}{ฟังก์ชัน switchTab ใน logs.js}{lstlisting.6.91}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.91}{\ignorespaces ฟังก์ชัน switchTab ใน logs.js}}{77}{lstlisting.6.91}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ฟังก์ชัน loadLogs}{78}{Item.312}\protected@file@percent }
+\newlabel{code:logs-load-logs}{{6.92}{78}{ฟังก์ชัน loadLogs ใน logs.js}{lstlisting.6.92}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.92}{\ignorespaces ฟังก์ชัน loadLogs ใน logs.js}}{78}{lstlisting.6.92}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ฟังก์ชัน loadCustomerReport และ loadTrainerReport}{78}{Item.315}\protected@file@percent }
+\newlabel{code:logs-load-reports}{{6.93}{78}{ฟังก์ชันโหลดรายงานใน logs.js}{lstlisting.6.93}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.93}{\ignorespaces ฟังก์ชันโหลดรายงานใน logs.js}}{78}{lstlisting.6.93}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.9}frontend/js/theme.js}{79}{subsection.6.4.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ฟังก์ชัน initTheme}{79}{subsection.6.4.9}\protected@file@percent }
+\newlabel{code:theme-init-func}{{6.94}{79}{ฟังก์ชัน initTheme ใน theme.js}{lstlisting.6.94}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.94}{\ignorespaces ฟังก์ชัน initTheme ใน theme.js}}{79}{lstlisting.6.94}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ฟังก์ชัน toggleTheme}{79}{Item.319}\protected@file@percent }
+\newlabel{code:theme-toggle-func}{{6.95}{79}{ฟังก์ชัน toggleTheme ใน theme.js}{lstlisting.6.95}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.95}{\ignorespaces ฟังก์ชัน toggleTheme ใน theme.js}}{79}{lstlisting.6.95}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ฟังก์ชัน updateIcon}{79}{Item.321}\protected@file@percent }
+\newlabel{code:theme-icon-func}{{6.96}{79}{ฟังก์ชัน updateIcon ใน theme.js}{lstlisting.6.96}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.96}{\ignorespaces ฟังก์ชัน updateIcon ใน theme.js}}{79}{lstlisting.6.96}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.10}frontend/js/user/profile.js}{80}{subsection.6.4.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ฟังก์ชัน loadProfile}{80}{subsection.6.4.10}\protected@file@percent }
+\newlabel{code:user-profile-load}{{6.97}{80}{ฟังก์ชัน loadProfile ใน user/profile.js}{lstlisting.6.97}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.97}{\ignorespaces ฟังก์ชัน loadProfile ใน user/profile.js}}{80}{lstlisting.6.97}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{ฟังก์ชัน setText}{80}{Item.327}\protected@file@percent }
+\newlabel{code:user-profile-helper}{{6.98}{80}{ฟังก์ชัน setText ใน user/profile.js}{lstlisting.6.98}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.98}{\ignorespaces ฟังก์ชัน setText ใน user/profile.js}}{80}{lstlisting.6.98}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {7}สรุป}{82}{chapter.7}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {7.1}สรุปผลการดำเนินงาน}{69}{section.7.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.1.1}สรุปภาพรวมของระบบ (System Overview Summary)}{69}{subsection.7.1.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.1.2}ผลการพัฒนาระบบ (Development Achievements)}{69}{subsection.7.1.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.1.3}ปัญหาและข้อจำกัด (Limitations and Challenges)}{70}{subsection.7.1.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.1.4}แนวทางในการพัฒนาต่อยอด (Future Work)}{70}{subsection.7.1.4}\protected@file@percent }
-\gdef \@abspage@last{72}
+\@writefile{toc}{\contentsline {section}{\numberline {7.1}สรุปผลการดำเนินงาน}{82}{section.7.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1.1}สรุปภาพรวมของระบบ (System Overview Summary)}{82}{subsection.7.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1.2}ผลการพัฒนาระบบ (Development Achievements)}{82}{subsection.7.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1.3}ปัญหาและข้อจำกัด (Limitations and Challenges)}{83}{subsection.7.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1.4}แนวทางในการพัฒนาต่อยอด (Future Work)}{83}{subsection.7.1.4}\protected@file@percent }
+\gdef \@abspage@last{85}

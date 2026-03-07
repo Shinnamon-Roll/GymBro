@@ -269,30 +269,28 @@ app.post("/api/sessions", async (req, res) => {
 \subsubsection{ระบบลบสมาชิกที่หมดอายุอัตโนมัติ (Auto Delete Expired Users)}
 ฟังก์ชันนี้ทำงานเป็น Background Task เพื่อตรวจสอบและลบข้อมูลสมาชิกที่หมดระยะเวลาสมาชิกแล้ว
 
-\begin{lstlisting}[language=JavaScript, caption={ซอร์สโค้ดจากไฟล์ server.js}, label={code:server-js-autodelete}]
+\begin{lstlisting}[language=JavaScript, caption={ฟังก์ชัน checkExpiredMembers ใน server.js}, label={code:server-js-autodelete}]
 async function checkExpiredMembers() {
     try {
         const now = new Date();
         const expired = await Customers.findAll({
-            where: {
-                memberEndDate: {
-                    [Sequelize.Op.lt]: now
-                }
-            }
+            where: { memberEndDate: { [Sequelize.Op.lt]: now } }
         });
         
         if (expired.length > 0) {
+            console.log(`Checking Expired: Found ${expired.length} users. Deleting...`);
             for (const user of expired) {
                 // Delete sessions first (manual cascade)
                 await TrainingSessions.destroy({ where: { customerId: user.id } });
-                // Delete user
                 await user.destroy();
-                logAction("Auto Delete Expired", `Deleted user ID: ${user.id}...`);
+                logAction("Auto Delete Expired", `Deleted user ID: ${user.id} (${user.fullName})`);
             }
-            // Reorder
             await reorderIds(Customers);
+            console.log("Expired users cleanup complete.");
+        } else {
+            console.log("Checking Expired: No expired users found.");
         }
-    } catch (err) { /* ... */ }
+    } catch (err) { console.error("Error in checkExpiredMembers:", err); }
 }
 
 // Run on start and every 24 hours
@@ -303,11 +301,8 @@ setInterval(checkExpiredMembers, 24 * 60 * 60 * 1000);
 \textbf{คำอธิบาย:}
 \begin{enumerate}
     \item ค้นหาข้อมูลลูกค้าที่มี \texttt{memberEndDate} น้อยกว่าเวลาปัจจุบัน (\texttt{now})
-    \item ดำเนินการวนลูปเพื่อลบข้อมูล:
-    \begin{enumerate}
-        \item ลบข้อมูล \texttt{TrainingSessions} ที่เกี่ยวข้องกับลูกค้ารายนั้นก่อน (เพื่อป้องกันข้อผิดพลาด Foreign Key Constraint)
-        \item ลบข้อมูล \texttt{Customers}
-    \end{enumerate}
+    \item ดำเนินการวนลูปเพื่อลบข้อมูล \texttt{TrainingSessions} ที่เกี่ยวข้อง และข้อมูล \texttt{Customers}
+    \item บันทึก Log และแสดงข้อความผ่าน Console
     \item เรียกใช้งานฟังก์ชัน \texttt{reorderIds(Customers)} เพื่อจัดลำดับ ID ใหม่
     \item ตั้งค่า \texttt{setInterval} ให้ฟังก์ชันทำงานซ้ำทุกๆ 24 ชั่วโมง
 \end{enumerate}
@@ -398,56 +393,101 @@ module.exports = {
 
 \subsubsection{การตั้งค่า Sequelize (Sequelize Instance)}
 \begin{lstlisting}[language=JavaScript, caption={การตั้งค่า Sequelize ใน db.js}, label={code:db-setup}]
+const path = require("path");
+// Try loading .env from current dir or parent dir (in case run from root)
+require("dotenv").config({ path: path.resolve(__dirname, ".env") });
+
 const { Sequelize, DataTypes } = require("sequelize");
 
-const sequelize = new Sequelize(
-  process.env.DB_NAME,
-  process.env.DB_USER,
-  process.env.DB_PASSWORD,
-  {
-    host: process.env.DB_HOST,
-    dialect: "postgres",
-    port: process.env.DB_PORT,
-    dialectOptions: {
-      ssl: {
-        require: true,
-        rejectUnauthorized: false, // รองรับ Self-signed certificate
-      },
-    },
-    logging: false, // ปิด SQL logging เพื่อความสะอาดของ Console
-  }
-);
+// Prioritize environment variable first
+const dbUrl =
+  process.env.DATABASE_URL || "postgres://webadmin:OFQzlb19621@node86180-env-2210254.proen.app.ruk-com.cloud:11857/gymbro_db";
+
+console.log("Connecting to database:", dbUrl.replace(/:[^:]*@/, ":****@")); // Log (masked) URL for debugging
+
+const sequelize = new Sequelize(dbUrl, {
+  dialect: "postgres",
+  logging: false,
+});
 \end{lstlisting}
 
 \subsubsection{การนิยาม Model (Model Definitions)}
 มีการกำหนด Model สำหรับตารางหลักทั้ง 4 ตาราง ได้แก่ Customers, Trainers, GymEquipments, และ TrainingSessions
 
 \begin{lstlisting}[language=JavaScript, caption={ตัวอย่าง Model Definition: Customers}, label={code:db-model-customer}]
-const Customers = sequelize.define("customers", {
-  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  fullName: { type: DataTypes.STRING, allowNull: false },
-  email: { type: DataTypes.STRING, allowNull: false, unique: true },
-  phone: { type: DataTypes.STRING },
-  memberType: { type: DataTypes.STRING, defaultValue: "Standard" }, // Standard, Premium, VIP
-  memberLevel: { type: DataTypes.STRING, defaultValue: "Basic" }, // Basic, Silver, Gold
-  memberStartDate: { type: DataTypes.DATEONLY, defaultValue: DataTypes.NOW },
-  memberEndDate: { type: DataTypes.DATEONLY },
-});
+const Customers = sequelize.define(
+  "Customers",
+  {
+    id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
+    fullName: { type: DataTypes.STRING(150), allowNull: false },
+    email: { type: DataTypes.STRING(150), allowNull: false },
+    phone: { type: DataTypes.STRING(20) },
+    memberType: { type: DataTypes.STRING(50), allowNull: false },
+    memberLevel: { type: DataTypes.STRING(50), allowNull: false },
+    memberStartDate: { type: DataTypes.DATE, allowNull: false },
+    memberEndDate: { type: DataTypes.DATE },
+  },
+  { tableName: "Customers", timestamps: false, freezeTableName: true }
+);
 \end{lstlisting}
 
 \begin{lstlisting}[language=JavaScript, caption={ตัวอย่าง Model Definition: TrainingSessions และ Relationships}, label={code:db-model-session}]
-const TrainingSessions = sequelize.define("training_sessions", {
-  // ... fields definition
-});
+const TrainingSessions = sequelize.define(
+  "TrainingSessions",
+  {
+    id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
+    sessionDate: { type: DataTypes.DATE, allowNull: false },
+    endDate: { type: DataTypes.DATE },
+    customerId: { type: DataTypes.INTEGER, allowNull: false },
+    trainerId: { type: DataTypes.INTEGER, allowNull: true },
+    equipmentId: { type: DataTypes.INTEGER, allowNull: false },
+  },
+  { tableName: "TrainingSessions", timestamps: false, freezeTableName: true }
+);
 
-// กำหนดความสัมพันธ์ (Associations)
-TrainingSessions.belongsTo(Customers, { foreignKey: "customerId", as: "customer" });
-TrainingSessions.belongsTo(Trainers, { foreignKey: "trainerId", as: "trainer" });
-TrainingSessions.belongsTo(GymEquipments, { foreignKey: "equipmentId", as: "equipment" });
+TrainingSessions.belongsTo(Customers, { as: "customer", foreignKey: "customerId" });
+TrainingSessions.belongsTo(Trainers, { as: "trainer", foreignKey: "trainerId" });
+TrainingSessions.belongsTo(GymEquipments, { as: "equipment", foreignKey: "equipmentId" });
+Customers.hasMany(TrainingSessions, { as: "sessions", foreignKey: "customerId" });
+Trainers.hasMany(TrainingSessions, { as: "sessions", foreignKey: "trainerId" });
+GymEquipments.hasMany(TrainingSessions, { as: "sessions", foreignKey: "equipmentId" });
 \end{lstlisting}
 
 \subsection{API Endpoints (server.js)}
 ระบบมีการแยก API Endpoint ตามทรัพยากรข้อมูล เพื่อให้ง่ายต่อการจัดการตามหลักการ RESTful
+
+\subsubsection{Customers API}
+API สำหรับจัดการข้อมูลสมาชิก
+
+\begin{lstlisting}[language=JavaScript, caption={Customers API}, label={code:api-customers}]
+app.post("/api/register", registerValidationRules(), validate, async (req, res) => {
+  try {
+    const { fullName, email, phone } = req.body;
+    
+    // Check if email already exists
+    const existing = await Customers.findOne({ where: { email } });
+    if (existing) return res.status(400).json({ error: "Email already registered" });
+
+    // Fixed default values
+    const memberType = "Member";
+    const memberLevel = "Beginner";
+    const memberStartDate = new Date();
+    const memberEndDate = new Date();
+    memberEndDate.setFullYear(memberEndDate.getFullYear() + 1); // Default 1 year
+
+    const created = await Customers.create({
+        fullName, email, phone,
+        memberType, memberLevel,
+        memberStartDate, memberEndDate
+    });
+
+    logAction("Register User", `New user registered: ${created.fullName} (${created.email})`);
+    res.status(201).json(created);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+\end{lstlisting}
 
 \subsubsection{Trainers API}
 API สำหรับจัดการข้อมูลเทรนเนอร์ รองรับการทำงานแบบ CRUD (Create, Read, Update, Delete)
@@ -471,6 +511,40 @@ app.post("/api/trainers", trainerValidationRules(), validate, async (req, res) =
     res.status(201).json(created);
   } catch (e) {
     res.status(500).json({ error: e.message });
+  }
+});
+\end{lstlisting}
+
+\subsubsection{Equipments API}
+API สำหรับจัดการข้อมูลอุปกรณ์ รองรับการทำงานแบบ CRUD
+
+\begin{lstlisting}[language=JavaScript, caption={Equipments API (Delete)}, label={code:api-equipments}]
+app.delete("/api/equipments/:id", async (req, res) => {
+  try {
+    const row = await GymEquipments.findByPk(req.params.id);
+    if (!row) return res.status(404).json({ error: "not_found" });
+    const name = row.equipmentName;
+    await row.destroy();
+    await reorderIds(GymEquipments);
+    logAction("Delete Equipment", `Deleted equipment: ${name} (ID: ${req.params.id})`);
+    res.json({ id: parseInt(req.params.id, 10) });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+\end{lstlisting}
+
+\subsubsection{Logs API}
+API สำหรับดึงข้อมูล Log การทำงานของระบบจากไฟล์ JSON
+
+\begin{lstlisting}[language=JavaScript, caption={Logs API}, label={code:api-logs}]
+app.get("/api/logs", async (req, res) => {
+  try {
+    const data = await fsPromises.readFile(LOGS_FILE, 'utf8');
+    const logs = JSON.parse(data || '[]');
+    res.json(logs);
+  } catch (e) {
+    res.json([]);
   }
 });
 \end{lstlisting}

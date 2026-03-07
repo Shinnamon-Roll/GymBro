@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.3.6)  7 MAR 2026 02:32
+This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.3.6)  7 MAR 2026 19:09
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1385,79 +1385,41 @@ Underfull \hbox (badness 3386) in paragraph at lines 260--261
  []
 
 [27] [28]
-Underfull \hbox (badness 10000) in paragraph at lines 365--366
+Underfull \hbox (badness 10000) in paragraph at lines 360--361
 \TU/Sarabun(0)/m/n/10 ระบบมีการตรวจสอบความถูกต้องของข้อมูล (Data Validation) ก่
 อนบันทึกลงฐานข้อมูล โดยใช้ไลบรารี
  []
 
 
-Underfull \hbox (badness 1590) in paragraph at lines 368--369
+Underfull \hbox (badness 1590) in paragraph at lines 363--364
 \TU/Sarabun(0)/m/n/10 สร้าง Middleware ชื่อ \TU/lmtt/m/n/10 validate \TU/Sarabu
 n(0)/m/n/10 และกำหนดกฎการตรวจสอบ (Validation Rules) แยกตามแต่ละ Route ในไฟล์
  []
 
 
-Underfull \hbox (badness 3179) in paragraph at lines 397--398
+Underfull \hbox (badness 3179) in paragraph at lines 392--393
 \TU/Sarabun(0)/m/n/10 ไฟล์ \TU/lmtt/m/n/10 db.js \TU/Sarabun(0)/m/n/10 ทำหน้าที
 ่กำหนดการเชื่อมต่อกับฐานข้อมูล PostgreSQL ผ่าน Sequelize ORM และกำหนด Schema
  []
 
-Missing character: There is no ร (U+0E23) in font [lmmono8-regular]:!
-Missing character: There is no อ (U+0E2D) in font [lmmono8-regular]:!
-Missing character: There is no ง (U+0E07) in font [lmmono8-regular]:!
-Missing character: There is no ร (U+0E23) in font [lmmono8-regular]:!
-Missing character: There is no ั (U+0E31) in font [lmmono8-regular]:!
-Missing character: There is no บ (U+0E1A) in font [lmmono8-regular]:!
-Missing character: There is no ป (U+0E1B) in font [lmmono8-regular]:!
-Missing character: There is no ิ (U+0E34) in font [lmmono8-regular]:!
-Missing character: There is no ด (U+0E14) in font [lmmono8-regular]:!
-Missing character: There is no เ (U+0E40) in font [lmmono8-regular]:!
-Missing character: There is no พ (U+0E1E) in font [lmmono8-regular]:!
-Missing character: There is no ื (U+0E37) in font [lmmono8-regular]:!
-Missing character: There is no ่ (U+0E48) in font [lmmono8-regular]:!
-Missing character: There is no อ (U+0E2D) in font [lmmono8-regular]:!
-Missing character: There is no ค (U+0E04) in font [lmmono8-regular]:!
-Missing character: There is no ว (U+0E27) in font [lmmono8-regular]:!
-Missing character: There is no า (U+0E32) in font [lmmono8-regular]:!
-Missing character: There is no ม (U+0E21) in font [lmmono8-regular]:!
-Missing character: There is no ส (U+0E2A) in font [lmmono8-regular]:!
-Missing character: There is no ะ (U+0E30) in font [lmmono8-regular]:!
-Missing character: There is no อ (U+0E2D) in font [lmmono8-regular]:!
-Missing character: There is no า (U+0E32) in font [lmmono8-regular]:!
-Missing character: There is no ด (U+0E14) in font [lmmono8-regular]:!
-Missing character: There is no ข (U+0E02) in font [lmmono8-regular]:!
-Missing character: There is no อ (U+0E2D) in font [lmmono8-regular]:!
-Missing character: There is no ง (U+0E07) in font [lmmono8-regular]:!
-[29]
-Missing character: There is no ก (U+0E01) in font [lmmono8-regular]:!
-Missing character: There is no ำ (U+0E33) in font [lmmono8-regular]:!
-Missing character: There is no ห (U+0E2B) in font [lmmono8-regular]:!
-Missing character: There is no น (U+0E19) in font [lmmono8-regular]:!
-Missing character: There is no ด (U+0E14) in font [lmmono8-regular]:!
-Missing character: There is no ค (U+0E04) in font [lmmono8-regular]:!
-Missing character: There is no ว (U+0E27) in font [lmmono8-regular]:!
-Missing character: There is no า (U+0E32) in font [lmmono8-regular]:!
-Missing character: There is no ม (U+0E21) in font [lmmono8-regular]:!
-Missing character: There is no ส (U+0E2A) in font [lmmono8-regular]:!
-Missing character: There is no ั (U+0E31) in font [lmmono8-regular]:!
-Missing character: There is no ม (U+0E21) in font [lmmono8-regular]:!
-Missing character: There is no พ (U+0E1E) in font [lmmono8-regular]:!
-Missing character: There is no ั (U+0E31) in font [lmmono8-regular]:!
-Missing character: There is no น (U+0E19) in font [lmmono8-regular]:!
-Missing character: There is no ธ (U+0E18) in font [lmmono8-regular]:!
-Missing character: There is no ์ (U+0E4C) in font [lmmono8-regular]:!
+
+Overfull \hbox (25.2943pt too wide) in paragraph at lines 404--406
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][][][][][][][][][][][][][][][][][][][][][][]  
+ []
+
+[29] [30]
 Missing character: There is no พ (U+0E1E) in font [lmmono8-regular]:!
 Missing character: There is no ร (U+0E23) in font [lmmono8-regular]:!
 Missing character: There is no ้ (U+0E49) in font [lmmono8-regular]:!
 Missing character: There is no อ (U+0E2D) in font [lmmono8-regular]:!
 Missing character: There is no ม (U+0E21) in font [lmmono8-regular]:!
-
-Underfull \hbox (badness 10000) in paragraph at lines 479--480
+[31]
+Underfull \hbox (badness 10000) in paragraph at lines 553--554
 \TU/Sarabun(0)/m/n/10 API พิเศษสำหรับรวบรวมสถิติเพื่อแสดงผลบน Dashboard ของผู้ด
 ูแลระบบ โดยใช้ \TU/lmtt/m/n/10 Promise.all
  []
 
-[30]
 Missing character: There is no เ (U+0E40) in font [lmmono8-regular]:!
 Missing character: There is no ร (U+0E23) in font [lmmono8-regular]:!
 Missing character: There is no ิ (U+0E34) in font [lmmono8-regular]:!
@@ -1485,14 +1447,14 @@ Underfull \hbox (badness 5133) in paragraph at lines 6--7
 n/10 ทำหน้าที่เป็น Web Server สำหรับฝั่ง Frontend ของระบบ GymBro โดยใช้ Ex-
  []
 
-[31] [32]
+[32] [33]
 Overfull \hbox (6.84496pt too wide) in paragraph at lines 137--138
 \TU/Sarabun(0)/m/n/10 ฟังก์ชัน \TU/lmtt/m/n/10 safeJoin \TU/Sarabun(0)/m/n/10 ถ
 ูกสร้างขึ้นเพื่อป้องกันช่องโหว่ Path Traversal ซึ่งอาจทำให้ผู้ไม่หวังดีสามารถเข
 ้าถึงไฟล์นอกเหนือจาก
  []
 
-[33]
+[34]
 Underfull \hbox (badness 2913) in paragraph at lines 211--212
 \TU/Sarabun(0)/m/n/10 ไฟล์ \TU/lmtt/m/n/10 frontend/js/config.js \TU/Sarabun(0)
 /m/n/10 เป็นไฟล์กำหนดค่าเริ่มต้น (Configuration File) สำหรับฝั่ง Frontend ของระ
@@ -1511,7 +1473,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 211--212
 สามารถเรียกใช้งานและเชื่อมต่อกับ Backend
  []
 
-[34]
+[35]
 Underfull \hbox (badness 10000) in paragraph at lines 223--224
 []\TU/lmtt/m/n/10 window.API\TU/Sarabun(0)/m/n/10 : การประกาศตัวแปรในระดับ \TU/
 lmtt/m/n/10 window \TU/Sarabun(0)/m/n/10 ทำให้ตัวแปรนี้มีสถานะเป็น Global Varia
@@ -1554,13 +1516,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 260--261
 unction (\TU/lmtt/m/n/10 window.logout\TU/Sarabun(0)/m/n/10 )
  []
 
-[35]
+[36]
 Underfull \hbox (badness 10000) in paragraph at lines 319--320
 []\TU/Sarabun(0)/b/n/10 จุดประสงค์: \TU/Sarabun(0)/m/n/10 ป้องกันการเข้าถึงหน้า
 เว็บโดยไม่ได้รับอนุญาต และ Redirect ผู้ใช้ไปยังหน้า Dashboard
  []
 
-
+[37]
 Underfull \hbox (badness 10000) in paragraph at lines 326--327
 []\TU/Sarabun(0)/b/n/10 กรณีมี Session: \TU/Sarabun(0)/m/n/10 ตรวจสอบ Role ของผ
 ู้ใช้ หากเป็น User ธรรมดาแต่พยายามเข้าหน้า \TU/lmtt/m/n/10 /admin
@@ -1572,7 +1534,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 327--328
 /n/10 Redirect ไปยัง Dashboard ตาม Role ของผู้ใช้ทันที
  []
 
-[36] [37]
+[38]
 Underfull \hbox (badness 10000) in paragraph at lines 435--436
 \TU/Sarabun(0)/m/n/10 ไฟล์ \TU/lmtt/m/n/10 frontend/js/user/dashboard.js \TU/Sa
 rabun(0)/m/n/10 รับผิดชอบการทำงานของหน้า Dashboard สำหรับสมาชิก (User)
@@ -1590,26 +1552,33 @@ Underfull \hbox (badness 10000) in paragraph at lines 435--436
 วามพร้อมของทรัพยากร (Availability Check)
  []
 
-[38]
+[39]
 Underfull \hbox (badness 10000) in paragraph at lines 471--472
 []\TU/Sarabun(0)/m/n/10 ผูก Event Change สำหรับ Input Fields ในฟอร์มจอง เพื่อเร
 ียก \TU/lmtt/m/n/10 checkAvailability()
  []
 
-[39] [40] [41]
-Underfull \hbox (badness 10000) in paragraph at lines 684--685
+[40] [41]
+Underfull \hbox (badness 10000) in paragraph at lines 595--596
+[]\TU/lmtt/m/n/10 openBookingModal\TU/Sarabun(0)/m/n/10 : ลบคลาส \TU/lmtt/m/n/1
+0 hidden \TU/Sarabun(0)/m/n/10 เพื่อแสดง Modal, กำหนดค่าวันที่ปัจจุบัน, และเรีย
+กฟังก์ชัน
+ []
+
+[42] [43]
+Underfull \hbox (badness 10000) in paragraph at lines 739--740
 \TU/Sarabun(0)/m/n/10 ไฟล์ \TU/lmtt/m/n/10 frontend/views/index.ejs \TU/Sarabun
 (0)/m/n/10 คือหน้า Dashboard หลักสำหรับผู้ดูแลระบบ (Admin)
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 684--685
+Underfull \hbox (badness 10000) in paragraph at lines 739--740
 \TU/Sarabun(0)/m/n/10 ทำหน้าที่แสดงภาพรวมของระบบ เช่น สถิติสมาชิก, จำนวนเทรนเนอ
 ร์, อุปกรณ์, และเซสชันในวันนี้
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 684--685
+Underfull \hbox (badness 10000) in paragraph at lines 739--740
 \TU/Sarabun(0)/m/n/10 รวมถึงแสดงตารางงาน (Schedule) ประจำวัน หน้าเว็บนี้ถูกออกแ
 บบให้รองรับการแสดงผลบนมือถือ (Responsive
  []
@@ -1619,203 +1588,203 @@ File: lstlang1.sty 2025/11/14 1.11b listings language file
 )
 (/usr/local/texlive/2026/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2025/11/14 1.11b (Carsten Heinz)
-) [42]
-[43]
-Underfull \hbox (badness 10000) in paragraph at lines 862--863
+) [44]
+[45] [46]
+Underfull \hbox (badness 10000) in paragraph at lines 917--918
 \TU/Sarabun(0)/m/n/10 GymBro หน้าเว็บนี้ถูกออกแบบด้วย Tailwind CSS โดยใช้สไตล์ท
 ี่เป็นเอกลักษณ์ (Bold/Brutalism Style)
  []
 
-[44]
-Underfull \hbox (badness 10000) in paragraph at lines 919--920
+
+Underfull \hbox (badness 10000) in paragraph at lines 974--975
 []\TU/Sarabun(0)/b/n/10 Custom Shadow\TU/Sarabun(0)/m/n/10 : การใช้ \TU/lmtt/m/
 n/10 shadow-[8px_8px_0px_0px_...] \TU/Sarabun(0)/m/n/10 สร้างเงาแบบทึบและหนา
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 920--921
+[47]
+Underfull \hbox (badness 10000) in paragraph at lines 975--976
 []\TU/Sarabun(0)/b/n/10 Absolute Positioning\TU/Sarabun(0)/m/n/10 : ป้าย ”LOGIN
 ” ถูกจัดวางด้วย \TU/lmtt/m/n/10 absolute \TU/Sarabun(0)/m/n/10 เพื่อให้ลอยออกมา
 จากกรอบหลัก
  []
 
-[45]
-Underfull \hbox (badness 10000) in paragraph at lines 924--925
+
+Underfull \hbox (badness 10000) in paragraph at lines 979--980
 \TU/Sarabun(0)/m/n/10 ส่วนฟอร์มรับข้อมูลประกอบด้วยช่องกรอก Email และ Phone Numb
 er (ซึ่งใช้แทนรหัสผ่านในระบบนี้)
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 971--972
+Underfull \hbox (badness 10000) in paragraph at lines 1026--1027
 []\TU/Sarabun(0)/b/n/10 Interactive Button\TU/Sarabun(0)/m/n/10 : ปุ่ม Submit ม
 ี Effect เมื่อเอาเมาส์ไปวาง (\TU/lmtt/m/n/10 hover\TU/Sarabun(0)/m/n/10 ) และเม
 ื่อกด (\TU/lmtt/m/n/10 active\TU/Sarabun(0)/m/n/10 )
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 983--984
+[48]
+Underfull \hbox (badness 10000) in paragraph at lines 1038--1039
 \TU/Sarabun(0)/m/n/10 ไฟล์ \TU/lmtt/m/n/10 frontend/views/register.ejs \TU/Sara
 bun(0)/m/n/10 คือหน้าลงทะเบียนสมาชิกใหม่ (Member Reg-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 983--984
+Underfull \hbox (badness 10000) in paragraph at lines 1038--1039
 \TU/Sarabun(0)/m/n/10 istration) หน้าเว็บนี้ยังคงใช้การออกแบบสไตล์ Brutalism ที
 ่สอดคล้องกับหน้า Login
  []
 
-[46]
-Underfull \hbox (badness 10000) in paragraph at lines 1035--1036
+
+Underfull \hbox (badness 10000) in paragraph at lines 1090--1091
 \TU/Sarabun(0)/m/n/10 เนื่องจากหน้านี้มีการทำงานที่ไม่ซับซ้อนมาก จึงมีการฝัง Sc
 ript ไว้ภายในไฟล์โดยตรง (Inline Script)
  []
 
-[47]
-Overfull \hbox (8.65497pt too wide) in paragraph at lines 1092--1093
+[49]
+Overfull \hbox (8.65497pt too wide) in paragraph at lines 1147--1148
 \TU/Sarabun(0)/m/n/10 ไฟล์ \TU/lmtt/m/n/10 frontend/views/customers.ejs \TU/Sar
 abun(0)/m/n/10 คือหน้าจอสำหรับผู้ดูแลระบบ (Admin) เพื่อใช้ในการบริหารจัดการข้อม
 ูลสมาชิก
  []
 
 
-Overfull \hbox (17.75497pt too wide) in paragraph at lines 1092--1093
+Overfull \hbox (17.75497pt too wide) in paragraph at lines 1147--1148
 \TU/Sarabun(0)/m/n/10 (Member Management) หน้าจอนี้ประกอบด้วยฟอร์มสำหรับเพิ่มสม
 าชิกใหม่ และตารางแสดงรายชื่อสมาชิกทั้งหมดในระบบ
  []
 
-[48]
-Overfull \hbox (5.31496pt too wide) in paragraph at lines 1113--1114
+[50]
+Overfull \hbox (5.31496pt too wide) in paragraph at lines 1168--1169
 \TU/Sarabun(0)/m/n/10 ส่วนนี้เป็นฟอร์มสำหรับลงทะเบียนสมาชิกใหม่ ถูกออกแบบโดยใช้
  Grid Layout เพื่อให้แสดงผลได้สวยงามและเป็นระเบียบ 
  []
 
-[49]
-Underfull \hbox (badness 10000) in paragraph at lines 1205--1206
+[51]
+Underfull \hbox (badness 10000) in paragraph at lines 1260--1261
 []\TU/Sarabun(0)/b/n/10 JavaScript Integration\TU/Sarabun(0)/m/n/10 : \TU/lmtt/
 m/n/10 tbody id="customers-table" \TU/Sarabun(0)/m/n/10 ถูกเตรียมไว้สำหรับให้ J
 avaScript
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1221--1222
+Underfull \hbox (badness 10000) in paragraph at lines 1276--1277
 []\TU/lmtt/m/n/10 customers.js\TU/Sarabun(0)/m/n/10 : สคริปต์หลักสำหรับจัดการ L
 ogic ของหน้า Customers (เช่น การดึงข้อมูลสมาชิก,
  []
 
-[50]
-Underfull \hbox (badness 10000) in paragraph at lines 1231--1232
+[52]
+Underfull \hbox (badness 10000) in paragraph at lines 1286--1287
 \TU/Sarabun(0)/m/n/10 ไฟล์ \TU/lmtt/m/n/10 frontend/views/equipments.ejs \TU/Sa
 rabun(0)/m/n/10 คือหน้าจอสำหรับผู้ดูแลระบบ (Admin)
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1231--1232
+Underfull \hbox (badness 10000) in paragraph at lines 1286--1287
 \TU/Sarabun(0)/m/n/10 เพื่อใช้ในการบริหารจัดการข้อมูลอุปกรณ์ออกกำลังกายภายในยิม
  (Equipment Management)
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1231--1232
+Underfull \hbox (badness 10000) in paragraph at lines 1286--1287
 \TU/Sarabun(0)/m/n/10 ผู้ดูแลระบบสามารถเพิ่มอุปกรณ์ใหม่ แก้ไขสถานะของอุปกรณ์ (เ
 ช่น พร้อมใช้งาน หรือ ปิดปรับปรุง)
  []
 
-[51]
-Underfull \hbox (badness 10000) in paragraph at lines 1278--1279
+[53]
+Underfull \hbox (badness 10000) in paragraph at lines 1333--1334
 []\TU/Sarabun(0)/b/n/10 Status Selection\TU/Sarabun(0)/m/n/10 : มี Dropdown สำห
 รับเลือกสถานะของอุปกรณ์ ซึ่งสำคัญต่อการจองคลาส (Session)
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1320--1321
+Underfull \hbox (badness 10000) in paragraph at lines 1375--1376
 []\TU/lmtt/m/n/10 equipments.js\TU/Sarabun(0)/m/n/10 : ไฟล์ JavaScript หลักที่ร
 ับผิดชอบการดึงข้อมูลอุปกรณ์จาก API มาแสดงในตาราง
  []
 
 
-Overfull \hbox (15.85497pt too wide) in paragraph at lines 1330--1331
+Overfull \hbox (15.85497pt too wide) in paragraph at lines 1385--1386
 \TU/Sarabun(0)/m/n/10 ไฟล์ \TU/lmtt/m/n/10 frontend/views/trainers.ejs \TU/Sara
 bun(0)/m/n/10 คือหน้าจอสำหรับผู้ดูแลระบบ (Admin) เพื่อใช้ในการบริหารจัดการข้อมู
 ลเทรนเนอร์
  []
 
 
-Underfull \hbox (badness 3471) in paragraph at lines 1330--1331
+Underfull \hbox (badness 3471) in paragraph at lines 1385--1386
 \TU/Sarabun(0)/m/n/10 (Trainer Management) หน้าจอนี้ช่วยให้แอดมินสามารถเพิ่มราย
 ชื่อเทรนเนอร์ใหม่ ระบุความเชี่ยวชาญ (Specialty)
  []
 
-[52]
-Underfull \hbox (badness 10000) in paragraph at lines 1381--1382
+[54]
+Underfull \hbox (badness 10000) in paragraph at lines 1436--1437
 []\TU/Sarabun(0)/b/n/10 Grid Layout\TU/Sarabun(0)/m/n/10 : ใช้ \TU/lmtt/m/n/10 
 lg:grid-cols-5 \TU/Sarabun(0)/m/n/10 เพื่อจัดเรียง Input Fields และปุ่ม Submit
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1382--1383
+Underfull \hbox (badness 10000) in paragraph at lines 1437--1438
 []\TU/Sarabun(0)/b/n/10 Trainer Level\TU/Sarabun(0)/m/n/10 : มี Dropdown ให้เลื
 อกตําแหน่งของเทรนเนอร์ (Junior, Senior, Master)
  []
 
-[53] [54]
-Underfull \hbox (badness 10000) in paragraph at lines 1520--1521
+[55] [56]
+Underfull \hbox (badness 10000) in paragraph at lines 1575--1576
 \TU/Sarabun(0)/m/n/10 ส่วนแสดงหัวข้อหน้าและฟอร์มสำหรับสร้างการจองเซสชันใหม่ โดย
 มีการเลือก Customer, Trainer, Equipment
  []
 
-[55]
-Overfull \hbox (65.42331pt too wide) in paragraph at lines 1558--1559
+[57]
+Overfull \hbox (65.42331pt too wide) in paragraph at lines 1613--1614
 []\TU/Sarabun(0)/b/n/10 Date Selection\TU/Sarabun(0)/m/n/10 : ใช้ \TU/lmtt/m/n/
 10 input type="datetime-local" \TU/Sarabun(0)/m/n/10 เพื่อให้ผู้ดูแลระบบสามารถร
 ะบุวันและเวลาที่ต้องการจองได้ในคราวเดียว 
  []
 
-[56]
-Underfull \hbox (badness 10000) in paragraph at lines 1611--1612
+[58]
+Underfull \hbox (badness 10000) in paragraph at lines 1666--1667
 \TU/Sarabun(0)/m/n/10 หน้าเว็บสำหรับผู้ดูแลระบบ (Admin) เพื่อดูรายงานและบันทึกก
 ารใช้งานระบบ (Reports & Logs)
  []
 
-[57] [58] [59] [60]
-Underfull \hbox (badness 6708) in paragraph at lines 1886--1887
+[59] [60] [61] [62]
+Underfull \hbox (badness 6708) in paragraph at lines 1941--1942
 []\TU/Sarabun(0)/b/n/10 Modal Dialog\TU/Sarabun(0)/m/n/10 : ใช้ \TU/lmtt/m/n/10
  div id="booking-modal" \TU/Sarabun(0)/m/n/10 ที่มีคลาส \TU/lmtt/m/n/10 hidden 
 \TU/Sarabun(0)/m/n/10 เพื่อซ่อนฟอร์มการจองไว้ในตอนแรก
  []
 
 
-Overfull \hbox (1.88995pt too wide) in paragraph at lines 1887--1888
+Overfull \hbox (1.88995pt too wide) in paragraph at lines 1942--1943
 []\TU/Sarabun(0)/b/n/10 Overlay\TU/Sarabun(0)/m/n/10 : พื้นหลังสีดำจางๆ (\TU/lm
 tt/m/n/10 bg-black/50\TU/Sarabun(0)/m/n/10 ) ช่วยเน้นให้ Modal โดดเด่นขึ้นและป้
 องกันการคลิกพื้นหลังโดยไม่ตั้งใจ 
  []
 
-[61] [62] [63] [64] [65]
-Underfull \hbox (badness 10000) in paragraph at lines 2168--2169
+[63] [64] [65] [66] [67]
+Underfull \hbox (badness 10000) in paragraph at lines 2223--2224
 []\TU/Sarabun(0)/b/n/10 Profile Card\TU/Sarabun(0)/m/n/10 : ใช้การจัดวางแบบ Fle
 xbox เพื่อแสดงรูป Avatar และข้อมูลส่วนตัวควบคู่กัน
  []
 
 
-Overfull \hbox (21.78333pt too wide) in paragraph at lines 2170--2171
+Overfull \hbox (21.78333pt too wide) in paragraph at lines 2225--2226
 []\TU/Sarabun(0)/b/n/10 Membership Info\TU/Sarabun(0)/m/n/10 : แสดงประเภทสมาชิก
 และวันหมดอายุอย่างชัดเจน เพื่อให้สมาชิกตรวจสอบสถานะของตนเองได้ง่าย 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2193--2194
+Underfull \hbox (badness 10000) in paragraph at lines 2248--2249
 \TU/Sarabun(0)/m/n/10 ระบบรองรับการสลับโหมดมืด/สว่าง (Dark/Light Mode) โดยใช้ T
 ailwind CSS และ LocalStorage
  []
 
-[66]
-Underfull \hbox (badness 10000) in paragraph at lines 2231--2232
+[68]
+Underfull \hbox (badness 10000) in paragraph at lines 2286--2287
 \TU/Sarabun(0)/m/n/10 ใช้ \TU/lmtt/m/n/10 @media print \TU/Sarabun(0)/m/n/10 ใน
 การซ่อนส่วนประกอบที่ไม่จำเป็นเมื่อสั่งพิมพ์ เช่น Sidebar, Navbar, และปุ่มต่างๆ
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2268--2269
+Underfull \hbox (badness 10000) in paragraph at lines 2323--2324
 \TU/Sarabun(0)/m/n/10 ไฟล์ \TU/lmtt/m/n/10 frontend/js/customers.js \TU/Sarabun
 (0)/m/n/10 รับผิดชอบการดึงข้อมูลสมาชิกจาก API โดยรองรับทั้งการค้นหา (Search)
  []
@@ -1824,18 +1793,83 @@ Missing character: There is no ส (U+0E2A) in font [lmmono8-regular]:!
 Missing character: There is no ่ (U+0E48) in font [lmmono8-regular]:!
 Missing character: There is no ง (U+0E07) in font [lmmono8-regular]:!
 
-Overfull \hbox (30.09435pt too wide) in paragraph at lines 2274--2276
+Overfull \hbox (30.09435pt too wide) in paragraph at lines 2329--2331
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
 ][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
-[67]
-Underfull \hbox (badness 3690) in paragraph at lines 2298--2299
+[69]
+Underfull \hbox (badness 3690) in paragraph at lines 2353--2354
 []\TU/Sarabun(0)/b/n/10 API Response Handling\TU/Sarabun(0)/m/n/10 : ตรวจสอบรูป
 แบบข้อมูลที่ได้จาก API (Array หรือ Object พร้อม Metadata)
  []
 
-) [68]
+[70] [71] [72]
+Missing character: There is no ช (U+0E0A) in font [lmmono8-regular]:!
+Missing character: There is no ื (U+0E37) in font [lmmono8-regular]:!
+Missing character: There is no ่ (U+0E48) in font [lmmono8-regular]:!
+Missing character: There is no อ (U+0E2D) in font [lmmono8-regular]:!
+Missing character: There is no ค (U+0E04) in font [lmmono8-regular]:!
+Missing character: There is no ว (U+0E27) in font [lmmono8-regular]:!
+Missing character: There is no า (U+0E32) in font [lmmono8-regular]:!
+Missing character: There is no ม (U+0E21) in font [lmmono8-regular]:!
+Missing character: There is no เ (U+0E40) in font [lmmono8-regular]:!
+Missing character: There is no ช (U+0E0A) in font [lmmono8-regular]:!
+Missing character: There is no ี (U+0E35) in font [lmmono8-regular]:!
+Missing character: There is no ่ (U+0E48) in font [lmmono8-regular]:!
+Missing character: There is no ย (U+0E22) in font [lmmono8-regular]:!
+Missing character: There is no ว (U+0E27) in font [lmmono8-regular]:!
+Missing character: There is no ช (U+0E0A) in font [lmmono8-regular]:!
+Missing character: There is no า (U+0E32) in font [lmmono8-regular]:!
+Missing character: There is no ญ (U+0E0D) in font [lmmono8-regular]:!
+[73]
+Overfull \hbox (6.96996pt too wide) in paragraph at lines 2627--2628
+[]\TU/lmtt/m/n/10 row\TU/Sarabun(0)/m/n/10 : สร้างแถวตารางพร้อมแสดงชื่อลูกค้า เ
+ทรนเนอร์ อุปกรณ์ และเวลา โดยมีการแปลงเวลาให้เป็นรูปแบบที่อ่านง่าย
+ []
+
+[74]
+Underfull \hbox (badness 10000) in paragraph at lines 2713--2714
+[]\TU/Sarabun(0)/m/n/10 แปลงเวลาที่เลือกจาก Input (Local Time) เป็น UTC แบบคงค่
+าตัวเลขเดิมไว้ (Fake UTC)
+ []
+
+[75] [76] [77]
+Missing character: There is no ม (U+0E21) in font [lmmono8-regular]:!
+Missing character: There is no ี (U+0E35) in font [lmmono8-regular]:!
+Missing character: There is no เ (U+0E40) in font [lmmono8-regular]:!
+Missing character: There is no ด (U+0E14) in font [lmmono8-regular]:!
+Missing character: There is no ี (U+0E35) in font [lmmono8-regular]:!
+Missing character: There is no ย (U+0E22) in font [lmmono8-regular]:!
+Missing character: There is no ว (U+0E27) in font [lmmono8-regular]:!
+Missing character: There is no ก (U+0E01) in font [lmmono8-regular]:!
+Missing character: There is no ั (U+0E31) in font [lmmono8-regular]:!
+Missing character: There is no น (U+0E19) in font [lmmono8-regular]:!
+Missing character: There is no แ (U+0E41) in font [lmmono8-regular]:!
+Missing character: There is no ต (U+0E15) in font [lmmono8-regular]:!
+Missing character: There is no ่ (U+0E48) in font [lmmono8-regular]:!
+Missing character: There is no แ (U+0E41) in font [lmmono8-regular]:!
+Missing character: There is no ส (U+0E2A) in font [lmmono8-regular]:!
+Missing character: There is no ด (U+0E14) in font [lmmono8-regular]:!
+Missing character: There is no ง (U+0E07) in font [lmmono8-regular]:!
+Missing character: There is no ผ (U+0E1C) in font [lmmono8-regular]:!
+Missing character: There is no ล (U+0E25) in font [lmmono8-regular]:!
+Missing character: There is no ค (U+0E04) in font [lmmono8-regular]:!
+Missing character: There is no น (U+0E19) in font [lmmono8-regular]:!
+Missing character: There is no ล (U+0E25) in font [lmmono8-regular]:!
+Missing character: There is no ะ (U+0E30) in font [lmmono8-regular]:!
+Missing character: There is no ต (U+0E15) in font [lmmono8-regular]:!
+Missing character: There is no า (U+0E32) in font [lmmono8-regular]:!
+Missing character: There is no ร (U+0E23) in font [lmmono8-regular]:!
+Missing character: There is no า (U+0E32) in font [lmmono8-regular]:!
+Missing character: There is no ง (U+0E07) in font [lmmono8-regular]:!
+[78] [79] [80]
+Underfull \hbox (badness 10000) in paragraph at lines 3079--3080
+[]\TU/Sarabun(0)/m/n/10 ฟังก์ชันช่วยลดความซ้ำซ้อนในการเขียน \TU/lmtt/m/n/10 doc
+ument.getElementById \TU/Sarabun(0)/m/n/10 และตรวจสอบว่า Element
+ []
+
+) [81]
 บทที่ 7.
 (./components/conclusion.tex
 Underfull \hbox (badness 10000) in paragraph at lines 4--5
@@ -1916,7 +1950,7 @@ Underfull \hbox (badness 1946) in paragraph at lines 30--31
 amic และมีการจัดการ Form Validation
  []
 
-[69
+[82
 
 ]
 Underfull \hbox (badness 10000) in paragraph at lines 32--33
@@ -1993,7 +2027,7 @@ Overfull \hbox (14.17497pt too wide) in paragraph at lines 68--69
 รถจองคลาสและตรวจสอบตารางเรียนได้สะดวกยิ่งขึ้น
  []
 
-[70]
+[83]
 Underfull \hbox (badness 10000) in paragraph at lines 70--71
 \TU/Sarabun(0)/m/n/10 เพิ่มการแสดงผลข้อมูลเชิงลึก (Data Analytics) เช่น กราฟแสด
 งจำนวนผู้เข้าใช้บริการในแต่ละช่วงเวลา
@@ -2005,7 +2039,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 72--73
 ือนสมาชิกเมื่อใกล้ถึงเวลาจองคลาส
  []
 
-) [71] (./Term_Project_Document.aux)
+) [84] (./Term_Project_Document.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
@@ -2015,15 +2049,15 @@ L3 programming layer <2026-01-19>
 LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
 Package rerunfilecheck Info: File `Term_Project_Document.out' has not changed.
-(rerunfilecheck)             Checksum: C1BDDA6D432984BFA77F4ABB5DDC02F2;22190.
+(rerunfilecheck)             Checksum: 5EA7723FC2463758978B33D91D9B2DAF;23512.
  ) 
 Here is how much of TeX's memory you used:
- 28438 strings out of 468168
- 595685 string characters out of 5432816
- 1878917 words of memory out of 5000000
- 56704 multiletter control sequences out of 15000+600000
+ 28562 strings out of 468168
+ 597540 string characters out of 5432816
+ 1880833 words of memory out of 5000000
+ 56828 multiletter control sequences out of 15000+600000
  631937 words of font info for 79 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  84i,9n,94p,650b,1972s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on Term_Project_Document.pdf (72 pages).
+Output written on Term_Project_Document.pdf (85 pages).

@@ -569,6 +569,61 @@ function renderSchedule(sessions) {
     \end{enumerate}
 \end{enumerate}
 
+\subsubsection{ฟังก์ชัน openBookingModal และ closeBookingModal}
+จัดการการแสดงผลของ Modal จองเวลา โดยเมื่อเปิด Modal จะทำการโหลดข้อมูลตัวเลือกต่างๆ และตั้งค่าวันที่เริ่มต้น
+
+\begin{lstlisting}[language=JavaScript, caption={Modal Functions ใน user/dashboard.js}, label={code:user-dash-modal}]
+function openBookingModal() {
+    document.getElementById('booking-modal').classList.remove('hidden');
+    
+    // Set default date to today
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('book-date').value = today;
+    document.getElementById('book-time').value = "09:00"; // Default time
+    
+    populateSelects();
+    checkAvailability(); // Initial check
+}
+
+function closeBookingModal() {
+    document.getElementById('booking-modal').classList.add('hidden');
+}
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item \texttt{openBookingModal}: ลบคลาส \texttt{hidden} เพื่อแสดง Modal, กำหนดค่าวันที่ปัจจุบัน, และเรียกฟังก์ชัน \texttt{populateSelects} เพื่อเตรียมข้อมูล
+    \item \texttt{closeBookingModal}: ซ่อน Modal โดยการเพิ่มคลาส \texttt{hidden} กลับเข้าไป
+\end{enumerate}
+
+\subsubsection{ฟังก์ชัน populateSelects}
+ดึงข้อมูลเทรนเนอร์และอุปกรณ์มาสร้างเป็นตัวเลือกใน Dropdown
+
+\begin{lstlisting}[language=JavaScript, caption={ฟังก์ชัน populateSelects ใน user/dashboard.js}, label={code:user-dash-populate}]
+function populateSelects() {
+    const trainerSelect = document.getElementById('book-trainer');
+    const equipmentSelect = document.getElementById('book-equipment');
+    
+    trainerSelect.innerHTML = '<option value="">-- No Trainer --</option>';
+    allTrainers.forEach(t => {
+        trainerSelect.innerHTML += `<option value="${t.id}">${t.trainerName} (${t.specialty || 'General'})</option>`;
+    });
+    
+    equipmentSelect.innerHTML = '<option value="">-- Select Equipment --</option>';
+    allEquipments.forEach(e => {
+        let statusText = "";
+        if (e.status === 'Maintenance') statusText = " (Maintenance)";
+        equipmentSelect.innerHTML += `<option value="${e.id}" ${e.status === 'Maintenance' ? 'disabled' : ''}>${e.equipmentName}${statusText}</option>`;
+    });
+}
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item วนลูปสร้าง \texttt{<option>} จากข้อมูล \texttt{allTrainers} และ \texttt{allEquipments}
+    \item หากอุปกรณ์อยู่ในสถานะ 'Maintenance' จะทำการ Disable ตัวเลือกนั้นไม่ให้ผู้ใช้เลือกได้
+\end{enumerate}
+
 \subsubsection{ฟังก์ชัน checkAvailability}
 ตรวจสอบความว่างของเทรนเนอร์และอุปกรณ์ตามวันและเวลาที่เลือก
 
@@ -2298,4 +2353,728 @@ const load = async () => {
     \item \textbf{API Response Handling}: ตรวจสอบรูปแบบข้อมูลที่ได้จาก API (Array หรือ Object พร้อม Metadata) เพื่อรองรับการเปลี่ยนแปลงของ Backend
     \item \textbf{Dynamic Rendering}: วนลูปสร้างตาราง HTML จากข้อมูลที่ได้
     \item \textbf{Pagination UI}: อัปเดตสถานะปุ่ม Previous/Next และแสดงเลขหน้าปัจจุบัน
+\end{enumerate}
+
+% ==========================================================================================
+% FILE: frontend/js/equipments.js
+% ==========================================================================================
+\subsection{frontend/js/equipments.js}
+
+\subsubsection{ฟังก์ชัน row (สร้างแถวตาราง)}
+ฟังก์ชันนี้ทำหน้าที่สร้าง Element HTML (\texttt{<tr>}) สำหรับแสดงข้อมูลอุปกรณ์แต่ละแถวในตาราง รวมถึงการสร้าง Dropdown สำหรับเปลี่ยนสถานะและปุ่มลบ
+
+\begin{lstlisting}[language=JavaScript, caption={ฟังก์ชัน row ใน equipments.js}, label={code:equipments-row}]
+const row = (e) => {
+  const tr = document.createElement("tr");
+  tr.className = "hover:bg-contrast transition-colors border-b border-gray-100";
+  
+  // Status Selector
+  const sel = document.createElement("select");
+  sel.className = "bg-white border border-primary p-1 text-xs font-bold uppercase focus:outline-none focus:border-accent";
+  statusOptions.forEach((s) => {
+    const o = document.createElement("option");
+    o.value = s;
+    o.textContent = s;
+    if (s === e.status) o.selected = true;
+    sel.appendChild(o);
+  });
+  
+  // Update Status on Change
+  sel.addEventListener("change", async () => {
+    await fetch(`${API}/equipments/${e.id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status: sel.value }),
+    });
+  });
+
+  // Delete Button
+  const actions = document.createElement("td");
+  actions.className = "p-4 text-center";
+  const del = document.createElement("button");
+  del.textContent = "Delete";
+  del.addEventListener("click", async () => {
+    if(confirm('Are you sure you want to delete this equipment?')) {
+      const r = await fetch(`${API}/equipments/${e.id}`, { method: "DELETE" });
+      if (r.ok) load();
+    }
+  });
+  actions.appendChild(del);
+
+  tr.innerHTML = `
+    <td class="p-4 font-bold text-primary">#${e.id}</td>
+    <td class="p-4 font-bold">${e.equipmentName}</td>
+    <td class="p-4 font-semibold text-secondary">${e.category || "-"}</td>
+  `;
+  
+  const tdSel = document.createElement("td");
+  tdSel.className = "p-4";
+  tdSel.appendChild(sel);
+  tr.appendChild(tdSel);
+  tr.appendChild(actions);
+  return tr;
+};
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item \textbf{Dynamic Row Creation}: สร้าง Element \texttt{tr} และกำหนด Class ของ Tailwind CSS
+    \item \textbf{Status Dropdown}: สร้าง \texttt{select} element และวนลูปสร้าง \texttt{option} จาก \texttt{statusOptions}
+    \item \textbf{Event Handling}:
+    \begin{itemize}
+        \item \texttt{change}: เมื่อเปลี่ยนสถานะ จะยิง PUT Request เพื่ออัปเดตข้อมูลทันที
+        \item \texttt{click}: เมื่อกดปุ่ม Delete จะแสดง Confirm Dialog และยิง DELETE Request
+    \end{itemize}
+\end{enumerate}
+
+\subsubsection{ฟังก์ชัน load (โหลดข้อมูล)}
+ดึงข้อมูลอุปกรณ์ทั้งหมดจาก API มาแสดงผล
+
+\begin{lstlisting}[language=JavaScript, caption={ฟังก์ชัน load ใน equipments.js}, label={code:equipments-load}]
+const load = async () => {
+  const data = await fetch(`${API}/equipments`).then((r) => r.json());
+  tbody.innerHTML = "";
+  data.forEach((e) => tbody.appendChild(row(e)));
+};
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item เรียก API \texttt{GET /equipments}
+    \item ล้างข้อมูลเดิมในตาราง (\texttt{innerHTML = ""})
+    \item วนลูปข้อมูลที่ได้และเรียกใช้ฟังก์ชัน \texttt{row()} เพื่อสร้างแถว
+\end{enumerate}
+
+\subsubsection{การเพิ่มอุปกรณ์ใหม่ (Form Handler)}
+จัดการการส่งฟอร์มเพื่อเพิ่มอุปกรณ์ใหม่
+
+\begin{lstlisting}[language=JavaScript, caption={Form Submit Handler ใน equipments.js}, label={code:equipments-submit}]
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const body = {
+    equipmentName: nameEl.value.trim(),
+    category: categoryEl.value.trim() || null,
+    status: statusEl.value,
+  };
+  const r = await fetch(`${API}/equipments`, { 
+      method: "POST", 
+      headers: { "Content-Type": "application/json" }, 
+      body: JSON.stringify(body) 
+  });
+  if (r.ok) {
+    form.reset();
+    load();
+  }
+});
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item ป้องกันการ Refresh หน้าจอด้วย \texttt{e.preventDefault()}
+    \item เตรียมข้อมูล JSON Payload
+    \item ส่ง POST Request ไปยัง API และรีเฟรชตารางเมื่อสำเร็จ
+\end{enumerate}
+
+% ==========================================================================================
+% FILE: frontend/js/trainers.js
+% ==========================================================================================
+\subsection{frontend/js/trainers.js}
+
+\subsubsection{ฟังก์ชัน row (สร้างแถวตาราง)}
+สร้าง HTML สำหรับแสดงข้อมูลเทรนเนอร์
+
+\begin{lstlisting}[language=JavaScript, caption={ฟังก์ชัน row ใน trainers.js}, label={code:trainers-row}]
+const row = (t) => {
+  const tr = document.createElement("tr");
+  tr.className = "hover:bg-contrast transition-colors border-b border-gray-100";
+  
+  tr.innerHTML = `
+    <td class="p-4 font-bold text-primary">#${t.id}</td>
+    <td class="p-4 font-bold">${t.trainerName}</td>
+    <td class="p-4 font-semibold text-secondary">${t.specialty || "-"}</td>
+    <td class="p-4"><span class="bg-secondary text-white px-2 py-1 text-xs font-bold uppercase">${t.trainerLevel}</span></td>
+    <td class="p-4 text-sm font-mono">${t.phone || "-"}</td>
+    <td class="p-4 text-center">
+      <div class="flex justify-center gap-2">
+        <button data-id="${t.id}" data-action="edit" class="text-accent hover:text-primary transition-colors font-bold uppercase text-xs border-b-2 border-transparent hover:border-primary">Edit</button>
+        <button data-id="${t.id}" data-action="delete" class="text-red-500 hover:text-red-700 transition-colors font-bold uppercase text-xs border-b-2 border-transparent hover:border-red-700">Delete</button>
+      </div>
+    </td>
+  `;
+  return tr;
+};
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item แสดงข้อมูลเทรนเนอร์ในแต่ละคอลัมน์
+    \item สร้างปุ่ม Edit และ Delete โดยฝัง \texttt{data-id} และ \texttt{data-action} ไว้ในปุ่ม เพื่อใช้สำหรับ Event Delegation
+\end{enumerate}
+
+\subsubsection{ฟังก์ชัน load (โหลดข้อมูล)}
+\begin{lstlisting}[language=JavaScript, caption={ฟังก์ชัน load ใน trainers.js}, label={code:trainers-load}]
+const load = async () => {
+  const data = await fetch(`${API}/trainers`).then((r) => r.json());
+  tbody.innerHTML = "";
+  data.forEach((t) => tbody.appendChild(row(t)));
+};
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item ดึงข้อมูลเทรนเนอร์ทั้งหมดและแสดงผลในตาราง
+\end{enumerate}
+
+\subsubsection{การจัดการปุ่ม Edit/Delete (Event Delegation)}
+ใช้เทคนิค Event Delegation โดยดักจับการคลิกที่ \texttt{tbody} แทนการผูก Event กับปุ่มทุกปุ่ม
+
+\begin{lstlisting}[language=JavaScript, caption={Event Delegation ใน trainers.js}, label={code:trainers-actions}]
+tbody.addEventListener("click", async (e) => {
+  const btn = e.target.closest("button");
+  if (!btn) return;
+  const id = btn.getAttribute("data-id");
+  const action = btn.getAttribute("data-action");
+  
+  if (action === "delete") {
+    const r = await fetch(`${API}/trainers/${id}`, { method: "DELETE" });
+    if (r.ok) load();
+  }
+  
+  if (action === "edit") {
+    try {
+      const currentData = await fetch(`${API}/trainers/${id}`).then(r => r.json());
+      
+      const name = prompt("ชื่อ", currentData.trainerName || "");
+      if (name === null) return;
+
+      const specialty = prompt("ความเชี่ยวชาญ", currentData.specialty || "");
+      if (specialty === null) return;
+
+      if (name) {
+        const r = await fetch(`${API}/trainers/${id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ trainerName: name, specialty }),
+        });
+        if (r.ok) load();
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error fetching trainer data");
+    }
+  }
+});
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item \textbf{Delete}: เมื่อกดปุ่ม Delete จะทำการลบข้อมูลทันที
+    \item \textbf{Edit}: เมื่อกดปุ่ม Edit จะใช้ \texttt{prompt} ของ Browser ในการรับค่าชื่อและความเชี่ยวชาญใหม่ (แบบง่าย) แล้วส่ง PUT Request ไปอัปเดตข้อมูล
+\end{enumerate}
+
+% ==========================================================================================
+% FILE: frontend/js/sessions.js
+% ==========================================================================================
+\subsection{frontend/js/sessions.js}
+
+\subsubsection{ฟังก์ชัน Helper และ Row Creation}
+ฟังก์ชันช่วยสร้าง Option สำหรับ Dropdown และสร้างแถวตาราง
+
+\begin{lstlisting}[language=JavaScript, caption={ฟังก์ชัน opt และ row ใน sessions.js}, label={code:sessions-helpers}]
+const opt = (v, t) => {
+  const o = document.createElement("option");
+  o.value = v;
+  o.textContent = t;
+  return o;
+};
+
+const row = (s) => {
+  const tr = document.createElement("tr");
+  tr.className = "hover:bg-contrast transition-colors border-b border-gray-100";
+  
+  const actions = document.createElement("td");
+  actions.className = "p-4 text-center";
+  const del = document.createElement("button");
+  del.className = "text-red-500 hover:text-red-700 transition-colors font-bold uppercase text-xs border-b-2 border-transparent hover:border-red-700";
+  del.textContent = "Cancel";
+  del.addEventListener("click", async () => {
+    if(confirm('Are you sure you want to cancel this session?')) {
+      const r = await fetch(`${API}/sessions/${s.id}`, { method: "DELETE" });
+      if (r.ok) loadSessions();
+    }
+  });
+  actions.appendChild(del);
+
+  const date = new Date(s.sessionDate);
+  const dateStr = date.toLocaleDateString('th-TH', { timeZone: 'UTC', day: '2-digit', month: '2-digit', year: 'numeric' });
+  const timeStr = date.toLocaleTimeString('th-TH', { timeZone: 'UTC', hour: '2-digit', minute: '2-digit' });
+  const dateTimeStr = `${dateStr} ${timeStr}`;
+
+  tr.innerHTML = `
+    <td class="p-4 font-bold text-primary">${s.customer?.fullName || "Unknown"}</td>
+    <td class="p-4 font-semibold">${s.trainer?.trainerName || "-"}</td>
+    <td class="p-4">${s.equipment?.equipmentName || "Personal Training"}</td>
+    <td class="p-4 text-sm font-mono text-secondary">${dateTimeStr}</td>
+  `;
+  tr.appendChild(actions);
+  return tr;
+};
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item \texttt{opt}: สร้าง \texttt{<option>} element อย่างง่าย
+    \item \texttt{row}: สร้างแถวตารางพร้อมแสดงชื่อลูกค้า เทรนเนอร์ อุปกรณ์ และเวลา โดยมีการแปลงเวลาให้เป็นรูปแบบที่อ่านง่าย และเพิ่มปุ่ม Cancel สำหรับยกเลิก Session
+\end{enumerate}
+
+\subsubsection{ฟังก์ชัน loadLists และ loadSessions}
+ดึงข้อมูล Master Data และ Session Data
+
+\begin{lstlisting}[language=JavaScript, caption={ฟังก์ชันโหลดข้อมูลใน sessions.js}, label={code:sessions-load}]
+const loadLists = async () => {
+  const [customersRes, trainers, equipments] = await Promise.all([
+    fetch(`${API}/customers?limit=1000`).then((r) => r.json()),
+    fetch(`${API}/trainers`).then((r) => r.json()),
+    fetch(`${API}/equipments`).then((r) => r.json()),
+  ]);
+  
+  const customers = Array.isArray(customersRes) ? customersRes : (customersRes.data || []);
+
+  customerEl.innerHTML = '<option value="" disabled selected>Select Customer</option>';
+  trainerEl.innerHTML = '<option value="" disabled selected>Select Trainer</option>';
+  equipmentEl.innerHTML = '<option value="" disabled selected>Select Equipment</option>';
+  
+  customers.forEach((c) => customerEl.appendChild(opt(c.id, c.fullName)));
+  trainers.forEach((t) => trainerEl.appendChild(opt(t.id, t.trainerName)));
+  equipments.forEach((e) => equipmentEl.appendChild(opt(e.id, e.equipmentName)));
+};
+
+const loadSessions = async () => {
+  const data = await fetch(`${API}/sessions`).then((r) => r.json());
+  tbody.innerHTML = "";
+  data.forEach((s) => tbody.appendChild(row(s)));
+};
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item \texttt{loadLists}: ใช้ \texttt{Promise.all} ดึงข้อมูล Customers, Trainers, Equipments พร้อมกันเพื่อนำมาใส่ใน Dropdown ให้แอดมินเลือก
+    \item \texttt{loadSessions}: ดึงข้อมูลการจองทั้งหมดมาแสดงในตาราง
+\end{enumerate}
+
+\subsubsection{การสร้าง Session ใหม่ (Form Handler)}
+\begin{lstlisting}[language=JavaScript, caption={Form Submit Handler ใน sessions.js}, label={code:sessions-submit}]
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  
+  const scheduledDate = new Date(scheduledEl.value);
+  // Convert to fake UTC (preserve local time values)
+  const utcScheduled = new Date(Date.UTC(
+    scheduledDate.getFullYear(),
+    scheduledDate.getMonth(),
+    scheduledDate.getDate(),
+    scheduledDate.getHours(),
+    scheduledDate.getMinutes(),
+    0
+  ));
+
+  const body = {
+    customerId: parseInt(customerEl.value, 10),
+    trainerId: parseInt(trainerEl.value, 10),
+    equipmentId: parseInt(equipmentEl.value, 10),
+    sessionDate: utcScheduled.toISOString(),
+    duration: 60 // Default 1 hour
+  };
+  
+  try {
+    const r = await fetch(`${API}/sessions`, { 
+        method: "POST", 
+        headers: { "Content-Type": "application/json" }, 
+        body: JSON.stringify(body) 
+    });
+    
+    if (r.ok) {
+        alert("Session created successfully!");
+        form.reset();
+        loadSessions();
+    } else {
+        const err = await r.json();
+        alert("Failed to create session: " + (err.error || "Unknown error"));
+    }
+  } catch (error) {
+    console.error("Error creating session:", error);
+    alert("Network error occurred.");
+  }
+});
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item แปลงเวลาที่เลือกจาก Input (Local Time) เป็น UTC แบบคงค่าตัวเลขเดิมไว้ (Fake UTC) เพื่อให้เวลาที่บันทึกตรงกับที่ตาเห็น
+    \item ส่งข้อมูลไปยัง API เพื่อสร้าง Session ใหม่
+\end{enumerate}
+
+% ==========================================================================================
+% FILE: frontend/js/index.js (Dashboard Logic)
+% ==========================================================================================
+\subsection{frontend/js/index.js (Admin Dashboard)}
+
+\subsubsection{ฟังก์ชัน Helper และ Render}
+\begin{lstlisting}[language=JavaScript, caption={ฟังก์ชัน Helper ใน index.js}, label={code:index-helpers}]
+const setText = (id, v) => {
+  const el = document.getElementById(id);
+  if (el) el.textContent = v;
+};
+
+const renderSessions = (rows) => {
+  const tbody = document.getElementById("today-sessions");
+  tbody.innerHTML = "";
+  if (!rows || rows.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-gray-400 italic">No sessions scheduled for today.</td></tr>`;
+    return;
+  }
+  rows.forEach((r) => {
+    const tr = document.createElement("tr");
+    tr.className = "hover:bg-contrast transition-colors border-b border-gray-100";
+    tr.innerHTML = `
+      <td class="p-4 font-bold text-primary">${r.customer?.fullName || "Unknown"}</td>
+      <td class="p-4 font-semibold">${r.trainer?.trainerName || "-"}</td>
+      <td class="p-4">${r.equipment?.equipmentName || "Personal Training"}</td>
+      <td class="p-4 text-sm font-mono text-secondary">${new Date(r.sessionDate).toLocaleString()}</td>
+      <td class="p-4 text-center">
+        <span class="bg-accent text-primary px-2 py-1 text-xs font-bold uppercase tracking-wide">Confirmed</span>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+};
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item \texttt{setText}: ช่วยอัปเดตข้อความใน Element ตาม ID
+    \item \texttt{renderSessions}: แสดงตารางงานของวันนี้ในหน้า Dashboard
+\end{enumerate}
+
+\subsubsection{ฟังก์ชัน load (Dashboard Data)}
+ดึงข้อมูลสรุป (Summary) และตารางงานวันนี้
+
+\begin{lstlisting}[language=JavaScript, caption={ฟังก์ชัน load ใน index.js}, label={code:index-load}]
+const load = async () => {
+  const summary = await fetch(`${API}/summary`).then((r) => r.json());
+  setText("count-customers", summary.customers || 0);
+  setText("count-trainers", summary.trainers || 0);
+  setText("count-equipments", summary.equipments || 0);
+  setText("count-sessions", summary.sessions_today || 0);
+  
+  const sessions = await fetch(`${API}/sessions?today=true`).then((r) => r.json());
+  renderSessions(sessions);
+};
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item เรียก API \texttt{/summary} เพื่อดึงจำนวนสมาชิก, เทรนเนอร์, อุปกรณ์, และงานวันนี้ มาแสดงในการ์ดสถิติ
+    \item เรียก API \texttt{/sessions?today=true} เพื่อดึงเฉพาะงานของวันนี้มาแสดง
+\end{enumerate}
+
+% ==========================================================================================
+% FILE: frontend/js/logs.js
+% ==========================================================================================
+\subsection{frontend/js/logs.js}
+
+\subsubsection{ฟังก์ชัน Helper สำหรับวันที่และเวลา}
+ฟังก์ชันช่วยแปลงวันที่และคำนวณระยะเวลา
+
+\begin{lstlisting}[language=JavaScript, caption={Helper Functions ใน logs.js}, label={code:logs-helpers}]
+const formatDate = (dateStr) => {
+    if (!dateStr) return "-";
+    const date = new Date(dateStr);
+    return date.toLocaleDateString('th-TH', { timeZone: 'UTC', day: '2-digit', month: '2-digit', year: 'numeric' });
+};
+
+const formatTime = (dateStr) => {
+    if (!dateStr) return "-";
+    const date = new Date(dateStr);
+    return date.toLocaleTimeString('th-TH', { timeZone: 'UTC', hour: '2-digit', minute: '2-digit' });
+};
+
+const calcDuration = (startStr, endStr) => {
+    if (!startStr || !endStr) return "-";
+    const start = new Date(startStr);
+    const end = new Date(endStr);
+    const diffMs = end.getTime() - start.getTime();
+    
+    const diffMins = Math.floor(diffMs / 60000);
+    const hours = Math.floor(diffMins / 60);
+    const mins = diffMins % 60;
+    
+    if (hours > 0) return `${hours} hr ${mins} min`;
+    return `${mins} min`;
+};
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item \texttt{formatDate/formatTime}: แปลง ISO Date String ให้เป็นรูปแบบวันที่และเวลาของไทย
+    \item \texttt{calcDuration}: คำนวณระยะเวลาความแตกต่างระหว่างเวลาเริ่มและเวลาจบในหน่วยชั่วโมงและนาที
+\end{enumerate}
+
+\subsubsection{ฟังก์ชัน applyDateFilter}
+\begin{lstlisting}[language=JavaScript, caption={ฟังก์ชัน applyDateFilter ใน logs.js}, label={code:logs-filter}]
+function applyDateFilter() {
+    const dateVal = document.getElementById('filter-date').value;
+    if (dateVal) {
+        filterDate = dateVal;
+    } else {
+        filterDate = null;
+    }
+    refreshCurrentTab();
+}
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item อ่านค่าจาก Input Date Picker
+    \item อัปเดตตัวแปร \texttt{filterDate} และเรียก \texttt{refreshCurrentTab()} เพื่อโหลดข้อมูลใหม่
+\end{enumerate}
+
+\subsubsection{ฟังก์ชัน switchTab}
+\begin{lstlisting}[language=JavaScript, caption={ฟังก์ชัน switchTab ใน logs.js}, label={code:logs-switch-tab}]
+window.switchTab = (tabName) => {
+    // Hide all sections
+    document.getElementById('section-logs').classList.add('hidden');
+    document.getElementById('section-customer').classList.add('hidden');
+    document.getElementById('section-trainer').classList.add('hidden');
+    
+    // Reset tab styles
+    ['logs', 'customer', 'trainer'].forEach(t => {
+        const btn = document.getElementById(`tab-${t}`);
+        btn.classList.remove('tab-active');
+        btn.classList.add('tab-inactive');
+    });
+
+    // Show selected section
+    document.getElementById(`section-${tabName}`).classList.remove('hidden');
+    
+    // Activate selected tab
+    const activeBtn = document.getElementById(`tab-${tabName}`);
+    activeBtn.classList.remove('tab-inactive');
+    activeBtn.classList.add('tab-active');
+
+    currentTab = tabName;
+    refreshCurrentTab();
+};
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item จัดการการเปลี่ยน Tab โดยการซ่อน/แสดง Section ที่เกี่ยวข้อง
+    \item เปลี่ยน Style ของปุ่ม Tab เพื่อแสดงสถานะ Active
+\end{enumerate}
+
+\subsubsection{ฟังก์ชัน loadLogs}
+\begin{lstlisting}[language=JavaScript, caption={ฟังก์ชัน loadLogs ใน logs.js}, label={code:logs-load-logs}]
+const loadLogs = async () => {
+  try {
+    logsTbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center">Loading logs...</td></tr>';
+    const logs = await fetch(`${API}/logs`).then((r) => r.json());
+    logsTbody.innerHTML = "";
+    
+    let filteredLogs = logs;
+    if (filterDate) {
+        filteredLogs = logs.filter(l => l.timestamp.startsWith(filterDate));
+    }
+
+    if (filteredLogs.length === 0) {
+      logsTbody.innerHTML = `<tr><td colspan="3" class="p-4 text-center text-gray-400 italic">No logs found.</td></tr>`;
+      return;
+    }
+    filteredLogs.forEach((log) => logsTbody.appendChild(logRow(log)));
+  } catch (error) {
+    console.error("Error loading logs:", error);
+    logsTbody.innerHTML = `<tr><td colspan="3" class="p-4 text-center text-red-500 font-bold">Error loading logs.</td></tr>`;
+  }
+};
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item ดึงข้อมูล System Logs ทั้งหมดจาก API
+    \item กรองข้อมูลตามวันที่ (Client-side Filtering) หากมีการเลือกวันที่
+    \item แสดงผลข้อมูลในตาราง
+\end{enumerate}
+
+\subsubsection{ฟังก์ชัน loadCustomerReport และ loadTrainerReport}
+\begin{lstlisting}[language=JavaScript, caption={ฟังก์ชันโหลดรายงานใน logs.js}, label={code:logs-load-reports}]
+const loadCustomerReport = async () => {
+    try {
+        customerTbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center">Loading data...</td></tr>';
+        
+        let url = `${API}/sessions?all=true`;
+        if (filterDate) {
+            url = `${API}/sessions?date=${filterDate}`;
+        }
+        
+        const sessions = await fetch(url).then(r => r.json());
+        customerTbody.innerHTML = "";
+
+        if (sessions.length === 0) {
+            customerTbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-gray-400 italic">No history found.</td></tr>`;
+            return;
+        }
+
+        sessions.forEach(s => customerTbody.appendChild(customerRow(s)));
+    } catch (error) { ... }
+};
+
+// loadTrainerReport มี logic เดียวกันแต่แสดงผลคนละตาราง
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item สร้าง URL Query String ตาม Filter วันที่
+    \item ดึงข้อมูล Session และแสดงผลในตารางรายงาน
+\end{enumerate}
+
+% ==========================================================================================
+% FILE: frontend/js/theme.js
+% ==========================================================================================
+\subsection{frontend/js/theme.js}
+
+\subsubsection{ฟังก์ชัน initTheme}
+ตรวจสอบและตั้งค่า Theme เริ่มต้นเมื่อโหลดหน้าเว็บ
+
+\begin{lstlisting}[language=JavaScript, caption={ฟังก์ชัน initTheme ใน theme.js}, label={code:theme-init-func}]
+function initTheme() {
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+        updateIcon(true);
+    } else {
+        document.documentElement.classList.remove('dark');
+        updateIcon(false);
+    }
+}
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item ตรวจสอบว่าผู้ใช้เคยตั้งค่า Theme ไว้หรือไม่ หรือใช้การตั้งค่าของ System
+    \item กำหนด Class \texttt{dark} ให้กับ \texttt{<html>} element
+\end{enumerate}
+
+\subsubsection{ฟังก์ชัน toggleTheme}
+สลับโหมดระหว่าง Light และ Dark
+
+\begin{lstlisting}[language=JavaScript, caption={ฟังก์ชัน toggleTheme ใน theme.js}, label={code:theme-toggle-func}]
+function toggleTheme() {
+    if (document.documentElement.classList.contains('dark')) {
+        document.documentElement.classList.remove('dark');
+        localStorage.theme = 'light';
+        updateIcon(false);
+    } else {
+        document.documentElement.classList.add('dark');
+        localStorage.theme = 'dark';
+        updateIcon(true);
+    }
+}
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item สลับสถานะ Class \texttt{dark}
+    \item บันทึกค่าลง \texttt{localStorage}
+\end{enumerate}
+
+\subsubsection{ฟังก์ชัน updateIcon}
+อัปเดตไอคอนบนปุ่มเปลี่ยน Theme
+
+\begin{lstlisting}[language=JavaScript, caption={ฟังก์ชัน updateIcon ใน theme.js}, label={code:theme-icon-func}]
+function updateIcon(isDark) {
+    const icon = document.getElementById('theme-icon');
+    if (icon) {
+        if (isDark) {
+            icon.setAttribute('data-lucide', 'sun');
+        } else {
+            icon.setAttribute('data-lucide', 'moon');
+        }
+        if (window.lucide) lucide.createIcons();
+    }
+}
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item เปลี่ยนไอคอนตามสถานะ Theme (พระอาทิตย์/พระจันทร์)
+\end{enumerate}
+
+% ==========================================================================================
+% FILE: frontend/js/user/profile.js
+% ==========================================================================================
+\subsection{frontend/js/user/profile.js}
+
+\subsubsection{ฟังก์ชัน loadProfile}
+ฟังก์ชันสำหรับดึงข้อมูลส่วนตัวของสมาชิกมาแสดงผลในหน้า Profile
+
+\begin{lstlisting}[language=JavaScript, caption={ฟังก์ชัน loadProfile ใน user/profile.js}, label={code:user-profile-load}]
+async function loadProfile() {
+    const session = JSON.parse(localStorage.getItem('gymbro_user'));
+    if (!session || !session.user) return;
+
+    const userId = session.user.id;
+    try {
+        const res = await fetch(`${window.API}/customers/${userId}`);
+        if (!res.ok) throw new Error('Failed to fetch profile');
+        const user = await res.json();
+        
+        // Update UI
+        setText('profile-name', user.fullName);
+        setText('profile-email', user.email);
+        setText('profile-phone', user.phone);
+        setText('profile-type', user.memberType || 'Standard');
+        setText('profile-level', user.memberLevel || 'Beginner');
+        
+        if (user.memberStartDate) {
+            const since = new Date(user.memberStartDate).toLocaleDateString('th-TH', { dateStyle: 'long' });
+            setText('profile-since', since);
+        }
+        
+        if (user.memberEndDate) {
+            const until = new Date(user.memberEndDate).toLocaleDateString('th-TH', { dateStyle: 'long' });
+            setText('profile-until', until);
+        } else {
+             setText('profile-until', 'Lifetime / No Expiry');
+        }
+
+    } catch (error) {
+        console.error('Error loading profile:', error);
+        // Fallback to local storage if API fails
+        const user = session.user;
+        setText('profile-name', user.fullName);
+        setText('profile-email', user.email);
+        setText('profile-phone', user.phone);
+    }
+}
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item ดึงข้อมูล User ID จาก \texttt{localStorage}
+    \item เรียก API \texttt{GET /customers/:id} เพื่อดึงข้อมูลล่าสุดจาก Server
+    \item แสดงผลข้อมูลลงใน UI โดยใช้ Helper Function \texttt{setText}
+    \item แปลงวันที่ให้เป็นรูปแบบภาษาไทยที่อ่านง่าย (เช่น "1 มกราคม 2567")
+    \item มีระบบ Fallback หากเรียก API ไม่สำเร็จ จะนำข้อมูลจาก Local Storage มาแสดงแทน
+\end{enumerate}
+
+\subsubsection{ฟังก์ชัน setText}
+\begin{lstlisting}[language=JavaScript, caption={ฟังก์ชัน setText ใน user/profile.js}, label={code:user-profile-helper}]
+function setText(id, text) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = text;
+}
+\end{lstlisting}
+
+\textbf{คำอธิบาย:}
+\begin{enumerate}
+    \item ฟังก์ชันช่วยลดความซ้ำซ้อนในการเขียน \texttt{document.getElementById} และตรวจสอบว่า Element มีอยู่จริงก่อนกำหนดค่า
 \end{enumerate}
