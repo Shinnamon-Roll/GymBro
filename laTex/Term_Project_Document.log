@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.3.6)  7 MAR 2026 19:09
+This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.3.6)  7 MAR 2026 19:56
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -2044,17 +2044,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 72--73
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
  ***********
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
 Package rerunfilecheck Info: File `Term_Project_Document.out' has not changed.
 (rerunfilecheck)             Checksum: 5EA7723FC2463758978B33D91D9B2DAF;23512.
  ) 
 Here is how much of TeX's memory you used:
  28562 strings out of 468168
  597540 string characters out of 5432816
- 1880833 words of memory out of 5000000
+ 1881138 words of memory out of 5000000
  56828 multiletter control sequences out of 15000+600000
  631937 words of font info for 79 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191

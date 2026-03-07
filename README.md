@@ -1,109 +1,79 @@
-# Gymbro
+# GymBro Management System
 
-Staff-only web application for managing a gym backend system. Clean, minimalist, earth-tone UI. Beginner-friendly codebase with vanilla HTML/CSS/JS on the frontend and Node.js (Express) on the backend, PostgreSQL database, and Sequelize for connection management.
+Web application for managing a gym, including member management, trainer scheduling, equipment tracking, and class booking. Designed with a clean, modern UI (Brutalism style) using Tailwind CSS.
+
+## Features
+
+### For Administrators (Back Office)
+- **Dashboard**: Overview of daily activities, stats, and quick actions.
+- **Member Management**: Add, edit, delete, and view member details.
+- **Trainer Management**: Manage trainer profiles and specialties.
+- **Equipment Management**: Track equipment inventory and status (Available/Maintenance).
+- **Session Management**: View and manage training sessions.
+- **System Logs**: View system activities and audit logs.
+
+### For Members (Front Office)
+- **User Dashboard**: View personal schedule and book new sessions.
+- **Booking System**: Real-time availability check for trainers and equipment.
+- **Profile**: View membership status and history.
 
 ## Tech Stack
-- Frontend: HTML5, CSS3, JavaScript (vanilla)
-- Backend: Node.js, Express.js
-- Database: PostgreSQL
-- ORM: Sequelize (raw SQL queries via `sequelize.query`)
 
-## Project Structure
-- `/backend` — API server (default port 3000)
-- `/frontend` — static site (default port 5500)
+- **Frontend**: EJS (Embedded JavaScript templating), Tailwind CSS, Vanilla JavaScript.
+- **Backend**: Node.js, Express.js.
+- **Database**: PostgreSQL (managed via Sequelize ORM).
 
-## Environment Variables
-- `DATABASE_URL`: PostgreSQL connection string
-  - Example: `postgres://USER:PASS@HOST:PORT/DBNAME`
-  - This is used by `/backend/db.js` to create the Sequelize connection.
-- `BACKEND_PORT` or `PORT`: Backend HTTP port (default 3000)
-- `PORT`: Frontend HTTP port (default 5500) when running `node frontend/index.js`
+## Installation
 
-## Setup
 ### Prerequisites
-- Node.js (v18+ recommended)
-- PostgreSQL
+- Node.js (v18+)
+- PostgreSQL Database
 
-### Database
-1. Create a database (e.g. `gymbro_db`)
-2. Apply schema:
+### Setup
+
+1. **Clone the repository**
    ```bash
-   psql -d gymbro_db -f backend/schema.sql
+   git clone <repository_url>
+   cd GymBro
    ```
 
-### Backend (API)
-1. Install dependencies:
+2. **Backend Setup**
    ```bash
    cd backend
    npm install
+   # Create a .env file or set environment variables
+   # DATABASE_URL=postgres://user:pass@host:port/dbname
+   npm run dev
    ```
-2. Set your Postgres URL and start the server:
+
+3. **Frontend Setup**
    ```bash
-   # replace USER, PASS, HOST, PORT, DBNAME with your actual values
-   DATABASE_URL='postgres://USER:PASS@HOST:PORT/DBNAME' BACKEND_PORT=3000 npm run dev
+   cd frontend
+   npm install
+   # Start the frontend server (default port 5500)
+   npm start
    ```
-3. Health check:
-   - Open `http://localhost:3000/api/health` (should return `{"ok":true}`)
 
-### Frontend (Cloudflare Pages)
-The frontend is hosted on Cloudflare Pages: [https://gymbro-co9.pages.dev](https://gymbro-co9.pages.dev)
+4. **Access the Application**
+   - Frontend: `http://localhost:5500`
+   - Backend API: `http://localhost:3000`
 
-Ensure `frontend/js/config.js` points to the production backend URL (`https://env-2210254.proen.app.ruk-com.cloud/api`).
+## Project Structure
 
-## Pages
-- Dashboard (`index.html`)
-  - Summary cards: customers, trainers, equipments, sessions today
-  - Table of today’s training sessions
-- Customers (`customers.html`)
-  - List, add, edit, delete customers
-- Trainers (`trainers.html`)
-  - List, add, edit, delete trainers
-- Equipment (`equipments.html`)
-  - List, add, delete; update status via dropdown (Available/Maintenance)
-- Sessions (`sessions.html`)
-  - Book session with selects for customer/trainer/equipment and datetime
-  - History table with delete
+- `backend/`: API Server, Database Models, and Logic.
+- `frontend/`: Express Server for UI, EJS Views, and Static Assets.
+- `laTex/`: Project Documentation and Reports.
 
-## API Overview
-- Customers
-  - `GET /api/customers`
-  - `GET /api/customers/:id`
-  - `POST /api/customers`
-  - `PUT /api/customers/:id`
-  - `DELETE /api/customers/:id`
-- Trainers
-  - `GET /api/trainers`
-  - `POST /api/trainers`
-  - `PUT /api/trainers/:id`
-  - `DELETE /api/trainers/:id`
-- Equipments
-  - `GET /api/equipments`
-  - `POST /api/equipments`
-  - `PUT /api/equipments/:id`
-  - `DELETE /api/equipments/:id`
-- Sessions
-  - `GET /api/sessions` (supports `?today=true`)
-  - `POST /api/sessions`
-  - `DELETE /api/sessions/:id`
-- Dashboard summary
-  - `GET /api/summary`
+## Team Members
 
-## Deployment
+| Name | Student ID |
+|------|------------|
+| นายเมธัส ทองจันทร์ | 6606022610030 |
+| นายนพคุณ เหล่าอิ่มจันทร์ | 6606022610013 |
+| นายกาญจน์ชญา สู่สุข | 6606022610048 |
+| นางสาวทิพย์สุดา สังข์เงิน | 6606022620060 |
 
-### Backend (Ruk-com Cloud)
-- **Important**: When running the backend on the same Ruk-com network as the database, use the **internal port (5432)** instead of the external port (11857).
-- Set the environment variable `DATABASE_URL` in your Ruk-com dashboard:
-  ```
-  DATABASE_URL=postgres://webadmin:OFQzlb19621@node86180-env-2210254.proen.app.ruk-com.cloud:5432/gymbro_db
-  ```
-- This ensures the backend connects via the internal network, avoiding `EHOSTUNREACH` errors.
-- Set `FRONTEND_ORIGIN` to your frontend URL (e.g., `https://gymbro-co9.pages.dev`) to allow CORS requests.
+---
 
-### Frontend (Cloudflare Pages)
-- The frontend is deployed on Cloudflare Pages.
-- Ensure `frontend/js/config.js` points to the production backend URL (`https://env-2210254.proen.app.ruk-com.cloud/api`).
-
-## Notes
-- CORS is enabled on the backend.
-- If port 3000 is busy, set `BACKEND_PORT` to a different value.
-- Do not hard-code secrets in source code; use environment variables.
+**Course**: Full Stack Web Development (Semester 2/2025)
+**Deadline**: March 9, 2026
