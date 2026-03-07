@@ -59,21 +59,20 @@
     </div>
   </div>
 
-  <script>
+ <script>
     tailwind.config = {
       darkMode: 'class',
       theme: {
         extend: {
           colors: {
-            primary: '#0C2C55',
-            secondary: '#296374',
-            accent: '#629FAD',
-            contrast: '#EDEDCE',
+            primary: '#0C2C55',    /* Navy */
+            secondary: '#296374',  /* Deep Teal */
+            accent: '#629FAD',     /* Light Blue */
+            contrast: '#EDEDCE',   /* Cream */
             dark: {
-                bg: '#0F0F0F',
-                card: '#232D3F',
-                primary: '#005B41',
-                accent: '#008170',
+                bg: '#06182c',     /* Deep Navy (ตรงกับหน้า Admin) */
+                card: '#0C2C55',   /* Navy Card */
+                accent: '#629FAD',
                 text: '#EDEDCE'
             }
           },
@@ -81,20 +80,48 @@
             sans: ['Inter', 'sans-serif'],
           },
           borderRadius: {
-            DEFAULT: '0px',
-            'none': '0px',
-            'sm': '0px',
-            'md': '0px',
-            'lg': '0px',
-            'xl': '0px',
-            '2xl': '0px',
-            '3xl': '0px',
-            'full': '0px',
+            DEFAULT: '0px', // รักษาเอกลักษณ์เหลี่ยมของ GymBro
           }
         }
       }
     }
-  </script>
+</script>
+
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    /* Scrollbar Design */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #EDEDCE; }
+    ::-webkit-scrollbar-thumb { background: #296374; }
+    ::-webkit-scrollbar-thumb:hover { background: #0C2C55; }
+    
+    .dark ::-webkit-scrollbar-track { background: #06182c; }
+    .dark ::-webkit-scrollbar-thumb { background: #296374; }
+
+    /* Table Hover Styling เหมือนหน้า Admin */
+    .dark #schedule-table-body tr:hover {
+      background-color: #296374 !important;
+    }
+    .dark #schedule-table-body tr:hover td {
+      color: #EDEDCE !important;
+    }
+    /* ให้คอลัมน์แรกเด่นขึ้น */
+    .dark table tbody td:nth-child(2) {
+      color: #629FAD !important;
+      font-weight: 800 !important;
+    }
+
+    /* เพิ่มในส่วน <style> ของไฟล์ dashboard.ejs  */
+    .dark #schedule-table-body td {
+        color: #EDEDCE !important; /* บังคับให้เป็นสีครีมสว่างในโหมดมืด [cite: 98] */
+    }
+
+    /* เน้นเฉพาะคอลัมน์แรก (Time) ให้สว่างเป็นพิเศษ */
+    .dark #schedule-table-body td:first-child {
+        color: #FFFFFF !important;
+        font-weight: 800; /* ปรับให้ตัวหนาขึ้นเพื่อให้อ่านง่ายขึ้น [cite: 139] */
+    }
+</style>
   
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest"></script>
