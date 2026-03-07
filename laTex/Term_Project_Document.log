@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.3.6)  7 MAR 2026 19:09
+This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.3.6)  7 MAR 2026 19:43
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -761,26 +761,26 @@ text;"
 (./Term_Project_Document.aux)
 \openout1 = `Term_Project_Document.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 88.
-LaTeX Font Info:    ... okay on input line 88.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 88.
-LaTeX Font Info:    ... okay on input line 88.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 88.
-LaTeX Font Info:    ... okay on input line 88.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 88.
-LaTeX Font Info:    ... okay on input line 88.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 88.
-LaTeX Font Info:    ... okay on input line 88.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 88.
-LaTeX Font Info:    ... okay on input line 88.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 88.
-LaTeX Font Info:    ... okay on input line 88.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 88.
-LaTeX Font Info:    ... okay on input line 88.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 88.
-LaTeX Font Info:    ... okay on input line 88.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 88.
-LaTeX Font Info:    ... okay on input line 88.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 84.
+LaTeX Font Info:    ... okay on input line 84.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 84.
+LaTeX Font Info:    ... okay on input line 84.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 84.
+LaTeX Font Info:    ... okay on input line 84.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 84.
+LaTeX Font Info:    ... okay on input line 84.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 84.
+LaTeX Font Info:    ... okay on input line 84.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 84.
+LaTeX Font Info:    ... okay on input line 84.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 84.
+LaTeX Font Info:    ... okay on input line 84.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 84.
+LaTeX Font Info:    ... okay on input line 84.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 84.
+LaTeX Font Info:    ... okay on input line 84.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 84.
+LaTeX Font Info:    ... okay on input line 84.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: xetex
@@ -824,59 +824,59 @@ Package fontspec Info:
 
 \symlegacymaths=\mathgroup4
 LaTeX Font Info:    Overwriting symbol font `legacymaths' in version `bold'
-(Font)                  OT1/cmr/m/n --> OT1/cmr/bx/n on input line 88.
-LaTeX Font Info:    Redeclaring math accent \acute on input line 88.
-LaTeX Font Info:    Redeclaring math accent \grave on input line 88.
-LaTeX Font Info:    Redeclaring math accent \ddot on input line 88.
-LaTeX Font Info:    Redeclaring math accent \tilde on input line 88.
-LaTeX Font Info:    Redeclaring math accent \bar on input line 88.
-LaTeX Font Info:    Redeclaring math accent \breve on input line 88.
-LaTeX Font Info:    Redeclaring math accent \check on input line 88.
-LaTeX Font Info:    Redeclaring math accent \hat on input line 88.
-LaTeX Font Info:    Redeclaring math accent \dot on input line 88.
-LaTeX Font Info:    Redeclaring math accent \mathring on input line 88.
-LaTeX Font Info:    Redeclaring math symbol \colon on input line 88.
-LaTeX Font Info:    Redeclaring math symbol \Gamma on input line 88.
-LaTeX Font Info:    Redeclaring math symbol \Delta on input line 88.
-LaTeX Font Info:    Redeclaring math symbol \Theta on input line 88.
-LaTeX Font Info:    Redeclaring math symbol \Lambda on input line 88.
-LaTeX Font Info:    Redeclaring math symbol \Xi on input line 88.
-LaTeX Font Info:    Redeclaring math symbol \Pi on input line 88.
-LaTeX Font Info:    Redeclaring math symbol \Sigma on input line 88.
-LaTeX Font Info:    Redeclaring math symbol \Upsilon on input line 88.
-LaTeX Font Info:    Redeclaring math symbol \Phi on input line 88.
-LaTeX Font Info:    Redeclaring math symbol \Psi on input line 88.
-LaTeX Font Info:    Redeclaring math symbol \Omega on input line 88.
-LaTeX Font Info:    Redeclaring math symbol \mathdollar on input line 88.
-LaTeX Font Info:    Redeclaring symbol font `operators' on input line 88.
+(Font)                  OT1/cmr/m/n --> OT1/cmr/bx/n on input line 84.
+LaTeX Font Info:    Redeclaring math accent \acute on input line 84.
+LaTeX Font Info:    Redeclaring math accent \grave on input line 84.
+LaTeX Font Info:    Redeclaring math accent \ddot on input line 84.
+LaTeX Font Info:    Redeclaring math accent \tilde on input line 84.
+LaTeX Font Info:    Redeclaring math accent \bar on input line 84.
+LaTeX Font Info:    Redeclaring math accent \breve on input line 84.
+LaTeX Font Info:    Redeclaring math accent \check on input line 84.
+LaTeX Font Info:    Redeclaring math accent \hat on input line 84.
+LaTeX Font Info:    Redeclaring math accent \dot on input line 84.
+LaTeX Font Info:    Redeclaring math accent \mathring on input line 84.
+LaTeX Font Info:    Redeclaring math symbol \colon on input line 84.
+LaTeX Font Info:    Redeclaring math symbol \Gamma on input line 84.
+LaTeX Font Info:    Redeclaring math symbol \Delta on input line 84.
+LaTeX Font Info:    Redeclaring math symbol \Theta on input line 84.
+LaTeX Font Info:    Redeclaring math symbol \Lambda on input line 84.
+LaTeX Font Info:    Redeclaring math symbol \Xi on input line 84.
+LaTeX Font Info:    Redeclaring math symbol \Pi on input line 84.
+LaTeX Font Info:    Redeclaring math symbol \Sigma on input line 84.
+LaTeX Font Info:    Redeclaring math symbol \Upsilon on input line 84.
+LaTeX Font Info:    Redeclaring math symbol \Phi on input line 84.
+LaTeX Font Info:    Redeclaring math symbol \Psi on input line 84.
+LaTeX Font Info:    Redeclaring math symbol \Omega on input line 84.
+LaTeX Font Info:    Redeclaring math symbol \mathdollar on input line 84.
+LaTeX Font Info:    Redeclaring symbol font `operators' on input line 84.
 LaTeX Font Info:    Encoding `OT1' has changed to `TU' for symbol font
-(Font)              `operators' in the math version `normal' on input line 88.
+(Font)              `operators' in the math version `normal' on input line 84.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  OT1/cmr/m/n --> TU/Sarabun(0)/m/n on input line 88.
+(Font)                  OT1/cmr/m/n --> TU/Sarabun(0)/m/n on input line 84.
 LaTeX Font Info:    Encoding `OT1' has changed to `TU' for symbol font
-(Font)              `operators' in the math version `bold' on input line 88.
+(Font)              `operators' in the math version `bold' on input line 84.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  OT1/cmr/bx/n --> TU/Sarabun(0)/m/n on input line 88.
+(Font)                  OT1/cmr/bx/n --> TU/Sarabun(0)/m/n on input line 84.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
 (Font)                  TU/Sarabun(0)/m/n --> TU/Sarabun(0)/m/n on input line 8
-8.
+4.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
-(Font)                  OT1/cmr/m/it --> TU/Sarabun(0)/m/it on input line 88.
+(Font)                  OT1/cmr/m/it --> TU/Sarabun(0)/m/it on input line 84.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
-(Font)                  OT1/cmr/bx/n --> TU/Sarabun(0)/b/n on input line 88.
+(Font)                  OT1/cmr/bx/n --> TU/Sarabun(0)/b/n on input line 84.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
-(Font)                  OT1/cmss/m/n --> TU/lmss/m/n on input line 88.
+(Font)                  OT1/cmss/m/n --> TU/lmss/m/n on input line 84.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
-(Font)                  OT1/cmtt/m/n --> TU/lmtt/m/n on input line 88.
+(Font)                  OT1/cmtt/m/n --> TU/lmtt/m/n on input line 84.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
 (Font)                  TU/Sarabun(0)/m/n --> TU/Sarabun(0)/b/n on input line 8
-8.
+4.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/cmr/bx/it --> TU/Sarabun(0)/b/it on input line 88.
+(Font)                  OT1/cmr/bx/it --> TU/Sarabun(0)/b/it on input line 84.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/bx/n --> TU/lmss/b/n on input line 88.
+(Font)                  OT1/cmss/bx/n --> TU/lmss/b/n on input line 84.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> TU/lmtt/b/n on input line 88.
+(Font)                  OT1/cmtt/m/n --> TU/lmtt/b/n on input line 84.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: hyperref package is loaded.
 Package caption Info: longtable package is loaded.
@@ -884,18 +884,18 @@ Package caption Info: longtable package is loaded.
 Package: ltcaption 2021/01/08 v1.4c longtable captions (AR)
 )
 Package caption Info: End \AtBeginDocument code.
-Package hyperref Info: Link coloring OFF on input line 88.
+Package hyperref Info: Link coloring OFF on input line 84.
 
 (./Term_Project_Document.out) (./Term_Project_Document.out)
 \@outlinefile=\write4
 \openout4 = `Term_Project_Document.out'.
 
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 92.
+(Font)              <12> on input line 109.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 92.
+(Font)              <8> on input line 109.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 92.
+(Font)              <6> on input line 109.
  [1
 
 ]
@@ -1565,250 +1565,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 595--596
 กฟังก์ชัน
  []
 
-[42] [43]
-Underfull \hbox (badness 10000) in paragraph at lines 739--740
-\TU/Sarabun(0)/m/n/10 ไฟล์ \TU/lmtt/m/n/10 frontend/views/index.ejs \TU/Sarabun
-(0)/m/n/10 คือหน้า Dashboard หลักสำหรับผู้ดูแลระบบ (Admin)
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 739--740
-\TU/Sarabun(0)/m/n/10 ทำหน้าที่แสดงภาพรวมของระบบ เช่น สถิติสมาชิก, จำนวนเทรนเนอ
-ร์, อุปกรณ์, และเซสชันในวันนี้
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 739--740
-\TU/Sarabun(0)/m/n/10 รวมถึงแสดงตารางงาน (Schedule) ประจำวัน หน้าเว็บนี้ถูกออกแ
-บบให้รองรับการแสดงผลบนมือถือ (Responsive
- []
-
-(/usr/local/texlive/2026/texmf-dist/tex/latex/listings/lstlang1.sty
-File: lstlang1.sty 2025/11/14 1.11b listings language file
-)
-(/usr/local/texlive/2026/texmf-dist/tex/latex/listings/lstmisc.sty
-File: lstmisc.sty 2025/11/14 1.11b (Carsten Heinz)
-) [44]
-[45] [46]
-Underfull \hbox (badness 10000) in paragraph at lines 917--918
-\TU/Sarabun(0)/m/n/10 GymBro หน้าเว็บนี้ถูกออกแบบด้วย Tailwind CSS โดยใช้สไตล์ท
-ี่เป็นเอกลักษณ์ (Bold/Brutalism Style)
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 974--975
-[]\TU/Sarabun(0)/b/n/10 Custom Shadow\TU/Sarabun(0)/m/n/10 : การใช้ \TU/lmtt/m/
-n/10 shadow-[8px_8px_0px_0px_...] \TU/Sarabun(0)/m/n/10 สร้างเงาแบบทึบและหนา
- []
-
-[47]
-Underfull \hbox (badness 10000) in paragraph at lines 975--976
-[]\TU/Sarabun(0)/b/n/10 Absolute Positioning\TU/Sarabun(0)/m/n/10 : ป้าย ”LOGIN
-” ถูกจัดวางด้วย \TU/lmtt/m/n/10 absolute \TU/Sarabun(0)/m/n/10 เพื่อให้ลอยออกมา
-จากกรอบหลัก
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 979--980
-\TU/Sarabun(0)/m/n/10 ส่วนฟอร์มรับข้อมูลประกอบด้วยช่องกรอก Email และ Phone Numb
-er (ซึ่งใช้แทนรหัสผ่านในระบบนี้)
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1026--1027
-[]\TU/Sarabun(0)/b/n/10 Interactive Button\TU/Sarabun(0)/m/n/10 : ปุ่ม Submit ม
-ี Effect เมื่อเอาเมาส์ไปวาง (\TU/lmtt/m/n/10 hover\TU/Sarabun(0)/m/n/10 ) และเม
-ื่อกด (\TU/lmtt/m/n/10 active\TU/Sarabun(0)/m/n/10 )
- []
-
-[48]
-Underfull \hbox (badness 10000) in paragraph at lines 1038--1039
-\TU/Sarabun(0)/m/n/10 ไฟล์ \TU/lmtt/m/n/10 frontend/views/register.ejs \TU/Sara
-bun(0)/m/n/10 คือหน้าลงทะเบียนสมาชิกใหม่ (Member Reg-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1038--1039
-\TU/Sarabun(0)/m/n/10 istration) หน้าเว็บนี้ยังคงใช้การออกแบบสไตล์ Brutalism ที
-่สอดคล้องกับหน้า Login
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1090--1091
-\TU/Sarabun(0)/m/n/10 เนื่องจากหน้านี้มีการทำงานที่ไม่ซับซ้อนมาก จึงมีการฝัง Sc
-ript ไว้ภายในไฟล์โดยตรง (Inline Script)
- []
-
-[49]
-Overfull \hbox (8.65497pt too wide) in paragraph at lines 1147--1148
-\TU/Sarabun(0)/m/n/10 ไฟล์ \TU/lmtt/m/n/10 frontend/views/customers.ejs \TU/Sar
-abun(0)/m/n/10 คือหน้าจอสำหรับผู้ดูแลระบบ (Admin) เพื่อใช้ในการบริหารจัดการข้อม
-ูลสมาชิก
- []
-
-
-Overfull \hbox (17.75497pt too wide) in paragraph at lines 1147--1148
-\TU/Sarabun(0)/m/n/10 (Member Management) หน้าจอนี้ประกอบด้วยฟอร์มสำหรับเพิ่มสม
-าชิกใหม่ และตารางแสดงรายชื่อสมาชิกทั้งหมดในระบบ
- []
-
-[50]
-Overfull \hbox (5.31496pt too wide) in paragraph at lines 1168--1169
-\TU/Sarabun(0)/m/n/10 ส่วนนี้เป็นฟอร์มสำหรับลงทะเบียนสมาชิกใหม่ ถูกออกแบบโดยใช้
- Grid Layout เพื่อให้แสดงผลได้สวยงามและเป็นระเบียบ 
- []
-
-[51]
-Underfull \hbox (badness 10000) in paragraph at lines 1260--1261
-[]\TU/Sarabun(0)/b/n/10 JavaScript Integration\TU/Sarabun(0)/m/n/10 : \TU/lmtt/
-m/n/10 tbody id="customers-table" \TU/Sarabun(0)/m/n/10 ถูกเตรียมไว้สำหรับให้ J
-avaScript
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1276--1277
-[]\TU/lmtt/m/n/10 customers.js\TU/Sarabun(0)/m/n/10 : สคริปต์หลักสำหรับจัดการ L
-ogic ของหน้า Customers (เช่น การดึงข้อมูลสมาชิก,
- []
-
-[52]
-Underfull \hbox (badness 10000) in paragraph at lines 1286--1287
-\TU/Sarabun(0)/m/n/10 ไฟล์ \TU/lmtt/m/n/10 frontend/views/equipments.ejs \TU/Sa
-rabun(0)/m/n/10 คือหน้าจอสำหรับผู้ดูแลระบบ (Admin)
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1286--1287
-\TU/Sarabun(0)/m/n/10 เพื่อใช้ในการบริหารจัดการข้อมูลอุปกรณ์ออกกำลังกายภายในยิม
- (Equipment Management)
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1286--1287
-\TU/Sarabun(0)/m/n/10 ผู้ดูแลระบบสามารถเพิ่มอุปกรณ์ใหม่ แก้ไขสถานะของอุปกรณ์ (เ
-ช่น พร้อมใช้งาน หรือ ปิดปรับปรุง)
- []
-
-[53]
-Underfull \hbox (badness 10000) in paragraph at lines 1333--1334
-[]\TU/Sarabun(0)/b/n/10 Status Selection\TU/Sarabun(0)/m/n/10 : มี Dropdown สำห
-รับเลือกสถานะของอุปกรณ์ ซึ่งสำคัญต่อการจองคลาส (Session)
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1375--1376
-[]\TU/lmtt/m/n/10 equipments.js\TU/Sarabun(0)/m/n/10 : ไฟล์ JavaScript หลักที่ร
-ับผิดชอบการดึงข้อมูลอุปกรณ์จาก API มาแสดงในตาราง
- []
-
-
-Overfull \hbox (15.85497pt too wide) in paragraph at lines 1385--1386
-\TU/Sarabun(0)/m/n/10 ไฟล์ \TU/lmtt/m/n/10 frontend/views/trainers.ejs \TU/Sara
-bun(0)/m/n/10 คือหน้าจอสำหรับผู้ดูแลระบบ (Admin) เพื่อใช้ในการบริหารจัดการข้อมู
-ลเทรนเนอร์
- []
-
-
-Underfull \hbox (badness 3471) in paragraph at lines 1385--1386
-\TU/Sarabun(0)/m/n/10 (Trainer Management) หน้าจอนี้ช่วยให้แอดมินสามารถเพิ่มราย
-ชื่อเทรนเนอร์ใหม่ ระบุความเชี่ยวชาญ (Specialty)
- []
-
-[54]
-Underfull \hbox (badness 10000) in paragraph at lines 1436--1437
-[]\TU/Sarabun(0)/b/n/10 Grid Layout\TU/Sarabun(0)/m/n/10 : ใช้ \TU/lmtt/m/n/10 
-lg:grid-cols-5 \TU/Sarabun(0)/m/n/10 เพื่อจัดเรียง Input Fields และปุ่ม Submit
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1437--1438
-[]\TU/Sarabun(0)/b/n/10 Trainer Level\TU/Sarabun(0)/m/n/10 : มี Dropdown ให้เลื
-อกตําแหน่งของเทรนเนอร์ (Junior, Senior, Master)
- []
-
-[55] [56]
-Underfull \hbox (badness 10000) in paragraph at lines 1575--1576
-\TU/Sarabun(0)/m/n/10 ส่วนแสดงหัวข้อหน้าและฟอร์มสำหรับสร้างการจองเซสชันใหม่ โดย
-มีการเลือก Customer, Trainer, Equipment
- []
-
-[57]
-Overfull \hbox (65.42331pt too wide) in paragraph at lines 1613--1614
-[]\TU/Sarabun(0)/b/n/10 Date Selection\TU/Sarabun(0)/m/n/10 : ใช้ \TU/lmtt/m/n/
-10 input type="datetime-local" \TU/Sarabun(0)/m/n/10 เพื่อให้ผู้ดูแลระบบสามารถร
-ะบุวันและเวลาที่ต้องการจองได้ในคราวเดียว 
- []
-
-[58]
-Underfull \hbox (badness 10000) in paragraph at lines 1666--1667
-\TU/Sarabun(0)/m/n/10 หน้าเว็บสำหรับผู้ดูแลระบบ (Admin) เพื่อดูรายงานและบันทึกก
-ารใช้งานระบบ (Reports & Logs)
- []
-
-[59] [60] [61] [62]
-Underfull \hbox (badness 6708) in paragraph at lines 1941--1942
-[]\TU/Sarabun(0)/b/n/10 Modal Dialog\TU/Sarabun(0)/m/n/10 : ใช้ \TU/lmtt/m/n/10
- div id="booking-modal" \TU/Sarabun(0)/m/n/10 ที่มีคลาส \TU/lmtt/m/n/10 hidden 
-\TU/Sarabun(0)/m/n/10 เพื่อซ่อนฟอร์มการจองไว้ในตอนแรก
- []
-
-
-Overfull \hbox (1.88995pt too wide) in paragraph at lines 1942--1943
-[]\TU/Sarabun(0)/b/n/10 Overlay\TU/Sarabun(0)/m/n/10 : พื้นหลังสีดำจางๆ (\TU/lm
-tt/m/n/10 bg-black/50\TU/Sarabun(0)/m/n/10 ) ช่วยเน้นให้ Modal โดดเด่นขึ้นและป้
-องกันการคลิกพื้นหลังโดยไม่ตั้งใจ 
- []
-
-[63] [64] [65] [66] [67]
-Underfull \hbox (badness 10000) in paragraph at lines 2223--2224
-[]\TU/Sarabun(0)/b/n/10 Profile Card\TU/Sarabun(0)/m/n/10 : ใช้การจัดวางแบบ Fle
-xbox เพื่อแสดงรูป Avatar และข้อมูลส่วนตัวควบคู่กัน
- []
-
-
-Overfull \hbox (21.78333pt too wide) in paragraph at lines 2225--2226
-[]\TU/Sarabun(0)/b/n/10 Membership Info\TU/Sarabun(0)/m/n/10 : แสดงประเภทสมาชิก
-และวันหมดอายุอย่างชัดเจน เพื่อให้สมาชิกตรวจสอบสถานะของตนเองได้ง่าย 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2248--2249
-\TU/Sarabun(0)/m/n/10 ระบบรองรับการสลับโหมดมืด/สว่าง (Dark/Light Mode) โดยใช้ T
-ailwind CSS และ LocalStorage
- []
-
-[68]
-Underfull \hbox (badness 10000) in paragraph at lines 2286--2287
-\TU/Sarabun(0)/m/n/10 ใช้ \TU/lmtt/m/n/10 @media print \TU/Sarabun(0)/m/n/10 ใน
-การซ่อนส่วนประกอบที่ไม่จำเป็นเมื่อสั่งพิมพ์ เช่น Sidebar, Navbar, และปุ่มต่างๆ
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2323--2324
-\TU/Sarabun(0)/m/n/10 ไฟล์ \TU/lmtt/m/n/10 frontend/js/customers.js \TU/Sarabun
-(0)/m/n/10 รับผิดชอบการดึงข้อมูลสมาชิกจาก API โดยรองรับทั้งการค้นหา (Search)
- []
-
-Missing character: There is no ส (U+0E2A) in font [lmmono8-regular]:!
-Missing character: There is no ่ (U+0E48) in font [lmmono8-regular]:!
-Missing character: There is no ง (U+0E07) in font [lmmono8-regular]:!
-
-Overfull \hbox (30.09435pt too wide) in paragraph at lines 2329--2331
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
-][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-[69]
-Underfull \hbox (badness 3690) in paragraph at lines 2353--2354
-[]\TU/Sarabun(0)/b/n/10 API Response Handling\TU/Sarabun(0)/m/n/10 : ตรวจสอบรูป
-แบบข้อมูลที่ได้จาก API (Array หรือ Object พร้อม Metadata)
- []
-
-[70] [71] [72]
+[42] [43] [44] [45]
 Missing character: There is no ช (U+0E0A) in font [lmmono8-regular]:!
 Missing character: There is no ื (U+0E37) in font [lmmono8-regular]:!
 Missing character: There is no ่ (U+0E48) in font [lmmono8-regular]:!
 Missing character: There is no อ (U+0E2D) in font [lmmono8-regular]:!
+[46]
 Missing character: There is no ค (U+0E04) in font [lmmono8-regular]:!
 Missing character: There is no ว (U+0E27) in font [lmmono8-regular]:!
 Missing character: There is no า (U+0E32) in font [lmmono8-regular]:!
@@ -1822,19 +1584,19 @@ Missing character: There is no ว (U+0E27) in font [lmmono8-regular]:!
 Missing character: There is no ช (U+0E0A) in font [lmmono8-regular]:!
 Missing character: There is no า (U+0E32) in font [lmmono8-regular]:!
 Missing character: There is no ญ (U+0E0D) in font [lmmono8-regular]:!
-[73]
-Overfull \hbox (6.96996pt too wide) in paragraph at lines 2627--2628
+[47]
+Overfull \hbox (6.96996pt too wide) in paragraph at lines 1000--1001
 []\TU/lmtt/m/n/10 row\TU/Sarabun(0)/m/n/10 : สร้างแถวตารางพร้อมแสดงชื่อลูกค้า เ
 ทรนเนอร์ อุปกรณ์ และเวลา โดยมีการแปลงเวลาให้เป็นรูปแบบที่อ่านง่าย
  []
 
-[74]
-Underfull \hbox (badness 10000) in paragraph at lines 2713--2714
+[48]
+Underfull \hbox (badness 10000) in paragraph at lines 1086--1087
 []\TU/Sarabun(0)/m/n/10 แปลงเวลาที่เลือกจาก Input (Local Time) เป็น UTC แบบคงค่
 าตัวเลขเดิมไว้ (Fake UTC)
  []
 
-[75] [76] [77]
+[49] [50] [51]
 Missing character: There is no ม (U+0E21) in font [lmmono8-regular]:!
 Missing character: There is no ี (U+0E35) in font [lmmono8-regular]:!
 Missing character: There is no เ (U+0E40) in font [lmmono8-regular]:!
@@ -1863,10 +1625,249 @@ Missing character: There is no า (U+0E32) in font [lmmono8-regular]:!
 Missing character: There is no ร (U+0E23) in font [lmmono8-regular]:!
 Missing character: There is no า (U+0E32) in font [lmmono8-regular]:!
 Missing character: There is no ง (U+0E07) in font [lmmono8-regular]:!
-[78] [79] [80]
-Underfull \hbox (badness 10000) in paragraph at lines 3079--3080
+[52] [53]
+Underfull \hbox (badness 10000) in paragraph at lines 1452--1453
 []\TU/Sarabun(0)/m/n/10 ฟังก์ชันช่วยลดความซ้ำซ้อนในการเขียน \TU/lmtt/m/n/10 doc
 ument.getElementById \TU/Sarabun(0)/m/n/10 และตรวจสอบว่า Element
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1463--1464
+\TU/Sarabun(0)/m/n/10 ไฟล์ \TU/lmtt/m/n/10 frontend/views/index.ejs \TU/Sarabun
+(0)/m/n/10 คือหน้า Dashboard หลักสำหรับผู้ดูแลระบบ (Admin)
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1463--1464
+\TU/Sarabun(0)/m/n/10 ทำหน้าที่แสดงภาพรวมของระบบ เช่น สถิติสมาชิก, จำนวนเทรนเนอ
+ร์, อุปกรณ์, และเซสชันในวันนี้
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1463--1464
+\TU/Sarabun(0)/m/n/10 รวมถึงแสดงตารางงาน (Schedule) ประจำวัน หน้าเว็บนี้ถูกออกแ
+บบให้รองรับการแสดงผลบนมือถือ (Responsive
+ []
+
+(/usr/local/texlive/2026/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2025/11/14 1.11b listings language file
+)
+(/usr/local/texlive/2026/texmf-dist/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2025/11/14 1.11b (Carsten Heinz)
+) [54]
+[55] [56]
+Underfull \hbox (badness 10000) in paragraph at lines 1641--1642
+\TU/Sarabun(0)/m/n/10 GymBro หน้าเว็บนี้ถูกออกแบบด้วย Tailwind CSS โดยใช้สไตล์ท
+ี่เป็นเอกลักษณ์ (Bold/Brutalism Style)
+ []
+
+[57]
+Underfull \hbox (badness 10000) in paragraph at lines 1698--1699
+[]\TU/Sarabun(0)/b/n/10 Custom Shadow\TU/Sarabun(0)/m/n/10 : การใช้ \TU/lmtt/m/
+n/10 shadow-[8px_8px_0px_0px_...] \TU/Sarabun(0)/m/n/10 สร้างเงาแบบทึบและหนา
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1699--1700
+[]\TU/Sarabun(0)/b/n/10 Absolute Positioning\TU/Sarabun(0)/m/n/10 : ป้าย ”LOGIN
+” ถูกจัดวางด้วย \TU/lmtt/m/n/10 absolute \TU/Sarabun(0)/m/n/10 เพื่อให้ลอยออกมา
+จากกรอบหลัก
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1703--1704
+\TU/Sarabun(0)/m/n/10 ส่วนฟอร์มรับข้อมูลประกอบด้วยช่องกรอก Email และ Phone Numb
+er (ซึ่งใช้แทนรหัสผ่านในระบบนี้)
+ []
+
+[58]
+Underfull \hbox (badness 10000) in paragraph at lines 1750--1751
+[]\TU/Sarabun(0)/b/n/10 Interactive Button\TU/Sarabun(0)/m/n/10 : ปุ่ม Submit ม
+ี Effect เมื่อเอาเมาส์ไปวาง (\TU/lmtt/m/n/10 hover\TU/Sarabun(0)/m/n/10 ) และเม
+ื่อกด (\TU/lmtt/m/n/10 active\TU/Sarabun(0)/m/n/10 )
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1762--1763
+\TU/Sarabun(0)/m/n/10 ไฟล์ \TU/lmtt/m/n/10 frontend/views/register.ejs \TU/Sara
+bun(0)/m/n/10 คือหน้าลงทะเบียนสมาชิกใหม่ (Member Reg-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1762--1763
+\TU/Sarabun(0)/m/n/10 istration) หน้าเว็บนี้ยังคงใช้การออกแบบสไตล์ Brutalism ที
+่สอดคล้องกับหน้า Login
+ []
+
+[59]
+Underfull \hbox (badness 10000) in paragraph at lines 1814--1815
+\TU/Sarabun(0)/m/n/10 เนื่องจากหน้านี้มีการทำงานที่ไม่ซับซ้อนมาก จึงมีการฝัง Sc
+ript ไว้ภายในไฟล์โดยตรง (Inline Script)
+ []
+
+[60]
+Overfull \hbox (8.65497pt too wide) in paragraph at lines 1871--1872
+\TU/Sarabun(0)/m/n/10 ไฟล์ \TU/lmtt/m/n/10 frontend/views/customers.ejs \TU/Sar
+abun(0)/m/n/10 คือหน้าจอสำหรับผู้ดูแลระบบ (Admin) เพื่อใช้ในการบริหารจัดการข้อม
+ูลสมาชิก
+ []
+
+
+Overfull \hbox (17.75497pt too wide) in paragraph at lines 1871--1872
+\TU/Sarabun(0)/m/n/10 (Member Management) หน้าจอนี้ประกอบด้วยฟอร์มสำหรับเพิ่มสม
+าชิกใหม่ และตารางแสดงรายชื่อสมาชิกทั้งหมดในระบบ
+ []
+
+
+Overfull \hbox (5.31496pt too wide) in paragraph at lines 1892--1893
+\TU/Sarabun(0)/m/n/10 ส่วนนี้เป็นฟอร์มสำหรับลงทะเบียนสมาชิกใหม่ ถูกออกแบบโดยใช้
+ Grid Layout เพื่อให้แสดงผลได้สวยงามและเป็นระเบียบ 
+ []
+
+[61] [62]
+Underfull \hbox (badness 10000) in paragraph at lines 1984--1985
+[]\TU/Sarabun(0)/b/n/10 JavaScript Integration\TU/Sarabun(0)/m/n/10 : \TU/lmtt/
+m/n/10 tbody id="customers-table" \TU/Sarabun(0)/m/n/10 ถูกเตรียมไว้สำหรับให้ J
+avaScript
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2000--2001
+[]\TU/lmtt/m/n/10 customers.js\TU/Sarabun(0)/m/n/10 : สคริปต์หลักสำหรับจัดการ L
+ogic ของหน้า Customers (เช่น การดึงข้อมูลสมาชิก,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2010--2011
+\TU/Sarabun(0)/m/n/10 ไฟล์ \TU/lmtt/m/n/10 frontend/views/equipments.ejs \TU/Sa
+rabun(0)/m/n/10 คือหน้าจอสำหรับผู้ดูแลระบบ (Admin)
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2010--2011
+\TU/Sarabun(0)/m/n/10 เพื่อใช้ในการบริหารจัดการข้อมูลอุปกรณ์ออกกำลังกายภายในยิม
+ (Equipment Management)
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2010--2011
+\TU/Sarabun(0)/m/n/10 ผู้ดูแลระบบสามารถเพิ่มอุปกรณ์ใหม่ แก้ไขสถานะของอุปกรณ์ (เ
+ช่น พร้อมใช้งาน หรือ ปิดปรับปรุง)
+ []
+
+[63]
+Underfull \hbox (badness 10000) in paragraph at lines 2057--2058
+[]\TU/Sarabun(0)/b/n/10 Status Selection\TU/Sarabun(0)/m/n/10 : มี Dropdown สำห
+รับเลือกสถานะของอุปกรณ์ ซึ่งสำคัญต่อการจองคลาส (Session)
+ []
+
+[64]
+Underfull \hbox (badness 10000) in paragraph at lines 2099--2100
+[]\TU/lmtt/m/n/10 equipments.js\TU/Sarabun(0)/m/n/10 : ไฟล์ JavaScript หลักที่ร
+ับผิดชอบการดึงข้อมูลอุปกรณ์จาก API มาแสดงในตาราง
+ []
+
+
+Overfull \hbox (15.85497pt too wide) in paragraph at lines 2109--2110
+\TU/Sarabun(0)/m/n/10 ไฟล์ \TU/lmtt/m/n/10 frontend/views/trainers.ejs \TU/Sara
+bun(0)/m/n/10 คือหน้าจอสำหรับผู้ดูแลระบบ (Admin) เพื่อใช้ในการบริหารจัดการข้อมู
+ลเทรนเนอร์
+ []
+
+
+Underfull \hbox (badness 3471) in paragraph at lines 2109--2110
+\TU/Sarabun(0)/m/n/10 (Trainer Management) หน้าจอนี้ช่วยให้แอดมินสามารถเพิ่มราย
+ชื่อเทรนเนอร์ใหม่ ระบุความเชี่ยวชาญ (Specialty)
+ []
+
+[65]
+Underfull \hbox (badness 10000) in paragraph at lines 2160--2161
+[]\TU/Sarabun(0)/b/n/10 Grid Layout\TU/Sarabun(0)/m/n/10 : ใช้ \TU/lmtt/m/n/10 
+lg:grid-cols-5 \TU/Sarabun(0)/m/n/10 เพื่อจัดเรียง Input Fields และปุ่ม Submit
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2161--2162
+[]\TU/Sarabun(0)/b/n/10 Trainer Level\TU/Sarabun(0)/m/n/10 : มี Dropdown ให้เลื
+อกตําแหน่งของเทรนเนอร์ (Junior, Senior, Master)
+ []
+
+[66] [67]
+Underfull \hbox (badness 10000) in paragraph at lines 2299--2300
+\TU/Sarabun(0)/m/n/10 ส่วนแสดงหัวข้อหน้าและฟอร์มสำหรับสร้างการจองเซสชันใหม่ โดย
+มีการเลือก Customer, Trainer, Equipment
+ []
+
+[68]
+Overfull \hbox (65.42331pt too wide) in paragraph at lines 2337--2338
+[]\TU/Sarabun(0)/b/n/10 Date Selection\TU/Sarabun(0)/m/n/10 : ใช้ \TU/lmtt/m/n/
+10 input type="datetime-local" \TU/Sarabun(0)/m/n/10 เพื่อให้ผู้ดูแลระบบสามารถร
+ะบุวันและเวลาที่ต้องการจองได้ในคราวเดียว 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2390--2391
+\TU/Sarabun(0)/m/n/10 หน้าเว็บสำหรับผู้ดูแลระบบ (Admin) เพื่อดูรายงานและบันทึกก
+ารใช้งานระบบ (Reports & Logs)
+ []
+
+[69] [70] [71] [72] [73]
+Underfull \hbox (badness 6708) in paragraph at lines 2665--2666
+[]\TU/Sarabun(0)/b/n/10 Modal Dialog\TU/Sarabun(0)/m/n/10 : ใช้ \TU/lmtt/m/n/10
+ div id="booking-modal" \TU/Sarabun(0)/m/n/10 ที่มีคลาส \TU/lmtt/m/n/10 hidden 
+\TU/Sarabun(0)/m/n/10 เพื่อซ่อนฟอร์มการจองไว้ในตอนแรก
+ []
+
+
+Overfull \hbox (1.88995pt too wide) in paragraph at lines 2666--2667
+[]\TU/Sarabun(0)/b/n/10 Overlay\TU/Sarabun(0)/m/n/10 : พื้นหลังสีดำจางๆ (\TU/lm
+tt/m/n/10 bg-black/50\TU/Sarabun(0)/m/n/10 ) ช่วยเน้นให้ Modal โดดเด่นขึ้นและป้
+องกันการคลิกพื้นหลังโดยไม่ตั้งใจ 
+ []
+
+[74] [75] [76] [77]
+Underfull \hbox (badness 10000) in paragraph at lines 2947--2948
+[]\TU/Sarabun(0)/b/n/10 Profile Card\TU/Sarabun(0)/m/n/10 : ใช้การจัดวางแบบ Fle
+xbox เพื่อแสดงรูป Avatar และข้อมูลส่วนตัวควบคู่กัน
+ []
+
+
+Overfull \hbox (21.78333pt too wide) in paragraph at lines 2949--2950
+[]\TU/Sarabun(0)/b/n/10 Membership Info\TU/Sarabun(0)/m/n/10 : แสดงประเภทสมาชิก
+และวันหมดอายุอย่างชัดเจน เพื่อให้สมาชิกตรวจสอบสถานะของตนเองได้ง่าย 
+ []
+
+[78]
+Underfull \hbox (badness 10000) in paragraph at lines 2972--2973
+\TU/Sarabun(0)/m/n/10 ระบบรองรับการสลับโหมดมืด/สว่าง (Dark/Light Mode) โดยใช้ T
+ailwind CSS และ LocalStorage
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3010--3011
+\TU/Sarabun(0)/m/n/10 ใช้ \TU/lmtt/m/n/10 @media print \TU/Sarabun(0)/m/n/10 ใน
+การซ่อนส่วนประกอบที่ไม่จำเป็นเมื่อสั่งพิมพ์ เช่น Sidebar, Navbar, และปุ่มต่างๆ
+ []
+
+[79]
+Underfull \hbox (badness 10000) in paragraph at lines 3047--3048
+\TU/Sarabun(0)/m/n/10 ไฟล์ \TU/lmtt/m/n/10 frontend/js/customers.js \TU/Sarabun
+(0)/m/n/10 รับผิดชอบการดึงข้อมูลสมาชิกจาก API โดยรองรับทั้งการค้นหา (Search)
+ []
+
+Missing character: There is no ส (U+0E2A) in font [lmmono8-regular]:!
+Missing character: There is no ่ (U+0E48) in font [lmmono8-regular]:!
+Missing character: There is no ง (U+0E07) in font [lmmono8-regular]:!
+
+Overfull \hbox (30.09435pt too wide) in paragraph at lines 3053--3055
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+ []
+
+[80]
+Underfull \hbox (badness 3690) in paragraph at lines 3077--3078
+[]\TU/Sarabun(0)/b/n/10 API Response Handling\TU/Sarabun(0)/m/n/10 : ตรวจสอบรูป
+แบบข้อมูลที่ได้จาก API (Array หรือ Object พร้อม Metadata)
  []
 
 ) [81]
@@ -2044,20 +2045,16 @@ Underfull \hbox (badness 10000) in paragraph at lines 72--73
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
  ***********
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
 Package rerunfilecheck Info: File `Term_Project_Document.out' has not changed.
-(rerunfilecheck)             Checksum: 5EA7723FC2463758978B33D91D9B2DAF;23512.
+(rerunfilecheck)             Checksum: 9BA92E7AFEB1409E3D806269FEA1262D;23572.
  ) 
 Here is how much of TeX's memory you used:
- 28562 strings out of 468168
- 597540 string characters out of 5432816
- 1880833 words of memory out of 5000000
- 56828 multiletter control sequences out of 15000+600000
- 631937 words of font info for 79 fonts, out of 8000000 for 9000
+ 28566 strings out of 468168
+ 597734 string characters out of 5432816
+ 1732483 words of memory out of 5000000
+ 56829 multiletter control sequences out of 15000+600000
+ 631961 words of font info for 82 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 84i,9n,94p,650b,1972s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 84i,9n,94p,650b,1974s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
 Output written on Term_Project_Document.pdf (85 pages).

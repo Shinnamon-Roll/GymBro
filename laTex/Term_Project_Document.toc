@@ -91,7 +91,7 @@
 \contentsline {subsubsection}{การเชื่อมต่อฐานข้อมูลและการตรวจสอบสถานะ (Database Sync \& Health Check)}{26}{Item.120}%
 \contentsline {subsubsection}{API สำหรับการจัดการเซสชันการฝึกซ้อม (Training Sessions API)}{26}{Item.122}%
 \contentsline {subsubsection}{ระบบลบสมาชิกที่หมดอายุอัตโนมัติ (Auto Delete Expired Users)}{27}{Item.128}%
-\contentsline {section}{\numberline {6.2}ฟีเจอร์เพิ่มเติม (Additional Features)}{28}{section.6.2}%
+\contentsline {section}{\numberline {6.2}ส่วนเสริมของระบบหลังบ้าน (Backend Utilities)}{28}{section.6.2}%
 \contentsline {subsection}{\numberline {6.2.1}การค้นหาและแบ่งหน้า (Search \& Pagination) - ส่วน Backend}{28}{subsection.6.2.1}%
 \contentsline {subsubsection}{การทำงาน (Implementation)}{28}{subsection.6.2.1}%
 \contentsline {subsection}{\numberline {6.2.2}Validation Middleware}{29}{subsection.6.2.2}%
@@ -137,94 +137,94 @@
 \contentsline {subsubsection}{ฟังก์ชัน populateSelects}{42}{Item.213}%
 \contentsline {subsubsection}{ฟังก์ชัน checkAvailability}{42}{Item.215}%
 \contentsline {subsubsection}{ฟังก์ชัน handleBookingSubmit}{43}{Item.222}%
-\contentsline {subsection}{\numberline {6.3.6}ไฟล์ frontend/views/index.ejs}{44}{subsection.6.3.6}%
-\contentsline {subsubsection}{ภาพรวม (Overview)}{44}{subsection.6.3.6}%
-\contentsline {subsubsection}{ส่วนหัวและการนำทาง (Head and Navigation)}{44}{subsection.6.3.6}%
-\contentsline {subsubsection}{ส่วนเนื้อหาหลักและสคริปต์ (Main Content and Scripts)}{45}{Item.231}%
-\contentsline {subsection}{\numberline {6.3.7}ไฟล์ frontend/views/login.ejs}{47}{subsection.6.3.7}%
-\contentsline {subsubsection}{ภาพรวม (Overview)}{47}{subsection.6.3.7}%
-\contentsline {subsubsection}{การออกแบบและโครงสร้าง (Design \& Structure)}{47}{subsection.6.3.7}%
-\contentsline {subsubsection}{ฟอร์มการเข้าสู่ระบบ (Login Form)}{48}{Item.237}%
-\contentsline {subsection}{\numberline {6.3.8}ไฟล์ frontend/views/register.ejs}{49}{subsection.6.3.8}%
-\contentsline {subsubsection}{ภาพรวม (Overview)}{49}{subsection.6.3.8}%
-\contentsline {subsubsection}{ฟอร์มลงทะเบียน (Registration Form)}{49}{subsection.6.3.8}%
-\contentsline {subsubsection}{สคริปต์การจัดการการลงทะเบียน (Registration Script)}{50}{Item.243}%
-\contentsline {subsection}{\numberline {6.3.9}ไฟล์ frontend/views/customers.ejs}{50}{subsection.6.3.9}%
-\contentsline {subsubsection}{ภาพรวม (Overview)}{50}{subsection.6.3.9}%
-\contentsline {subsubsection}{การนำทางและสถานะเมนู (Navigation State)}{50}{subsection.6.3.9}%
-\contentsline {subsubsection}{ฟอร์มเพิ่มสมาชิกใหม่ (Add Member Form)}{51}{Item.248}%
-\contentsline {subsubsection}{ตารางรายชื่อสมาชิก (Member List Table)}{52}{Item.250}%
-\contentsline {subsubsection}{การนำเข้าสคริปต์ (Script Imports)}{52}{Item.252}%
-\contentsline {subsection}{\numberline {6.3.10}ไฟล์ frontend/views/equipments.ejs}{53}{subsection.6.3.10}%
-\contentsline {subsubsection}{ภาพรวม (Overview)}{53}{subsection.6.3.10}%
-\contentsline {subsubsection}{การนำทางและสถานะเมนู (Navigation State)}{53}{subsection.6.3.10}%
-\contentsline {subsubsection}{ฟอร์มเพิ่มอุปกรณ์ใหม่ (Add Equipment Form)}{53}{lstnumber.6.49.7}%
-\contentsline {subsubsection}{ตารางรายการอุปกรณ์ (Equipment Inventory Table)}{54}{Item.256}%
-\contentsline {subsubsection}{การนำเข้าสคริปต์ (Script Imports)}{54}{lstnumber.6.51.24}%
-\contentsline {subsection}{\numberline {6.3.11}ไฟล์ frontend/views/trainers.ejs}{54}{subsection.6.3.11}%
-\contentsline {subsubsection}{ภาพรวม (Overview)}{54}{subsection.6.3.11}%
-\contentsline {subsubsection}{การนำทางและสถานะเมนู (Navigation State)}{54}{subsection.6.3.11}%
-\contentsline {subsubsection}{ฟอร์มเพิ่มเทรนเนอร์ใหม่ (Add Trainer Form)}{55}{lstnumber.6.53.7}%
-\contentsline {subsubsection}{ตารางรายชื่อเทรนเนอร์ (Trainers Roster)}{55}{Item.259}%
-\contentsline {subsubsection}{การนำเข้าสคริปต์ (Script Imports)}{56}{lstnumber.6.55.25}%
-\contentsline {subsection}{\numberline {6.3.12}ไฟล์ frontend/views/sessions.ejs}{56}{subsection.6.3.12}%
-\contentsline {subsubsection}{ส่วนหัวและสไตล์ (Head and Styles)}{56}{subsection.6.3.12}%
-\contentsline {subsubsection}{แถบนำทาง (Sidebar Navigation)}{57}{lstnumber.6.57.53}%
-\contentsline {subsubsection}{ส่วนเนื้อหาหลักและฟอร์มการจอง (Main Content \& Booking Form)}{57}{lstnumber.6.58.19}%
-\contentsline {subsubsection}{ตารางรายการเซสชัน (Sessions List Table)}{58}{Item.263}%
-\contentsline {subsubsection}{สคริปต์ (Scripts)}{59}{lstnumber.6.60.24}%
-\contentsline {subsection}{\numberline {6.3.13}ไฟล์ frontend/views/logs.ejs}{59}{subsection.6.3.13}%
-\contentsline {subsubsection}{ส่วนหัวและสไตล์ (Head and Styles)}{59}{subsection.6.3.13}%
-\contentsline {subsubsection}{แถบนำทาง (Sidebar Navigation)}{60}{lstnumber.6.62.56}%
-\contentsline {subsubsection}{ส่วนควบคุมแท็บและตัวกรอง (Tabs \& Filters)}{60}{lstnumber.6.63.17}%
-\contentsline {subsubsection}{ส่วนแสดงผลรายงาน (Report Sections)}{61}{Item.266}%
-\contentsline {subsubsection}{สคริปต์และการจัดการแท็บ (Scripts \& Tab Logic)}{62}{lstnumber.6.65.28}%
-\contentsline {subsection}{\numberline {6.3.14}ไฟล์ frontend/views/user/dashboard.ejs}{62}{subsection.6.3.14}%
-\contentsline {subsubsection}{ส่วนหัวและ Modal การจอง (Head \& Booking Modal)}{62}{subsection.6.3.14}%
-\contentsline {subsubsection}{แถบนำทาง (Sidebar Navigation)}{63}{Item.269}%
-\contentsline {subsubsection}{ส่วนเนื้อหาหลักและตารางการจอง (Main Content \& Schedule Table)}{64}{lstnumber.6.68.35}%
-\contentsline {subsubsection}{สคริปต์ (Scripts)}{65}{lstnumber.6.69.49}%
-\contentsline {subsection}{\numberline {6.3.15}ไฟล์ frontend/views/user/profile.ejs}{65}{subsection.6.3.15}%
-\contentsline {subsubsection}{ส่วนหัวและสไตล์ (Head and Styles)}{65}{subsection.6.3.15}%
-\contentsline {subsubsection}{แถบนำทาง (Sidebar Navigation)}{66}{lstnumber.6.71.32}%
-\contentsline {subsubsection}{ส่วนเนื้อหาหลักและข้อมูลส่วนตัว (Main Content \& Profile Details)}{66}{lstnumber.6.72.23}%
-\contentsline {subsubsection}{สคริปต์ (Scripts)}{68}{Item.272}%
-\contentsline {section}{\numberline {6.4}ฟีเจอร์เพิ่มเติม (Additional Features)}{68}{section.6.4}%
-\contentsline {subsection}{\numberline {6.4.1}Dark Mode (โหมดมืด)}{68}{subsection.6.4.1}%
-\contentsline {subsubsection}{การทำงาน (Implementation)}{68}{subsection.6.4.1}%
-\contentsline {subsection}{\numberline {6.4.2}รายงานพร้อมพิมพ์ (Printable Report)}{69}{subsection.6.4.2}%
-\contentsline {subsubsection}{การทำงาน (Implementation)}{69}{subsection.6.4.2}%
-\contentsline {subsection}{\numberline {6.4.3}การค้นหาและแบ่งหน้า (Search \& Pagination) - ส่วน Frontend}{69}{subsection.6.4.3}%
-\contentsline {subsubsection}{การทำงาน (Implementation)}{69}{subsection.6.4.3}%
-\contentsline {subsubsection}{Logic การค้นหาและแบ่งหน้า (customers.js)}{69}{Item.278}%
-\contentsline {subsection}{\numberline {6.4.4}frontend/js/equipments.js}{70}{subsection.6.4.4}%
-\contentsline {subsubsection}{ฟังก์ชัน row (สร้างแถวตาราง)}{70}{subsection.6.4.4}%
-\contentsline {subsubsection}{ฟังก์ชัน load (โหลดข้อมูล)}{71}{Item.285}%
-\contentsline {subsubsection}{การเพิ่มอุปกรณ์ใหม่ (Form Handler)}{71}{Item.288}%
-\contentsline {subsection}{\numberline {6.4.5}frontend/js/trainers.js}{72}{subsection.6.4.5}%
-\contentsline {subsubsection}{ฟังก์ชัน row (สร้างแถวตาราง)}{72}{subsection.6.4.5}%
-\contentsline {subsubsection}{ฟังก์ชัน load (โหลดข้อมูล)}{72}{Item.293}%
-\contentsline {subsubsection}{การจัดการปุ่ม Edit/Delete (Event Delegation)}{73}{Item.294}%
-\contentsline {subsection}{\numberline {6.4.6}frontend/js/sessions.js}{73}{subsection.6.4.6}%
-\contentsline {subsubsection}{ฟังก์ชัน Helper และ Row Creation}{73}{subsection.6.4.6}%
-\contentsline {subsubsection}{ฟังก์ชัน loadLists และ loadSessions}{74}{Item.298}%
-\contentsline {subsubsection}{การสร้าง Session ใหม่ (Form Handler)}{75}{Item.300}%
-\contentsline {subsection}{\numberline {6.4.7}frontend/js/index.js (Admin Dashboard)}{75}{subsection.6.4.7}%
-\contentsline {subsubsection}{ฟังก์ชัน Helper และ Render}{75}{subsection.6.4.7}%
-\contentsline {subsubsection}{ฟังก์ชัน load (Dashboard Data)}{76}{Item.304}%
-\contentsline {subsection}{\numberline {6.4.8}frontend/js/logs.js}{76}{subsection.6.4.8}%
-\contentsline {subsubsection}{ฟังก์ชัน Helper สำหรับวันที่และเวลา}{76}{subsection.6.4.8}%
-\contentsline {subsubsection}{ฟังก์ชัน applyDateFilter}{77}{Item.308}%
-\contentsline {subsubsection}{ฟังก์ชัน switchTab}{77}{Item.310}%
-\contentsline {subsubsection}{ฟังก์ชัน loadLogs}{78}{Item.312}%
-\contentsline {subsubsection}{ฟังก์ชัน loadCustomerReport และ loadTrainerReport}{78}{Item.315}%
-\contentsline {subsection}{\numberline {6.4.9}frontend/js/theme.js}{79}{subsection.6.4.9}%
-\contentsline {subsubsection}{ฟังก์ชัน initTheme}{79}{subsection.6.4.9}%
-\contentsline {subsubsection}{ฟังก์ชัน toggleTheme}{79}{Item.319}%
-\contentsline {subsubsection}{ฟังก์ชัน updateIcon}{79}{Item.321}%
-\contentsline {subsection}{\numberline {6.4.10}frontend/js/user/profile.js}{80}{subsection.6.4.10}%
-\contentsline {subsubsection}{ฟังก์ชัน loadProfile}{80}{subsection.6.4.10}%
-\contentsline {subsubsection}{ฟังก์ชัน setText}{80}{Item.327}%
+\contentsline {subsection}{\numberline {6.3.6}frontend/js/equipments.js}{44}{subsection.6.3.6}%
+\contentsline {subsubsection}{ฟังก์ชัน row (สร้างแถวตาราง)}{44}{subsection.6.3.6}%
+\contentsline {subsubsection}{ฟังก์ชัน load (โหลดข้อมูล)}{45}{Item.231}%
+\contentsline {subsubsection}{การเพิ่มอุปกรณ์ใหม่ (Form Handler)}{45}{Item.234}%
+\contentsline {subsection}{\numberline {6.3.7}frontend/js/trainers.js}{46}{subsection.6.3.7}%
+\contentsline {subsubsection}{ฟังก์ชัน row (สร้างแถวตาราง)}{46}{subsection.6.3.7}%
+\contentsline {subsubsection}{ฟังก์ชัน load (โหลดข้อมูล)}{46}{Item.239}%
+\contentsline {subsubsection}{การจัดการปุ่ม Edit/Delete (Event Delegation)}{46}{Item.240}%
+\contentsline {subsection}{\numberline {6.3.8}frontend/js/sessions.js}{47}{subsection.6.3.8}%
+\contentsline {subsubsection}{ฟังก์ชัน Helper และ Row Creation}{47}{subsection.6.3.8}%
+\contentsline {subsubsection}{ฟังก์ชัน loadLists และ loadSessions}{48}{Item.244}%
+\contentsline {subsubsection}{การสร้าง Session ใหม่ (Form Handler)}{48}{Item.246}%
+\contentsline {subsection}{\numberline {6.3.9}frontend/js/index.js (Admin Dashboard)}{49}{subsection.6.3.9}%
+\contentsline {subsubsection}{ฟังก์ชัน Helper และ Render}{49}{subsection.6.3.9}%
+\contentsline {subsubsection}{ฟังก์ชัน load (Dashboard Data)}{50}{Item.250}%
+\contentsline {subsection}{\numberline {6.3.10}frontend/js/logs.js}{50}{subsection.6.3.10}%
+\contentsline {subsubsection}{ฟังก์ชัน Helper สำหรับวันที่และเวลา}{50}{subsection.6.3.10}%
+\contentsline {subsubsection}{ฟังก์ชัน applyDateFilter}{51}{Item.254}%
+\contentsline {subsubsection}{ฟังก์ชัน switchTab}{51}{Item.256}%
+\contentsline {subsubsection}{ฟังก์ชัน loadLogs}{51}{Item.258}%
+\contentsline {subsubsection}{ฟังก์ชัน loadCustomerReport และ loadTrainerReport}{52}{Item.261}%
+\contentsline {subsection}{\numberline {6.3.11}frontend/js/theme.js}{52}{subsection.6.3.11}%
+\contentsline {subsubsection}{ฟังก์ชัน initTheme}{52}{subsection.6.3.11}%
+\contentsline {subsubsection}{ฟังก์ชัน toggleTheme}{53}{Item.265}%
+\contentsline {subsubsection}{ฟังก์ชัน updateIcon}{53}{Item.267}%
+\contentsline {subsection}{\numberline {6.3.12}frontend/js/user/profile.js}{53}{subsection.6.3.12}%
+\contentsline {subsubsection}{ฟังก์ชัน loadProfile}{53}{subsection.6.3.12}%
+\contentsline {subsubsection}{ฟังก์ชัน setText}{54}{Item.273}%
+\contentsline {subsection}{\numberline {6.3.13}ไฟล์ frontend/views/index.ejs}{54}{subsection.6.3.13}%
+\contentsline {subsubsection}{ภาพรวม (Overview)}{54}{subsection.6.3.13}%
+\contentsline {subsubsection}{ส่วนหัวและการนำทาง (Head and Navigation)}{55}{subsection.6.3.13}%
+\contentsline {subsubsection}{ส่วนเนื้อหาหลักและสคริปต์ (Main Content and Scripts)}{56}{Item.277}%
+\contentsline {subsection}{\numberline {6.3.14}ไฟล์ frontend/views/login.ejs}{57}{subsection.6.3.14}%
+\contentsline {subsubsection}{ภาพรวม (Overview)}{57}{subsection.6.3.14}%
+\contentsline {subsubsection}{การออกแบบและโครงสร้าง (Design \& Structure)}{57}{subsection.6.3.14}%
+\contentsline {subsubsection}{ฟอร์มการเข้าสู่ระบบ (Login Form)}{58}{Item.283}%
+\contentsline {subsection}{\numberline {6.3.15}ไฟล์ frontend/views/register.ejs}{59}{subsection.6.3.15}%
+\contentsline {subsubsection}{ภาพรวม (Overview)}{59}{subsection.6.3.15}%
+\contentsline {subsubsection}{ฟอร์มลงทะเบียน (Registration Form)}{59}{subsection.6.3.15}%
+\contentsline {subsubsection}{สคริปต์การจัดการการลงทะเบียน (Registration Script)}{60}{Item.289}%
+\contentsline {subsection}{\numberline {6.3.16}ไฟล์ frontend/views/customers.ejs}{61}{subsection.6.3.16}%
+\contentsline {subsubsection}{ภาพรวม (Overview)}{61}{subsection.6.3.16}%
+\contentsline {subsubsection}{การนำทางและสถานะเมนู (Navigation State)}{61}{subsection.6.3.16}%
+\contentsline {subsubsection}{ฟอร์มเพิ่มสมาชิกใหม่ (Add Member Form)}{61}{Item.294}%
+\contentsline {subsubsection}{ตารางรายชื่อสมาชิก (Member List Table)}{62}{Item.296}%
+\contentsline {subsubsection}{การนำเข้าสคริปต์ (Script Imports)}{63}{Item.298}%
+\contentsline {subsection}{\numberline {6.3.17}ไฟล์ frontend/views/equipments.ejs}{63}{subsection.6.3.17}%
+\contentsline {subsubsection}{ภาพรวม (Overview)}{63}{subsection.6.3.17}%
+\contentsline {subsubsection}{การนำทางและสถานะเมนู (Navigation State)}{63}{subsection.6.3.17}%
+\contentsline {subsubsection}{ฟอร์มเพิ่มอุปกรณ์ใหม่ (Add Equipment Form)}{64}{lstnumber.6.70.7}%
+\contentsline {subsubsection}{ตารางรายการอุปกรณ์ (Equipment Inventory Table)}{64}{Item.302}%
+\contentsline {subsubsection}{การนำเข้าสคริปต์ (Script Imports)}{65}{lstnumber.6.72.24}%
+\contentsline {subsection}{\numberline {6.3.18}ไฟล์ frontend/views/trainers.ejs}{65}{subsection.6.3.18}%
+\contentsline {subsubsection}{ภาพรวม (Overview)}{65}{subsection.6.3.18}%
+\contentsline {subsubsection}{การนำทางและสถานะเมนู (Navigation State)}{65}{subsection.6.3.18}%
+\contentsline {subsubsection}{ฟอร์มเพิ่มเทรนเนอร์ใหม่ (Add Trainer Form)}{65}{lstnumber.6.74.7}%
+\contentsline {subsubsection}{ตารางรายชื่อเทรนเนอร์ (Trainers Roster)}{66}{Item.305}%
+\contentsline {subsubsection}{การนำเข้าสคริปต์ (Script Imports)}{67}{lstnumber.6.76.25}%
+\contentsline {subsection}{\numberline {6.3.19}ไฟล์ frontend/views/sessions.ejs}{67}{subsection.6.3.19}%
+\contentsline {subsubsection}{ส่วนหัวและสไตล์ (Head and Styles)}{67}{subsection.6.3.19}%
+\contentsline {subsubsection}{แถบนำทาง (Sidebar Navigation)}{68}{lstnumber.6.78.53}%
+\contentsline {subsubsection}{ส่วนเนื้อหาหลักและฟอร์มการจอง (Main Content \& Booking Form)}{68}{lstnumber.6.79.19}%
+\contentsline {subsubsection}{ตารางรายการเซสชัน (Sessions List Table)}{69}{Item.309}%
+\contentsline {subsubsection}{สคริปต์ (Scripts)}{69}{lstnumber.6.81.24}%
+\contentsline {subsection}{\numberline {6.3.20}ไฟล์ frontend/views/logs.ejs}{70}{subsection.6.3.20}%
+\contentsline {subsubsection}{ส่วนหัวและสไตล์ (Head and Styles)}{70}{subsection.6.3.20}%
+\contentsline {subsubsection}{แถบนำทาง (Sidebar Navigation)}{70}{lstnumber.6.83.56}%
+\contentsline {subsubsection}{ส่วนควบคุมแท็บและตัวกรอง (Tabs \& Filters)}{71}{lstnumber.6.84.17}%
+\contentsline {subsubsection}{ส่วนแสดงผลรายงาน (Report Sections)}{72}{Item.312}%
+\contentsline {subsubsection}{สคริปต์และการจัดการแท็บ (Scripts \& Tab Logic)}{72}{lstnumber.6.86.28}%
+\contentsline {subsection}{\numberline {6.3.21}ไฟล์ frontend/views/user/dashboard.ejs}{73}{subsection.6.3.21}%
+\contentsline {subsubsection}{ส่วนหัวและ Modal การจอง (Head \& Booking Modal)}{73}{subsection.6.3.21}%
+\contentsline {subsubsection}{แถบนำทาง (Sidebar Navigation)}{74}{Item.315}%
+\contentsline {subsubsection}{ส่วนเนื้อหาหลักและตารางการจอง (Main Content \& Schedule Table)}{75}{lstnumber.6.89.35}%
+\contentsline {subsubsection}{สคริปต์ (Scripts)}{75}{lstnumber.6.90.49}%
+\contentsline {subsection}{\numberline {6.3.22}ไฟล์ frontend/views/user/profile.ejs}{76}{subsection.6.3.22}%
+\contentsline {subsubsection}{ส่วนหัวและสไตล์ (Head and Styles)}{76}{subsection.6.3.22}%
+\contentsline {subsubsection}{แถบนำทาง (Sidebar Navigation)}{76}{lstnumber.6.92.32}%
+\contentsline {subsubsection}{ส่วนเนื้อหาหลักและข้อมูลส่วนตัว (Main Content \& Profile Details)}{77}{lstnumber.6.93.23}%
+\contentsline {subsubsection}{สคริปต์ (Scripts)}{78}{Item.318}%
+\contentsline {section}{\numberline {6.4}ฟีเจอร์เพิ่มเติม (Additional Features)}{79}{section.6.4}%
+\contentsline {subsection}{\numberline {6.4.1}Dark Mode (โหมดมืด)}{79}{subsection.6.4.1}%
+\contentsline {subsubsection}{การทำงาน (Implementation)}{79}{subsection.6.4.1}%
+\contentsline {subsection}{\numberline {6.4.2}รายงานพร้อมพิมพ์ (Printable Report)}{79}{subsection.6.4.2}%
+\contentsline {subsubsection}{การทำงาน (Implementation)}{79}{subsection.6.4.2}%
+\contentsline {subsection}{\numberline {6.4.3}การค้นหาและแบ่งหน้า (Search \& Pagination) - ส่วน Frontend}{80}{subsection.6.4.3}%
+\contentsline {subsubsection}{การทำงาน (Implementation)}{80}{subsection.6.4.3}%
+\contentsline {subsubsection}{Logic การค้นหาและแบ่งหน้า (customers.js)}{80}{Item.324}%
 \contentsline {chapter}{\numberline {7}สรุป}{82}{chapter.7}%
 \contentsline {section}{\numberline {7.1}สรุปผลการดำเนินงาน}{82}{section.7.1}%
 \contentsline {subsection}{\numberline {7.1.1}สรุปภาพรวมของระบบ (System Overview Summary)}{82}{subsection.7.1.1}%
