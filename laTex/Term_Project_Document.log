@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.3.6)  7 MAR 2026 20:15
+This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.3.6)  9 MAR 2026 05:18
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -906,32 +906,275 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <5> on input line 2.
  [1
 
-])
+] [2]
+Overfull \hbox (0.99997pt too wide) detected at line 253
+ []\TU/Sarabun(0)/m/n/10 102
+ []
+
+
+Overfull \hbox (0.99997pt too wide) detected at line 257
+ []\TU/Sarabun(0)/m/n/10 103
+ []
+
+
+Overfull \hbox (0.99997pt too wide) detected at line 261
+ []\TU/Sarabun(0)/m/n/10 105
+ []
+
+
+Overfull \hbox (0.99997pt too wide) detected at line 262
+ []\TU/Sarabun(0)/m/n/10 105
+ []
+
+
+Overfull \hbox (0.99997pt too wide) detected at line 263
+ []\TU/Sarabun(0)/m/n/10 105
+ []
+
+
+Overfull \hbox (0.99997pt too wide) detected at line 264
+ []\TU/Sarabun(0)/m/n/10 105
+ []
+
+
+Overfull \hbox (0.99997pt too wide) detected at line 265
+ []\TU/Sarabun(0)/m/n/10 105
+ []
+
+
+Overfull \hbox (0.99997pt too wide) detected at line 266
+ []\TU/Sarabun(0)/m/n/10 106
+ []
+
+
+Overfull \hbox (0.99997pt too wide) detected at line 267
+ []\TU/Sarabun(0)/m/n/10 106
+ []
+
+
+Overfull \hbox (0.99997pt too wide) detected at line 268
+ []\TU/Sarabun(0)/m/n/10 107
+ []
+
+
+Overfull \hbox (0.99997pt too wide) detected at line 269
+ []\TU/Sarabun(0)/m/n/10 107
+ []
+
+
+Overfull \hbox (0.99997pt too wide) detected at line 270
+ []\TU/Sarabun(0)/m/n/10 107
+ []
+
+
+Overfull \hbox (0.99997pt too wide) detected at line 271
+ []\TU/Sarabun(0)/m/n/10 107
+ []
+
+
+Overfull \hbox (0.99997pt too wide) detected at line 272
+ []\TU/Sarabun(0)/m/n/10 107
+ []
+
+
+Overfull \hbox (0.99997pt too wide) detected at line 273
+ []\TU/Sarabun(0)/m/n/10 107
+ []
+
+
+Overfull \hbox (0.99997pt too wide) detected at line 275
+ []\TU/Sarabun(0)/m/n/10 108
+ []
+
+
+Overfull \hbox (0.99997pt too wide) detected at line 276
+ []\TU/Sarabun(0)/m/n/10 108
+ []
+
+
+Overfull \hbox (0.99997pt too wide) detected at line 277
+ []\TU/Sarabun(0)/m/n/10 108
+ []
+
+
+Overfull \hbox (0.99997pt too wide) detected at line 278
+ []\TU/Sarabun(0)/m/n/10 109
+ []
+
+
+Overfull \hbox (0.99997pt too wide) detected at line 279
+ []\TU/Sarabun(0)/m/n/10 109
+ []
+
+
+Overfull \hbox (0.99997pt too wide) detected at line 281
+ []\TU/Sarabun(0)/m/n/10 111
+ []
+
+
+Overfull \hbox (0.99997pt too wide) detected at line 282
+ []\TU/Sarabun(0)/m/n/10 111
+ []
+
+
+Overfull \hbox (0.99997pt too wide) detected at line 283
+ []\TU/Sarabun(0)/m/n/10 111
+ []
+
+
+Overfull \hbox (0.99997pt too wide) detected at line 284
+ []\TU/Sarabun(0)/m/n/10 112
+ []
+
+
+Overfull \hbox (0.99997pt too wide) detected at line 285
+ []\TU/Sarabun(0)/m/n/10 112
+ []
+
+
+Overfull \hbox (0.99997pt too wide) detected at line 286
+ []\TU/Sarabun(0)/m/n/10 112
+ []
+
+
+Overfull \hbox (0.99997pt too wide) detected at line 287
+ []\TU/Sarabun(0)/m/n/10 112
+ []
+
+[3]
+Overfull \hbox (0.99997pt too wide) detected at line 288
+ []\TU/Sarabun(0)/m/n/10 113
+ []
+
+
+Overfull \hbox (0.99997pt too wide) detected at line 289
+ []\TU/Sarabun(0)/m/n/10 113
+ []
+
+
+Overfull \hbox (0.99997pt too wide) detected at line 290
+ []\TU/Sarabun(0)/m/n/10 113
+ []
+
+
+Overfull \hbox (0.99997pt too wide) detected at line 291
+ []\TU/Sarabun(0)/m/n/10 113
+ []
+
+
+Overfull \hbox (0.99997pt too wide) detected at line 292
+ []\TU/Sarabun(0)/m/n/10 113
+ []
+
+
+Overfull \hbox (0.99997pt too wide) detected at line 293
+ []\TU/Sarabun(0)/m/n/10 113
+ []
+
+
+Overfull \hbox (0.99997pt too wide) detected at line 294
+ []\TU/Sarabun(0)/m/n/10 113
+ []
+
+
+Overfull \hbox (0.99997pt too wide) detected at line 296
+ []\TU/Sarabun(0)/m/n/10 114
+ []
+
+
+Overfull \hbox (0.99997pt too wide) detected at line 297
+ []\TU/Sarabun(0)/m/n/10 115
+ []
+
+
+Overfull \hbox (0.99997pt too wide) detected at line 298
+ []\TU/Sarabun(0)/m/n/10 116
+ []
+
+
+Overfull \hbox (0.99997pt too wide) detected at line 299
+ []\TU/Sarabun(0)/m/n/10 118
+ []
+
+)
 \tf@toc=\write5
 \openout5 = `Term_Project_Document.toc'.
 
- [2]
+ [4]
 บทที่ 1.
-(./components/introduction.tex [3
+(./components/introduction.tex [5
 
-]) [4]
+]) [6] (./components/literature_review.tex
 บทที่ 2.
-(./components/system_requirements.tex [5
 
-] [6]) [7] (./components/er_diagram.tex
+Underfull \hbox (badness 1275) in paragraph at lines 9--10
+\TU/Sarabun(0)/m/n/10 ใน สถาปัตยกรรม นี้ ไคล เอน ต์ (โดย ทั่วไป คือ เว็บ เบราว์
+เซอร์ หรือ แอปพลิเคชัน บน มือ ถือ) และ เซิร์ฟเวอร์ (เครื่อง
+ []
+
+[7
+
+] [8] [9] [10]) [11] (./components/behavioral_design.tex
 บทที่ 3.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <9> on input line 98.
-[8
+[12
 
-]) [9]
-บทที่ 4.
-(./components/database.tex
+]
+Underfull \hbox (badness 10000) in paragraph at lines 47--47
+[]|\TU/Sarabun(0)/b/n/10 สถานการณ์ หลัก
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 82--82
+[]|\TU/Sarabun(0)/b/n/10 สถานการณ์ หลัก
+ []
+
+
+ignored: Infinite glue shrinkage found in box being split [13]
+Underfull \hbox (badness 10000) in paragraph at lines 115--115
+[]|\TU/Sarabun(0)/b/n/10 สถานการณ์ หลัก
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 135--135
+[]|\TU/Sarabun(0)/b/n/10 สถานการณ์ หลัก
+ []
+
+
+ignored: Infinite glue shrinkage found in box being split [14] [15] (/usr/local/texlive/
+2026/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2025/11/14 1.11b listings language file
+)
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
-nput line 16.
+nput line 161.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[16] [17]
+Underfull \hbox (badness 1424) in paragraph at lines 237--238
+\TU/Sarabun(0)/m/n/10 แผนภาพ ลำดับ แสดง ราย ละเอียด การ โต้ตอบ ทาง เทคนิค ระหว่
+าง Frontend (View), Backend (Controller) และ
+ []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[18]) [19]
+บทที่ 4.
+(./components/system_requirements.tex [20
+
+] [21]) [22]
+(./components/er_diagram.tex
+บทที่ 5.
+File: Image/er_diagram.png Graphic file (type bmp)
+<Image/er_diagram.png>
+[23
+
+] [24]) [25]
+บทที่ 6.
+(./components/database.tex
 LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <8> not available
 (Font)              Font shape `TU/lmtt/b/n' tried instead on input line 17.
- [10
+ [26
 
 ]
 Underfull \hbox (badness 1810) in paragraph at lines 84--85
@@ -940,15 +1183,15 @@ n(0)/m/n/10 ซึ่ง ประกอบ ด้วย Foreign Keys ได้�
 Sarabun(0)/m/n/10 , \TU/lmtt/m/n/10 trainerId\TU/Sarabun(0)/m/n/10 , และ
  []
 
-[11] (/usr/local/texlive/2026/texmf-dist/tex/latex/listings/lstlang1.sty
+[27] (/usr/local/texlive/2026/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2025/11/14 1.11b listings language file
 )
-[12]
+[28]
 Underfull \hbox (badness 1210) in paragraph at lines 205--206
 []|\TU/Sarabun(0)/m/n/10 รหัส ระบุ ตัว ตน ลูกค้า (Customer ID)
  []
 
-[13]
+[29]
 Underfull \hbox (badness 4303) in paragraph at lines 276--277
 []|\TU/Sarabun(0)/m/n/10 หมวด หมู่ ของ อุปกรณ์ (เช่น Cardio,
  []
@@ -963,27 +1206,91 @@ Underfull \hbox (badness 5403) in paragraph at lines 310--311
 []|\TU/Sarabun(0)/m/n/10 รหัส อ้างอิง เทรนเนอร์ (เชื่อม โยง กับ
  []
 
-) [14]
-บทที่ 5.
-(./components/usage.tex [15
+) [30]
+บทที่ 7.
+(./components/usage.tex
+File: Image/login.png Graphic file (type bmp)
+<Image/login.png>
+File: Image/register.png Graphic file (type bmp)
+<Image/register.png>
+File: Image/registered_alert.png Graphic file (type bmp)
+<Image/registered_alert.png>
+ [31
 
-] [16] [17] [18] [19] [20] [21]) [22]
-บทที่ 6.
-(./components/backend.tex [23
+] [32] [33]
+File: Image/user_customer_schedule.png Graphic file (type bmp)
+<Image/user_customer_schedule.png>
+File: Image/user_customer_booking.png Graphic file (type bmp)
+<Image/user_customer_booking.png>
+File: Image/customer_booked.png Graphic file (type bmp)
+<Image/customer_booked.png>
+ [34]
+File: Image/customer_booked_alert.png Graphic file (type bmp)
+<Image/customer_booked_alert.png>
+ [35]
+File: Image/dark_user_profile.png Graphic file (type bmp)
+<Image/dark_user_profile.png>
+ [36]
+File: Image/admin_login.png Graphic file (type bmp)
+<Image/admin_login.png>
+File: Image/admin_dashboard.png Graphic file (type bmp)
+<Image/admin_dashboard.png>
+File: Image/admin_member_management.png Graphic file (type bmp)
+<Image/admin_member_management.png>
+ [37]
+File: Image/admin_trainer_management.png Graphic file (type bmp)
+<Image/admin_trainer_management.png>
+File: Image/admin_equipment_management.png Graphic file (type bmp)
+<Image/admin_equipment_management.png>
+File: Image/admin_training_sessions.png Graphic file (type bmp)
+<Image/admin_training_sessions.png>
+ [38]
+File: Image/admin_report_syslog.png Graphic file (type bmp)
+<Image/admin_report_syslog.png>
+File: Image/admin_report_customer.png Graphic file (type bmp)
+<Image/admin_report_customer.png>
+ [39]
+File: Image/admin_report_trainer.png Graphic file (type bmp)
+<Image/admin_report_trainer.png>
+File: Image/admin_printing_report.png Graphic file (type bmp)
+<Image/admin_printing_report.png>
+ [40]
+[41]
+File: Image/dark_admin_dashboard.png Graphic file (type bmp)
+<Image/dark_admin_dashboard.png>
+File: Image/dark_admin_member_management.png Graphic file (type bmp)
+<Image/dark_admin_member_management.png>
+File: Image/dark_admin_trainer_management.png Graphic file (type bmp)
+<Image/dark_admin_trainer_management.png>
+File: Image/dark_admin_equipment_management.png Graphic file (type bmp)
+<Image/dark_admin_equipment_management.png>
+File: Image/dark_admin_training_session.png Graphic file (type bmp)
+<Image/dark_admin_training_session.png>
+File: Image/dark_admin_report_syslog.png Graphic file (type bmp)
+<Image/dark_admin_report_syslog.png>
+File: Image/dark_admin_report_customer.png Graphic file (type bmp)
+<Image/dark_admin_report_customer.png>
+File: Image/dark_admin_report_trainer.png Graphic file (type bmp)
+<Image/dark_admin_report_trainer.png>
+File: Image/dark_user_schedule.png Graphic file (type bmp)
+<Image/dark_user_schedule.png>
+) [42] [43] [44] [45] [46]
+บทที่ 8.
+(./components/backend.tex [47
 
-] [24] [25] [26] [27] [28]
+] [48] [49] [50] [51] [52]
 Overfull \hbox (25.2943pt too wide) in paragraph at lines 405--407
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
 ][][][][][][][][][][][][][][][][][][][][][][][][][][]  
  []
 
-[29] [30]
+[53] [54]
 Missing character: There is no พ (U+0E1E) in font [lmmono8-regular]:!
 Missing character: There is no ร (U+0E23) in font [lmmono8-regular]:!
 Missing character: There is no ้ (U+0E49) in font [lmmono8-regular]:!
 Missing character: There is no อ (U+0E2D) in font [lmmono8-regular]:!
 Missing character: There is no ม (U+0E21) in font [lmmono8-regular]:!
-[31]
+[55]
 Missing character: There is no เ (U+0E40) in font [lmmono8-regular]:!
 Missing character: There is no ร (U+0E23) in font [lmmono8-regular]:!
 Missing character: There is no ิ (U+0E34) in font [lmmono8-regular]:!
@@ -1005,33 +1312,33 @@ Missing character: There is no ด (U+0E14) in font [lmmono8-regular]:!
 Missing character: There is no ว (U+0E27) in font [lmmono8-regular]:!
 Missing character: There is no ั (U+0E31) in font [lmmono8-regular]:!
 Missing character: There is no น (U+0E19) in font [lmmono8-regular]:!
-) (./components/frontend.tex [32] [33] [34] [35] [36] [37] [38] [39] [40]
-[41]
+) (./components/frontend.tex [56] [57] [58] [59] [60] [61] [62] [63] [64]
+[65]
 Underfull \hbox (badness 2698) in paragraph at lines 595--596
 []\TU/lmtt/m/n/10 openBookingModal\TU/Sarabun(0)/m/n/10 : ลบ คลาส \TU/lmtt/m/n/
 10 hidden \TU/Sarabun(0)/m/n/10 เพื่อ แสดง Modal, กำหนด ค่า วัน ที่ ปัจจุบัน, แ
 ละ เรียก ฟังก์ชัน
  []
 
-[42] [43] (/usr/local/texlive/2026/texmf-dist/tex/latex/listings/lstlang1.sty
+[66] [67] (/usr/local/texlive/2026/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2025/11/14 1.11b listings language file
 )
 (/usr/local/texlive/2026/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2025/11/14 1.11b (Carsten Heinz)
-) [44]
-[45] [46] [47] [48] [49] [50] [51]
+) [68]
+[69] [70] [71] [72] [73] [74] [75]
 Underfull \hbox (badness 10000) in paragraph at lines 1262--1263
 []\TU/Sarabun(0)/b/n/10 JavaScript Integration\TU/Sarabun(0)/m/n/10 : \TU/lmtt/
 m/n/10 tbody id="customers- table" \TU/Sarabun(0)/m/n/10 ถูก เตรียม ไว้ สำหรับ 
 ให้ JavaScript
  []
 
-[52] [53] [54] [55] [56] [57] [58] [59] [60] [61] [62] [63] [64] [65] [66]
-[67] [68] [69]
+[76] [77] [78] [79] [80] [81] [82] [83] [84] [85] [86] [87] [88] [89] [90]
+[91] [92] [93]
 Missing character: There is no ส (U+0E2A) in font [lmmono8-regular]:!
 Missing character: There is no ่ (U+0E48) in font [lmmono8-regular]:!
 Missing character: There is no ง (U+0E07) in font [lmmono8-regular]:!
-[70] [71] [72]
+[94] [95] [96]
 Missing character: There is no ช (U+0E0A) in font [lmmono8-regular]:!
 Missing character: There is no ื (U+0E37) in font [lmmono8-regular]:!
 Missing character: There is no ่ (U+0E48) in font [lmmono8-regular]:!
@@ -1049,7 +1356,7 @@ Missing character: There is no ว (U+0E27) in font [lmmono8-regular]:!
 Missing character: There is no ช (U+0E0A) in font [lmmono8-regular]:!
 Missing character: There is no า (U+0E32) in font [lmmono8-regular]:!
 Missing character: There is no ญ (U+0E0D) in font [lmmono8-regular]:!
-[73] [74] [75] [76] [77] [78]
+[97] [98] [99] [100] [101] [102]
 Missing character: There is no ม (U+0E21) in font [lmmono8-regular]:!
 Missing character: There is no ี (U+0E35) in font [lmmono8-regular]:!
 Missing character: There is no เ (U+0E40) in font [lmmono8-regular]:!
@@ -1078,9 +1385,245 @@ Missing character: There is no า (U+0E32) in font [lmmono8-regular]:!
 Missing character: There is no ร (U+0E23) in font [lmmono8-regular]:!
 Missing character: There is no า (U+0E32) in font [lmmono8-regular]:!
 Missing character: There is no ง (U+0E07) in font [lmmono8-regular]:!
-[79] [80]) [81]
-บทที่ 7.
-(./components/conclusion.tex [82
+[103] [104]) [105] (./components/testing.tex
+บทที่ 9.
+
+Underfull \hbox (badness 10000) in paragraph at lines 27--27
+[]|\TU/Sarabun(0)/b/n/10 Expected Re-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 28--28
+[]|\TU/Sarabun(0)/m/n/10 มี บัญชี สมาชิก ใน
+ []
+
+
+Underfull \hbox (badness 3503) in paragraph at lines 28--28
+\TU/Sarabun(0)/m/n/10 2. กรอก Email และ
+ []
+
+
+Underfull \hbox (badness 3503) in paragraph at lines 29--29
+\TU/Sarabun(0)/m/n/10 2. กรอก Email และ
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 29--29
+[]|\TU/Sarabun(0)/m/n/10 ระบบ นำทาง ไป
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 29--29
+\TU/Sarabun(0)/m/n/10 ยัง หน้า Admin
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 30--30
+[]|\TU/Sarabun(0)/m/n/10 แสดง ข้อความ
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 30--30
+\TU/Sarabun(0)/m/n/10 แจ้ง เตือน ”In-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 30--30
+\TU/Sarabun(0)/m/n/10 valid creden-
+ []
+
+
+Underfull \hbox (badness 2181) in paragraph at lines 31--31
+[]|\TU/Sarabun(0)/m/n/10 การ ตรวจ สอบ สิทธิ์ การ
+ []
+
+
+Underfull \hbox (badness 1796) in paragraph at lines 31--31
+[]|\TU/Sarabun(0)/m/n/10 เข้า สู่ ระบบ ใน ฐานะ
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 31--31
+\TU/Sarabun(0)/m/n/10 / admin/ dashboard
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 31--31
+\TU/Sarabun(0)/m/n/10 โดยตรง ผ่าน Address
+ []
+
+
+Underfull \hbox (badness 2205) in paragraph at lines 31--31
+[]|\TU/Sarabun(0)/m/n/10 ระบบ ปฏิเสธ การ
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 31--31
+\TU/Sarabun(0)/m/n/10 กลับ ไป ยัง หน้า
+ []
+
+
+Underfull \hbox (badness 1092) in paragraph at lines 31--31
+\TU/Sarabun(0)/m/n/10 Login หรือ User
+ []
+
+
+Overfull \hbox (57.48903pt too wide) in alignment at lines 25--32
+ [] [] [] [] [] [] 
+ []
+
+
+ignored: Infinite glue shrinkage found in box being split [106
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 38--38
+[]|\TU/Sarabun(0)/b/n/10 Expected Re-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 39--39
+[]|\TU/Sarabun(0)/m/n/10 สมาชิก เข้า สู่ ระบบ
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 39--39
+[]|\TU/Sarabun(0)/m/n/10 บันทึก ข้อมูล ลง
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 39--39
+\TU/Sarabun(0)/m/n/10 ฐาน ข้อมูล และ
+ []
+
+
+Underfull \hbox (badness 2035) in paragraph at lines 39--39
+\TU/Sarabun(0)/m/n/10 แสดง สถานะ การ
+ []
+
+
+Underfull \hbox (badness 1584) in paragraph at lines 40--40
+[]|\TU/Sarabun(0)/m/n/10 ตรวจ สอบ การ จอง ซ้อน
+ []
+
+
+Underfull \hbox (badness 1642) in paragraph at lines 40--40
+\TU/Sarabun(0)/m/n/10 3. ตรวจ สอบ ตัว เลือก
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 40--40
+[]|\TU/Sarabun(0)/m/n/10 เทรนเนอร์ ที่
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 40--40
+\TU/Sarabun(0)/m/n/10 ติด จอง ต้อง ไม่
+ []
+
+
+Underfull \hbox (badness 7649) in paragraph at lines 40--40
+\TU/Sarabun(0)/m/n/10 สามารถ เลือก ได้
+ []
+
+
+Underfull \hbox (badness 3525) in paragraph at lines 41--41
+\TU/Sarabun(0)/m/n/10 2. กด ปุ่ม Cancel ที่
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 41--41
+[]|\TU/Sarabun(0)/m/n/10 สถานะ การ จอง
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 41--41
+\TU/Sarabun(0)/m/n/10 ถูก ลบ ออก จาก
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 41--41
+\TU/Sarabun(0)/m/n/10 ตาราง และ
+ []
+
+
+Overfull \hbox (57.48903pt too wide) in alignment at lines 36--42
+ [] [] [] [] [] [] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 48--48
+[]|\TU/Sarabun(0)/b/n/10 Expected Re-
+ []
+
+
+Underfull \hbox (badness 6220) in paragraph at lines 49--49
+[]|\TU/Sarabun(0)/m/n/10 Admin เข้า สู่ ระบบ
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 49--49
+\TU/Sarabun(0)/m/n/10 ใหม่ ปรากฏ ใน
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 49--49
+\TU/Sarabun(0)/m/n/10 ตาราง และ ฐาน
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 50--50
+[]|\TU/Sarabun(0)/m/n/10 มี ข้อมูล อุปกรณ์ ใน
+ []
+
+
+Underfull \hbox (badness 4132) in paragraph at lines 50--50
+\TU/Sarabun(0)/m/n/10 2. เลือก อุปกรณ์ และ
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 50--50
+[]|\TU/Sarabun(0)/m/n/10 สถานะ เปลี่ยน
+ []
+
+
+Underfull \hbox (badness 1917) in paragraph at lines 51--51
+[]|\TU/Sarabun(0)/m/n/10 การ ตรวจ สอบ ความ ถูก
+ []
+
+
+Underfull \hbox (badness 1377) in paragraph at lines 51--51
+\TU/Sarabun(0)/m/n/10 ต้อง ของ ข้อมูล (Valida-
+ []
+
+
+Underfull \hbox (badness 6220) in paragraph at lines 51--51
+[]|\TU/Sarabun(0)/m/n/10 Admin เข้า สู่ ระบบ
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 51--51
+[]|\TU/Sarabun(0)/m/n/10 ระบบ แสดง
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 51--51
+\TU/Sarabun(0)/m/n/10 ข้อความ แจ้ง
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 51--51
+\TU/Sarabun(0)/m/n/10 เตือน และ ไม่
+ []
+
+
+Overfull \hbox (57.48903pt too wide) in alignment at lines 46--52
+ [] [] [] [] [] [] 
+ []
+
+
+ignored: Infinite glue shrinkage found in box being split [107]) [108]
+บทที่ 10.
+(./components/conclusion.tex [109
 
 ]
 Underfull \hbox (badness 10000) in paragraph at lines 41--42
@@ -1097,21 +1640,39 @@ Underfull \hbox (badness 10000) in paragraph at lines 53--54
 
  []
 
-[83]) [84] (./Term_Project_Document.aux)
+[110]) [111] (./components/appendix.tex
+Appendix A.
+(/usr/local/texlive/2026/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2025/11/14 1.11b listings language file
+)
+(/usr/local/texlive/2026/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2025/11/14 1.11b listings language file
+) [112
+
+]
+[113] [114]
+Appendix B.
+[115
+
+] [116] [117] [118] [119]) [120] (./Term_Project_Document.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
  ***********
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
 Package rerunfilecheck Info: File `Term_Project_Document.out' has not changed.
-(rerunfilecheck)             Checksum: 5EA7723FC2463758978B33D91D9B2DAF;23512.
+(rerunfilecheck)             Checksum: 75F3121BEFA0F43C83846BB2C44DDF2F;47064.
  ) 
 Here is how much of TeX's memory you used:
- 28566 strings out of 468168
- 597734 string characters out of 5432816
- 1879213 words of memory out of 5000000
- 56829 multiletter control sequences out of 15000+600000
- 631961 words of font info for 82 fonts, out of 8000000 for 9000
+ 28996 strings out of 468168
+ 608159 string characters out of 5432816
+ 1884441 words of memory out of 5000000
+ 57214 multiletter control sequences out of 15000+600000
+ 631057 words of font info for 80 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 84i,9n,94p,650b,1972s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 84i,9n,94p,650b,1974s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on Term_Project_Document.pdf (85 pages).
+Output written on Term_Project_Document.pdf (121 pages).

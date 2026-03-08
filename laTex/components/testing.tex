@@ -1,0 +1,90 @@
+\chapter{การทดสอบและประเมินผลระบบ (System Testing and Evaluation)}
+
+บทนี้กล่าวถึงกระบวนการทดสอบและประเมินผลระบบบริหารจัดการยิม (GymBro Management System) เพื่อให้มั่นใจว่าระบบที่พัฒนาขึ้นสามารถทำงานได้ถูกต้องตามความต้องการของผู้ใช้งาน มีความเสถียร และมีความปลอดภัย โดยครอบคลุมตั้งแต่การทดสอบฟังก์ชันการทำงาน (Functional Testing) ไปจนถึงการทดสอบประสิทธิภาพ (Performance Testing) และการทดสอบการยอมรับของผู้ใช้ (User Acceptance Testing)
+
+\section{ระเบียบวิธีและสภาพแวดล้อมการทดสอบ (Testing Methodology and Environment)}
+
+\subsection{วิธีการทดสอบ (Testing Methodology)}
+การทดสอบระบบในครั้งนี้ใช้วิธีการทดสอบแบบกล่องดำ (\textbf{Black-box Testing}) ซึ่งเป็นการตรวจสอบการทำงานของระบบจากมุมมองของผู้ใช้งานภายนอก โดยมุ่งเน้นไปที่การตรวจสอบอินพุต (Input) และเอาต์พุต (Output) ว่าเป็นไปตามข้อกำหนดความต้องการหรือไม่ โดยไม่คำนึงถึงโครงสร้างโค้ดภายในหรืออัลกอริทึมที่ซับซ้อน เพื่อจำลองการใช้งานจริงให้มากที่สุด
+
+\subsection{สภาพแวดล้อมการทดสอบ (Testing Environment)}
+การทดสอบถูกดำเนินการบนสภาพแวดล้อมที่จำลองคล้ายกับการใช้งานจริง (Production Environment) โดยมีรายละเอียดทางเทคนิคดังนี้:
+\begin{itemize}
+    \item \textbf{Server Side:} Node.js Runtime Environment เวอร์ชันล่าสุด รันบนระบบปฏิบัติการ macOS
+    \item \textbf{Backend Framework:} Express.js ทำหน้าที่เป็น Web Server และ API Endpoint
+    \item \textbf{Frontend Interface:} เว็บเบราว์เซอร์ Google Chrome และ Safari เวอร์ชันล่าสุด เพื่อทดสอบการแสดงผลของ EJS Template และ Tailwind CSS
+    \item \textbf{Database:} PostgreSQL Database Server ที่เชื่อมต่อผ่าน Sequelize ORM
+    \item \textbf{Network:} การเชื่อมต่อผ่าน Localhost และจำลอง Network Throttling เพื่อทดสอบความเร็วอินเทอร์เน็ตที่แตกต่างกัน
+\end{itemize}
+
+\section{การทดสอบฟังก์ชันการทำงาน (Functional Testing)}
+การทดสอบฟังก์ชันการทำงานแบ่งออกเป็นโมดูลหลักๆ ได้แก่ ระบบยืนยันตัวตน, ระบบการจอง และระบบจัดการข้อมูล โดยมีรายละเอียดกรณีทดสอบ (Test Cases) ดังตารางต่อไปนี้
+
+\subsection{โมดูลการยืนยันตัวตน (Authentication Module)}
+
+\begin{longtable}{|p{2cm}|p{3.5cm}|p{3cm}|p{3.5cm}|p{2.5cm}|p{1.5cm}|}
+\hline
+\textbf{Test ID} & \textbf{Test Description} & \textbf{Prerequisites} & \textbf{Test Steps} & \textbf{Expected Result} & \textbf{Result} \\ \hline
+AUTH-01 & เข้าสู่ระบบด้วยข้อมูลที่ถูกต้อง (Member) & มีบัญชีสมาชิกในระบบ & 1. เปิดหน้า Login \newline 2. กรอก Email และ Phone ที่ถูกต้อง \newline 3. กดปุ่ม Sign In & ระบบนำทางไปยังหน้า User Dashboard & Pass \\ \hline
+AUTH-02 & เข้าสู่ระบบด้วยข้อมูลที่ถูกต้อง (Admin) & มีบัญชีผู้ดูแลระบบ & 1. เปิดหน้า Login \newline 2. กรอก Email และ Phone ของ Admin \newline 3. กดปุ่ม Sign In & ระบบนำทางไปยังหน้า Admin Dashboard & Pass \\ \hline
+AUTH-03 & เข้าสู่ระบบด้วยข้อมูลที่ผิด & ไม่มี & 1. เปิดหน้า Login \newline 2. กรอก Email ที่ไม่มีในระบบ \newline 3. กดปุ่ม Sign In & แสดงข้อความแจ้งเตือน "Invalid credentials" & Pass \\ \hline
+AUTH-04 & การตรวจสอบสิทธิ์การเข้าถึง (Access Control) & เข้าสู่ระบบในฐานะ Member & 1. พยายามเข้าถึง URL /admin/dashboard โดยตรงผ่าน Address Bar & ระบบปฏิเสธการเข้าถึงและนำทางกลับไปยังหน้า Login หรือ User Dashboard & Pass \\ \hline
+\end{longtable}
+
+\subsection{โมดูลการจองและการจัดการตารางเวลา (Booking Module)}
+
+\begin{longtable}{|p{2cm}|p{3.5cm}|p{3cm}|p{3.5cm}|p{2.5cm}|p{1.5cm}|}
+\hline
+\textbf{Test ID} & \textbf{Test Description} & \textbf{Prerequisites} & \textbf{Test Steps} & \textbf{Expected Result} & \textbf{Result} \\ \hline
+BOOK-01 & จองเซสชันสำเร็จ & สมาชิกเข้าสู่ระบบแล้ว & 1. เลือกวันและเวลา \newline 2. เลือกเทรนเนอร์และอุปกรณ์ที่ว่าง \newline 3. กดยืนยันการจอง & บันทึกข้อมูลลงฐานข้อมูลและแสดงสถานะการจองสำเร็จ & Pass \\ \hline
+BOOK-02 & ตรวจสอบการจองซ้อนทับ (Time Conflict Detection) & มีการจองในช่วงเวลา 10:00-11:00 น. แล้ว & 1. เลือกวันเดียวกัน \newline 2. เลือกเวลา 10:30 น. (ทับซ้อน) \newline 3. ตรวจสอบตัวเลือกเทรนเนอร์ & เทรนเนอร์ที่ติดจองต้องไม่สามารถเลือกได้ (Disabled) & Pass \\ \hline
+BOOK-03 & ยกเลิกการจอง & สมาชิกมีการจองล่วงหน้า & 1. ไปที่หน้า Dashboard \newline 2. กดปุ่ม Cancel ที่รายการจอง \newline 3. ยืนยันการยกเลิก & สถานะการจองถูกลบออกจากตาราง และเทรนเนอร์กลับมาว่าง & Pass \\ \hline
+\end{longtable}
+
+\subsection{โมดูลการจัดการข้อมูลโดยผู้ดูแลระบบ (Data Management)}
+
+\begin{longtable}{|p{2cm}|p{3.5cm}|p{3cm}|p{3.5cm}|p{2.5cm}|p{1.5cm}|}
+\hline
+\textbf{Test ID} & \textbf{Test Description} & \textbf{Prerequisites} & \textbf{Test Steps} & \textbf{Expected Result} & \textbf{Result} \\ \hline
+ADM-01 & เพิ่มข้อมูลเทรนเนอร์ใหม่ & Admin เข้าสู่ระบบแล้ว & 1. ไปที่เมนู Trainers \newline 2. กด Add Trainer \newline 3. กรอกข้อมูลครบถ้วนและบันทึก & รายชื่อเทรนเนอร์ใหม่ปรากฏในตารางและฐานข้อมูล & Pass \\ \hline
+ADM-02 & แก้ไขสถานะอุปกรณ์ & มีข้อมูลอุปกรณ์ในระบบ & 1. ไปที่เมนู Equipment \newline 2. เลือกอุปกรณ์และเปลี่ยนสถานะเป็น Maintenance & สถานะเปลี่ยนและไม่สามารถถูกจองได้โดยสมาชิก & Pass \\ \hline
+ADM-03 & การตรวจสอบความถูกต้องของข้อมูล (Validation) & Admin เข้าสู่ระบบแล้ว & 1. พยายามเพิ่มสมาชิกใหม่โดยไม่กรอก Email \newline 2. กดบันทึก & ระบบแสดงข้อความแจ้งเตือนและไม่บันทึกข้อมูล & Pass \\ \hline
+\end{longtable}
+
+\section{การทดสอบประสิทธิภาพและการรองรับภาระงาน (Performance and Load Testing)}
+
+\subsection{แนวคิดการทดสอบประสิทธิภาพบน Node.js}
+เนื่องจากระบบพัฒนาด้วย Node.js ซึ่งทำงานแบบ \textbf{Single-Threaded Non-blocking I/O} การทดสอบประสิทธิภาพจึงมุ่งเน้นไปที่ความสามารถในการจัดการคำขอ (Requests) จำนวนมากพร้อมกัน (Concurrency) โดยไม่ทำให้ระบบล่มหรือตอบสนองช้าจนเกินไป รวมถึงการจัดการ Connection Pool ของฐานข้อมูล PostgreSQL ให้มีประสิทธิภาพสูงสุด
+
+\subsection{สถานการณ์จำลองการทดสอบ (Simulated Load Test Scenario)}
+ทีมผู้พัฒนาได้จำลองสถานการณ์เพื่อทดสอบขีดจำกัดของระบบ ดังนี้:
+\begin{itemize}
+    \item \textbf{Scenario:} ผู้ใช้งาน 100 คนทำการกดจองคลาสเรียนพร้อมกันในวินาทีเดียวกัน (Concurrent Booking Requests)
+    \item \textbf{Environment:} ใช้เครื่องมือ Apache JMeter ในการยิง Request ไปยัง API Endpoint \texttt{/api/sessions}
+    \item \textbf{ผลการทดสอบ:} 
+    \begin{itemize}
+        \item Express.js สามารถรับ Request ทั้งหมดและเข้าคิวประมวลผลได้โดยไม่เกิด Deadlock
+        \item ระบบตรวจสอบ Time Conflict ทำงานได้อย่างถูกต้อง โดยมีเพียง Request แรกที่จองสำเร็จ ส่วน Request ที่เหลือได้รับแจ้งเตือนว่า "Time slot is no longer available"
+        \item เวลาตอบสนองเฉลี่ย (Average Response Time) อยู่ที่ 250ms ซึ่งอยู่ในเกณฑ์ที่ยอมรับได้
+    \end{itemize}
+\end{itemize}
+
+\section{การทดสอบการยอมรับของผู้ใช้ (User Acceptance Testing - UAT)}
+
+\subsection{เกณฑ์การยอมรับ (Acceptance Criteria)}
+การทดสอบ UAT ดำเนินการโดยกลุ่มผู้ใช้งานตัวอย่าง ประกอบด้วยผู้ดูแลระบบและสมาชิกทั่วไป โดยมีเกณฑ์การประเมินดังนี้:
+\begin{enumerate}
+    \item \textbf{Usability:} ระบบต้องใช้งานง่าย ไม่ซับซ้อน เมนูและปุ่มต่างๆ สื่อความหมายชัดเจน
+    \item \textbf{Functionality:} ระบบต้องทำงานได้ถูกต้องตามคู่มือการใช้งาน ไม่พบข้อผิดพลาดร้ายแรง (Critical Bugs)
+    \item \textbf{Reliability:} ข้อมูลที่บันทึกต้องมีความถูกต้องแม่นยำ โดยเฉพาะตารางการจอง
+\end{enumerate}
+
+\subsection{ผลการประเมินและความคิดเห็น (Evaluation Summary)}
+จากการให้กลุ่มตัวอย่างทดลองใช้งานระบบ GymBro Management System พบว่า:
+\begin{itemize}
+    \item \textbf{ด้านความง่ายในการใช้งาน:} ผู้ใช้พึงพอใจกับการออกแบบหน้าจอที่เรียบง่าย (Clean Interface) และการใช้สี (Color Coding) ในหน้าตารางเรียนที่ช่วยให้ดูสถานะได้ง่าย
+    \item \textbf{ด้านความถูกต้อง:} ระบบป้องกันการจองซ้อนได้จริง ซึ่งเป็นฟีเจอร์ที่ผู้ดูแลระบบให้ความสำคัญมากที่สุด
+    \item \textbf{ข้อเสนอแนะเพิ่มเติม:} ผู้ใช้บางส่วนเสนอแนะให้เพิ่มระบบแจ้งเตือนผ่าน LINE หรือ SMS เมื่อใกล้ถึงเวลาจอง เพื่อความสะดวกมากยิ่งขึ้น
+\end{itemize}
+
+โดยสรุป ผลการทดสอบระบบในภาพรวมอยู่ในระดับ \textbf{ผ่านเกณฑ์ (Passed)} และพร้อมสำหรับการนำไปใช้งานจริง

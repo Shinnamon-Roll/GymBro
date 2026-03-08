@@ -1,0 +1,153 @@
+\chapter{ทฤษฎีและเทคโนโลยีที่เกี่ยวข้อง (Literature Review and Related Technologies)}
+
+บทนี้จะกล่าวถึงทฤษฎีพื้นฐาน รูปแบบสถาปัตยกรรม และเทคโนโลยีที่ใช้ในการพัฒนาระบบบริหารจัดการยิม (GymBro Management System) โดยระบบถูกพัฒนาขึ้นบนพื้นฐานของการพัฒนาเว็บแอปพลิเคชันแบบ Full-Stack สมัยใหม่ โดยใช้สถาปัตยกรรมแบบ Client-Server, การสื่อสารผ่าน RESTful API และระบบ Backend ที่ขับเคลื่อนด้วย Node.js, Express.js และ PostgreSQL
+
+\section{สถาปัตยกรรมแบบไคลเอนต์-เซิร์ฟเวอร์ (Client-Server Architecture)}
+สถาปัตยกรรมแบบไคลเอนต์-เซิร์ฟเวอร์ เป็นโครงสร้างแอปพลิเคชันแบบกระจายศูนย์ที่แบ่งภาระงานระหว่างผู้ให้บริการทรัพยากรหรือบริการ เรียกว่า "เซิร์ฟเวอร์" (Server) และผู้ร้องขอใช้บริการ เรียกว่า "ไคลเอนต์" (Client) โมเดลนี้เป็นรากฐานสำคัญของ World Wide Web และเว็บแอปพลิเคชันในปัจจุบัน
+
+\subsection{หลักการทำงาน (Working Principle)}
+ในสถาปัตยกรรมนี้ ไคลเอนต์ (โดยทั่วไปคือเว็บเบราว์เซอร์หรือแอปพลิเคชันบนมือถือ) และเซิร์ฟเวอร์ (เครื่องคอมพิวเตอร์ที่มีประสิทธิภาพสูง) จะสื่อสารกันผ่านเครือข่ายคอมพิวเตอร์ ไคลเอนต์จะเริ่มต้นการสื่อสารโดยส่งคำขอ (Request) ไปยังเซิร์ฟเวอร์ และเซิร์ฟเวอร์จะประมวลผลคำขอนั้นแล้วส่งคำตอบ (Response) กลับมา การแยกส่วนการทำงานนี้ช่วยให้การพัฒนาส่วนของไคลเอนต์และเซิร์ฟเวอร์เป็นอิสระต่อกัน เพิ่มความยืดหยุ่นในการขยายระบบ และง่ายต่อการจัดการ
+
+\subsection{การสื่อสารผ่านโปรโตคอล HTTP (Communication via HTTP Protocol)}
+โปรโตคอลหลักที่ใช้ในการสื่อสารในสถาปัตยกรรมเว็บคือ Hypertext Transfer Protocol (HTTP) ซึ่งเป็นโปรโตคอลในระดับ Application Layer ที่กำหนดรูปแบบการรับส่งข้อความ
+\begin{itemize}
+    \item \textbf{ไร้สถานะ (Statelessness)}: แต่ละคำขอจากไคลเอนต์ไปยังเซิร์ฟเวอร์จะถูกปฏิบัติเสมือนเป็นธุรกรรมอิสระที่ไม่เกี่ยวข้องกับคำขอก่อนหน้า สิ่งนี้ช่วยลดความซับซ้อนในการออกแบบเซิร์ฟเวอร์ แต่จำเป็นต้องมีกลไกเพิ่มเติม (เช่น คุกกี้ หรือ โทเค็น) เพื่อรักษาสถานะเซสชัน
+    \item \textbf{วงจรคำขอ-คำตอบ (Request-Response Cycle)}: การสื่อสารเป็นไปตามรูปแบบที่เคร่งครัด ไคลเอนต์ส่งข้อความ HTTP Request ซึ่งประกอบด้วยบรรทัดคำขอ (Method, URI, Protocol Version), ส่วนหัว (Headers), และส่วนเนื้อหา (Body) เซิร์ฟเวอร์จะตอบกลับด้วยข้อความ HTTP Response ซึ่งประกอบด้วยสถานะ (Status Code), ส่วนหัว, และเนื้อหาที่ร้องขอ
+\end{itemize}
+
+\subsection{วงจรชีวิตของเว็บรีเควส (Lifecycle of a Web Request)}
+วงจรการทำงานที่สมบูรณ์ของเว็บรีเควสประกอบด้วยขั้นตอนดังนี้:
+\begin{enumerate}
+    \item \textbf{DNS Resolution}: ไคลเอนต์แปลงชื่อโดเมนเป็น IP Address
+    \item \textbf{TCP Handshake}: สร้างการเชื่อมต่อ TCP ระหว่างไคลเอนต์และเซิร์ฟเวอร์
+    \item \textbf{TLS Negotiation}: หากใช้ HTTPS จะมีการเจรจาช่องทางที่ปลอดภัย
+    \item \textbf{Request Transmission}: ไคลเอนต์ส่งข้อมูล HTTP Request
+    \item \textbf{Server Processing}: เว็บเซิร์ฟเวอร์ (เช่น Nginx, Apache) รับคำขอ และส่งต่อไปยัง Application Server (เช่น Node.js) เพื่อประมวลผล Business Logic, ติดต่อฐานข้อมูล และสร้างคำตอบ
+    \item \textbf{Response Transmission}: เซิร์ฟเวอร์ส่ง HTTP Response กลับไปยังไคลเอนต์
+    \item \textbf{Rendering}: ไคลเอนต์ (เบราว์เซอร์) แปลงผลลัพธ์ (HTML, CSS, JSON) และแสดงผลให้ผู้ใช้เห็น
+\end{enumerate}
+
+\section{การออกแบบและพัฒนา RESTful API (RESTful API Design \& Development)}
+Representational State Transfer (REST) เป็นรูปแบบสถาปัตยกรรมซอฟต์แวร์ที่กำหนดข้อจำกัดสำหรับการสร้าง Web Services โดย Web Services ที่ปฏิบัติตามรูปแบบ REST จะเรียกว่า RESTful Web Services ซึ่งช่วยให้ระบบคอมพิวเตอร์ต่างๆ บนอินเทอร์เน็ตสามารถทำงานร่วมกันได้
+
+\subsection{หลักการของ REST (Principles of REST)}
+REST อาศัยโปรโตคอลการสื่อสารแบบ Stateless, Client-Server และ Cacheable ซึ่งโดยส่วนใหญ่จะใช้โปรโตคอล HTTP หลักการสำคัญได้แก่:
+\begin{itemize}
+    \item \textbf{Uniform Interface}: การมีอินเทอร์เฟซที่เป็นมาตรฐานเดียวกัน ช่วยลดความซับซ้อนและแยกส่วนสถาปัตยกรรมออกจากกัน ประกอบด้วยการระบุทรัพยากร (URIs), การจัดการทรัพยากรผ่าน Representation, และข้อความที่อธิบายตนเองได้
+    \item \textbf{Stateless}: เซิร์ฟเวอร์จะไม่เก็บสถานะของไคลเอนต์ แต่ละคำขอต้องมีข้อมูลบริบทเพียงพอสำหรับการประมวลผล
+    \item \textbf{Client-Server}: การแยกส่วนความรับผิดชอบที่ชัดเจน
+    \item \textbf{Cacheable}: การตอบกลับต้องระบุได้ว่าสามารถแคชได้หรือไม่ เพื่อลดการดึงข้อมูลซ้ำซ้อน
+    \item \textbf{Layered System}: ไคลเอนต์ไม่จำเป็นต้องรู้ว่ากำลังเชื่อมต่อกับเซิร์ฟเวอร์ปลายทางโดยตรงหรือผ่านตัวกลาง
+\end{itemize}
+
+\subsection{HTTP Methods มาตรฐาน (Standard HTTP Methods)}
+RESTful API ใช้วิธีการ HTTP มาตรฐานในการดำเนินการ CRUD (Create, Read, Update, Delete) กับทรัพยากร:
+\begin{itemize}
+    \item \textbf{GET}: ใช้ดึงข้อมูลทรัพยากร (Safe และ Idempotent)
+    \item \textbf{POST}: ใช้ส่งข้อมูลเพื่อสร้างทรัพยากรใหม่ (มักทำให้เกิดการเปลี่ยนแปลงสถานะบนเซิร์ฟเวอร์)
+    \item \textbf{PUT}: แทนที่ข้อมูลทรัพยากรทั้งหมดด้วยข้อมูลใหม่ (Idempotent)
+    \item \textbf{DELETE}: ลบทรัพยากรที่ระบุ
+    \item \textbf{PATCH}: แก้ไขข้อมูลบางส่วนของทรัพยากร
+\end{itemize}
+
+\subsection{รหัสสถานะ HTTP (HTTP Status Codes)}
+การจัดการรหัสสถานะที่ถูกต้องมีความสำคัญต่อการสื่อสารของ API:
+\begin{itemize}
+    \item \textbf{2xx Success}: การร้องขอสำเร็จ (เช่น 200 OK, 201 Created)
+    \item \textbf{3xx Redirection}: ต้องการการดำเนินการเพิ่มเติมเพื่อทำคำขอให้สมบูรณ์
+    \item \textbf{4xx Client Error}: ข้อผิดพลาดเกิดจากไคลเอนต์ (เช่น 400 Bad Request, 401 Unauthorized, 404 Not Found)
+    \item \textbf{5xx Server Error}: เซิร์ฟเวอร์ไม่สามารถทำตามคำขอที่ถูกต้องได้ (เช่น 500 Internal Server Error)
+\end{itemize}
+
+\section{Node.js}
+Node.js เป็น JavaScript Runtime Environment แบบ Open-source และ Cross-platform ที่ทำงานบนฝั่ง Backend โดยใช้ V8 Engine ในการประมวลผล JavaScript ภายนอกเว็บเบราว์เซอร์
+
+\subsection{ประวัติและวิวัฒนาการ (History and Evolution)}
+สร้างขึ้นโดย Ryan Dahl ในปี 2009 เพื่อสร้างแอปพลิเคชันเครือข่ายที่รองรับการขยายตัวได้ดี (Scalable) ก่อนหน้านี้ JavaScript ถูกใช้เป็นหลักในการเขียนสคริปต์ฝั่งไคลเอนต์ Node.js ได้รวบรวมการพัฒนาเว็บแอปพลิเคชันให้อยู่ภายใต้ภาษาโปรแกรมเดียว ทำให้สามารถใช้ JavaScript ได้ทั้งฝั่งเซิร์ฟเวอร์และไคลเอนต์
+
+\subsection{สถาปัตยกรรมแบบขับเคลื่อนด้วยเหตุการณ์ (Event-Driven Architecture)}
+Node.js ใช้สถาปัตยกรรมแบบ Event-driven ที่มีความสามารถในการทำ Asynchronous I/O การออกแบบนี้มุ่งเน้นเพิ่มประสิทธิภาพ Throughput และ Scalability ในเว็บแอปพลิเคชันที่มีการ Input/Output จำนวนมาก รวมถึง Real-time Web Applications กลไกสำคัญคือ \textbf{Event Loop} ซึ่งช่วยให้ Node.js ทำงานแบบ Non-blocking I/O ได้แม้จะเป็น Single-threaded โดยจะผลักภาระงานไปยัง System Kernel เมื่อเป็นไปได้
+
+\subsection{Single-Threaded, Non-blocking I/O}
+ต่างจากเทคนิคการให้บริการเว็บแบบดั้งเดิมที่แต่ละการเชื่อมต่อ (Request) จะสร้าง Thread ใหม่ ซึ่งสิ้นเปลือง RAM และมีขีดจำกัด Node.js ทำงานบน Thread เดียว
+\begin{itemize}
+    \item \textbf{Non-blocking}: เมื่อ Node.js ต้องทำ I/O Operation (เช่น อ่านไฟล์, เชื่อมต่อฐานข้อมูล) แทนที่จะบล็อก Thread เพื่อรอ Node.js จะดำเนินการต่อทันทีและกลับมาจัดการเมื่อได้รับผลลัพธ์กลับมา (Callback)
+    \item \textbf{Performance}: โมเดลนี้ทำให้ Node.js มีความเบาและมีประสิทธิภาพ เหมาะสำหรับแอปพลิเคชันที่เน้นข้อมูล (Data-intensive) และทำงานแบบ Real-time
+\end{itemize}
+
+\section{Express.js}
+Express.js หรือเรียกสั้นๆ ว่า Express เป็น Web Application Framework สำหรับ Node.js ที่ออกแบบมาเพื่อสร้างเว็บแอปพลิเคชันและ API ถือเป็นมาตรฐานหลักของ Server Framework สำหรับ Node.js
+
+\subsection{บทบาทในฐานะ Web Framework}
+Express ให้บริการฟีเจอร์พื้นฐานสำหรับเว็บแอปพลิเคชันโดยไม่ปิดกั้นความสามารถของ Node.js ช่วยลดความซับซ้อนในการสร้างเซิร์ฟเวอร์ โดยมีเครื่องมือจัดการ HTTP Servers ที่แข็งแกร่ง ทำให้ง่ายต่อการจัดการฟังก์ชันการทำงานในรูปแบบของ Handler สำหรับ Route และ HTTP Verb ต่างๆ
+
+\subsection{การจัดการเส้นทาง (Routing Management)}
+Routing หมายถึงวิธีการที่แอปพลิเคชันตอบสนองต่อคำขอของไคลเอนต์ในแต่ละ Endpoints (URIs) Express มีกลไก Routing ที่ซับซ้อน ช่วยให้กำหนด Route โดยใช้เมธอดของ `app` object ที่ตรงกับ HTTP methods
+\begin{itemize}
+    \item Route สามารถเป็น string path, string pattern หรือ regular expression
+    \item รองรับ Route parameters (เช่น `/users/:userId`) เพื่อดึงค่าจาก URL
+    \item สามารถจัดกลุ่ม Route โดยใช้ `express.Router` เพื่อแยกโมดูล Handler
+\end{itemize}
+
+\subsection{Middleware Pipeline}
+ฟังก์ชัน Middleware คือฟังก์ชันที่มีสิทธิ์เข้าถึง request object (req), response object (res), และฟังก์ชัน middleware ถัดไปในวงจร request-response
+\begin{itemize}
+    \item \textbf{การทำงาน}: Middleware สามารถรันโค้ดใดๆ, แก้ไข req/res object, จบวงจร request-response, หรือเรียก middleware ถัดไป
+    \item \textbf{Pipeline}: แอปพลิเคชัน Express เปรียบเสมือนชุดของการเรียกฟังก์ชัน Middleware ต่อเนื่องกัน ช่วยให้แยกส่วนความกังวล (Separation of Concerns) ได้ดี เช่น การแปลง Request Body, การจัดการ Cookie, การ Logging, การยืนยันตัวตน และการจัดการ Error ก่อนที่คำขอจะไปถึง Route Handler หลัก
+\end{itemize}
+
+\section{ระบบจัดการฐานข้อมูล PostgreSQL (PostgreSQL Database System)}
+PostgreSQL หรือเรียกสั้นๆ ว่า Postgres เป็นระบบฐานข้อมูลเชิงสัมพันธ์ (RDBMS) แบบ Open-source ระดับองค์กรที่มีความก้าวหน้าสูง รองรับทั้งการสอบถามข้อมูลแบบ SQL (Relational) และ JSON (Non-relational)
+
+\subsection{คุณลักษณะของ RDBMS (RDBMS Characteristics)}
+ในฐานะ RDBMS PostgreSQL เก็บข้อมูลในรูปแบบตาราง (Tables) ที่มีแถวและคอลัมน์ มีการบังคับใช้ Schema ที่มีโครงสร้างชัดเจน เพื่อรับประกันความถูกต้องของข้อมูล (Data Integrity) ผ่าน:
+\begin{itemize}
+    \item \textbf{ACID Compliance}: Atomicity, Consistency, Isolation, Durability รับประกันความน่าเชื่อถือของธุรกรรมฐานข้อมูล
+    \item \textbf{Foreign Keys}: บังคับความสัมพันธ์ระหว่างตาราง
+    \item \textbf{Constraints}: กฎเกณฑ์ต่างๆ เช่น PRIMARY KEY, UNIQUE, NOT NULL, และ CHECK เพื่อรักษาคุณภาพข้อมูล
+\end{itemize}
+
+\subsection{โครงสร้างข้อมูลและประสิทธิภาพ (Data Structuring and Performance)}
+PostgreSQL มีชื่อเสียงด้านความเสถียรและความสามารถ
+\begin{itemize}
+    \item \textbf{Extensibility}: ผู้ใช้สามารถนิยาม Data Types, Index Types และภาษาฟังก์ชันของตนเองได้
+    \item \textbf{Concurrency}: ใช้ Multi-Version Concurrency Control (MVCC) ช่วยให้การอ่านและเขียนข้อมูลเกิดขึ้นพร้อมกันได้โดยไม่ต้องล็อกทั้งตาราง เพิ่มประสิทธิภาพในสภาพแวดล้อมที่มีการใช้งานพร้อมกันสูง
+    \item \textbf{Advanced Indexing}: รองรับดัชนีแบบ B-tree, Hash, GiST, SP-GiST, GIN, และ BRIN เพื่อเพิ่มประสิทธิภาพการค้นหาข้อมูลหลากหลายรูปแบบ
+\end{itemize}
+
+\section{การเชื่อมโยงข้อมูลเชิงวัตถุสัมพันธ์ (ORM) และ Sequelize}
+Object-Relational Mapping (ORM) เป็นเทคนิคการเขียนโปรแกรมเพื่อแปลงข้อมูลระหว่างระบบชนิดข้อมูลที่ไม่เข้ากัน โดยใช้ภาษาโปรแกรมเชิงวัตถุ
+
+\subsection{Impedance Mismatch}
+"Object-Relational Impedance Mismatch" หมายถึงความยากลำบากทางแนวคิดและเทคนิคเมื่อต้องใช้งาน RDBMS ร่วมกับภาษาโปรแกรมเชิงวัตถุ (OOP)
+\begin{itemize}
+    \item วัตถุ (Objects) มีโครงสร้างแบบกราฟและมีการสืบทอดคุณสมบัติ (Inheritance)
+    \item ฐานข้อมูลเชิงสัมพันธ์ใช้โครงสร้างแบบตารางและทฤษฎีเซต
+    \item ORM ช่วยเชื่อมช่องว่างนี้โดยการแมปตารางฐานข้อมูลเป็นคลาส และแถวข้อมูลเป็นวัตถุ ช่วยให้นักพัฒนาจัดการฐานข้อมูลโดยใช้ syntax ของภาษาโปรแกรมแทนการเขียน SQL ดิบ
+\end{itemize}
+
+\subsection{การทำงานของ Sequelize (Sequelize Operations)}
+Sequelize เป็น Node.js ORM แบบ Promise-based สำหรับ Postgres, MySQL, MariaDB, SQLite และ Microsoft SQL Server
+\begin{itemize}
+    \item \textbf{Model Definition}: นักพัฒนานิยาม Model เป็น JavaScript Class/Object ระบุชนิดข้อมูลและการตรวจสอบความถูกต้อง Sequelize จะสร้างคำสั่ง SQL เพื่อสร้างตารางให้อัตโนมัติ
+    \item \textbf{Associations}: รองรับความสัมพันธ์มาตรฐาน เช่น One-To-One, One-To-Many, และ Many-To-Many โดยจัดการความซับซ้อนของ Foreign Keys และ Join Tables ให้
+    \item \textbf{Synchronization}: มีเมธอดเช่น `sync()` เพื่อสร้างหรืออัปเดตตารางในฐานข้อมูลให้ตรงกับ Model
+    \item \textbf{Querying}: มี API ที่หลากหลายสำหรับการค้นหาข้อมูล (เช่น `Model.findAll()`, `Model.create()`) โดยซ่อนความซับซ้อนของการเขียน SQL JOINs
+\end{itemize}
+
+\section{EJS (Embedded JavaScript templating)}
+EJS เป็นภาษาเทมเพลตที่เรียบง่ายที่ช่วยให้สามารถสร้าง HTML Markup ด้วย JavaScript แบบธรรมดา
+
+\subsection{การเรนเดอร์ฝั่งเซิร์ฟเวอร์ (Server-Side Rendering - SSR)}
+Server-Side Rendering คือกระบวนการเรนเดอร์หน้าเว็บที่ฝั่งเซิร์ฟเวอร์และส่ง HTML ที่สมบูรณ์แล้วไปยังเบราว์เซอร์ของไคลเอนต์
+\begin{itemize}
+    \item ในบริบทของ EJS และ Express เมื่อมีคำขอเข้ามา เซิร์ฟเวอร์จะคอมไพล์เทมเพลต EJS, ประมวลผลตรรกะ JavaScript ที่ฝังอยู่ (Loop, Conditional) โดยใช้ข้อมูลที่ส่งให้ (เช่น จากฐานข้อมูล) และสร้างเป็น HTML string
+    \item HTML string นี้จะถูกส่งกลับไปเป็น HTTP Response
+\end{itemize}
+
+\subsection{ข้อดีของ SSR ด้วย EJS (Advantages of SSR with EJS)}
+\begin{itemize}
+    \item \textbf{SEO Friendly}: เนื่องจากเนื้อหาถูกเรนเดอร์สมบูรณ์ก่อนถึงไคลเอนต์ Search Engine Crawler สามารถเก็บข้อมูล (Index) ได้ง่าย
+    \item \textbf{Performance (First Contentful Paint)}: ผู้ใช้เห็นเนื้อหาได้เร็วกว่า เพราะเบราว์เซอร์ได้รับเอกสาร HTML ที่มีข้อมูลครบถ้วน ไม่ต้องรอโหลดและรัน JavaScript ฝั่งไคลเอนต์เพื่อแสดงผลหน้าจอเริ่มต้น
+    \item \textbf{Simplicity}: สำหรับแอปพลิเคชันจำนวนมาก SSR ช่วยลดความซับซ้อนของ Tech Stack โดยลดความจำเป็นในการใช้ Library จัดการ State ฝั่งไคลเอนต์ที่ซับซ้อน EJS ยังช่วยให้สามารถนำส่วนประกอบ UI (เช่น Header, Footer) กลับมาใช้ซ้ำได้ง่ายผ่านฟีเจอร์ `include`
+\end{itemize}

@@ -1,0 +1,576 @@
+\appendix
+\chapter{Comprehensive System Installation and Deployment Guide}
+
+This appendix provides a meticulous, step-by-step manual designed to assist developers and system administrators in setting up the GymBro Management System from a clean slate. It covers every aspect of the installation process, from prerequisite software verification to production deployment, ensuring a seamless and error-free setup experience.
+
+\section{Prerequisites}
+Before initiating the installation, ensure that the following software components are installed and correctly configured on your development machine or server. These prerequisites are critical for the successful execution of the application.
+
+\subsection{Required Software}
+\begin{itemize}
+    \item \textbf{Node.js (Version 18.x or Higher)}: 
+    \begin{itemize}
+        \item \textbf{Role}: The core runtime environment for executing the backend JavaScript code.
+        \item \textbf{Recommendation}: Use the Long-Term Support (LTS) version (e.g., v18.16.0) to ensure stability and compatibility with the latest packages.
+        \item \textbf{Verification}: Run \texttt{node -v} in your terminal. It should output something like \texttt{v18.16.0}.
+    \end{itemize}
+    
+    \item \textbf{PostgreSQL (Version 14.x or Higher)}:
+    \begin{itemize}
+        \item \textbf{Role}: The primary Relational Database Management System (RDBMS) used for persistent data storage.
+        \item \textbf{Reason}: Chosen for its robustness, ACID compliance, and advanced indexing capabilities which are essential for handling complex booking transactions.
+        \item \textbf{Verification}: Run \texttt{psql --version}. Ensure the service is running via \texttt{sudo service postgresql status} (Linux) or checking the Services panel (Windows).
+    \end{itemize}
+    
+    \item \textbf{Git (Version 2.x)}:
+    \begin{itemize}
+        \item \textbf{Role}: Version control system for cloning the project repository.
+        \item \textbf{Verification}: Run \texttt{git --version}.
+    \end{itemize}
+    
+    \item \textbf{Code Editor / IDE}:
+    \begin{itemize}
+        \item \textbf{Recommendation}: Visual Studio Code (VS Code) is highly recommended due to its excellent support for JavaScript, debugging tools, and integrated terminal.
+        \item \textbf{Extensions}: Install "ESLint", "Prettier", and "DotENV" extensions for an enhanced development experience.
+    \end{itemize}
+\end{itemize}
+
+\section{Environment Configuration}
+Proper configuration of environment variables is paramount for the security and functionality of the application. The system relies on a \texttt{.env} file to manage sensitive credentials and configuration settings.
+
+\subsection{Database Setup}
+1. Open your terminal or a database management tool like pgAdmin or DBeaver.
+2. Connect to your PostgreSQL server:
+\begin{lstlisting}[language=bash, frame=single]
+psql -U postgres
+\end{lstlisting}
+3. Create a new database for the project:
+\begin{lstlisting}[language=sql, frame=single]
+CREATE DATABASE gymbro_db;
+\end{lstlisting}
+4. (Optional) Create a dedicated user for the application:
+\begin{lstlisting}[language=sql, frame=single]
+CREATE USER gym_admin WITH ENCRYPTED PASSWORD 'secure_password_123';
+GRANT ALL PRIVILEGES ON DATABASE gymbro_db TO gym_admin;
+\end{lstlisting}
+
+\subsection{Setting up the .env File}
+1. Navigate to the root directory of the project.
+2. Create a new file named \texttt{.env}.
+3. Copy the following configuration template and fill in your specific details:
+
+\begin{lstlisting}[frame=single]
+# Server Configuration
+PORT=3000
+NODE_ENV=development
+
+# Database Connection (Local Development)
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=gymbro_db
+DB_USER=gym_admin
+DB_PASS=secure_password_123
+DB_DIALECT=postgres
+
+# Database Connection String (Alternative for Cloud Deployment)
+# DATABASE_URL=postgres://user:pass@host:port/dbname
+
+# Security Keys
+JWT_SECRET=your_super_secret_jwt_key_32_chars_long
+SESSION_SECRET=another_long_random_string_for_sessions
+
+# External Services (If applicable)
+# SMTP_HOST=smtp.gmail.com
+# SMTP_USER=your_email@gmail.com
+# SMTP_PASS=your_app_password
+\end{lstlisting}
+
+\textbf{Variable Explanations:}
+\begin{itemize}
+    \item \texttt{PORT}: The port number on which the Express server will listen (default is 3000).
+    \item \texttt{DB\_*}: Connection details for the PostgreSQL database. Ensure these match the database you created.
+    \item \texttt{JWT\_SECRET}: A private key used to sign and verify JSON Web Tokens for user authentication. Keep this secure!
+\end{itemize}
+
+\section{Installation Process}
+Follow these precise steps to get the application code on your machine and install all necessary dependencies.
+
+\subsection{Cloning the Repository}
+Open your terminal and navigate to your desired workspace directory. Run the following command:
+\begin{lstlisting}[language=bash, frame=single]
+git clone https://github.com/username/gymbro-management-system.git
+cd gymbro-management-system
+\end{lstlisting}
+
+\subsection{Installing Dependencies}
+The project relies on several Node.js packages listed in \texttt{package.json}. Install them using npm (Node Package Manager):
+\begin{lstlisting}[language=bash, frame=single]
+npm install
+\end{lstlisting}
+
+\textbf{Key Dependencies Explained:}
+\begin{itemize}
+    \item \texttt{express}: The web framework for handling HTTP requests.
+    \item \texttt{sequelize}: The Object-Relational Mapper (ORM) for database interactions.
+    \item \texttt{pg} \& \texttt{pg-hstore}: PostgreSQL drivers for Sequelize.
+    \item \texttt{ejs}: Embedded JavaScript templating engine for server-side rendering.
+    \item \texttt{bcryptjs}: For hashing passwords securely.
+    \item \texttt{jsonwebtoken}: For generating access tokens.
+    \item \texttt{dotenv}: For loading environment variables.
+\end{itemize}
+
+\section{Database Initialization}
+Before running the application, the database schema must be synchronized, and initial seed data needs to be populated.
+
+\subsection{Running Migrations}
+Sequelize migrations allow us to keep the database schema in sync with our application models. Run the following command to create the necessary tables (\texttt{Users}, \texttt{Trainers}, \texttt{Bookings}, etc.):
+\begin{lstlisting}[language=bash, frame=single]
+npx sequelize-cli db:migrate
+\end{lstlisting}
+\textit{Output should indicate that migration files were executed successfully.}
+
+\subsection{Seeding Data}
+To test the application, it is helpful to have some initial data (e.g., default admin account, sample trainers, equipment list). Run:
+\begin{lstlisting}[language=bash, frame=single]
+npx sequelize-cli db:seed:all
+\end{lstlisting}
+\textit{This will populate the tables with the data defined in the \texttt{seeders} folder.}
+
+\section{Execution and Deployment}
+
+\subsection{Local Development}
+For development purposes, use \texttt{nodemon} to automatically restart the server whenever code changes are detected.
+\begin{lstlisting}[language=bash, frame=single]
+npm run dev
+\end{lstlisting}
+Access the application at \texttt{http://localhost:3000}.
+
+\subsection{Production Deployment}
+For a production environment, use a process manager like PM2 to ensure the application stays online and reloads automatically after crashes.
+1. Install PM2 globally:
+\begin{lstlisting}[language=bash, frame=single]
+npm install pm2 -g
+\end{lstlisting}
+2. Start the application:
+\begin{lstlisting}[language=bash, frame=single]
+pm2 start server.js --name "gymbro-api"
+\end{lstlisting}
+3. Monitor the status:
+\begin{lstlisting}[language=bash, frame=single]
+pm2 status
+pm2 logs gymbro-api
+\end{lstlisting}
+
+\chapter{Core System Source Code Reference}
+
+This appendix serves as a technical reference for the core logic and architecture of the GymBro Management System. It presents critical sections of the source code, accompanied by detailed inline comments explaining the functionality, control flow, and design patterns used. These excerpts demonstrate the implementation of key features such as server configuration, data modeling, business logic, and dynamic frontend rendering.
+
+\section{Main Application Entry Point (server.js)}
+The \texttt{server.js} file is the heart of the backend application. It initializes the Express app, configures middleware (CORS, JSON parsing), establishes the database connection, and mounts the API routes.
+
+\begin{lstlisting}[language=JavaScript, caption={Server Configuration and Setup}, label={lst:server_js}]
+// Import necessary modules
+require("dotenv").config(); // Load environment variables from .env file
+const express = require("express"); // Web framework
+const cors = require("cors"); // Cross-Origin Resource Sharing middleware
+const sequelize = require("./db"); // Database connection instance
+
+// Import Models to ensure they are registered with Sequelize
+const { Customers, Trainers, GymEquipments, TrainingSessions } = sequelize;
+
+// Initialize the Express application
+const app = express();
+
+// --- Middleware Configuration ---
+
+// 1. CORS Setup: Allow requests from the frontend application
+app.use(
+  cors({
+    origin: "http://localhost:5500", // Allow only this origin
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allowed HTTP methods
+    allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
+  })
+);
+
+// 2. Body Parsing: Parse incoming JSON payloads
+app.use(express.json());
+
+// --- Database Connection & Synchronization ---
+
+/**
+ * Establishes connection to the PostgreSQL database and syncs models.
+ * Using 'alter: true' allows Sequelize to update tables to match models
+ * without dropping data (useful for development).
+ */
+sequelize.authenticate()
+  .then(() => {
+    console.log("Database connection established successfully.");
+    return sequelize.sync({ alter: true }); 
+  })
+  .then(() => {
+    console.log("Database models synchronized.");
+  })
+  .catch((err) => {
+    console.error("Unable to connect to the database:", err);
+  });
+
+// --- Route Definitions ---
+
+// Login Endpoint
+app.post("/api/login", async (req, res) => {
+  const { email, phone } = req.body;
+  
+  try {
+    // Admin Hardcoded Check (for simplicity in this academic project)
+    if (email === "admin@gymbro.com" && phone === "123456") {
+      return res.json({
+        role: "admin",
+        user: { id: 0, fullName: "Administrator", email: email },
+        token: "mock-admin-token-123" // In production, generate a real JWT here
+      });
+    }
+
+    // Member Authentication
+    const user = await Customers.findOne({ where: { email } });
+    
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Validate Phone Number (acting as password)
+    if (user.phone !== phone) {
+      return res.status(401).json({ error: "Invalid credentials" });
+    }
+
+    // Successful Login
+    res.json({
+      role: "user",
+      user: user,
+      token: `mock-user-token-${user.id}`
+    });
+
+  } catch (error) {
+    console.error("Login error:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+// Start the Server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
+\end{lstlisting}
+
+\section{Sequelize Model Definition (models/TrainingSession.js)}
+This section illustrates how data models are defined using Sequelize. The \texttt{TrainingSession} model represents a booking event and includes foreign key associations to Customers, Trainers, and Equipment.
+
+\begin{lstlisting}[language=JavaScript, caption={TrainingSession Model Definition}, label={lst:model_session}]
+const { DataTypes } = require("sequelize");
+const sequelize = require("../db"); // Import the connection instance
+
+/**
+ * TrainingSession Model
+ * Represents a scheduled training event in the gym.
+ * Maps to the 'TrainingSessions' table in PostgreSQL.
+ */
+const TrainingSession = sequelize.define(
+  "TrainingSessions",
+  {
+    // Primary Key
+    id: { 
+      type: DataTypes.INTEGER, 
+      autoIncrement: true, 
+      primaryKey: true 
+    },
+    
+    // The starting date and time of the session
+    sessionDate: { 
+      type: DataTypes.DATE, 
+      allowNull: false,
+      validate: {
+        isDate: true,
+        isAfter: new Date().toISOString() // Validation: Cannot book in the past
+      }
+    },
+    
+    // The ending date and time (calculated based on duration)
+    endDate: { 
+      type: DataTypes.DATE,
+      allowNull: true 
+    },
+    
+    // Foreign Keys (Explicitly defined for clarity)
+    customerId: { 
+      type: DataTypes.INTEGER, 
+      allowNull: false,
+      references: { model: 'Customers', key: 'id' }
+    },
+    trainerId: { 
+      type: DataTypes.INTEGER, 
+      allowNull: true, // Can be null if it's a solo equipment usage
+      references: { model: 'Trainers', key: 'id' }
+    },
+    equipmentId: { 
+      type: DataTypes.INTEGER, 
+      allowNull: false,
+      references: { model: 'GymEquipments', key: 'id' }
+    },
+  },
+  { 
+    tableName: "TrainingSessions", 
+    timestamps: true, // Automatically manage createdAt and updatedAt
+    freezeTableName: true // Prevent pluralization of table name
+  }
+);
+
+// --- Model Associations ---
+// These define the relationships for Eager Loading (JOINs)
+
+// A Session belongs to one Customer
+TrainingSession.belongsTo(sequelize.models.Customers, { 
+    as: "customer", 
+    foreignKey: "customerId" 
+});
+
+// A Session belongs to one Trainer
+TrainingSession.belongsTo(sequelize.models.Trainers, { 
+    as: "trainer", 
+    foreignKey: "trainerId" 
+});
+
+// A Session uses one Equipment
+TrainingSession.belongsTo(sequelize.models.GymEquipments, { 
+    as: "equipment", 
+    foreignKey: "equipmentId" 
+});
+
+module.exports = TrainingSession;
+\end{lstlisting}
+
+\section{Core Logic Controller (Booking Conflict Detection)}
+This excerpt from the booking controller demonstrates the critical algorithm used to prevent double bookings. It checks for time overlaps for both trainers and equipment before confirming a transaction.
+
+\begin{lstlisting}[language=JavaScript, caption={Booking Controller with Conflict Detection}, label={lst:controller_booking}]
+const { Op } = require("sequelize");
+const { TrainingSessions } = require("../models");
+
+/**
+ * createBooking
+ * Handles the creation of a new training session.
+ * Performs rigorous checks to ensure resource availability.
+ */
+async function createBooking(req, res) {
+  const { customerId, trainerId, equipmentId, sessionDate, duration } = req.body;
+  
+  // Start a database transaction to ensure atomicity
+  const t = await sequelize.transaction();
+
+  try {
+    // 1. Calculate Start and End times
+    const startTime = new Date(sessionDate);
+    const endTime = new Date(startTime.getTime() + duration * 60000); // duration in minutes
+
+    // 2. Conflict Detection Logic
+    // We need to find any existing session that overlaps with the requested time.
+    // Overlap condition: (StartA < EndB) AND (EndA > StartB)
+    const conflictWhereClause = {
+      [Op.or]: [
+        // Check Trainer Availability
+        {
+          trainerId: trainerId,
+          sessionDate: { [Op.lt]: endTime },
+          endDate: { [Op.gt]: startTime }
+        },
+        // Check Equipment Availability
+        {
+          equipmentId: equipmentId,
+          sessionDate: { [Op.lt]: endTime },
+          endDate: { [Op.gt]: startTime }
+        }
+      ]
+    };
+
+    // Query the database for conflicts
+    const existingConflict = await TrainingSessions.findOne({
+      where: conflictWhereClause,
+      transaction: t // Include in transaction
+    });
+
+    // 3. Handle Conflict
+    if (existingConflict) {
+      await t.rollback(); // Rollback transaction
+      return res.status(409).json({ 
+        error: "Conflict detected", 
+        message: "The selected trainer or equipment is already booked for this time slot." 
+      });
+    }
+
+    // 4. Create the Session
+    const newSession = await TrainingSessions.create({
+      customerId,
+      trainerId,
+      equipmentId,
+      sessionDate: startTime,
+      endDate: endTime
+    }, { transaction: t });
+
+    // 5. Commit Transaction
+    await t.commit();
+    
+    // Return success response
+    res.status(201).json({
+      message: "Booking confirmed successfully",
+      data: newSession
+    });
+
+  } catch (error) {
+    // Handle unexpected errors
+    await t.rollback();
+    console.error("Booking Error:", error);
+    res.status(500).json({ error: "Failed to create booking" });
+  }
+}
+\end{lstlisting}
+
+\section{Frontend View Template (views/index.ejs)}
+This section displays the EJS template for the Admin Dashboard. It showcases how server-side data is injected into the HTML, how dynamic lists are rendered, and how the layout adapts to different user roles.
+
+\begin{lstlisting}[language=HTML, caption={Admin Dashboard EJS Template}, label={lst:view_dashboard}]
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>GymBro • Admin Dashboard</title>
+  <!-- Tailwind CSS for styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-gray-100 text-gray-900 min-h-screen flex">
+
+  <!-- Sidebar Navigation -->
+  <aside class="w-64 bg-blue-900 text-white flex-shrink-0 hidden md:flex flex-col">
+    <div class="h-20 flex items-center justify-center border-b border-blue-800">
+      <h1 class="text-2xl font-bold italic">Gym<span class="text-blue-400">Bro</span></h1>
+    </div>
+    
+    <nav class="flex-1 py-6">
+      <ul>
+        <!-- Navigation Links -->
+        <li>
+          <a href="/admin/dashboard" class="flex items-center gap-4 px-6 py-3 bg-blue-800 border-l-4 border-blue-400">
+            <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="/admin/customers" class="flex items-center gap-4 px-6 py-3 hover:bg-blue-800 transition">
+            <i data-lucide="users" class="w-5 h-5"></i>
+            <span>Customers</span>
+          </a>
+        </li>
+        <!-- Logout Button -->
+        <li class="mt-8 pt-4 border-t border-blue-800">
+          <button onclick="logout()" class="w-full text-left px-6 py-3 text-red-300 hover:text-white">
+            <i data-lucide="log-out" class="w-5 h-5 inline mr-3"></i> Logout
+          </button>
+        </li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="flex-1 p-8 overflow-y-auto">
+    
+    <!-- Header -->
+    <header class="flex justify-between items-end mb-8 border-b-2 border-blue-900 pb-4">
+      <div>
+        <h2 class="text-3xl font-extrabold text-blue-900 uppercase">Overview</h2>
+        <p class="text-gray-600">Daily Statistics and Activity</p>
+      </div>
+      <button class="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700">
+        + Create Report
+      </button>
+    </header>
+
+    <!-- Statistics Cards Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+      <!-- Dynamic Data Injection from Server -->
+      <!-- Card 1: Total Customers -->
+      <div class="bg-white p-6 rounded shadow-md border-l-4 border-blue-500">
+        <h3 class="text-gray-500 text-sm font-bold uppercase">Total Customers</h3>
+        <p class="text-3xl font-bold text-blue-900 mt-2"><%= stats.totalCustomers %></p>
+      </div>
+      
+      <!-- Card 2: Active Trainers -->
+      <div class="bg-white p-6 rounded shadow-md border-l-4 border-green-500">
+        <h3 class="text-gray-500 text-sm font-bold uppercase">Active Trainers</h3>
+        <p class="text-3xl font-bold text-green-900 mt-2"><%= stats.totalTrainers %></p>
+      </div>
+      
+      <!-- ... other cards ... -->
+    </div>
+
+    <!-- Recent Activity Table -->
+    <div class="bg-white rounded shadow-lg overflow-hidden">
+      <div class="px-6 py-4 bg-blue-900 text-white font-bold">
+        Today's Sessions
+      </div>
+      <table class="w-full text-left border-collapse">
+        <thead>
+          <tr class="bg-gray-200 text-gray-700 text-sm uppercase">
+            <th class="px-6 py-3">Time</th>
+            <th class="px-6 py-3">Customer</th>
+            <th class="px-6 py-3">Trainer</th>
+            <th class="px-6 py-3">Activity</th>
+            <th class="px-6 py-3">Status</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200">
+          <!-- Loop through sessions array passed from controller -->
+          <% if (sessions && sessions.length > 0) { %>
+            <% sessions.forEach(function(session) { %>
+              <tr class="hover:bg-gray-50 transition">
+                <td class="px-6 py-4 font-mono text-blue-600">
+                  <%= new Date(session.sessionDate).toLocaleTimeString('th-TH', {hour: '2-digit', minute:'2-digit'}) %>
+                </td>
+                <td class="px-6 py-4 font-bold"><%= session.customer.fullName %></td>
+                <td class="px-6 py-4"><%= session.trainer ? session.trainer.trainerName : '-' %></td>
+                <td class="px-6 py-4 text-gray-500"><%= session.equipment.equipmentName %></td>
+                <td class="px-6 py-4">
+                  <span class="px-2 py-1 text-xs rounded bg-green-100 text-green-800 font-bold">
+                    CONFIRMED
+                  </span>
+                </td>
+              </tr>
+            <% }); %>
+          <% } else { %>
+            <!-- Empty State -->
+            <tr>
+              <td colspan="5" class="px-6 py-8 text-center text-gray-500 italic">
+                No sessions scheduled for today.
+              </td>
+            </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+
+  </main>
+
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+    
+    // Logout Logic
+    function logout() {
+      if(confirm('Are you sure you want to logout?')) {
+        localStorage.removeItem('gymbro_token');
+        window.location.href = '/login';
+      }
+    }
+  </script>
+</body>
+</html>
+\end{lstlisting}

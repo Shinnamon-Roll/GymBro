@@ -6,10 +6,10 @@ async function loadProfile() {
     const session = JSON.parse(localStorage.getItem('gymbro_user'));
     if (!session || !session.user) return;
 
-    // If Admin is viewing this page (which shouldn't happen based on role guard, but for safety)
+    // If Admin is viewing this page
     if (session.role === 'admin') {
-        document.getElementById('profile-name').textContent = "Admin User";
-        document.getElementById('profile-email').textContent = "admin@gymbro.com";
+        setTextByClass('user-name-display', "Admin User");
+        setTextByClass('user-email-display', "admin@gymbro.com");
         return;
     }
 
@@ -20,35 +20,42 @@ async function loadProfile() {
         const user = await res.json();
         
         // Update UI
-        setText('profile-name', user.fullName);
-        setText('profile-email', user.email);
-        setText('profile-phone', user.phone);
-        setText('profile-type', user.memberType || 'Standard');
-        setText('profile-level', user.memberLevel || 'Beginner');
-        
-        if (user.memberStartDate) {
-            const since = new Date(user.memberStartDate).toLocaleDateString('th-TH', { dateStyle: 'long' });
-            setText('profile-since', since);
-        }
-        
-        if (user.memberEndDate) {
-            const until = new Date(user.memberEndDate).toLocaleDateString('th-TH', { dateStyle: 'long' });
-            setText('profile-until', until);
-        } else {
-             setText('profile-until', 'Lifetime / No Expiry');
-        }
+        updateProfileUI(user);
 
     } catch (error) {
         console.error('Error loading profile:', error);
         // Fallback to local storage if API fails
         const user = session.user;
-        setText('profile-name', user.fullName);
-        setText('profile-email', user.email);
-        setText('profile-phone', user.phone);
+        updateProfileUI(user);
     }
 }
 
-function setText(id, text) {
-    const el = document.getElementById(id);
-    if (el) el.textContent = text;
+function updateProfileUI(user) {
+    setTextByClass('user-name-display', user.fullName);
+    setTextByClass('user-email-display', user.email);
+    setTextByClass('user-phone-display', user.phone);
+    setTextByClass('user-type-display', user.memberType || 'Standard');
+    setTextByClass('user-level-display', user.memberLevel || 'Beginner');
+    setTextByClass('user-id-display', `#${String(user.id).padStart(3, '0')}`);
+    
+    if (user.memberStartDate) {
+        const since = new Date(user.memberStartDate).toLocaleDateString('th-TH', { dateStyle: 'long' });
+        setTextByClass('user-start-display', since);
+    } else {
+        setTextByClass('user-start-display', '-');
+    }
+    
+    if (user.memberEndDate) {
+        const until = new Date(user.memberEndDate).toLocaleDateString('th-TH', { dateStyle: 'long' });
+        setTextByClass('user-end-display', until);
+    } else {
+         setTextByClass('user-end-display', 'Lifetime / No Expiry');
+    }
+}
+
+function setTextByClass(className, text) {
+    const elements = document.querySelectorAll(`.${className}`);
+    elements.forEach(el => {
+        el.textContent = text;
+    });
 }

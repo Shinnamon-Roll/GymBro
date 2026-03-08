@@ -2,7 +2,7 @@
 % Chapter 4: Website Usage
 % ==========================================================================================
 
-บทนี้อธิบายวิธีการใช้งานระบบ GymBro Management System อย่างละเอียด แบ่งตามสิทธิ์การใช้งานของผู้ใช้ 3 กลุ่มหลัก ได้แก่ ผู้ใช้งานทั่วไป (Public), สมาชิก (Member), และผู้ดูแลระบบ (Admin)
+บทนี้อธิบายวิธีการใช้งานระบบ GymBro Management System อย่างละเอียด แบ่งตามสิทธิ์การใช้งานของผู้ใช้ 3 กลุ่มหลัก ได้แก่ ผู้ใช้งานทั่วไป (Public), สมาชิก (Member), และผู้ดูแลระบบ (Admin) โดยมีการแสดงภาพประกอบหน้าจอทั้งในโหมดปกติ (Light Mode) และโหมดมืด (Dark Mode)
 
 \section{ส่วนผู้ใช้งานทั่วไป (Public Section)}
 ส่วนนี้สำหรับผู้ที่ยังไม่ได้เข้าสู่ระบบ สามารถใช้งานได้ทุกคน
@@ -22,8 +22,8 @@
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/placeholder.png}
-    \caption{หน้าจอเข้าสู่ระบบ (Login)}
+    \includegraphics[width=0.9\textwidth]{Image/login.png}
+    \caption{หน้าจอเข้าสู่ระบบ (Login) ประกอบด้วยช่องกรอกอีเมลและเบอร์โทรศัพท์ พร้อมปุ่มเข้าสู่ระบบ}
     \label{fig:login}
 \end{figure}
 
@@ -38,14 +38,23 @@
     \item กรอก \textbf{Email Address} (ห้ามซ้ำกับที่มีในระบบ)
     \item กรอก \textbf{Phone Number} (ใช้สำหรับล็อกอินในภายหลัง)
     \item กดปุ่ม \textbf{CREATE ACCOUNT}
-    \item หากสำเร็จ ระบบจะแจ้งเตือนและพากลับไปหน้า Login เพื่อให้เข้าสู่ระบบใหม่
 \end{enumerate}
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/placeholder.png}
-    \caption{หน้าจอลงทะเบียนสมาชิก (Register)}
+    \includegraphics[width=0.9\textwidth]{Image/register.png}
+    \caption{หน้าจอลงทะเบียน (Register) สำหรับกรอกข้อมูลส่วนตัวเพื่อสมัครสมาชิกใหม่}
     \label{fig:register}
+\end{figure}
+
+\subsubsection{การรอการอนุมัติ (Pending Approval)}
+เมื่อสมัครสมาชิกสำเร็จ ระบบจะแสดงข้อความแจ้งเตือนว่าบัญชีอยู่ในสถานะ \textbf{รอการอนุมัติ (Pending)} ผู้ใช้งานจะต้องติดต่อเจ้าหน้าที่เพื่อชำระค่าบริการ และรอให้เจ้าหน้าที่ยืนยันสถานะบัญชีจึงจะสามารถเข้าใช้งานได้
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Image/registered_alert.png}
+    \caption{หน้าต่างแจ้งเตือนการสมัครสมาชิกสำเร็จและรอการอนุมัติจากผู้ดูแลระบบ}
+    \label{fig:registered_alert}
 \end{figure}
 
 \newpage
@@ -59,10 +68,19 @@
 \begin{enumerate}
     \item เมื่อเข้าสู่ระบบสำเร็จ จะพบตารางแสดงรายการจองทั้งหมดในวันนี้ (All Bookings)
     \item รายการที่เป็นของตนเอง (My Session) จะถูกไฮไลต์ด้วยสีพื้นหลังที่แตกต่างเพื่อให้สังเกตได้ง่าย
-    \item ตารางแสดงข้อมูลเวลา, กิจกรรม/อุปกรณ์, และชื่อเทรนเนอร์
+    \item ตารางแสดงข้อมูลเวลา (Time), กิจกรรม/อุปกรณ์ (Activity), และชื่อเทรนเนอร์ (Trainer)
 \end{enumerate}
 
-\subsubsection{การจองเซสชันใหม่ (Booking Session)}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Image/user_customer_schedule.png}
+    \caption{หน้าแดชบอร์ดสมาชิกแสดงตารางการฝึกซ้อม (User Schedule) พร้อมไฮไลต์รายการจองของตนเอง}
+    \label{fig:user_dashboard_schedule}
+\end{figure}
+
+\subsection{การจองเซสชัน (Booking Session)}
+
+\subsubsection{ขั้นตอนการจอง}
 \begin{enumerate}
     \item กดปุ่ม \textbf{BOOK SESSION} ที่มุมขวาบน
     \item ระบบจะแสดงหน้าต่าง (Modal) สำหรับกรอกข้อมูลการจอง
@@ -70,182 +88,220 @@
     \item ระบบจะตรวจสอบความว่าง (Availability) ของเทรนเนอร์และอุปกรณ์โดยอัตโนมัติ หากไม่ว่างตัวเลือกนั้นจะถูกปิดการใช้งาน (Disabled)
     \item เลือก \textbf{Trainer} และ \textbf{Equipment} ที่ต้องการ
     \item กดปุ่ม \textbf{CONFIRM BOOKING}
-    \item ระบบจะบันทึกข้อมูลและรีเฟรชตารางแสดงผลทันที
-\end{enumerate}
-
-\subsubsection{การยกเลิกการจอง (Cancel Session)}
-\begin{enumerate}
-    \item ในตารางรายการจอง ค้นหารายการที่เป็นของตนเอง
-    \item กดปุ่ม \textbf{Cancel} สีแดงที่อยู่ในคอลัมน์ Status/Action
-    \item กดยืนยันในหน้าต่าง Confirm Dialog
-    \item ระบบจะลบรายการจองนั้นออกจากฐานข้อมูล
 \end{enumerate}
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/placeholder.png}
-    \caption{หน้าแดชบอร์ดสมาชิกและหน้าต่างการจอง (User Dashboard)}
-    \label{fig:user_dashboard}
+    \includegraphics[width=0.9\textwidth]{Image/user_customer_booking.png}
+    \caption{หน้าต่างสำหรับการจองเซสชัน (Booking Modal) ให้ผู้ใช้เลือกวัน เวลา เทรนเนอร์ และอุปกรณ์}
+    \label{fig:user_booking_modal}
+\end{figure}
+
+\subsubsection{การยืนยันการจอง}
+เมื่อทำการจองสำเร็จ ระบบจะแสดงข้อความแจ้งเตือน (Alert) เพื่อยืนยันว่าการจองได้รับการบันทึกเรียบร้อยแล้ว และตารางจะถูกรีเฟรชเพื่อแสดงรายการจองใหม่
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Image/customer_booked.png}
+    \caption{หน้าจอแสดงสถานะการจองสำเร็จ (Booking Success) พร้อมแสดงรายการใหม่ในตาราง}
+    \label{fig:customer_booked}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Image/customer_booked_alert.png}
+    \caption{ข้อความแจ้งเตือนยืนยันการจองสำเร็จ (Booking Alert) ที่มุมขวาบนของหน้าจอ}
+    \label{fig:customer_booked_alert}
 \end{figure}
 
 \subsection{การใช้งานหน้าข้อมูลส่วนตัว (My Profile)}
-หน้าแสดงรายละเอียดข้อมูลสมาชิก
+หน้าแสดงรายละเอียดข้อมูลสมาชิก และสถานะบัญชี (แสดงตัวอย่างในโหมดมืด)
 
-\subsubsection{ขั้นตอนการดูข้อมูล}
 \begin{enumerate}
     \item ที่แถบเมนูด้านซ้าย เลือกเมนู \textbf{My Profile}
-    \item ระบบจะแสดงข้อมูลชื่อ, อีเมล, เบอร์โทรศัพท์, ประเภทสมาชิก (Member Type), และวันหมดอายุสมาชิก
+    \item ระบบจะแสดงข้อมูลส่วนตัว ได้แก่ ชื่อ-นามสกุล, อีเมล, และเบอร์โทรศัพท์
+    \item แสดงประเภทสมาชิก (Member Type) และวันหมดอายุสมาชิก
+    \item แสดงสถานะบัญชี (Account Status)
 \end{enumerate}
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/placeholder.png}
-    \caption{หน้าข้อมูลส่วนตัวสมาชิก (My Profile)}
-    \label{fig:user_profile}
+    \includegraphics[width=0.9\textwidth]{Image/dark_user_profile.png}
+    \caption{หน้าข้อมูลส่วนตัว (My Profile) ในโหมดมืด แสดงรายละเอียดสมาชิกและสถานะบัญชี}
+    \label{fig:dark_user_profile}
 \end{figure}
 
 \newpage
 \section{ส่วนผู้ดูแลระบบ (Admin Section)}
 ส่วนนี้สำหรับผู้ใช้งานที่ล็อกอินด้วยสิทธิ์ผู้ดูแลระบบ (Admin)
 
-\subsection{การใช้งานหน้าแดชบอร์ดผู้ดูแลระบบ (Admin Dashboard)}
-หน้าสรุปภาพรวมของระบบ
-
-\subsubsection{การดูสถิติและตารางงานวันนี้}
-\begin{enumerate}
-    \item แสดงจำนวนรวมของลูกค้า (Customers), เทรนเนอร์ (Trainers), อุปกรณ์ (Equipments), และเซสชันวันนี้ (Today's Sessions)
-    \item ตารางด้านล่างแสดงรายการจองทั้งหมดที่เกิดขึ้นในวันนี้แบบ Real-time
-\end{enumerate}
+\subsection{การเข้าสู่ระบบสำหรับผู้ดูแลระบบ (Admin Login)}
+ผู้ดูแลระบบสามารถเข้าสู่ระบบผ่านหน้า Login เดียวกับผู้ใช้งานทั่วไป หรือผ่าน URL เฉพาะ
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/placeholder.png}
-    \caption{หน้าแดชบอร์ดผู้ดูแลระบบ (Admin Dashboard)}
+    \includegraphics[width=0.9\textwidth]{Image/admin_login.png}
+    \caption{หน้าจอเข้าสู่ระบบสำหรับผู้ดูแลระบบ (Admin Login) ใช้แบบฟอร์มเดียวกับผู้ใช้งานทั่วไป}
+    \label{fig:admin_login}
+\end{figure}
+
+\subsection{การใช้งานหน้าแดชบอร์ดผู้ดูแลระบบ (Admin Dashboard)}
+หน้าสรุปภาพรวมของระบบ แสดงสถิติและตารางงานวันนี้
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Image/admin_dashboard.png}
+    \caption{หน้าแดชบอร์ดผู้ดูแลระบบ (Admin Dashboard) แสดงจำนวนลูกค้า เทรนเนอร์ อุปกรณ์ และเซสชันวันนี้}
     \label{fig:admin_dashboard}
 \end{figure}
 
 \subsection{การจัดการข้อมูลลูกค้า (Customer Management)}
-เมนู \textbf{Customers} สำหรับบริหารจัดการข้อมูลสมาชิก
-
-\subsubsection{การเพิ่มลูกค้าใหม่}
-\begin{enumerate}
-    \item กรอกข้อมูลในฟอร์มด้านบน: Name, Email, Phone
-    \item เลือก \textbf{Member Type} (เช่น Monthly) และ \textbf{Level} (เช่น Silver)
-    \item ระบุ \textbf{Start Date}
-    \item กดปุ่ม \textbf{SAVE CUSTOMER}
-\end{enumerate}
-
-\subsubsection{การแก้ไขและลบข้อมูล}
-\begin{enumerate}
-    \item \textbf{แก้ไข:} กดปุ่ม \textbf{EDIT} ในแถวที่ต้องการ ระบบจะแสดง Popup (Prompt) ให้กรอกข้อมูลใหม่ทีละค่า (ชื่อ, อีเมล, เบอร์โทร)
-    \item \textbf{ลบ:} กดปุ่ม \textbf{DELETE} สีแดง และกดยืนยันเพื่อลบข้อมูลออกจากระบบถาวร
-\end{enumerate}
+เมนู \textbf{Customers} สำหรับบริหารจัดการข้อมูลสมาชิก ตรวจสอบสถานะ และอนุมัติสมาชิกใหม่
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/placeholder.png}
-    \caption{หน้าจัดการข้อมูลลูกค้า (Customer Management)}
+    \includegraphics[width=0.9\textwidth]{Image/admin_member_management.png}
+    \caption{หน้าจัดการข้อมูลลูกค้า (Customer Management) แสดงรายชื่อสมาชิกและปุ่มสำหรับจัดการข้อมูล}
     \label{fig:admin_customers}
 \end{figure}
 
 \subsection{การจัดการข้อมูลเทรนเนอร์ (Trainer Management)}
-เมนู \textbf{Trainers} สำหรับบริหารจัดการข้อมูลผู้ฝึกสอน
-
-\subsubsection{การเพิ่มเทรนเนอร์}
-\begin{enumerate}
-    \item กรอกข้อมูลในฟอร์ม: Name, Specialty (ความถนัด), Phone
-    \item เลือก \textbf{Level} (Junior, Senior, Master)
-    \item กดปุ่ม \textbf{SAVE TRAINER}
-\end{enumerate}
+เมนู \textbf{Trainers} สำหรับบริหารจัดการข้อมูลผู้ฝึกสอน ระบุความเชี่ยวชาญ
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/placeholder.png}
-    \caption{หน้าจัดการข้อมูลเทรนเนอร์ (Trainer Management)}
+    \includegraphics[width=0.9\textwidth]{Image/admin_trainer_management.png}
+    \caption{หน้าจัดการข้อมูลเทรนเนอร์ (Trainer Management) แสดงรายชื่อและความเชี่ยวชาญของเทรนเนอร์}
     \label{fig:admin_trainers}
 \end{figure}
 
 \subsection{การจัดการอุปกรณ์ (Equipment Management)}
-เมนู \textbf{Equipment} สำหรับบริหารจัดการอุปกรณ์ในยิม
-
-\subsubsection{การเพิ่มและจัดการสถานะอุปกรณ์}
-\begin{enumerate}
-    \item เพิ่มอุปกรณ์ใหม่โดยระบุชื่อและหมวดหมู่
-    \item สามารถกำหนดสถานะ (Status) ได้ว่าเป็น \textbf{Available} (พร้อมใช้) หรือ \textbf{Maintenance} (ซ่อมบำรุง)
-    \item หากอุปกรณ์สถานะเป็น Maintenance ระบบจะไม่ให้สมาชิกจองใช้อุปกรณ์นั้น
-\end{enumerate}
+เมนู \textbf{Equipment} สำหรับบริหารจัดการอุปกรณ์และกำหนดสถานะการใช้งาน
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/placeholder.png}
-    \caption{หน้าจัดการอุปกรณ์ (Equipment Management)}
+    \includegraphics[width=0.9\textwidth]{Image/admin_equipment_management.png}
+    \caption{หน้าจัดการอุปกรณ์ (Equipment Management) แสดงรายการอุปกรณ์และสถานะความพร้อมใช้งาน}
     \label{fig:admin_equipments}
 \end{figure}
 
 \subsection{การจัดการตารางฝึกซ้อม (Session Management)}
 เมนู \textbf{Sessions} สำหรับดูและจัดการการจองทั้งหมด
 
-\subsubsection{การจองเซสชันโดยผู้ดูแลระบบ}
-\begin{enumerate}
-    \item เลือก \textbf{Customer}, \textbf{Trainer}, และ \textbf{Equipment} จาก Dropdown list
-    \item เลือกวันและเวลาที่ต้องการ (Date \& Time)
-    \item กดปุ่ม \textbf{BOOK NOW} ระบบจะตรวจสอบความขัดแย้งของเวลาและบันทึกข้อมูล
-\end{enumerate}
-
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/placeholder.png}
-    \caption{หน้าจัดการตารางฝึกซ้อม (Session Management)}
+    \includegraphics[width=0.9\textwidth]{Image/admin_training_sessions.png}
+    \caption{หน้าจัดการตารางฝึกซ้อม (Session Management) แสดงรายการจองทั้งหมดและฟังก์ชันการค้นหา}
     \label{fig:admin_sessions}
 \end{figure}
 
 \subsection{การดูบันทึกระบบ (System Logs)}
 เมนู \textbf{System Logs} สำหรับตรวจสอบประวัติการใช้งาน
 
-\subsubsection{การใช้งาน}
-\begin{enumerate}
-    \item เลือกแท็บ \textbf{System Logs} เพื่อดูประวัติการกระทำทั้งหมด (เช่น ใครจอง, ใครลบข้อมูล)
-    \item สามารถกรองดูข้อมูลตามวันที่ได้โดยเลือกวันที่ที่ \textbf{Filter Date} และกด Apply
-\end{enumerate}
-
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/placeholder.png}
-    \caption{หน้าบันทึกระบบ (System Logs)}
+    \includegraphics[width=0.9\textwidth]{Image/admin_report_syslog.png}
+    \caption{หน้าบันทึกระบบ (System Logs) แสดงประวัติการกระทำต่างๆ ของผู้ใช้ในระบบ}
     \label{fig:admin_logs}
 \end{figure}
 
+\subsection{การออกรายงาน (Reports)}
+ระบบมีฟังก์ชันสำหรับออกรายงานสรุปข้อมูลต่างๆ
+
+\subsubsection{รายงานข้อมูลลูกค้าและเทรนเนอร์}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Image/admin_report_customer.png}
+    \caption{รายงานข้อมูลลูกค้า (Customer Report) แสดงในรูปแบบตารางพร้อมสำหรับพิมพ์}
+    \label{fig:admin_report_customer}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Image/admin_report_trainer.png}
+    \caption{รายงานข้อมูลเทรนเนอร์ (Trainer Report) แสดงรายชื่อและความเชี่ยวชาญ}
+    \label{fig:admin_report_trainer}
+\end{figure}
+
+\subsubsection{การพิมพ์รายงาน (Printing Report)}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Image/admin_printing_report.png}
+    \caption{หน้าตัวอย่างก่อนพิมพ์รายงาน (Print Preview) จัดรูปแบบหน้ากระดาษอัตโนมัติ}
+    \label{fig:admin_printing_report}
+\end{figure}
+
 \newpage
-\section{ฟีเจอร์ใหม่และการใช้งานเพิ่มเติม (New Features \& Usage)}
-ระบบได้มีการพัฒนาฟีเจอร์เพิ่มเติมเพื่ออำนวยความสะดวกในการใช้งาน ดังนี้
+\section{การแสดงผลในโหมดมืด (Dark Mode Interface)}
+ระบบรองรับการแสดงผลในโหมดมืด (Dark Mode) เพื่อถนอมสายตาและประหยัดพลังงาน โดยมีการปรับเปลี่ยนโทนสีของพื้นหลัง ตัวอักษร และองค์ประกอบต่างๆ ให้เหมาะสมกับการใช้งานในที่ที่มีแสงน้อย
 
-\subsection{การใช้งานโหมดมืด (Dark Mode)}
-ระบบรองรับการแสดงผลในโหมดมืด (Dark Mode) เพื่อถนอมสายตาและประหยัดพลังงาน
+\subsection{หน้าจอผู้ดูแลระบบในโหมดมืด}
 
-\subsubsection{วิธีการใช้งาน}
-\begin{enumerate}
-    \item สังเกตที่เมนู Sidebar ด้านซ้ายล่าง จะมีปุ่ม \textbf{Theme} พร้อมไอคอนรูปพระจันทร์หรือพระอาทิตย์
-    \item กดที่ปุ่ม \textbf{Theme} เพื่อสลับโหมดการแสดงผล
-    \item ระบบจะจดจำค่าการตั้งค่าล่าสุดไว้ (เช่น หากเลือก Dark Mode ไว้ เมื่อกลับมาใช้งานใหม่ก็จะยังคงเป็น Dark Mode)
-\end{enumerate}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Image/dark_admin_dashboard.png}
+    \caption{หน้าแดชบอร์ดผู้ดูแลระบบในโหมดมืด (Dark Admin Dashboard) ใช้โทนสีน้ำเงินเข้มและตัวอักษรสีอ่อน}
+    \label{fig:dark_admin_dashboard}
+\end{figure}
 
-\subsection{การพิมพ์รายงาน (Printable Report)}
-ในหน้า \textbf{Reports \& Logs} ผู้ดูแลระบบสามารถพิมพ์รายงานสรุปการใช้งานออกมาในรูปแบบเอกสารกระดาษหรือ PDF ได้อย่างสวยงาม
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Image/dark_admin_member_management.png}
+    \caption{หน้าจัดการข้อมูลลูกค้าในโหมดมืด (Dark Customer Management)}
+    \label{fig:dark_admin_member_management}
+\end{figure}
 
-\subsubsection{วิธีการใช้งาน}
-\begin{enumerate}
-    \item ไปที่เมนู \textbf{Reports \& Logs}
-    \item กดปุ่ม \textbf{PRINT REPORT} ที่มุมขวาบน
-    \item ระบบจะแสดงหน้าต่าง Print Preview ของเบราว์เซอร์
-    \item สังเกตว่าส่วนที่ไม่จำเป็น เช่น แถบเมนู (Sidebar) และปุ่มกดต่างๆ จะถูกซ่อนไป เหลือเพียงเนื้อหารายงานที่สะอาดตา
-    \item เลือกเครื่องพิมพ์หรือเลือก "Save as PDF" แล้วกด Print
-\end{enumerate}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Image/dark_admin_trainer_management.png}
+    \caption{หน้าจัดการข้อมูลเทรนเนอร์ในโหมดมืด (Dark Trainer Management)}
+    \label{fig:dark_admin_trainer_management}
+\end{figure}
 
-\subsection{การค้นหาและแบ่งหน้าข้อมูล (Search \& Pagination)}
-ในหน้า \textbf{Customers} (จัดการลูกค้า) ได้เพิ่มระบบค้นหาและแบ่งหน้าเพื่อรองรับปริมาณข้อมูลที่มากขึ้น
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Image/dark_admin_equipment_management.png}
+    \caption{หน้าจัดการอุปกรณ์ในโหมดมืด (Dark Equipment Management)}
+    \label{fig:dark_admin_equipment_management}
+\end{figure}
 
-\subsubsection{วิธีการใช้งาน}
-\begin{enumerate}
-    \item \textbf{การค้นหา:} พิมพ์ชื่อ, อีเมล, หรือเบอร์โทรศัพท์ ในช่องค้นหาด้านบนตาราง แล้วกดปุ่ม \textbf{SEARCH} หรือกด Enter ระบบจะแสดงเฉพาะข้อมูลที่ตรงกับคำค้นหา
-    \item \textbf{การแบ่งหน้า:} หากมีข้อมูลจำนวนมาก ระบบจะแบ่งแสดงทีละ 10 รายการ สามารถกดปุ่ม \textbf{Prev} หรือ \textbf{Next} ด้านล่างตารางเพื่อเปลี่ยนหน้าได้
-\end{enumerate}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Image/dark_admin_training_session.png}
+    \caption{หน้าจัดการตารางฝึกซ้อมในโหมดมืด (Dark Session Management)}
+    \label{fig:dark_admin_training_session}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Image/dark_admin_report_syslog.png}
+    \caption{หน้าบันทึกระบบในโหมดมืด (Dark System Logs)}
+    \label{fig:dark_admin_report_syslog}
+\end{figure}
+
+\subsection{หน้ารายงานในโหมดมืด}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Image/dark_admin_report_customer.png}
+    \caption{รายงานข้อมูลลูกค้าในโหมดมืด (Dark Customer Report)}
+    \label{fig:dark_admin_report_customer}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Image/dark_admin_report_trainer.png}
+    \caption{รายงานข้อมูลเทรนเนอร์ในโหมดมืด (Dark Trainer Report)}
+    \label{fig:dark_admin_report_trainer}
+\end{figure}
+
+\subsection{หน้าจอสมาชิกในโหมดมืด}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Image/dark_user_schedule.png}
+    \caption{หน้าตารางฝึกซ้อมของสมาชิกในโหมดมืด (Dark User Schedule)}
+    \label{fig:dark_user_schedule}
+\end{figure}

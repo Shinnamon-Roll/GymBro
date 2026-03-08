@@ -1,0 +1,333 @@
+\chapter{การออกแบบพฤติกรรมระบบ (Behavioral System Design - UML Diagrams)}
+
+บทนี้จะอธิบายรายละเอียดการออกแบบพฤติกรรมของระบบบริหารจัดการยิม (GymBro Management System) โดยใช้แผนภาพ Unified Modeling Language (UML) แบบจำลองพฤติกรรมแสดงให้เห็นว่าระบบมีปฏิสัมพันธ์กับหน่วยงานภายนอก (ผู้ใช้) อย่างไร และส่วนประกอบภายในทำงานร่วมกันอย่างไรเพื่อให้เป็นไปตามข้อกำหนดการทำงาน ส่วนนี้ครอบคลุมแผนภาพยูสเคส (Use Case Diagrams), แผนภาพกิจกรรม (Activity Diagrams) และแผนภาพลำดับ (Sequence Diagrams)
+
+\section{แผนภาพยูสเคสและคำอธิบายอย่างละเอียด (Use Case Diagram \& Detailed Descriptions)}
+แผนภาพยูสเคสให้มุมมองระดับสูงของการทำงานของระบบจากมุมมองของผู้กระทำภายนอก (External Actors) โดยกำหนดขอบเขตของระบบและการปฏิสัมพันธ์ระหว่างผู้กระทำและยูสเคส
+
+\subsection{ผู้กระทำ (Actors)}
+ระบบเกี่ยวข้องกับผู้กระทำหลักสองกลุ่ม:
+\begin{itemize}
+    \item \textbf{ผู้ดูแลระบบ (Administrator)}: ผู้ใช้ที่มีสิทธิพิเศษ รับผิดชอบในการจัดการข้อมูลระบบ รวมถึงระเบียนสมาชิก โปรไฟล์เทรนเนอร์ สถานะอุปกรณ์ และตรวจสอบบันทึกระบบ
+    \item \textbf{สมาชิก (Member)}: ผู้ใช้ที่ลงทะเบียนแล้ว ซึ่งโต้ตอบกับระบบเพื่อดูตารางเวลา จองเซสชันการฝึกซ้อม และจัดการโปรไฟล์ส่วนตัว
+\end{itemize}
+
+\subsection{รายการยูสเคส (Use Case List)}
+\textbf{ยูสเคสของผู้ดูแลระบบ:}
+\begin{itemize}
+    \item เข้าสู่ระบบ (Admin Authentication)
+    \item จัดการสมาชิก (ดู, แก้ไข, ลบ)
+    \item จัดการเทรนเนอร์ (เพิ่ม, แก้ไข, ลบ)
+    \item จัดการอุปกรณ์ (เพิ่ม, แก้ไขสถานะ, ลบ)
+    \item ดูแดชบอร์ดและสถิติระบบ
+    \item ดูบันทึกระบบ (System Logs)
+    \item จัดการเซสชันการจองทั้งหมด (ดู, ยกเลิก)
+\end{itemize}
+
+\textbf{ยูสเคสของสมาชิก:}
+\begin{itemize}
+    \item ลงทะเบียน (สร้างบัญชี)
+    \item เข้าสู่ระบบ (Member Authentication)
+    \item ดูแดชบอร์ดส่วนตัวและตารางเวลา
+    \item จองเซสชันการฝึกซ้อม
+    \item ยกเลิกการจองของตนเอง
+    \item ดูโปรไฟล์ผู้ใช้
+\end{itemize}
+
+\subsection{คำอธิบายยูสเคสอย่างละเอียด (Detailed Use Case Descriptions)}
+ตารางต่อไปนี้อธิบายกระบวนการสำคัญ 4 ประการอย่างละเอียด
+
+% Table 1: User Authentication
+\begin{longtable}{|p{3cm}|p{12cm}|}
+\hline
+\textbf{รหัสยูสเคส} & UC-01 \\ \hline
+\textbf{ชื่อยูสเคส} & \textbf{การยืนยันตัวตนผู้ใช้ (Register/Login)} \\ \hline
+\textbf{ผู้กระทำหลัก} & สมาชิก, ผู้ดูแลระบบ \\ \hline
+\textbf{เงื่อนไขก่อนเริ่ม} & ผู้ใช้เข้าถึงเว็บแอปพลิเคชัน GymBro \\ \hline
+\textbf{สถานการณ์หลัก (Success Scenario)} & 
+\begin{enumerate}
+    \item ผู้ใช้ไปยังหน้าเข้าสู่ระบบ (Login)
+    \item ผู้ใช้กรอกอีเมลและเบอร์โทรศัพท์ที่ลงทะเบียนไว้
+    \item ผู้ใช้กดปุ่ม "Sign In"
+    \item ระบบตรวจสอบข้อมูลกับฐานข้อมูล
+    \item ระบบดึงบทบาทของผู้ใช้ (Admin หรือ Member)
+    \item ระบบสร้าง Session Token (เก็บใน localStorage)
+    \item ระบบนำทางผู้ใช้ไปยัง Dashboard ที่เหมาะสม (Admin Dashboard หรือ Member Schedule)
+\end{enumerate} \\ \hline
+\textbf{ทางเลือกอื่น (Alternative Flows)} & 
+\textbf{A1: ข้อมูลไม่ถูกต้อง}
+\begin{enumerate}
+    \item ระบบไม่พบข้อมูลที่ตรงกัน
+    \item ระบบแสดงข้อความแจ้งเตือน "Invalid credentials"
+    \item ผู้ใช้ยังคงอยู่ที่หน้า Login เพื่อลองใหม่
+\end{enumerate}
+\textbf{A2: การลงทะเบียนผู้ใช้ใหม่}
+\begin{enumerate}
+    \item ผู้ใช้คลิก "Register here"
+    \item ผู้ใช้กรอกชื่อ-นามสกุล, อีเมล, และเบอร์โทรศัพท์
+    \item ระบบตรวจสอบอีเมลซ้ำ
+    \item ระบบสร้างระเบียนสมาชิกใหม่ด้วยสถานะ "Pending" (หรือ Active ตามค่าเริ่มต้น)
+    \item ระบบนำทางผู้ใช้ไปหน้า Login
+\end{enumerate} \\ \hline
+\textbf{เงื่อนไขหลังจบ} & ผู้ใช้ได้รับการยืนยันตัวตนและเข้าถึงฟีเจอร์ตามสิทธิ์ \\ \hline
+\end{longtable}
+
+% Table 2: Equipment/Class Booking
+\begin{longtable}{|p{3cm}|p{12cm}|}
+\hline
+\textbf{รหัสยูสเคส} & UC-04 \\ \hline
+\textbf{ชื่อยูสเคส} & \textbf{การจองอุปกรณ์/คลาสเรียน (Equipment/Class Booking)} \\ \hline
+\textbf{ผู้กระทำหลัก} & สมาชิก \\ \hline
+\textbf{เงื่อนไขก่อนเริ่ม} & สมาชิกเข้าสู่ระบบแล้วและอยู่ที่หน้า User Dashboard \\ \hline
+\textbf{สถานการณ์หลัก (Success Scenario)} & 
+\begin{enumerate}
+    \item สมาชิกคลิก "Book Session"
+    \item ระบบแสดงหน้าต่างการจอง (Booking Modal)
+    \item สมาชิกเลือกวันที่, เวลาเริ่ม, และระยะเวลา
+    \item ระบบเรียก \textbf{อัลกอริทึมตรวจสอบเวลาซ้อนทับ} (UC-05)
+    \item ระบบอัปเดตรายการเทรนเนอร์และอุปกรณ์:
+    \begin{itemize}
+        \item รายการที่ว่างจะเลือกได้
+        \item รายการที่ไม่ว่างหรือซ่อมบำรุงจะถูกปิดการใช้งาน (Disabled)
+    \end{itemize}
+    \item สมาชิกเลือกเทรนเนอร์และอุปกรณ์ที่ว่าง
+    \item สมาชิกคลิก "Confirm Booking"
+    \item ระบบบันทึกการจองลงฐานข้อมูล
+    \item ระบบแสดงแจ้งเตือนสำเร็จและรีเฟรชตารางเวลา
+\end{enumerate} \\ \hline
+\textbf{ทางเลือกอื่น (Alternative Flows)} & 
+\textbf{A1: ไม่มีความพร้อมให้บริการ}
+\begin{enumerate}
+    \item สมาชิกเลือกเวลาที่เทรนเนอร์ทุกคนไม่ว่าง
+    \item ระบบปิดการใช้งานตัวเลือกเทรนเนอร์ทั้งหมด
+    \item สมาชิกต้องเลือกช่วงเวลาอื่น
+\end{enumerate} \\ \hline
+\textbf{เงื่อนไขหลังจบ} & ระเบียน `TrainingSession` ใหม่ถูกสร้างขึ้น เชื่อมโยงสมาชิก เทรนเนอร์ และอุปกรณ์ \\ \hline
+\end{longtable}
+
+% Table 3: Time Conflict Detection
+\begin{longtable}{|p{3cm}|p{12cm}|}
+\hline
+\textbf{รหัสยูสเคส} & UC-05 \\ \hline
+\textbf{ชื่อยูสเคส} & \textbf{อัลกอริทึมตรวจสอบเวลาซ้อนทับ (Time Conflict Detection)} \\ \hline
+\textbf{ผู้กระทำหลัก} & ระบบ (กระบวนการภายใน) \\ \hline
+\textbf{เงื่อนไขก่อนเริ่ม} & ผู้ใช้เลือกช่วงเวลาที่ต้องการจอง \\ \hline
+\textbf{สถานการณ์หลัก (Success Scenario)} & 
+\begin{enumerate}
+    \item ระบบคำนวณ `startTime` และ `endTime` ที่ร้องขอ
+    \item ระบบค้นหาฐานข้อมูลสำหรับเซสชันที่มีอยู่ทั้งหมดที่ทับซ้อนกับช่วงเวลานี้
+    \item ตรรกะ: `(ExistingStart < NewEnd) AND (ExistingEnd > NewStart)`
+    \item ระบบระบุว่าเทรนเนอร์และอุปกรณ์ใดเกี่ยวข้องกับเซสชันที่ทับซ้อน
+    \item ระบบส่งคืนรายการ ID ที่ "ไม่ว่าง" ไปยัง Frontend
+    \item Frontend ปิดการใช้งาน ID เหล่านี้ใน UI การเลือก
+\end{enumerate} \\ \hline
+\textbf{ทางเลือกอื่น (Alternative Flows)} & N/A (เป็นกระบวนการตรวจสอบเบื้องหลัง) \\ \hline
+\textbf{เงื่อนไขหลังจบ} & ผู้ใช้ถูกป้องกันจากการจองทรัพยากรซ้อนทับ \\ \hline
+\end{longtable}
+
+% Table 4: Admin System Logging
+\begin{longtable}{|p{3cm}|p{12cm}|}
+\hline
+\textbf{รหัสยูสเคส} & UC-08 \\ \hline
+\textbf{ชื่อยูสเคส} & \textbf{การจัดการข้อมูลและการบันทึกระบบของผู้ดูแล (System Logging)} \\ \hline
+\textbf{ผู้กระทำหลัก} & ผู้ดูแลระบบ \\ \hline
+\textbf{เงื่อนไขก่อนเริ่ม} & Admin เข้าสู่ระบบแล้ว \\ \hline
+\textbf{สถานการณ์หลัก (Success Scenario)} & 
+\begin{enumerate}
+    \item Admin ทำการดำเนินการสำคัญ (เช่น ลบสมาชิก, แก้ไขเทรนเนอร์)
+    \item ระบบดำเนินการกับฐานข้อมูล
+    \item เมื่อสำเร็จ ระบบสร้างรายการ Log ประกอบด้วย: Timestamp, Action Type, Admin ID, และ Details
+    \item ระบบเพิ่มรายการนี้ลงในไฟล์ `logs.json` หรือตาราง Log ในฐานข้อมูล
+    \item Admin ไปยังหน้า "System Logs"
+    \item ระบบอ่านและแสดงประวัติการใช้งาน
+\end{enumerate} \\ \hline
+\textbf{ทางเลือกอื่น (Alternative Flows)} & 
+\textbf{A1: ข้อผิดพลาดไฟล์ Log}
+\begin{itemize}
+    \item หากระบบไม่สามารถเขียนไฟล์ Log ได้ จะแสดงข้อผิดพลาดที่ Server Console แต่ยังคงดำเนินการตามคำสั่งผู้ใช้เพื่อให้งานไม่สะดุด
+\end{itemize} \\ \hline
+\textbf{เงื่อนไขหลังจบ} & บันทึกการกระทำของผู้ดูแลระบบถูกเก็บรักษาไว้เพื่อการตรวจสอบ \\ \hline
+\end{longtable}
+
+\newpage
+\section{แผนภาพกิจกรรม (Activity Diagrams)}
+แผนภาพกิจกรรมอธิบายลักษณะพลวัตของระบบ แสดงการไหลของการควบคุมจากกิจกรรมหนึ่งไปยังอีกกิจกรรมหนึ่ง
+
+\subsection{กระบวนการจองและการตรวจสอบเวลาซ้อนทับ (Booking \& Time Conflict Detection Flow)}
+กระบวนการนี้แสดงตรรกะที่ใช้เพื่อให้มั่นใจในความถูกต้องของข้อมูลระหว่างการจอง ระบบต้องตรวจสอบว่าทั้งเทรนเนอร์และอุปกรณ์ที่เลือกไม่ถูกใช้งานในช่วงเวลาที่ร้องขอ
+
+\begin{figure}[h]
+\centering
+\begin{lstlisting}[language=java, caption={Mermaid Code for Booking Flow}, frame=single]
+graph TD
+    A[Start: Member requests booking] --> B(Select Date & Time)
+    B --> C{Calculate Time Interval}
+    C --> D[Fetch Existing Sessions]
+    D --> E{Is Trainer Available?}
+    E -- No --> F[Disable Trainer Option]
+    E -- Yes --> G[Enable Trainer Option]
+    D --> H{Is Equipment Available?}
+    H -- No --> I[Disable Equipment Option]
+    H -- Yes --> J[Enable Equipment Option]
+    F --> K(User Selects Resources)
+    G --> K
+    I --> K
+    J --> K
+    K --> L{Validation Passed?}
+    L -- No --> M[Show Error]
+    L -- Yes --> N[Save to Database]
+    N --> O[End: Booking Confirmed]
+\end{lstlisting}
+\caption{โค้ด Mermaid แสดงกระบวนการจองและการตรวจสอบความขัดแย้ง}
+\end{figure}
+
+\textbf{คำอธิบายอย่างละเอียด:}
+\begin{enumerate}
+    \item \textbf{การเริ่มต้น}: กระบวนการเริ่มเมื่อสมาชิกเปิดหน้าต่างการจอง
+    \item \textbf{การเลือกเวลา}: ผู้ใช้ระบุวันที่ เวลาเริ่ม และระยะเวลา ระบบคำนวณ `endTime` ทันที
+    \item \textbf{การสอบถามความขัดแย้ง}: Backend (หรือ Logic ฝั่ง Frontend ผ่าน API) ดึงข้อมูลเซสชันทั้งหมดที่ทับซ้อนกับ `[startTime, endTime]`
+    \item \textbf{การกรองทรัพยากร}:
+    \begin{itemize}
+        \item ระบบตรวจสอบรายการเทรนเนอร์ หาก ID เทรนเนอร์ปรากฏในเซสชันที่ทับซ้อน จะถูกระบุว่า "ไม่ว่าง"
+        \item ในทำนองเดียวกัน ID อุปกรณ์ที่พบในเซสชันที่ทับซ้อนจะถูกระบุว่า "ไม่ว่าง"
+    \end{itemize}
+    \item \textbf{การอัปเดต UI}: Frontend แสดงผล Dropdown ตัวเลือกที่ไม่ว่างจะถูกทำเป็นสีเทา (Disabled)
+    \item \textbf{การส่งข้อมูล}: ผู้ใช้เลือกจากตัวเลือกที่ถูกต้องและกดส่ง
+    \item \textbf{การตรวจสอบขั้นสุดท้าย}: Server ทำการตรวจสอบครั้งสุดท้ายก่อนบันทึกเพื่อป้องกัน Race Condition หากผ่าน จะบันทึกข้อมูล
+\end{enumerate}
+
+\subsection{กระบวนการจัดการข้อมูลของผู้ดูแล (Data Management Flow)}
+กระบวนการนี้แสดงวิธีการที่ผู้ดูแลระบบจัดการข้อมูลในระบบ (เช่น เพิ่มเทรนเนอร์ใหม่)
+
+\begin{figure}[h]
+\centering
+\begin{lstlisting}[language=java, caption={Mermaid Code for Data Management}, frame=single]
+graph TD
+    A[Start: Admin Dashboard] --> B[Select Entity Type e.g. Trainer]
+    B --> C[View List]
+    C --> D{Choose Action}
+    D -- Add New --> E[Fill Input Form]
+    D -- Edit --> F[Modify Existing Data]
+    D -- Delete --> G[Confirm Deletion]
+    E --> H{Validate Input?}
+    F --> H
+    H -- Invalid --> I[Show Validation Error]
+    H -- Valid --> J[Send API Request]
+    G --> J
+    J --> K[Database Operation]
+    K --> L[Log System Action]
+    L --> M[Update UI List]
+    M --> N[End]
+\end{lstlisting}
+\caption{โค้ด Mermaid แสดงกระบวนการจัดการข้อมูลของผู้ดูแลระบบ}
+\end{figure}
+
+\textbf{คำอธิบายอย่างละเอียด:}
+\begin{enumerate}
+    \item \textbf{การเลือก}: Admin เลือกหมวดหมู่ (Trainers, Customers, หรือ Equipment)
+    \item \textbf{การเริ่มการกระทำ}: Admin เลือกที่จะ เพิ่ม, แก้ไข, หรือ ลบ
+    \item \textbf{การตรวจสอบ}: สำหรับการเพิ่ม/แก้ไข ระบบตรวจสอบข้อกำหนด (เช่น ชื่อห้ามว่าง, อีเมลต้องไม่ซ้ำ)
+    \item \textbf{การดำเนินการ}: ส่งคำขอไปยัง API Server ดำเนินการ CRUD กับฐานข้อมูล PostgreSQL
+    \item \textbf{การบันทึก}: เมื่อสำเร็จ ฟังก์ชัน `logAction()` จะบันทึกเหตุการณ์
+    \item \textbf{การตอบสนอง}: รายการใน UI จะถูกรีเฟรชเพื่อแสดงการเปลี่ยนแปลงทันที
+\end{enumerate}
+
+\newpage
+\section{แผนภาพลำดับ (Sequence Diagrams)}
+แผนภาพลำดับแสดงรายละเอียดการโต้ตอบทางเทคนิคระหว่าง Frontend (View), Backend (Controller) และ Database (Model) ตามลำดับเวลา
+
+\subsection{กระบวนการเข้าสู่ระบบของผู้ใช้ (The User Login Process)}
+แผนภาพนี้แสดงขั้นตอนการยืนยันตัวตนตั้งแต่ HTTP Request แรกจนถึงการสร้าง Session ฝั่งไคลเอนต์
+
+\begin{figure}[h]
+\centering
+\begin{lstlisting}[language=java, caption={Mermaid Code for Login Process}, frame=single]
+sequenceDiagram
+    participant User
+    participant Browser (Frontend)
+    participant Server (Express.js)
+    participant Database (PostgreSQL)
+
+    User->>Browser: Enter Email & Phone
+    User->>Browser: Click "Sign In"
+    Browser->>Server: POST /api/login {email, phone}
+    activate Server
+    Server->>Database: SELECT * FROM Customers WHERE email = ?
+    activate Database
+    Database-->>Server: Return User Record
+    deactivate Database
+    
+    alt User Found
+        Server->>Server: Validate Phone Number
+        Server-->>Browser: HTTP 200 OK {user, role}
+        Browser->>Browser: localStorage.setItem('user', data)
+        Browser->>User: Redirect to Dashboard
+    else User Not Found
+        Server-->>Browser: HTTP 401 Unauthorized
+        Browser->>User: Show Error Message
+    end
+    deactivate Server
+\end{lstlisting}
+\caption{โค้ด Mermaid แสดงลำดับการเข้าสู่ระบบ}
+\end{figure}
+
+\textbf{คำอธิบายลำดับเหตุการณ์:}
+\begin{enumerate}
+    \item \textbf{ผู้ใช้} กรอกข้อมูลในฝั่งไคลเอนต์
+    \item \textbf{เบราว์เซอร์} ส่งคำขอ `fetch` แบบ Asynchronous (POST) ไปยัง `/api/login`
+    \item \textbf{เซิร์ฟเวอร์} รับคำขอและใช้ Sequelize ค้นหาใน \textbf{ฐานข้อมูล}
+    \item \textbf{ฐานข้อมูล} ส่งคืนระเบียนผู้ใช้ที่ตรงกับอีเมล
+    \item \textbf{เซิร์ฟเวอร์} เปรียบเทียบเบอร์โทรศัพท์ที่ระบุกับที่เก็บไว้
+    \item หากถูกต้อง เซิร์ฟเวอร์ตอบกลับด้วย JSON Object ที่มีโปรไฟล์และบทบาทของผู้ใช้
+    \item \textbf{เบราว์เซอร์} เก็บข้อมูล Session นี้ใน `localStorage` เพื่อคงสถานะและนำทางผู้ใช้ไปต่อ
+\end{enumerate}
+
+\subsection{กระบวนการจอง (The Booking Process)}
+แผนภาพนี้แสดงขั้นตอนตั้งแต่ต้นจนจบของการสร้างเซสชันการฝึกซ้อมใหม่
+
+\begin{figure}[h]
+\centering
+\begin{lstlisting}[language=java, caption={Mermaid Code for Booking Process}, frame=single]
+sequenceDiagram
+    participant Member
+    participant UI (Booking Modal)
+    participant API (Controller)
+    participant DB (TrainingSessions)
+
+    Member->>UI: Select Date, Time, Duration
+    UI->>API: GET /api/sessions?date=...
+    activate API
+    API->>DB: SELECT * FROM TrainingSessions WHERE date = ...
+    activate DB
+    DB-->>API: Return List of Sessions
+    deactivate DB
+    API-->>UI: Return Occupied Slots
+    deactivate API
+    
+    UI->>UI: Filter Available Trainers/Equipment
+    Member->>UI: Select Trainer & Equipment
+    Member->>UI: Confirm Booking
+    
+    UI->>API: POST /api/sessions {userId, trainerId, ...}
+    activate API
+    API->>DB: INSERT INTO TrainingSessions VALUES (...)
+    activate DB
+    DB-->>API: Success (New ID)
+    deactivate DB
+    API-->>UI: HTTP 201 Created
+    deactivate API
+    
+    UI->>Member: Show Success Alert
+    UI->>UI: Refresh Schedule Grid
+\end{lstlisting}
+\caption{โค้ด Mermaid แสดงลำดับการจอง}
+\end{figure}
+
+\textbf{คำอธิบายลำดับเหตุการณ์:}
+\begin{enumerate}
+    \item \textbf{การตรวจสอบความพร้อม}: เมื่อสมาชิกเลือกเวลา \textbf{UI} ร้องขอข้อมูลเซสชันที่มีอยู่จาก \textbf{API} เพื่อตรวจสอบความขัดแย้ง
+    \item \textbf{การกรอง}: ตรรกะของ \textbf{UI} ใช้ผลลัพธ์จาก API เพื่อปิดการใช้งานตัวเลือกที่ไม่ว่าง
+    \item \textbf{การส่งข้อมูล}: สมาชิกกดส่งแบบฟอร์มการจอง
+    \item \textbf{การบันทึก}: \textbf{API} รับคำขอ POST และใช้เมธอด `create()` ของ Sequelize เพื่อเพิ่มแถวใหม่ใน \textbf{DB}
+    \item \textbf{การยืนยัน}: เมื่อบันทึกสำเร็จ ฐานข้อมูลยืนยันธุรกรรม API ส่งสถานะ 201 กลับไปยังไคลเอนต์ เพื่อแสดงแจ้งเตือนความสำเร็จ
+\end{enumerate}
