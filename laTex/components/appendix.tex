@@ -1,70 +1,70 @@
 \appendix
-\chapter{Comprehensive System Installation and Deployment Guide}
+\chapter{คู่มือการติดตั้งและการใช้งานระบบอย่างละเอียด (Comprehensive System Installation and Deployment Guide)}
 
-This appendix provides a meticulous, step-by-step manual designed to assist developers and system administrators in setting up the GymBro Management System from a clean slate. It covers every aspect of the installation process, from prerequisite software verification to production deployment, ensuring a seamless and error-free setup experience.
+ภาคผนวกนี้จัดทำขึ้นเพื่อเป็นคู่มือการปฏิบัติงานแบบทีละขั้นตอน (Step-by-step Manual) ที่มีความละเอียดและครอบคลุมทุกกระบวนการ สำหรับนักพัฒนาซอฟต์แวร์และผู้ดูแลระบบ (System Administrators) ในการติดตั้งระบบบริหารจัดการยิม (GymBro Management System) ตั้งแต่เริ่มต้น (From Scratch) เนื้อหาครอบคลุมตั้งแต่การตรวจสอบความพร้อมของซอฟต์แวร์พื้นฐาน การตั้งค่าสภาพแวดล้อม การติดตั้งไลบรารี ไปจนถึงการนำระบบขึ้นใช้งานจริง (Production Deployment) เพื่อให้มั่นใจว่าการติดตั้งจะเป็นไปอย่างราบรื่นและปราศจากข้อผิดพลาด
 
-\section{Prerequisites}
-Before initiating the installation, ensure that the following software components are installed and correctly configured on your development machine or server. These prerequisites are critical for the successful execution of the application.
+\section{ความต้องการเบื้องต้นของระบบ (Prerequisites)}
+ก่อนเริ่มดำเนินการติดตั้ง ผู้ปฏิบัติงานต้องตรวจสอบให้แน่ใจว่าเครื่องคอมพิวเตอร์หรือเซิร์ฟเวอร์ที่ใช้ในการพัฒนาและการใช้งานจริง ได้รับการติดตั้งและตั้งค่าซอฟต์แวร์พื้นฐานดังต่อไปนี้อย่างถูกต้องและครบถ้วน ซึ่งถือเป็นปัจจัยวิกฤต (Critical Factors) ต่อการทำงานของระบบ
 
-\subsection{Required Software}
+\subsection{ซอฟต์แวร์ที่จำเป็น (Required Software)}
 \begin{itemize}
-    \item \textbf{Node.js (Version 18.x or Higher)}: 
+    \item \textbf{Node.js (เวอร์ชัน 18.x หรือสูงกว่า)}: 
     \begin{itemize}
-        \item \textbf{Role}: The core runtime environment for executing the backend JavaScript code.
-        \item \textbf{Recommendation}: Use the Long-Term Support (LTS) version (e.g., v18.16.0) to ensure stability and compatibility with the latest packages.
-        \item \textbf{Verification}: Run \texttt{node -v} in your terminal. It should output something like \texttt{v18.16.0}.
+        \item \textbf{บทบาท}: เป็นสภาพแวดล้อมรันไทม์หลัก (Core Runtime Environment) สำหรับการประมวลผลโค้ด JavaScript ฝั่ง Backend ของระบบ
+        \item \textbf{ข้อแนะนำ}: ควรเลือกใช้เวอร์ชัน Long-Term Support (LTS) เช่น v18.16.0 เพื่อความเสถียรสูงสุดและการรองรับไลบรารีรุ่นใหม่
+        \item \textbf{การตรวจสอบ}: พิมพ์คำสั่ง \texttt{node -v} ในเทอร์มินัล ผลลัพธ์ควรแสดงเวอร์ชัน เช่น \texttt{v18.16.0}
     \end{itemize}
     
-    \item \textbf{PostgreSQL (Version 14.x or Higher)}:
+    \item \textbf{PostgreSQL (เวอร์ชัน 14.x หรือสูงกว่า)}:
     \begin{itemize}
-        \item \textbf{Role}: The primary Relational Database Management System (RDBMS) used for persistent data storage.
-        \item \textbf{Reason}: Chosen for its robustness, ACID compliance, and advanced indexing capabilities which are essential for handling complex booking transactions.
-        \item \textbf{Verification}: Run \texttt{psql --version}. Ensure the service is running via \texttt{sudo service postgresql status} (Linux) or checking the Services panel (Windows).
+        \item \textbf{บทบาท}: ระบบจัดการฐานข้อมูลเชิงสัมพันธ์ (RDBMS) หลักที่ใช้สำหรับจัดเก็บข้อมูลถาวร (Persistent Data Storage) ของระบบ
+        \item \textbf{เหตุผลที่เลือกใช้}: เนื่องจากมีความทนทาน (Robustness), รองรับคุณสมบัติ ACID อย่างสมบูรณ์, และมีความสามารถในการทำ Indexing ขั้นสูง ซึ่งจำเป็นต่อการจัดการธุรกรรมการจองที่มีความซับซ้อน
+        \item \textbf{การตรวจสอบ}: พิมพ์คำสั่ง \texttt{psql --version} และตรวจสอบสถานะบริการผ่านคำสั่ง \texttt{sudo service postgresql status} (Linux) หรือตรวจสอบใน Services panel (Windows)
     \end{itemize}
     
-    \item \textbf{Git (Version 2.x)}:
+    \item \textbf{Git (เวอร์ชัน 2.x)}:
     \begin{itemize}
-        \item \textbf{Role}: Version control system for cloning the project repository.
-        \item \textbf{Verification}: Run \texttt{git --version}.
+        \item \textbf{บทบาท}: ระบบควบคุมเวอร์ชัน (Version Control System) สำหรับการดึงซอร์สโค้ดจาก Repository
+        \item \textbf{การตรวจสอบ}: พิมพ์คำสั่ง \texttt{git --version}
     \end{itemize}
     
     \item \textbf{Code Editor / IDE}:
     \begin{itemize}
-        \item \textbf{Recommendation}: Visual Studio Code (VS Code) is highly recommended due to its excellent support for JavaScript, debugging tools, and integrated terminal.
-        \item \textbf{Extensions}: Install "ESLint", "Prettier", and "DotENV" extensions for an enhanced development experience.
+        \item \textbf{ข้อแนะนำ}: แนะนำให้ใช้ Visual Studio Code (VS Code) เนื่องจากมีการรองรับภาษา JavaScript ที่ยอดเยี่ยม มีเครื่องมือ Debugging ในตัว และมี Terminal ภายใน
+        \item \textbf{ส่วนขยาย (Extensions)}: ควรติดตั้ง "ESLint", "Prettier", และ "DotENV" เพื่อเพิ่มประสิทธิภาพในการพัฒนาและตรวจสอบคุณภาพโค้ด
     \end{itemize}
 \end{itemize}
 
-\section{Environment Configuration}
-Proper configuration of environment variables is paramount for the security and functionality of the application. The system relies on a \texttt{.env} file to manage sensitive credentials and configuration settings.
+\section{การกำหนดค่าสภาพแวดล้อม (Environment Configuration)}
+การกำหนดค่าตัวแปรสภาพแวดล้อม (Environment Variables) อย่างถูกต้องมีความสำคัญสูงสุดต่อความปลอดภัยและการทำงานของแอปพลิเคชัน ระบบอาศัยไฟล์ \texttt{.env} ในการจัดการข้อมูลลับ (Sensitive Credentials) และค่าการตั้งค่าต่างๆ
 
-\subsection{Database Setup}
-1. Open your terminal or a database management tool like pgAdmin or DBeaver.
-2. Connect to your PostgreSQL server:
+\subsection{การตั้งค่าฐานข้อมูล (Database Setup)}
+1. เปิดเทอร์มินัลหรือเครื่องมือจัดการฐานข้อมูล เช่น pgAdmin หรือ DBeaver
+2. เชื่อมต่อเข้าสู่ PostgreSQL server:
 \begin{lstlisting}[language=bash, frame=single]
 psql -U postgres
 \end{lstlisting}
-3. Create a new database for the project:
+3. สร้างฐานข้อมูลใหม่สำหรับโปรเจกต์:
 \begin{lstlisting}[language=sql, frame=single]
 CREATE DATABASE gymbro_db;
 \end{lstlisting}
-4. (Optional) Create a dedicated user for the application:
+4. (ทางเลือก) สร้างผู้ใช้งานเฉพาะสำหรับแอปพลิเคชัน:
 \begin{lstlisting}[language=sql, frame=single]
 CREATE USER gym_admin WITH ENCRYPTED PASSWORD 'secure_password_123';
 GRANT ALL PRIVILEGES ON DATABASE gymbro_db TO gym_admin;
 \end{lstlisting}
 
-\subsection{Setting up the .env File}
-1. Navigate to the root directory of the project.
-2. Create a new file named \texttt{.env}.
-3. Copy the following configuration template and fill in your specific details:
+\subsection{การสร้างไฟล์ .env (Setting up the .env File)}
+1. ไปที่ไดเรกทอรีราก (Root Directory) ของโปรเจกต์
+2. สร้างไฟล์ใหม่ชื่อ \texttt{.env}
+3. คัดลอกแม่แบบการตั้งค่าต่อไปนี้และกรอกข้อมูลให้ตรงกับสภาพแวดล้อมของท่าน:
 
 \begin{lstlisting}[frame=single]
-# Server Configuration
+# การตั้งค่าเซิร์ฟเวอร์
 PORT=3000
 NODE_ENV=development
 
-# Database Connection (Local Development)
+# การเชื่อมต่อฐานข้อมูล (สำหรับเครื่อง Local)
 DB_HOST=localhost
 DB_PORT=5432
 DB_NAME=gymbro_db
@@ -72,135 +72,135 @@ DB_USER=gym_admin
 DB_PASS=secure_password_123
 DB_DIALECT=postgres
 
-# Database Connection String (Alternative for Cloud Deployment)
+# Connection String (ทางเลือกสำหรับ Cloud Deployment)
 # DATABASE_URL=postgres://user:pass@host:port/dbname
 
-# Security Keys
+# กุญแจความปลอดภัย (Security Keys)
 JWT_SECRET=your_super_secret_jwt_key_32_chars_long
 SESSION_SECRET=another_long_random_string_for_sessions
 
-# External Services (If applicable)
+# บริการภายนอก (ถ้ามี)
 # SMTP_HOST=smtp.gmail.com
 # SMTP_USER=your_email@gmail.com
 # SMTP_PASS=your_app_password
 \end{lstlisting}
 
-\textbf{Variable Explanations:}
+\textbf{คำอธิบายตัวแปรที่สำคัญ:}
 \begin{itemize}
-    \item \texttt{PORT}: The port number on which the Express server will listen (default is 3000).
-    \item \texttt{DB\_*}: Connection details for the PostgreSQL database. Ensure these match the database you created.
-    \item \texttt{JWT\_SECRET}: A private key used to sign and verify JSON Web Tokens for user authentication. Keep this secure!
+    \item \texttt{PORT}: หมายเลขพอร์ตที่ Express server จะเปิดรอรับการเชื่อมต่อ (ค่าเริ่มต้นคือ 3000)
+    \item \texttt{DB\_*}: รายละเอียดการเชื่อมต่อฐานข้อมูล PostgreSQL ต้องตรงกับฐานข้อมูลที่สร้างไว้ในขั้นตอนก่อนหน้า
+    \item \texttt{JWT\_SECRET}: กุญแจส่วนตัว (Private Key) สำหรับใช้ในการลงลายมือชื่อและตรวจสอบ JSON Web Tokens เพื่อการยืนยันตัวตน ห้ามเปิดเผยข้อมูลนี้
 \end{itemize}
 
-\section{Installation Process}
-Follow these precise steps to get the application code on your machine and install all necessary dependencies.
+\section{ขั้นตอนการติดตั้ง (Installation Process)}
+ปฏิบัติตามขั้นตอนอย่างเคร่งครัดเพื่อติดตั้งซอร์สโค้ดและไลบรารีที่จำเป็นลงในเครื่องคอมพิวเตอร์
 
-\subsection{Cloning the Repository}
-Open your terminal and navigate to your desired workspace directory. Run the following command:
+\subsection{การโคลน Repository (Cloning the Repository)}
+เปิดเทอร์มินัลและไปยังไดเรกทอรีที่ต้องการทำงาน จากนั้นพิมพ์คำสั่ง:
 \begin{lstlisting}[language=bash, frame=single]
 git clone https://github.com/username/gymbro-management-system.git
 cd gymbro-management-system
 \end{lstlisting}
 
-\subsection{Installing Dependencies}
-The project relies on several Node.js packages listed in \texttt{package.json}. Install them using npm (Node Package Manager):
+\subsection{การติดตั้ง Dependencies (Installing Dependencies)}
+โปรเจกต์นี้ใช้งานแพ็กเกจ Node.js จำนวนมากซึ่งระบุไว้ในไฟล์ \texttt{package.json} ให้ทำการติดตั้งโดยใช้ npm (Node Package Manager):
 \begin{lstlisting}[language=bash, frame=single]
 npm install
 \end{lstlisting}
 
-\textbf{Key Dependencies Explained:}
+\textbf{คำอธิบาย Dependencies หลัก:}
 \begin{itemize}
-    \item \texttt{express}: The web framework for handling HTTP requests.
-    \item \texttt{sequelize}: The Object-Relational Mapper (ORM) for database interactions.
-    \item \texttt{pg} \& \texttt{pg-hstore}: PostgreSQL drivers for Sequelize.
-    \item \texttt{ejs}: Embedded JavaScript templating engine for server-side rendering.
-    \item \texttt{bcryptjs}: For hashing passwords securely.
-    \item \texttt{jsonwebtoken}: For generating access tokens.
-    \item \texttt{dotenv}: For loading environment variables.
+    \item \texttt{express}: เว็บเฟรมเวิร์กสำหรับจัดการ HTTP requests
+    \item \texttt{sequelize}: Object-Relational Mapper (ORM) สำหรับติดต่อกับฐานข้อมูล
+    \item \texttt{pg} \& \texttt{pg-hstore}: ไดรเวอร์ PostgreSQL สำหรับ Sequelize
+    \item \texttt{ejs}: Templating engine สำหรับการแสดงผลฝั่งเซิร์ฟเวอร์ (Server-side rendering)
+    \item \texttt{bcryptjs}: สำหรับการเข้ารหัสรหัสผ่าน (Hashing) อย่างปลอดภัย
+    \item \texttt{jsonwebtoken}: สำหรับสร้าง Access Tokens
+    \item \texttt{dotenv}: สำหรับโหลดตัวแปรสภาพแวดล้อม
 \end{itemize}
 
-\section{Database Initialization}
-Before running the application, the database schema must be synchronized, and initial seed data needs to be populated.
+\section{การเริ่มต้นฐานข้อมูล (Database Initialization)}
+ก่อนที่จะรันแอปพลิเคชัน จำเป็นต้องทำการปรับปรุงโครงสร้างฐานข้อมูล (Schema Synchronization) และนำเข้าข้อมูลตั้งต้น (Seed Data)
 
-\subsection{Running Migrations}
-Sequelize migrations allow us to keep the database schema in sync with our application models. Run the following command to create the necessary tables (\texttt{Users}, \texttt{Trainers}, \texttt{Bookings}, etc.):
+\subsection{การรัน Migrations (Running Migrations)}
+Sequelize migrations ช่วยให้โครงสร้างฐานข้อมูลตรงกับ Models ในโค้ด ให้รันคำสั่งต่อไปนี้เพื่อสร้างตารางที่จำเป็น (\texttt{Users}, \texttt{Trainers}, \texttt{Bookings} ฯลฯ):
 \begin{lstlisting}[language=bash, frame=single]
 npx sequelize-cli db:migrate
 \end{lstlisting}
-\textit{Output should indicate that migration files were executed successfully.}
+\textit{ผลลัพธ์ควรแสดงว่าไฟล์ migration ต่างๆ ถูกประมวลผลสำเร็จ}
 
-\subsection{Seeding Data}
-To test the application, it is helpful to have some initial data (e.g., default admin account, sample trainers, equipment list). Run:
+\subsection{การนำเข้าข้อมูลตัวอย่าง (Seeding Data)}
+เพื่อความสะดวกในการทดสอบระบบ ควรนำเข้าข้อมูลตัวอย่าง (เช่น บัญชีแอดมิน, รายชื่อเทรนเนอร์, รายการอุปกรณ์) โดยใช้คำสั่ง:
 \begin{lstlisting}[language=bash, frame=single]
 npx sequelize-cli db:seed:all
 \end{lstlisting}
-\textit{This will populate the tables with the data defined in the \texttt{seeders} folder.}
+\textit{คำสั่งนี้จะเพิ่มข้อมูลลงในตารางตามที่กำหนดไว้ในโฟลเดอร์ \texttt{seeders}}
 
-\section{Execution and Deployment}
+\section{การรันและใช้งานระบบ (Execution and Deployment)}
 
-\subsection{Local Development}
-For development purposes, use \texttt{nodemon} to automatically restart the server whenever code changes are detected.
+\subsection{สำหรับการพัฒนา (Local Development)}
+ในขั้นตอนการพัฒนา แนะนำให้ใช้ \texttt{nodemon} เพื่อให้เซิร์ฟเวอร์รีสตาร์ทอัตโนมัติเมื่อมีการแก้ไขโค้ด
 \begin{lstlisting}[language=bash, frame=single]
 npm run dev
 \end{lstlisting}
-Access the application at \texttt{http://localhost:3000}.
+เข้าใช้งานระบบได้ที่ \texttt{http://localhost:3000}
 
-\subsection{Production Deployment}
-For a production environment, use a process manager like PM2 to ensure the application stays online and reloads automatically after crashes.
-1. Install PM2 globally:
+\subsection{สำหรับการใช้งานจริง (Production Deployment)}
+ในสภาพแวดล้อม Production ควรใช้ Process Manager เช่น PM2 เพื่อให้มั่นใจว่าแอปพลิเคชันจะทำงานตลอดเวลาและรีสตาร์ทเองได้หากเกิดข้อผิดพลาด
+1. ติดตั้ง PM2 แบบ Global:
 \begin{lstlisting}[language=bash, frame=single]
 npm install pm2 -g
 \end{lstlisting}
-2. Start the application:
+2. สตาร์ทแอปพลิเคชัน:
 \begin{lstlisting}[language=bash, frame=single]
 pm2 start server.js --name "gymbro-api"
 \end{lstlisting}
-3. Monitor the status:
+3. ตรวจสอบสถานะ:
 \begin{lstlisting}[language=bash, frame=single]
 pm2 status
 pm2 logs gymbro-api
 \end{lstlisting}
 
-\chapter{Core System Source Code Reference}
+\chapter{อ้างอิงรหัสต้นฉบับหลักของระบบ (Core System Source Code Reference)}
 
-This appendix serves as a technical reference for the core logic and architecture of the GymBro Management System. It presents critical sections of the source code, accompanied by detailed inline comments explaining the functionality, control flow, and design patterns used. These excerpts demonstrate the implementation of key features such as server configuration, data modeling, business logic, and dynamic frontend rendering.
+ภาคผนวกส่วนนี้ทำหน้าที่เป็นเอกสารอ้างอิงทางเทคนิคสำหรับตรรกะหลัก (Core Logic) และสถาปัตยกรรมของระบบ GymBro Management System โดยนำเสนอส่วนสำคัญของรหัสต้นฉบับ (Source Code) พร้อมคำอธิบายแทรกในบรรทัด (Inline Comments) อย่างละเอียด เพื่ออธิบายการทำงาน การไหลของข้อมูล (Control Flow) และรูปแบบการออกแบบ (Design Patterns) ที่ใช้ ตัวอย่างโค้ดเหล่านี้แสดงให้เห็นถึงการนำไปใช้จริงของฟีเจอร์หลัก เช่น การตั้งค่าเซิร์ฟเวอร์, การสร้างแบบจำลองข้อมูล, ตรรกะทางธุรกิจ, และการแสดงผล Frontend แบบไดนามิก
 
-\section{Main Application Entry Point (server.js)}
-The \texttt{server.js} file is the heart of the backend application. It initializes the Express app, configures middleware (CORS, JSON parsing), establishes the database connection, and mounts the API routes.
+\section{จุดเข้าทำงานหลักของแอปพลิเคชัน (Main Application Entry Point - server.js)}
+ไฟล์ \texttt{server.js} เปรียบเสมือนหัวใจของระบบ Backend ทำหน้าที่เริ่มต้น Express app, กำหนดค่า Middleware (CORS, JSON parsing), เชื่อมต่อฐานข้อมูล, และกำหนดเส้นทาง API (Routes)
 
-\begin{lstlisting}[language=JavaScript, caption={Server Configuration and Setup}, label={lst:server_js}]
-// Import necessary modules
-require("dotenv").config(); // Load environment variables from .env file
-const express = require("express"); // Web framework
-const cors = require("cors"); // Cross-Origin Resource Sharing middleware
-const sequelize = require("./db"); // Database connection instance
+\begin{lstlisting}[language=JavaScript, caption={การตั้งค่าเซิร์ฟเวอร์และการเริ่มต้นระบบ}, label={lst:server_js}]
+// นำเข้าโมดูลที่จำเป็น
+require("dotenv").config(); // โหลดตัวแปรสภาพแวดล้อมจากไฟล์ .env
+const express = require("express"); // Web framework หลัก
+const cors = require("cors"); // Middleware สำหรับจัดการ Cross-Origin Resource Sharing
+const sequelize = require("./db"); // Instance การเชื่อมต่อฐานข้อมูล
 
-// Import Models to ensure they are registered with Sequelize
+// นำเข้า Models เพื่อให้มั่นใจว่าถูกลงทะเบียนกับ Sequelize แล้ว
 const { Customers, Trainers, GymEquipments, TrainingSessions } = sequelize;
 
-// Initialize the Express application
+// สร้าง Instance ของ Express application
 const app = express();
 
-// --- Middleware Configuration ---
+// --- การกำหนดค่า Middleware ---
 
-// 1. CORS Setup: Allow requests from the frontend application
+// 1. CORS Setup: อนุญาตให้ Frontend ส่งคำขอเข้ามาได้
 app.use(
   cors({
-    origin: "http://localhost:5500", // Allow only this origin
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allowed HTTP methods
-    allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
+    origin: "http://localhost:5500", // อนุญาตเฉพาะ Origin นี้
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // HTTP methods ที่อนุญาต
+    allowedHeaders: ["Content-Type", "Authorization"], // Headers ที่อนุญาต
   })
 );
 
-// 2. Body Parsing: Parse incoming JSON payloads
+// 2. Body Parsing: แปลงข้อมูล JSON ที่ส่งเข้ามาใน Request Body
 app.use(express.json());
 
-// --- Database Connection & Synchronization ---
+// --- การเชื่อมต่อฐานข้อมูลและการซิงค์ (Database Connection & Synchronization) ---
 
 /**
- * Establishes connection to the PostgreSQL database and syncs models.
- * Using 'alter: true' allows Sequelize to update tables to match models
- * without dropping data (useful for development).
+ * เชื่อมต่อกับฐานข้อมูล PostgreSQL และซิงค์ Models
+ * การใช้ 'alter: true' ช่วยให้ Sequelize อัปเดตตารางให้ตรงกับ Models
+ * โดยไม่ลบข้อมูลเดิม (มีประโยชน์มากในช่วงพัฒนา)
  */
 sequelize.authenticate()
   .then(() => {
@@ -214,35 +214,35 @@ sequelize.authenticate()
     console.error("Unable to connect to the database:", err);
   });
 
-// --- Route Definitions ---
+// --- การกำหนดเส้นทาง (Route Definitions) ---
 
 // Login Endpoint
 app.post("/api/login", async (req, res) => {
   const { email, phone } = req.body;
   
   try {
-    // Admin Hardcoded Check (for simplicity in this academic project)
+    // ตรวจสอบ Admin แบบ Hardcoded (เพื่อความง่ายในโปรเจกต์การศึกษานี้)
     if (email === "admin@gymbro.com" && phone === "123456") {
       return res.json({
         role: "admin",
         user: { id: 0, fullName: "Administrator", email: email },
-        token: "mock-admin-token-123" // In production, generate a real JWT here
+        token: "mock-admin-token-123" // ในระบบจริงควรสร้าง JWT ที่ถูกต้อง
       });
     }
 
-    // Member Authentication
+    // การยืนยันตัวตนสมาชิก (Member Authentication)
     const user = await Customers.findOne({ where: { email } });
     
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
-    // Validate Phone Number (acting as password)
+    // ตรวจสอบเบอร์โทรศัพท์ (ใช้แทนรหัสผ่านในระบบนี้)
     if (user.phone !== phone) {
       return res.status(401).json({ error: "Invalid credentials" });
     }
 
-    // Successful Login
+    // เข้าสู่ระบบสำเร็จ
     res.json({
       role: "user",
       user: user,
@@ -255,24 +255,24 @@ app.post("/api/login", async (req, res) => {
   }
 });
 
-// Start the Server
+// เริ่มต้นเซิร์ฟเวอร์
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 \end{lstlisting}
 
-\section{Sequelize Model Definition (models/TrainingSession.js)}
-This section illustrates how data models are defined using Sequelize. The \texttt{TrainingSession} model represents a booking event and includes foreign key associations to Customers, Trainers, and Equipment.
+\section{การนิยามแบบจำลองข้อมูล Sequelize (models/TrainingSession.js)}
+ส่วนนี้แสดงวิธีการนิยาม Data Models โดยใช้ Sequelize โมเดล \texttt{TrainingSession} เป็นตัวแทนของเหตุการณ์การจอง และมีความสัมพันธ์แบบ Foreign Key ไปยังลูกค้า, เทรนเนอร์, และอุปกรณ์
 
-\begin{lstlisting}[language=JavaScript, caption={TrainingSession Model Definition}, label={lst:model_session}]
+\begin{lstlisting}[language=JavaScript, caption={การนิยามโมเดล TrainingSession}, label={lst:model_session}]
 const { DataTypes } = require("sequelize");
-const sequelize = require("../db"); // Import the connection instance
+const sequelize = require("../db"); // นำเข้า instance การเชื่อมต่อ
 
 /**
  * TrainingSession Model
- * Represents a scheduled training event in the gym.
- * Maps to the 'TrainingSessions' table in PostgreSQL.
+ * เป็นตัวแทนของเซสชันการฝึกซ้อมที่มีการจองไว้ในระบบ
+ * เชื่อมโยงกับตาราง 'TrainingSessions' ใน PostgreSQL
  */
 const TrainingSession = sequelize.define(
   "TrainingSessions",
@@ -284,23 +284,23 @@ const TrainingSession = sequelize.define(
       primaryKey: true 
     },
     
-    // The starting date and time of the session
+    // วันที่และเวลาเริ่มต้นของเซสชัน
     sessionDate: { 
       type: DataTypes.DATE, 
       allowNull: false,
       validate: {
         isDate: true,
-        isAfter: new Date().toISOString() // Validation: Cannot book in the past
+        isAfter: new Date().toISOString() // การตรวจสอบ: ห้ามจองย้อนหลัง
       }
     },
     
-    // The ending date and time (calculated based on duration)
+    // วันที่และเวลาสิ้นสุด (คำนวณจากระยะเวลา)
     endDate: { 
       type: DataTypes.DATE,
       allowNull: true 
     },
     
-    // Foreign Keys (Explicitly defined for clarity)
+    // Foreign Keys (กำหนดอย่างชัดเจนเพื่อความเข้าใจง่าย)
     customerId: { 
       type: DataTypes.INTEGER, 
       allowNull: false,
@@ -308,7 +308,7 @@ const TrainingSession = sequelize.define(
     },
     trainerId: { 
       type: DataTypes.INTEGER, 
-      allowNull: true, // Can be null if it's a solo equipment usage
+      allowNull: true, // เป็นค่าว่างได้หากเป็นการใช้อุปกรณ์เดี่ยวๆ
       references: { model: 'Trainers', key: 'id' }
     },
     equipmentId: { 
@@ -319,27 +319,27 @@ const TrainingSession = sequelize.define(
   },
   { 
     tableName: "TrainingSessions", 
-    timestamps: true, // Automatically manage createdAt and updatedAt
-    freezeTableName: true // Prevent pluralization of table name
+    timestamps: true, // จัดการ createdAt และ updatedAt อัตโนมัติ
+    freezeTableName: true // ป้องกันการเปลี่ยนชื่อตารางเป็นพหูพจน์
   }
 );
 
-// --- Model Associations ---
-// These define the relationships for Eager Loading (JOINs)
+// --- ความสัมพันธ์ของโมเดล (Model Associations) ---
+// ส่วนนี้กำหนดความสัมพันธ์สำหรับการทำ Eager Loading (JOINs)
 
-// A Session belongs to one Customer
+// เซสชันเป็นของลูกค้าหนึ่งคน
 TrainingSession.belongsTo(sequelize.models.Customers, { 
     as: "customer", 
     foreignKey: "customerId" 
 });
 
-// A Session belongs to one Trainer
+// เซสชันมีเทรนเนอร์หนึ่งคน
 TrainingSession.belongsTo(sequelize.models.Trainers, { 
     as: "trainer", 
     foreignKey: "trainerId" 
 });
 
-// A Session uses one Equipment
+// เซสชันใช้อุปกรณ์หนึ่งชิ้น
 TrainingSession.belongsTo(sequelize.models.GymEquipments, { 
     as: "equipment", 
     foreignKey: "equipmentId" 
@@ -348,41 +348,41 @@ TrainingSession.belongsTo(sequelize.models.GymEquipments, {
 module.exports = TrainingSession;
 \end{lstlisting}
 
-\section{Core Logic Controller (Booking Conflict Detection)}
-This excerpt from the booking controller demonstrates the critical algorithm used to prevent double bookings. It checks for time overlaps for both trainers and equipment before confirming a transaction.
+\section{ตรรกะหลักของ Controller (การตรวจสอบความขัดแย้งของการจอง)}
+ตัวอย่างโค้ดจาก Booking Controller นี้แสดงอัลกอริทึมสำคัญที่ใช้ป้องกันการจองซ้อน (Double Bookings) โดยจะตรวจสอบช่วงเวลาที่ทับซ้อนกันของทั้งเทรนเนอร์และอุปกรณ์ก่อนที่จะยืนยันธุรกรรม
 
-\begin{lstlisting}[language=JavaScript, caption={Booking Controller with Conflict Detection}, label={lst:controller_booking}]
+\begin{lstlisting}[language=JavaScript, caption={Booking Controller พร้อมการตรวจสอบความขัดแย้ง}, label={lst:controller_booking}]
 const { Op } = require("sequelize");
 const { TrainingSessions } = require("../models");
 
 /**
  * createBooking
- * Handles the creation of a new training session.
- * Performs rigorous checks to ensure resource availability.
+ * จัดการการสร้างเซสชันการฝึกซ้อมใหม่
+ * ทำการตรวจสอบอย่างเข้มงวดเพื่อให้แน่ใจว่าทรัพยากรว่าง
  */
 async function createBooking(req, res) {
   const { customerId, trainerId, equipmentId, sessionDate, duration } = req.body;
   
-  // Start a database transaction to ensure atomicity
+  // เริ่มต้น Database Transaction เพื่อความถูกต้องของข้อมูล (Atomicity)
   const t = await sequelize.transaction();
 
   try {
-    // 1. Calculate Start and End times
+    // 1. คำนวณเวลาเริ่มต้นและเวลาสิ้นสุด
     const startTime = new Date(sessionDate);
-    const endTime = new Date(startTime.getTime() + duration * 60000); // duration in minutes
+    const endTime = new Date(startTime.getTime() + duration * 60000); // duration เป็นนาที
 
-    // 2. Conflict Detection Logic
-    // We need to find any existing session that overlaps with the requested time.
-    // Overlap condition: (StartA < EndB) AND (EndA > StartB)
+    // 2. ตรรกะการตรวจสอบความขัดแย้ง (Conflict Detection Logic)
+    // เราต้องหาเซสชันที่มีอยู่แล้วซึ่งทับซ้อนกับเวลาที่ขอมา
+    // เงื่อนไขการทับซ้อน: (StartA < EndB) AND (EndA > StartB)
     const conflictWhereClause = {
       [Op.or]: [
-        // Check Trainer Availability
+        // ตรวจสอบคิวเทรนเนอร์
         {
           trainerId: trainerId,
           sessionDate: { [Op.lt]: endTime },
           endDate: { [Op.gt]: startTime }
         },
-        // Check Equipment Availability
+        // ตรวจสอบคิวอุปกรณ์
         {
           equipmentId: equipmentId,
           sessionDate: { [Op.lt]: endTime },
@@ -391,22 +391,22 @@ async function createBooking(req, res) {
       ]
     };
 
-    // Query the database for conflicts
+    // ค้นหาความขัดแย้งในฐานข้อมูล
     const existingConflict = await TrainingSessions.findOne({
       where: conflictWhereClause,
-      transaction: t // Include in transaction
+      transaction: t // รวมอยู่ใน transaction
     });
 
-    // 3. Handle Conflict
+    // 3. จัดการกรณีเกิดความขัดแย้ง
     if (existingConflict) {
-      await t.rollback(); // Rollback transaction
+      await t.rollback(); // ยกเลิก transaction
       return res.status(409).json({ 
         error: "Conflict detected", 
-        message: "The selected trainer or equipment is already booked for this time slot." 
+        message: "เทรนเนอร์หรืออุปกรณ์ที่เลือกถูกจองแล้วในช่วงเวลานี้" 
       });
     }
 
-    // 4. Create the Session
+    // 4. สร้างเซสชัน
     const newSession = await TrainingSessions.create({
       customerId,
       trainerId,
@@ -415,26 +415,26 @@ async function createBooking(req, res) {
       endDate: endTime
     }, { transaction: t });
 
-    // 5. Commit Transaction
+    // 5. ยืนยัน Transaction (Commit)
     await t.commit();
     
-    // Return success response
+    // ส่งคืนผลลัพธ์สำเร็จ
     res.status(201).json({
-      message: "Booking confirmed successfully",
+      message: "การจองเสร็จสมบูรณ์",
       data: newSession
     });
 
   } catch (error) {
-    // Handle unexpected errors
+    // จัดการข้อผิดพลาดที่ไม่คาดคิด
     await t.rollback();
     console.error("Booking Error:", error);
-    res.status(500).json({ error: "Failed to create booking" });
+    res.status(500).json({ error: "ไม่สามารถทำรายการจองได้" });
   }
 }
 \end{lstlisting}
 
-\section{Frontend View Template (views/index.ejs)}
-This section displays the EJS template for the Admin Dashboard. It showcases how server-side data is injected into the HTML, how dynamic lists are rendered, and how the layout adapts to different user roles.
+\section{เทมเพลตการแสดงผล Frontend (views/index.ejs)}
+ส่วนนี้แสดง EJS Template สำหรับ Admin Dashboard แสดงวิธีการนำข้อมูลจากฝั่งเซิร์ฟเวอร์มาแทรกใน HTML, การแสดงรายการแบบวนลูป, และการปรับหน้าจอตามบทบาทผู้ใช้
 
 \begin{lstlisting}[language=HTML, caption={Admin Dashboard EJS Template}, label={lst:view_dashboard}]
 <!doctype html>
@@ -442,7 +442,7 @@ This section displays the EJS template for the Admin Dashboard. It showcases how
 <head>
   <meta charset="utf-8">
   <title>GymBro • Admin Dashboard</title>
-  <!-- Tailwind CSS for styling -->
+  <!-- Tailwind CSS สำหรับตกแต่ง -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -457,7 +457,7 @@ This section displays the EJS template for the Admin Dashboard. It showcases how
     
     <nav class="flex-1 py-6">
       <ul>
-        <!-- Navigation Links -->
+        <!-- ลิงก์เมนูนำทาง -->
         <li>
           <a href="/admin/dashboard" class="flex items-center gap-4 px-6 py-3 bg-blue-800 border-l-4 border-blue-400">
             <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
@@ -470,7 +470,7 @@ This section displays the EJS template for the Admin Dashboard. It showcases how
             <span>Customers</span>
           </a>
         </li>
-        <!-- Logout Button -->
+        <!-- ปุ่ม Logout -->
         <li class="mt-8 pt-4 border-t border-blue-800">
           <button onclick="logout()" class="w-full text-left px-6 py-3 text-red-300 hover:text-white">
             <i data-lucide="log-out" class="w-5 h-5 inline mr-3"></i> Logout
@@ -480,55 +480,55 @@ This section displays the EJS template for the Admin Dashboard. It showcases how
     </nav>
   </aside>
 
-  <!-- Main Content Area -->
+  <!-- พื้นที่เนื้อหาหลัก -->
   <main class="flex-1 p-8 overflow-y-auto">
     
-    <!-- Header -->
+    <!-- ส่วนหัว -->
     <header class="flex justify-between items-end mb-8 border-b-2 border-blue-900 pb-4">
       <div>
         <h2 class="text-3xl font-extrabold text-blue-900 uppercase">Overview</h2>
-        <p class="text-gray-600">Daily Statistics and Activity</p>
+        <p class="text-gray-600">สถิติและกิจกรรมประจำวัน</p>
       </div>
       <button class="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700">
-        + Create Report
+        + สร้างรายงาน
       </button>
     </header>
 
-    <!-- Statistics Cards Grid -->
+    <!-- Grid การ์ดสถิติ -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-      <!-- Dynamic Data Injection from Server -->
-      <!-- Card 1: Total Customers -->
+      <!-- ข้อมูลถูกฉีดเข้ามาจาก Server -->
+      <!-- Card 1: จำนวนลูกค้าทั้งหมด -->
       <div class="bg-white p-6 rounded shadow-md border-l-4 border-blue-500">
         <h3 class="text-gray-500 text-sm font-bold uppercase">Total Customers</h3>
         <p class="text-3xl font-bold text-blue-900 mt-2"><%= stats.totalCustomers %></p>
       </div>
       
-      <!-- Card 2: Active Trainers -->
+      <!-- Card 2: เทรนเนอร์ที่พร้อมใช้งาน -->
       <div class="bg-white p-6 rounded shadow-md border-l-4 border-green-500">
         <h3 class="text-gray-500 text-sm font-bold uppercase">Active Trainers</h3>
         <p class="text-3xl font-bold text-green-900 mt-2"><%= stats.totalTrainers %></p>
       </div>
       
-      <!-- ... other cards ... -->
+      <!-- ... การ์ดอื่นๆ ... -->
     </div>
 
-    <!-- Recent Activity Table -->
+    <!-- ตารางกิจกรรมล่าสุด -->
     <div class="bg-white rounded shadow-lg overflow-hidden">
       <div class="px-6 py-4 bg-blue-900 text-white font-bold">
-        Today's Sessions
+        เซสชันวันนี้ (Today's Sessions)
       </div>
       <table class="w-full text-left border-collapse">
         <thead>
           <tr class="bg-gray-200 text-gray-700 text-sm uppercase">
-            <th class="px-6 py-3">Time</th>
-            <th class="px-6 py-3">Customer</th>
-            <th class="px-6 py-3">Trainer</th>
-            <th class="px-6 py-3">Activity</th>
-            <th class="px-6 py-3">Status</th>
+            <th class="px-6 py-3">เวลา</th>
+            <th class="px-6 py-3">ลูกค้า</th>
+            <th class="px-6 py-3">เทรนเนอร์</th>
+            <th class="px-6 py-3">กิจกรรม</th>
+            <th class="px-6 py-3">สถานะ</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-200">
-          <!-- Loop through sessions array passed from controller -->
+          <!-- วนลูปแสดงรายการ sessions ที่ส่งมาจาก controller -->
           <% if (sessions && sessions.length > 0) { %>
             <% sessions.forEach(function(session) { %>
               <tr class="hover:bg-gray-50 transition">
@@ -546,10 +546,10 @@ This section displays the EJS template for the Admin Dashboard. It showcases how
               </tr>
             <% }); %>
           <% } else { %>
-            <!-- Empty State -->
+            <!-- กรณีไม่มีข้อมูล -->
             <tr>
               <td colspan="5" class="px-6 py-8 text-center text-gray-500 italic">
-                No sessions scheduled for today.
+                ไม่มีรายการจองสำหรับวันนี้
               </td>
             </tr>
           <% } %>
@@ -560,12 +560,12 @@ This section displays the EJS template for the Admin Dashboard. It showcases how
   </main>
 
   <script>
-    // Initialize Lucide Icons
+    // เริ่มต้น Lucide Icons
     lucide.createIcons();
     
-    // Logout Logic
+    // ฟังก์ชันออกจากระบบ
     function logout() {
-      if(confirm('Are you sure you want to logout?')) {
+      if(confirm('คุณแน่ใจหรือไม่ว่าต้องการออกจากระบบ?')) {
         localStorage.removeItem('gymbro_token');
         window.location.href = '/login';
       }

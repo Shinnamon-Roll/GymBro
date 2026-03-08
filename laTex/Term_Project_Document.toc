@@ -277,23 +277,23 @@
 \contentsline {subsection}{\numberline {10.1.2}ผลการพัฒนาระบบ (Development Achievements)}{109}{subsection.10.1.2}%
 \contentsline {subsection}{\numberline {10.1.3}ปัญหาและข้อจำกัด (Limitations and Challenges)}{110}{subsection.10.1.3}%
 \contentsline {subsection}{\numberline {10.1.4}แนวทางในการพัฒนาต่อยอด (Future Work)}{110}{subsection.10.1.4}%
-\contentsline {chapter}{\numberline {A}Comprehensive System Installation and Deployment Guide}{112}{appendix.A}%
-\contentsline {section}{\numberline {A.1}Prerequisites}{112}{section.A.1}%
-\contentsline {subsection}{\numberline {A.1.1}Required Software}{112}{subsection.A.1.1}%
-\contentsline {section}{\numberline {A.2}Environment Configuration}{112}{section.A.2}%
-\contentsline {subsection}{\numberline {A.2.1}Database Setup}{113}{subsection.A.2.1}%
-\contentsline {subsection}{\numberline {A.2.2}Setting up the .env File}{113}{subsection.A.2.2}%
-\contentsline {section}{\numberline {A.3}Installation Process}{113}{section.A.3}%
-\contentsline {subsection}{\numberline {A.3.1}Cloning the Repository}{113}{subsection.A.3.1}%
-\contentsline {subsection}{\numberline {A.3.2}Installing Dependencies}{114}{subsection.A.3.2}%
-\contentsline {section}{\numberline {A.4}Database Initialization}{114}{section.A.4}%
-\contentsline {subsection}{\numberline {A.4.1}Running Migrations}{114}{subsection.A.4.1}%
-\contentsline {subsection}{\numberline {A.4.2}Seeding Data}{114}{subsection.A.4.2}%
-\contentsline {section}{\numberline {A.5}Execution and Deployment}{114}{section.A.5}%
-\contentsline {subsection}{\numberline {A.5.1}Local Development}{114}{subsection.A.5.1}%
-\contentsline {subsection}{\numberline {A.5.2}Production Deployment}{114}{subsection.A.5.2}%
-\contentsline {chapter}{\numberline {B}Core System Source Code Reference}{115}{appendix.B}%
-\contentsline {section}{\numberline {B.1}Main Application Entry Point (server.js)}{115}{section.B.1}%
-\contentsline {section}{\numberline {B.2}Sequelize Model Definition (models/TrainingSession.js)}{116}{section.B.2}%
-\contentsline {section}{\numberline {B.3}Core Logic Controller (Booking Conflict Detection)}{117}{section.B.3}%
-\contentsline {section}{\numberline {B.4}Frontend View Template (views/index.ejs)}{119}{section.B.4}%
+\contentsline {chapter}{\numberline {A}คู่มือการติดตั้งและการใช้งานระบบอย่างละเอียด (Comprehensive System Installation and Deployment Guide)}{112}{appendix.A}%
+\contentsline {section}{\numberline {A.1}ความต้องการเบื้องต้นของระบบ (Prerequisites)}{112}{section.A.1}%
+\contentsline {subsection}{\numberline {A.1.1}ซอฟต์แวร์ที่จำเป็น (Required Software)}{112}{subsection.A.1.1}%
+\contentsline {section}{\numberline {A.2}การกำหนดค่าสภาพแวดล้อม (Environment Configuration)}{113}{section.A.2}%
+\contentsline {subsection}{\numberline {A.2.1}การตั้งค่าฐานข้อมูล (Database Setup)}{113}{subsection.A.2.1}%
+\contentsline {subsection}{\numberline {A.2.2}การสร้างไฟล์ .env (Setting up the .env File)}{113}{subsection.A.2.2}%
+\contentsline {section}{\numberline {A.3}ขั้นตอนการติดตั้ง (Installation Process)}{113}{section.A.3}%
+\contentsline {subsection}{\numberline {A.3.1}การโคลน Repository (Cloning the Repository)}{114}{subsection.A.3.1}%
+\contentsline {subsection}{\numberline {A.3.2}การติดตั้ง Dependencies (Installing Dependencies)}{114}{subsection.A.3.2}%
+\contentsline {section}{\numberline {A.4}การเริ่มต้นฐานข้อมูล (Database Initialization)}{114}{section.A.4}%
+\contentsline {subsection}{\numberline {A.4.1}การรัน Migrations (Running Migrations)}{114}{subsection.A.4.1}%
+\contentsline {subsection}{\numberline {A.4.2}การนำเข้าข้อมูลตัวอย่าง (Seeding Data)}{114}{subsection.A.4.2}%
+\contentsline {section}{\numberline {A.5}การรันและใช้งานระบบ (Execution and Deployment)}{114}{section.A.5}%
+\contentsline {subsection}{\numberline {A.5.1}สำหรับการพัฒนา (Local Development)}{114}{subsection.A.5.1}%
+\contentsline {subsection}{\numberline {A.5.2}สำหรับการใช้งานจริง (Production Deployment)}{115}{subsection.A.5.2}%
+\contentsline {chapter}{\numberline {B}อ้างอิงรหัสต้นฉบับหลักของระบบ (Core System Source Code Reference)}{116}{appendix.B}%
+\contentsline {section}{\numberline {B.1}จุดเข้าทำงานหลักของแอปพลิเคชัน (Main Application Entry Point - server.js)}{116}{section.B.1}%
+\contentsline {section}{\numberline {B.2}การนิยามแบบจำลองข้อมูล Sequelize (models/TrainingSession.js)}{117}{section.B.2}%
+\contentsline {section}{\numberline {B.3}ตรรกะหลักของ Controller (การตรวจสอบความขัดแย้งของการจอง)}{118}{section.B.3}%
+\contentsline {section}{\numberline {B.4}เทมเพลตการแสดงผล Frontend (views/index.ejs)}{120}{section.B.4}%
