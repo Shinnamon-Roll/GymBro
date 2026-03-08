@@ -574,3 +574,188 @@ async function createBooking(req, res) {
 </body>
 </html>
 \end{lstlisting}
+
+\section{Middleware สำหรับการตรวจสอบข้อมูล (Validation Middleware - backend/middleware/validation.js)}
+Middleware นี้ใช้ไลบรารี \texttt{express-validator} เพื่อตรวจสอบและกรองข้อมูลที่ส่งเข้ามาใน HTTP request body ช่วยให้มั่นใจว่าข้อมูลมีความถูกต้องและปลอดภัยก่อนนำไปประมวลผล
+
+\begin{lstlisting}[language=JavaScript, caption={Validation Rules Definition}, label={lst:middleware_validation}]
+const { body, validationResult } = require('express-validator');
+
+// ฟังก์ชันหลักสำหรับตรวจสอบผลลัพธ์การ Validate
+const validate = (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    // หากมีข้อผิดพลาด ส่งคืน HTTP 400 Bad Request พร้อมรายละเอียด
+    return res.status(400).json({ errors: errors.array() });
+  }
+  next(); // หากผ่าน ให้ไปทำงานใน middleware ถัดไป
+};
+
+// กฎการตรวจสอบข้อมูลลูกค้า
+const customerValidationRules = () => {
+  return [
+    body('fullName').trim().notEmpty().withMessage('จำเป็นต้องระบุชื่อ-นามสกุล'),
+    body('email').trim().isEmail().withMessage('รูปแบบอีเมลไม่ถูกต้อง'),
+    body('phone').optional({ checkFalsy: true }).isMobilePhone().withMessage('รูปแบบเบอร์โทรศัพท์ไม่ถูกต้อง'),
+    body('memberType').isIn(['Standard', 'Premium', 'VIP', 'Member']).withMessage('ประเภทสมาชิกไม่ถูกต้อง'),
+    // ... กฎอื่นๆ
+  ];
+};
+
+// กฎการตรวจสอบข้อมูลการจองเซสชัน
+const sessionValidationRules = () => {
+    return [
+        body('sessionDate').isISO8601().toDate().withMessage('รูปแบบวันที่ไม่ถูกต้อง'),
+        body('customerId').isInt().withMessage('Customer ID ต้องเป็นตัวเลขจำนวนเต็ม'),
+        body('trainerId').optional({ checkFalsy: true }).isInt().withMessage('Trainer ID ต้องเป็นตัวเลขจำนวนเต็ม'),
+        body('equipmentId').isInt().withMessage('Equipment ID ต้องเป็นตัวเลขจำนวนเต็ม'),
+    ];
+};
+
+module.exports = {
+  validate,
+  customerValidationRules,
+  sessionValidationRules,
+  // ... export ฟังก์ชันอื่นๆ
+};
+\end{lstlisting}
+
+\section{ลอจิกการยืนยันตัวตนฝั่ง Frontend (Frontend Authentication Logic - frontend/js/auth.js)}
+สคริปต์นี้จัดการกระบวนการตรวจสอบสิทธิ์ของผู้ใช้งานในฝั่ง Client-side รวมถึงการตรวจสอบ Session (Auth Guard), การจำกัดสิทธิ์การเข้าถึงหน้า Admin (Role Guard), และการจัดการฟอร์มเข้าสู่ระบบ
+
+\begin{lstlisting}[language=JavaScript, caption={Authentication \& Route Guard Logic}, label={lst:frontend_auth}]
+// ตรวจสอบว่ากำลังอยู่ในหน้า Login หรือไม่
+const isLoginPage = window.location.pathname === '/login' || window.location.pathname === '/';
+
+// Auth Guard: ป้องกันการเข้าถึงหน้าภายในหากยังไม่ Login
+if (!isLoginPage) {
+    const session = JSON.parse(localStorage.getItem('gymbro_user'));
+    
+    if (!session || !session.user) {
+        // หากไม่มี Session ให้ Redirect ไปหน้า Login
+        window.location.href = '/login';
+    } else {
+        // Role Guard: ตรวจสอบสิทธิ์ Admin
+        const path = window.location.pathname;
+        const role = session.role;
+
+        if (path.startsWith('/admin') && role !== 'admin') {
+            alert('ปฏิเสธการเข้าถึง: สำหรับผู้ดูแลระบบเท่านั้น');
+            window.location.href = '/user/dashboard';
+        } 
+    }
+}
+
+// การจัดการฟอร์มเข้าสู่ระบบ (Login Form Handling)
+const loginForm = document.getElementById('login-form');
+if (loginForm) {
+    loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const emailVal = document.getElementById('email').value;
+        const phoneVal = document.getElementById('phone').value; // ใช้เบอร์โทรเป็นรหัสผ่าน
+
+        try {
+            // ส่ง Request ไปยัง API
+            const response = await fetch(`${window.API}/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: emailVal, phone: phoneVal })
+            });
+
+            if (!response.ok) throw new Error('Login failed');
+
+            const data = await response.json();
+            // บันทึก Session ลงใน LocalStorage
+            localStorage.setItem('gymbro_user', JSON.stringify(data));
+
+            // Redirect ไปยัง Dashboard ตามบทบาท
+            if (data.role === 'admin') {
+                window.location.href = '/admin/dashboard';
+            } else {
+                window.location.href = '/user/dashboard';
+            }
+
+        } catch (error) {
+            console.error('Login Error:', error);
+            // แสดงข้อความแจ้งเตือนเมื่อ Login ล้มเหลว
+            const errorMsg = document.getElementById('error-message');
+            if (errorMsg) {
+                errorMsg.classList.remove('hidden');
+                errorMsg.innerText = 'อีเมลหรือเบอร์โทรศัพท์ไม่ถูกต้อง';
+            }
+        }
+    });
+}
+\end{lstlisting}
+
+\section{ลอจิกหน้าแดชบอร์ดผู้ใช้ (User Dashboard Logic - frontend/js/user/dashboard.js)}
+ไฟล์นี้ควบคุมการทำงานของหน้า Dashboard สมาชิก โดยมีหน้าที่ดึงข้อมูลตารางการฝึกซ้อม (Schedule Fetching) และแสดงผลรายการจองในรูปแบบตาราง
+
+\begin{lstlisting}[language=JavaScript, caption={User Dashboard \& Schedule Rendering}, label={lst:user_dashboard}]
+document.addEventListener('DOMContentLoaded', () => {
+    fetchSchedule();   // ดึงข้อมูลตารางเรียนเมื่อโหลดหน้าเว็บ
+    fetchResources();  // ดึงข้อมูลเทรนเนอร์และอุปกรณ์
+});
+
+// ฟังก์ชันดึงข้อมูลตารางเรียน
+async function fetchSchedule() {
+    try {
+        // เรียก API เพื่อดึงข้อมูล Sessions ของวันนี้
+        const res = await fetch(`${API}/sessions?today=true`); 
+        if (!res.ok) throw new Error('Failed to fetch schedule');
+        const sessions = await res.json();
+        renderSchedule(sessions); // แสดงผลข้อมูล
+    } catch (error) {
+        console.error(error);
+        // แสดงข้อความ Error ในตาราง
+        const tbody = document.getElementById('schedule-table-body');
+        if(tbody) {
+            tbody.innerHTML = `<tr><td colspan="4">เกิดข้อผิดพลาดในการโหลดข้อมูล</td></tr>`;
+        }
+    }
+}
+
+// ฟังก์ชันแสดงผลตารางเรียน (Render Schedule)
+function renderSchedule(sessions) {
+    const tbody = document.getElementById('schedule-table-body');
+    if(!tbody) return;
+    tbody.innerHTML = ''; // ล้างข้อมูลเก่า
+
+    const sessionData = JSON.parse(localStorage.getItem('gymbro_user'));
+    const myId = sessionData?.user?.id;
+
+    sessions.forEach(s => {
+        // แปลงวันที่และเวลาให้เป็นรูปแบบภาษาไทย
+        const date = new Date(s.sessionDate);
+        const timeStr = date.toLocaleTimeString('th-TH', { 
+            timeZone: 'UTC', hour: '2-digit', minute: '2-digit' 
+        });
+        
+        // ตรวจสอบว่าเป็น Session ของเราหรือไม่
+        const isMySession = (s.customer && s.customer.id === myId);
+        
+        const tr = document.createElement('tr');
+        // ไฮไลท์แถวที่เป็นรายการจองของเรา
+        if (isMySession) {
+            tr.className = "bg-accent/10 border-l-4 border-accent";
+        }
+
+        tr.innerHTML = `
+            <td class="px-6 py-4">${timeStr}</td>
+            <td class="px-6 py-4 font-bold">${s.customer.fullName}</td>
+            <td class="px-6 py-4">${s.trainer ? s.trainer.trainerName : '-'}</td>
+            <td class="px-6 py-4">${s.equipment.equipmentName}</td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+\end{lstlisting}
+
+\section{การตั้งค่าระบบ (System Configuration - frontend/js/config.js)}
+ไฟล์ตั้งค่าส่วนกลางสำหรับฝั่ง Frontend ช่วยให้สามารถเปลี่ยน URL ของ API Endpoint ได้ง่ายเมื่อย้ายสภาพแวดล้อม (เช่น จาก Local ไป Production)
+
+\begin{lstlisting}[language=JavaScript, caption={Global Configuration}, label={lst:frontend_config}]
+// กำหนด Base URL ของ Backend API
+// ในสภาพแวดล้อม Production สามารถเปลี่ยนเป็น IP หรือ Domain ของเซิร์ฟเวอร์จริงได้
+window.API = "http://localhost:3000/api";
+\end{lstlisting}

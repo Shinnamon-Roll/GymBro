@@ -297,3 +297,7 @@
 \contentsline {section}{\numberline {B.2}การนิยามแบบจำลองข้อมูล Sequelize (models/TrainingSession.js)}{117}{section.B.2}%
 \contentsline {section}{\numberline {B.3}ตรรกะหลักของ Controller (การตรวจสอบความขัดแย้งของการจอง)}{118}{section.B.3}%
 \contentsline {section}{\numberline {B.4}เทมเพลตการแสดงผล Frontend (views/index.ejs)}{120}{section.B.4}%
+\contentsline {section}{\numberline {B.5}Middleware สำหรับการตรวจสอบข้อมูล (Validation Middleware - backend/middleware/validation.js)}{122}{section.B.5}%
+\contentsline {section}{\numberline {B.6}ลอจิกการยืนยันตัวตนฝั่ง Frontend (Frontend Authentication Logic - frontend/js/auth.js)}{122}{section.B.6}%
+\contentsline {section}{\numberline {B.7}ลอจิกหน้าแดชบอร์ดผู้ใช้ (User Dashboard Logic - frontend/js/user/dashboard.js)}{123}{section.B.7}%
+\contentsline {section}{\numberline {B.8}การตั้งค่าระบบ (System Configuration - frontend/js/config.js)}{124}{section.B.8}%
