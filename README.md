@@ -1,83 +1,121 @@
 # GymBro Management System
 
-Web application for managing a gym, including member management, trainer scheduling, equipment tracking, and class booking. Designed with a clean, modern UI (Brutalism style) using Tailwind CSS.
+A comprehensive web application for managing gym operations, including member management, trainer scheduling, equipment tracking, and class booking. Designed with a modern, brutalist UI using Tailwind CSS.
 
-## Features
-
-### For Administrators (Back Office)
-
-- **Dashboard**: Overview of daily activities, stats, and quick actions.
-- **Member Management**: Add, edit, delete, and view member details.
-- **Trainer Management**: Manage trainer profiles and specialties.
-- **Equipment Management**: Track equipment inventory and status (Available/Maintenance).
-- **Session Management**: View and manage training sessions.
-- **System Logs**: View system activities and audit logs.
+## 🚀 Features
 
 ### For Members (Front Office)
-
-- **User Dashboard**: View personal schedule and book new sessions.
+- **User Dashboard**: View personal training schedule and upcoming sessions.
 - **Booking System**: Real-time availability check for trainers and equipment.
-- **Profile**: View membership status and history.
+- **Profile Management**: View membership status, history, and personal details.
+- **Responsive Design**: Optimized for desktop and mobile devices.
 
-## Tech Stack
+### For Administrators (Back Office)
+- **Dashboard**: High-level overview of daily activities, member stats, and quick actions.
+- **Member Management**: full CRUD operations for member profiles.
+- **Trainer Management**: Manage trainer profiles, specialties, and schedules.
+- **Equipment Management**: Track equipment inventory and maintenance status.
+- **Session Management**: Oversee all training sessions and bookings.
+- **System Logs**: Audit trail of system activities and administrative actions.
 
-- **Frontend**: EJS (Embedded JavaScript templating), Tailwind CSS, Vanilla JavaScript.
-- **Backend**: Node.js, Express.js.
-- **Database**: PostgreSQL (managed via Sequelize ORM).
+## 🛠 Tech Stack
 
-## Installation
+- **Frontend**: 
+  - [EJS](https://ejs.co/) (Embedded JavaScript templating)
+  - [Tailwind CSS](https://tailwindcss.com/) (Utility-first CSS framework)
+  - Vanilla JavaScript (DOM manipulation, Fetch API)
+- **Backend**: 
+  - [Node.js](https://nodejs.org/) (Runtime environment)
+  - [Express.js](https://expressjs.com/) (Web framework)
+  - [Sequelize](https://sequelize.org/) (ORM for PostgreSQL)
+- **Database**: 
+  - [PostgreSQL](https://www.postgresql.org/) (Relational database)
 
-### Prerequisites
+## 📋 Prerequisites
 
-- Node.js (v18+)
-- PostgreSQL Database
+Ensure you have the following installed on your local machine:
+- **Node.js** (v18 or higher)
+- **PostgreSQL** (v14 or higher)
+- **Git**
 
-### Setup
+## ⚙️ Installation & Setup
 
-1. **Clone the repository**
+### 1. Clone the Repository
+```bash
+git clone https://github.com/Shinnamon-Roll/GymBro.git
+cd GymBro
+```
 
-   ```bash
-   git clone https://github.com/Shinnamon-Roll/GymBro.git
-   cd GymBro
-   ```
-2. **Backend Setup**
+### 2. Backend Setup
+Navigate to the backend directory and install dependencies:
+```bash
+cd backend
+npm install
+```
 
-   ```bash
-   cd backend
-   npm install
-   # Create a .env file or set environment variables
-   # DATABASE_URL=postgres://user:pass@host:port/dbname
-   npm run dev
-   ```
-3. **Frontend Setup**
+Create a `.env` file in the `backend` directory with your database configuration:
+```env
+DATABASE_URL=postgres://username:password@localhost:5432/gymbro_db
+PORT=3000
+```
+> Note: If you don't provide a `.env` file, the system defaults to a development cloud database.
 
-   ```bash
-   cd frontend
-   npm install
-   # Start the frontend server (default port 5500)
-   npm start
-   ```
-4. **Access the Application**
+Start the backend server:
+```bash
+npm run dev
+# Server will start on http://localhost:3000
+```
 
-   - Frontend: `http://localhost:5500`
-   - Backend API: `http://localhost:3000`
+### 3. Frontend Setup
+Open a new terminal, navigate to the frontend directory, and install dependencies:
+```bash
+cd frontend
+npm install
+```
 
-## Project Structure
+Start the frontend server:
+```bash
+npm start
+# Frontend will be available at http://localhost:5500
+```
 
-- `backend/`: API Server, Database Models, and Logic.
-- `frontend/`: Express Server for UI, EJS Views, and Static Assets.
-- `laTex/`: Project Documentation and Reports.
+### 4. Database Initialization
+The application uses Sequelize for ORM. The database schema includes tables for:
+- `Customers`
+- `Trainers`
+- `GymEquipments`
+- `TrainingSessions`
 
-## Team Members
+If you need to manually initialize the database, you can use the provided `schema.sql` file in the `backend/` directory.
 
-| Name                                              | Student ID    |
-| ------------------------------------------------- | ------------- |
-| นายเมธัส ทองจันทร์               | 6606022610030 |
-| นายนพคุณ เหล่าอิ่มจันทร์   | 6606022610013 |
-| นายกาญจน์ชญา สู่สุข             | 6606022610048 |
+## 📂 Project Structure
+
+```
+GymBro/
+├── backend/            # API Server, Database Models, and Business Logic
+│   ├── middleware/     # Validation and Auth Middleware
+│   ├── db.js           # Database Connection & Models
+│   ├── server.js       # Main Express Application
+│   └── schema.sql      # SQL Schema for reference
+├── frontend/           # UI Application
+│   ├── views/          # EJS Templates (HTML views)
+│   ├── js/             # Client-side JavaScript
+│   ├── src/            # Tailwind CSS Source
+│   └── server.js       # Frontend Static Server
+├── laTex/              # Project Documentation & Reports
+└── README.md           # Project Documentation
+```
+
+## 👥 Team Members
+
+| Name | Student ID |
+|------|------------|
+| นายเมธัส ทองจันทร์ | 6606022610030 |
+| นายนพคุณ เหล่าอิ่มจันทร์ | 6606022610013 |
+| นายกาญจน์ชญา สู่สุข | 6606022610048 |
 | นางสาวทิพย์สุดา สังข์เงิน | 6606022620060 |
 
 ---
 
-**Course**: Full Stack Web Development (Semester 2/2025)
+**Course**: Full Stack Web Development (Semester 2/2025)  
 **Deadline**: March 9, 2026

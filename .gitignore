@@ -5,6 +5,8 @@ npm-debug.log
 dist/
 Image/
 coverage/
+backend/logs.json
+temp/
 
 # LaTeX artifacts
 *.aux
